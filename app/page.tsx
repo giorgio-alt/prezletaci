@@ -2,6 +2,8 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { initialPosts, mergePostsWithPlan, sortPosts } from "./postplan";
+import type { ContentType, SocialPost } from "./postplan";
 
 type SectionId =
   | "dashboard"
@@ -71,22 +73,6 @@ type Candidate = {
 
 type CandidateView = "overview" | "matrix" | "dashboard";
 
-type ContentType = "people" | "completed" | "progress" | "future" | "explain" | "evidence";
-
-type SocialPost = {
-  id: number;
-  date: string;
-  title: string;
-  contentType?: ContentType;
-  pillar: "Lidé" | "Práce" | "Rozdělané" | "Plány" | "Vysvětlování" | "Dokumenty";
-  format: "Post" | "Carousel" | "Video" | "Story" | "Reels";
-  status: "Námět" | "Copy" | "Grafika" | "Ke schválení" | "Naplánováno" | "Publikováno";
-  author: string;
-  graphic: string;
-  copy: string;
-  approval: string;
-};
-
 type ContentTemplate = {
   label: string;
   icon: string;
@@ -106,7 +92,7 @@ const contentTemplates: Record<ContentType, ContentTemplate> = {
   progress: { label: "Rozdělané věci", icon: "🚧", pillar: "Rozdělané", badge: "45 %", purpose: "Transparentně ukázat, na čem se pracuje a co bude následovat.", typical: ["Průběh stavby", "Průběh příprav", "Aktuální stav projektu"], layout: "Fotografie průběhu, progress badge a jednoznačný další krok.", cta: "Sledujte další postup", example: "Dlouhý park: kde právě jsme", visual: "Fotografie průběhu" },
   future: { label: "Plány", icon: "🎯", pillar: "Plány", badge: "PLÁN", purpose: "Představit budoucnost, program, priority a realistickou vizi.", typical: ["Volební program", "Nové projekty", "Priority 2026–2030"], layout: "Velká ilustrace nebo vizualizace, dominantní headline a více prostoru pro text.", cta: "Projděte si celý plán", example: "Plán pro roky 2026–2030", visual: "Ilustrace / vizualizace" },
   explain: { label: "Vysvětlujeme", icon: "❗", pillar: "Vysvětlování", badge: "VYSVĚTLUJEME", purpose: "Srozumitelně vysvětlit složitá témata, FAQ a sporná tvrzení.", typical: ["Škola a kapacity", "Development a územní plán", "Financování projektů"], layout: "Minimalistická infografika, více textu, diagram a citace zdrojů.", cta: "Zjistěte všechna fakta", example: "Škola: kapacita dnes a další krok", visual: "Infografika / diagram" },
-  evidence: { label: "Dokumenty a důkazy", icon: "📄", pillar: "Dokumenty", badge: "DŮKAZ", purpose: "Podpořit tvrzení dohledatelnými dokumenty, mapami a historickými podklady.", typical: ["Usnesení a smlouvy", "Mapy a studie", "Historické dokumenty"], layout: "Dokument jako hlavní prvek, citace zdroje a QR kód na úplný podklad.", cta: "Podívejte se na dokumenty", example: "Dlouhý park: stavební povolení", visual: "Náhled dokumentu + QR" },
+  evidence: { label: "Dokumenty a důkazy", icon: "📄", pillar: "Vysvětlování", badge: "DŮKAZ", purpose: "Podpořit tvrzení dohledatelnými dokumenty, mapami a historickými podklady.", typical: ["Usnesení a smlouvy", "Mapy a studie", "Historické dokumenty"], layout: "Dokument jako hlavní prvek, citace zdroje a QR kód na úplný podklad.", cta: "Podívejte se na dokumenty", example: "Dlouhý park: stavební povolení", visual: "Náhled dokumentu + QR" },
 };
 
 const contentTypeFromPillar = (pillar: SocialPost["pillar"]): ContentType => ({
@@ -115,7 +101,6 @@ const contentTypeFromPillar = (pillar: SocialPost["pillar"]): ContentType => ({
   Rozdělané: "progress",
   Plány: "future",
   Vysvětlování: "explain",
-  Dokumenty: "evidence",
 })[pillar];
 
 function ContentCard({ type, title, compact = false }: { type: ContentType; title: string; compact?: boolean }) {
@@ -217,19 +202,33 @@ const initialProjects: Project[] = [
 
 const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
 
+// Zdrojový kalendář označuje medailonky čísly 1–11; vazba proto kopíruje
+// explicitní pořadí kandidátů. Příspěvek „Celý tým“ je přiřazen všem.
 const initialCandidates: Candidate[] = [
-  { id: 1, order: 1, name: "Tomáš Říha", image: "/images/candidates/tomas-riha.webp", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 2, order: 2, name: "Jan Macourek", image: "/images/candidates/jan-macourek.webp", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [2, 12], projectIds: [4], documents: ["Jan Macoure1.docx"] },
-  { id: 3, order: 3, name: "Romana Bernardová", image: "/images/candidates/romana-bernardova.webp", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 4, order: 4, name: "Ing. Lenka Bulová", image: "/images/candidates/lenka-bulova.webp", office: "Členka stavebního výboru", professions: ["Zahradní a krajinná architektka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2949–R5A2973"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 5, order: 5, name: "Ing. Jan Káňa", image: "/images/candidates/jan-kana.webp", office: "", professions: ["Projektový manažer"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JK", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2933–R5A2948"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 6, order: 6, name: "Pavel Řeřucha", image: "/images/candidates/pavel-rerucha.webp", office: "", professions: ["Operační vedoucí Městské policie Praha"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "PŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2890–R5A2905"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 7, order: 7, name: "Václav Šmerda", image: "/images/candidates/vaclav-smerda.webp", office: "", professions: ["Vedoucí šéfkuchař", "Svazková jídelna Panská Pole"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VŠ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2879–R5A2889"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 8, order: 8, name: "Ing. arch. Břetislav Lukeš", image: "/images/candidates/bretislav-lukes.webp", office: "Člen stavebního výboru", professions: ["Architekt"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "BL", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2841–R5A2866"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 9, order: 9, name: "Lenka Brožová", image: "/images/candidates/lenka-brozova.webp", office: "Členka stavebního výboru", professions: ["Realitní konzultantka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2974–R5A2996"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 10, order: 10, name: "Mgr. Bc. Jakub Tříska", image: "/images/candidates/jakub-triska.webp", office: "", professions: ["Ministerský rada MF ČR"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JT", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2919–R5A2929"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 11, order: 11, name: "Vojta Brož", image: "/images/candidates/vojta-broz.webp", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 1, order: 1, name: "Tomáš Říha", image: "/images/candidates/tomas-riha.webp", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [102, 134], projectIds: [], documents: [] },
+  { id: 2, order: 2, name: "Jan Macourek", image: "/images/candidates/jan-macourek.webp", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [104, 134], projectIds: [4], documents: ["Jan Macoure1.docx"] },
+  { id: 3, order: 3, name: "Romana Bernardová", image: "/images/candidates/romana-bernardova.webp", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [107, 134], projectIds: [], documents: [] },
+  { id: 4, order: 4, name: "Ing. Lenka Bulová", image: "/images/candidates/lenka-bulova.webp", office: "Členka stavebního výboru", professions: ["Zahradní a krajinná architektka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2949–R5A2973"], assets: { ...candidateBaseAssets }, plannedPostIds: [110, 134], projectIds: [], documents: [] },
+  { id: 5, order: 5, name: "Ing. Jan Káňa", image: "/images/candidates/jan-kana.webp", office: "", professions: ["Projektový manažer"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JK", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2933–R5A2948"], assets: { ...candidateBaseAssets }, plannedPostIds: [113, 134], projectIds: [], documents: [] },
+  { id: 6, order: 6, name: "Pavel Řeřucha", image: "/images/candidates/pavel-rerucha.webp", office: "", professions: ["Operační vedoucí Městské policie Praha"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "PŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2890–R5A2905"], assets: { ...candidateBaseAssets }, plannedPostIds: [116, 134], projectIds: [], documents: [] },
+  { id: 7, order: 7, name: "Václav Šmerda", image: "/images/candidates/vaclav-smerda.webp", office: "", professions: ["Vedoucí šéfkuchař", "Svazková jídelna Panská Pole"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VŠ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2879–R5A2889"], assets: { ...candidateBaseAssets }, plannedPostIds: [120, 134], projectIds: [], documents: [] },
+  { id: 8, order: 8, name: "Ing. arch. Břetislav Lukeš", image: "/images/candidates/bretislav-lukes.webp", office: "Člen stavebního výboru", professions: ["Architekt"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "BL", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2841–R5A2866"], assets: { ...candidateBaseAssets }, plannedPostIds: [124, 134], projectIds: [], documents: [] },
+  { id: 9, order: 9, name: "Lenka Brožová", image: "/images/candidates/lenka-brozova.webp", office: "Členka stavebního výboru", professions: ["Realitní konzultantka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2974–R5A2996"], assets: { ...candidateBaseAssets }, plannedPostIds: [127, 134], projectIds: [], documents: [] },
+  { id: 10, order: 10, name: "Mgr. Bc. Jakub Tříska", image: "/images/candidates/jakub-triska.webp", office: "", professions: ["Ministerský rada MF ČR"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JT", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2919–R5A2929"], assets: { ...candidateBaseAssets }, plannedPostIds: [130, 134], projectIds: [], documents: [] },
+  { id: 11, order: 11, name: "Vojta Brož", image: "/images/candidates/vojta-broz.webp", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [133, 134], projectIds: [], documents: [] },
 ];
+
+const mergeCandidatesWithPlan = (savedCandidates: Candidate[], availablePosts: SocialPost[]) => {
+  const validPostIds = new Set(availablePosts.map((post) => post.id));
+  const knownIds = new Set(initialCandidates.map((candidate) => candidate.id));
+  const merged = initialCandidates.map((base) => {
+    const saved = savedCandidates.find((candidate) => candidate.id === base.id);
+    if (!saved) return base;
+    const savedLinks = Array.isArray(saved.plannedPostIds) ? saved.plannedPostIds.filter((id) => validPostIds.has(id)) : [];
+    return { ...base, ...saved, image: base.image, plannedPostIds: Array.from(new Set([...base.plannedPostIds, ...savedLinks])) };
+  });
+  return [...merged, ...savedCandidates.filter((candidate) => !knownIds.has(candidate.id))];
+};
 
 const expandPhotoRanges = (ranges: string[]) => ranges.flatMap((range) => {
   const match = range.match(/^(R5A)(\d+)[–-](?:R5A)?(\d+)$/);
@@ -237,21 +236,6 @@ const expandPhotoRanges = (ranges: string[]) => ranges.flatMap((range) => {
   const [, prefix, start, end] = match;
   return Array.from({ length: Number(end) - Number(start) + 1 }, (_, index) => `${prefix}${Number(start) + index}`);
 });
-
-const initialPosts: SocialPost[] = [
-  { id: 1, date: "2026-08-03", title: "Přezleťáci znovu a otevřeně", pillar: "Lidé", format: "Carousel", status: "Copy", author: "Copy", graphic: "Čeká", copy: "Rozpracováno", approval: "Ne" },
-  { id: 2, date: "2026-08-10", title: "Jan Macourek: proč dotahuji stavby", pillar: "Lidé", format: "Video", status: "Námět", author: "Produkce", graphic: "Shotlist", copy: "Brief", approval: "Ne" },
-  { id: 3, date: "2026-08-17", title: "Dlouhý park: kde právě jsme", pillar: "Rozdělané", format: "Post", status: "Grafika", author: "Copy", graphic: "Rozpracováno", copy: "Hotovo", approval: "Ne" },
-  { id: 4, date: "2026-08-24", title: "Proč některé projekty trvají déle", pillar: "Vysvětlování", format: "Carousel", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Osnova", approval: "Ne" },
-  { id: 5, date: "2026-08-31", title: "Pět konkrétních kroků pro více zeleně", pillar: "Plány", format: "Carousel", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-  { id: 6, date: "2026-09-07", title: "Škola: kapacita dnes a další krok", pillar: "Vysvětlování", format: "Video", status: "Námět", author: "Produkce", graphic: "—", copy: "Brief", approval: "Ne" },
-  { id: 7, date: "2026-09-14", title: "Bezpečnější a klidnější doprava", pillar: "Plány", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-  { id: 8, date: "2026-09-21", title: "Jak hlídáme tempo nové výstavby", pillar: "Vysvětlování", format: "Carousel", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-  { id: 9, date: "2026-09-28", title: "Sportoviště u školy: fakta a harmonogram", pillar: "Rozdělané", format: "Reels", status: "Námět", author: "Produkce", graphic: "Shotlist", copy: "Čeká", approval: "Ne" },
-  { id: 10, date: "2026-10-02", title: "Co jsme dotáhli", pillar: "Práce", format: "Carousel", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-  { id: 11, date: "2026-10-05", title: "Plán pro roky 2026–2030", pillar: "Plány", format: "Video", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-  { id: 12, date: "2026-10-08", title: "Jedenáct lidí, jedna obec", pillar: "Lidé", format: "Reels", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
-];
 
 type BibleChapter = { title: string; label: string; body: string; bullets: string[]; kind?: "design-system" };
 
@@ -303,6 +287,7 @@ const timelineItems = [
 ];
 
 const documents = [
+  { title: "Prezletaci_2026_Postplan_Kalendar.xlsx", category: "Publikační plán", type: "XLSX", status: "Načteno", updated: "20. 7. 2026", description: "Zdrojový kalendář 39 naplánovaných výstupů pro srpen, září a říjen 2026." },
   { title: "Volby 2026 program.docx", category: "Program", type: "DOCX", status: "Načteno", updated: "18. 7. 2026", description: "Volební program 2026–2030, více než 50 konkrétních záměrů v devíti oblastech." },
   { title: "Jan Macoure1.docx", category: "Kandidáti", type: "DOCX", status: "Načteno", updated: "18. 7. 2026", description: "Zdrojový medailonek Jana Macourka." },
   { title: "Campaign Hub export", category: "Reference", type: "ZIP", status: "Načteno", updated: "18. 7. 2026", description: "Vizuální a informační prototyp strategického hubu." },
@@ -321,6 +306,8 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
+const DATA_VERSION = 4;
+
 const slugify = (value: string) =>
   value
     .toLowerCase()
@@ -329,6 +316,7 @@ const slugify = (value: string) =>
     .replace(/\s+/g, "-");
 
 const pillarClass = (pillar: string) => `pillar-${slugify(pillar)}`;
+const postPillarClass = (post: SocialPost) => post.contentType === "evidence" ? "pillar-dokumenty" : pillarClass(post.pillar);
 
 const formatDate = (iso: string) => {
   const [year, month, day] = iso.split("-").map(Number);
@@ -375,11 +363,12 @@ export default function Home() {
     }
     queueMicrotask(() => {
       if (data) {
-        if (data.dataVersion === 2 || data.dataVersion === 3) {
+        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === DATA_VERSION) {
+          const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(data.tasks);
           if (Array.isArray(data.projects)) setProjects(data.projects);
-          if (Array.isArray(data.candidates)) setCandidates(data.dataVersion === 3 ? data.candidates : initialCandidates.map((base) => ({ ...base, ...(data.candidates.find((candidate: Candidate) => candidate.id === base.id) || {}), image: base.image })));
-          if (Array.isArray(data.posts)) setPosts(data.posts);
+          if (Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, migratedPosts));
+          setPosts(migratedPosts);
         }
         if (data.theme === "dark" || data.theme === "light") setTheme(data.theme);
       }
@@ -391,7 +380,7 @@ export default function Home() {
     if (!hydrated) return;
     window.localStorage.setItem(
       "prezletaci-campaign-os",
-      JSON.stringify({ dataVersion: 3, tasks, projects, candidates, posts, theme }),
+      JSON.stringify({ dataVersion: DATA_VERSION, tasks, projects, candidates, posts, theme }),
     );
   }, [hydrated, tasks, projects, candidates, posts, theme]);
 
@@ -441,6 +430,7 @@ export default function Home() {
   const openTasks = tasks.filter((task) => task.status !== "Done").length;
   const clientDebts = tasks.filter((task) => task.owner === "Klient" && task.status !== "Done");
   const plannedPosts = posts.filter((post) => post.status !== "Publikováno").length;
+  const chronologicalPosts = useMemo(() => sortPosts(posts), [posts]);
 
   const searchResults = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -482,7 +472,7 @@ export default function Home() {
       setCandidates((items) => [...items, candidate]);
     }
     if (createType === "post") {
-      setPosts((items) => [...items, { id, date: /^2026-\d{2}-\d{2}$/.test(createForm.meta) ? createForm.meta : "2026-08-01", title: createForm.title, contentType: createContentType, pillar: contentTemplates[createContentType].pillar, format: "Post", status: "Námět", author: createForm.detail || "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" }]);
+      setPosts((items) => sortPosts([...items, { id, date: /^2026-\d{2}-\d{2}$/.test(createForm.meta) ? createForm.meta : "2026-08-01", title: createForm.title, contentType: createContentType, pillar: contentTemplates[createContentType].pillar, format: "Post", status: "Námět", author: createForm.detail || "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká" }]));
     }
     setCreateType(null);
     setToast("Položka byla přidána do lokální pracovní verze.");
@@ -497,7 +487,7 @@ export default function Home() {
   }
 
   function exportData() {
-    const blob = new Blob([JSON.stringify({ dataVersion: 3, exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify({ dataVersion: DATA_VERSION, exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -513,8 +503,9 @@ export default function Home() {
       const data = JSON.parse(await file.text());
       if (Array.isArray(data.tasks)) setTasks(data.tasks);
       if (Array.isArray(data.projects)) setProjects(data.projects);
-      if (data.dataVersion === 3 && Array.isArray(data.candidates)) setCandidates(data.candidates);
-      if (Array.isArray(data.posts)) setPosts(data.posts);
+      const importedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
+      if ((data.dataVersion === 3 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
+      setPosts(importedPosts);
       setToast("Záloha byla načtena.");
     } catch {
       setToast("Soubor není platná záloha Campaign OS.");
@@ -610,10 +601,10 @@ export default function Home() {
             <button className="text-button" onClick={() => navigate("calendar")}>Kalendář →</button>
           </div>
           <div className="publication-list">
-            {posts.slice(0, 4).map((post) => (
+            {chronologicalPosts.filter((post) => post.status !== "Publikováno").slice(0, 4).map((post) => (
               <button key={post.id} className="publication-row" onClick={() => setSelectedPost(post)}>
                 <time>{new Date(`${post.date}T12:00:00`).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}</time>
-                <span className={`pillar-line ${pillarClass(post.pillar)}`} />
+                <span className={`pillar-line ${postPillarClass(post)}`} />
                 <span><strong>{post.title}</strong><small>{post.format} · {post.pillar}</small></span>
                 <b className="status-pill neutral">{post.status}</b>
               </button>
@@ -655,8 +646,8 @@ export default function Home() {
 
       <section className="source-strip glass-card">
         <div className="source-icon">✓</div>
-        <div><span className="eyebrow">Zdroje načteny</span><strong>Dashboard je založen na dodaných podkladech</strong><p>Campaign Hub, executive summary, program 2026–2030 a medailonek Jana Macourka.</p></div>
-        <div className="source-stats"><span><b>50+</b> programových bodů</span><span><b>18</b> projektových karet</span><span><b>9</b> silných témat</span></div>
+        <div><span className="eyebrow">Zdroje načteny</span><strong>Dashboard je založen na dodaných podkladech</strong><p>Publikační kalendář, Campaign Hub, executive summary, program 2026–2030 a medailonek Jana Macourka.</p></div>
+        <div className="source-stats"><span><b>39</b> naplánovaných výstupů</span><span><b>18</b> projektových karet</span><span><b>11</b> kandidátů</span></div>
       </section>
     </div>
   );
@@ -781,16 +772,16 @@ export default function Home() {
                 if (!day) return <div className="calendar-day empty" key={`empty-${index}`} />;
                 const iso = `2026-${String(selected.month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
                 const dayPosts = posts.filter((post) => post.date === iso);
-                return <button className={`calendar-day ${dayPosts.length ? "has-post" : ""}`} key={iso} onClick={() => dayPosts[0] ? setSelectedPost(dayPosts[0]) : openCreate("post", iso)}><time>{day}</time>{dayPosts.map((post) => <span key={post.id} className={`calendar-event ${pillarClass(post.pillar)}`}><b>{post.format}</b>{post.title}</span>)}{!dayPosts.length && <i>＋</i>}</button>;
+                return <button className={`calendar-day ${dayPosts.length ? "has-post" : ""}`} key={iso} onClick={() => dayPosts[0] ? setSelectedPost(dayPosts[0]) : openCreate("post", iso)}><time>{day}</time>{dayPosts.map((post) => <span key={post.id} className={`calendar-event ${postPillarClass(post)}`}><b>{post.format}</b>{post.title}</span>)}{!dayPosts.length && <i>＋</i>}</button>;
               })}
             </div>
           </section>
           <aside className="content-timeline glass-card">
             <div className="card-heading"><div><span className="eyebrow">Timeline</span><h2>{selected.label} 2026</h2></div><span className="count-pill">{monthPosts.length}</span></div>
             <div className="content-timeline-list">
-              {monthPosts.length ? monthPosts.map((post) => <button key={post.id} onClick={() => setSelectedPost(post)}><time>{new Date(`${post.date}T12:00:00`).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}</time><span className={`timeline-dot ${pillarClass(post.pillar)}`} /><span><strong>{post.title}</strong><small>{post.format} · {post.status}</small></span></button>) : <div className="empty-state">V tomto měsíci zatím nejsou žádné příspěvky.</div>}
+              {monthPosts.length ? monthPosts.map((post) => <button key={post.id} onClick={() => setSelectedPost(post)}><time>{new Date(`${post.date}T12:00:00`).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}</time><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{post.format} · {post.status}</small></span></button>) : <div className="empty-state">V tomto měsíci zatím nejsou žádné příspěvky.</div>}
             </div>
-            <div className="calendar-capacity"><span>Kapacita týmu</span><strong>{monthPosts.length} / 8 výstupů</strong><div className="mini-progress"><i style={{ width: `${Math.min(100, monthPosts.length / 8 * 100)}%` }} /></div></div>
+            <div className={`calendar-capacity${monthPosts.length > 8 ? " over-capacity" : ""}`}><span>Kapacita týmu</span><strong>{monthPosts.length} / 8 výstupů</strong>{monthPosts.length > 8 && <small>Kapacita překročena o {monthPosts.length - 8}</small>}<div className="mini-progress"><i style={{ width: `${Math.min(100, monthPosts.length / 8 * 100)}%` }} /></div></div>
           </aside>
         </div>
       </div>
@@ -871,7 +862,7 @@ export default function Home() {
       </div>
       <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Komunikační témata</span><button onClick={() => setToast("Témata budou doplněna v další obsahové fázi.")}>＋ Přidat</button></div><div className="tag-list">{selectedCandidate.topics.map((topic) => <span key={topic}>{topic}</span>)}</div></article>
       <div className="candidate-profile-grid">
-        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${pillarClass(post.pillar)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Projekty</span><b>{relatedProjects.length}</b></div><div className="profile-link-list">{relatedProjects.length ? relatedProjects.map((project) => <button key={project.id} onClick={() => { setSelectedCandidate(null); setSelectedProject(project); }}><span className="project-link-code">P-{String(project.id).padStart(2, "0")}</span><span><strong>{project.title}</strong><small>{project.status} · {project.area}</small></span><b>→</b></button>) : <div className="profile-empty">Vazby na projekty jsou připravené k doplnění.</div>}</div></article>
       </div>
       <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
@@ -937,7 +928,7 @@ export default function Home() {
 
       {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
-      {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${pillarClass(selectedPost.pillar)}`}>{selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
+      {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
 
       {selectedTask && <div className="modal-backdrop" onMouseDown={() => setSelectedTask(null)}><section className="detail-modal task-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedTask(null)}>×</button><div className="task-tags"><span className={`priority-tag priority-${slugify(selectedTask.priority)}`}>{selectedTask.priority}</span><span className="status-pill neutral">{selectedTask.status}</span></div><h2>{selectedTask.title}</h2><p>{selectedTask.note}</p><dl><div><dt>Owner</dt><dd>{selectedTask.owner}</dd></div><div><dt>Deadline</dt><dd>{selectedTask.deadline}</dd></div><div><dt>Dokument</dt><dd>{selectedTask.document || "Bez přílohy"}</dd></div></dl>{selectedTask.status !== "Done" && <button className="primary-button full-button" onClick={() => advanceTask(selectedTask)}>Posunout úkol dál →</button>}</section></div>}
 

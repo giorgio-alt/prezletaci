@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
+import { initialPosts, legacyInitialPosts, mergePostsWithPlan } from "../app/postplan.ts";
 
 const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
@@ -26,6 +27,7 @@ test("server-renders the Přezleťáci Campaign OS", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
+  assert.match(html, /Příspěvky<\/span><strong>39/);
 });
 
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
@@ -86,4 +88,39 @@ test("defines the six centrally themed ContentCard templates", async () => {
   assert.match(page, /Design System komunikačních pilířů/);
   assert.match(page, /Karla Hemzy/);
   assert.match(page, /function ContentCard/);
+});
+
+test("imports the complete chronological 39-post publication plan", async () => {
+  assert.equal(initialPosts.length, 39);
+  assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
+  assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
+  assert.equal(initialPosts.every((post) => /^2026-(08|09|10)-\d{2}$/.test(post.date)), true);
+  assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
+  assert.deepEqual(
+    Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
+    { "08": 12, "09": 17, "10": 10 },
+  );
+});
+
+test("all candidate post links resolve to imported posts", async () => {
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const ids = new Set(initialPosts.map((post) => post.id));
+  const references = [...page.matchAll(/plannedPostIds:\s*\[([^\]]*)\]/g)]
+    .flatMap((match) => match[1].split(",").map((value) => value.trim()).filter((value) => /^\d+$/.test(value)).map(Number));
+  assert.equal(references.length > 0, true);
+  assert.equal(references.every((id) => ids.has(id)), true);
+});
+
+test("version 4 migration adds the plan without erasing user changes", () => {
+  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 39);
+  const editedLegacy = { ...legacyInitialPosts[1], title: "Uživatelská úprava medailonku" };
+  const withEditedLegacy = mergePostsWithPlan([editedLegacy], 3);
+  assert.equal(withEditedLegacy.length, 40);
+  assert.equal(withEditedLegacy.find((post) => post.id === editedLegacy.id)?.title, editedLegacy.title);
+  const editedPlanPost = { ...initialPosts[0], status: "Copy" };
+  const customPost = { ...legacyInitialPosts[0], id: 999001, title: "Vlastní uživatelský příspěvek" };
+  const migrated = mergePostsWithPlan([editedPlanPost, customPost], 4);
+  assert.equal(migrated.length, 40);
+  assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
+  assert.equal(migrated.some((post) => post.id === customPost.id), true);
 });
