@@ -45,16 +45,29 @@ type Project = {
 
 type Candidate = {
   id: number;
+  order: number;
   name: string;
-  role: string;
-  area: string;
+  office: string;
+  professions: string[];
   bio: string;
-  status: "Medailonek hotový" | "Čeká na text" | "Chybí fotografie";
   initials: string;
-  placeholder?: boolean;
   quote?: string;
-  topics?: string[];
+  topics: string[];
+  photoRanges: string[];
+  assets: {
+    photos: boolean;
+    medallion: boolean;
+    bio: boolean;
+    quote: boolean;
+    video: boolean;
+    faq: boolean;
+  };
+  plannedPostIds: number[];
+  projectIds: number[];
+  documents: string[];
 };
+
+type CandidateView = "overview" | "matrix" | "dashboard";
 
 type SocialPost = {
   id: number;
@@ -83,7 +96,7 @@ const navItems: { id: SectionId; label: string; icon: string }[] = [
 ];
 
 const initialTasks: Task[] = [
-  { id: 1, title: "Dodat jména zbývajících 10 kandidátů", status: "Waiting", priority: "Kritická", owner: "Klient", deadline: "24. 7.", note: "Bez jmen nelze uzavřít plán focení ani pořadí medailonků.", document: "Kandidátní listina" },
+  { id: 1, title: "Založit kompletní kandidátku 2026", status: "Done", priority: "Kritická", owner: "PM", deadline: "20. 7.", note: "Všech 11 lidí, pořadí, profese, funkce a rozsahy fotografií jsou založené.", document: "Kandidátní listina" },
   { id: 2, title: "Schválit hlavní komunikační linku", status: "Waiting", priority: "Vysoká", owner: "Klient", deadline: "21. 7.", note: "Positioning: Známe Přezletice zblízka. Ukazujeme lidi, práci a plán pro další roky." },
   { id: 3, title: "Vybrat 12 nejsilnějších témat", status: "Doing", priority: "Vysoká", owner: "PM", deadline: "22. 7.", note: "Každé téma musí unést web, social, video a důkaz." },
   { id: 4, title: "Přepsat medailonek Jana Macourka", status: "Doing", priority: "Vysoká", owner: "Copy", deadline: "20. 7.", note: "Převést dodaný text z životopisu na důvěryhodný sousedský příběh.", document: "Jan Macoure1.docx" },
@@ -117,19 +130,28 @@ const initialProjects: Project[] = [
   { id: 18, title: "Nový obecní úřad", status: "Plánované", area: "Digitalizace", owner: "Obec + developer", summary: "Důstojné prostory pro rozdělení úřadu na jednotlivé agendy; stavbu má financovat developer.", evidence: "Smluvní závazek a prostorový program", risk: "Vnímání jako nákladná budova místo služby občanům.", argument: "Nové prostory reagují na personální a agendový růst obce.", next: "Ukázat kapacitní potřebu a zdroj financování.", history: "Záměr je smluvně spojen s developerskou výstavbou." },
 ];
 
+const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
+
 const initialCandidates: Candidate[] = [
-  { id: 1, name: "Jan Macourek", role: "Zastupitel, správce rozpočtu", area: "Stavby, rozvoj a finance", bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", status: "Chybí fotografie", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj obce", "Rozpočet", "Škola", "Komunikace", "Zeleň"] },
-  ...Array.from({ length: 10 }, (_, index) => ({
-    id: index + 2,
-    name: `Kandidát ${String(index + 2).padStart(2, "0")}`,
-    role: "Čekáme na jméno a roli",
-    area: "Podklady nedodány",
-    bio: "Tato pozice je připravená k doplnění. Chybí jméno, krátký medailonek, komunikační témata a osobní citace.",
-    status: "Čeká na text" as const,
-    initials: "?",
-    placeholder: true,
-  })),
+  { id: 1, order: 1, name: "Tomáš Říha", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 2, order: 2, name: "Jan Macourek", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [2, 12], projectIds: [4], documents: ["Jan Macoure1.docx"] },
+  { id: 3, order: 3, name: "Romana Bernardová", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 4, order: 4, name: "Ing. Lenka Bulová", office: "Členka stavebního výboru", professions: ["Zahradní a krajinná architektka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2949–R5A2973"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 5, order: 5, name: "Ing. Jan Káňa", office: "", professions: ["Projektový manažer"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JK", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2933–R5A2948"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 6, order: 6, name: "Pavel Řeřucha", office: "", professions: ["Operační vedoucí Městské policie Praha"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "PŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2890–R5A2905"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 7, order: 7, name: "Václav Šmerda", office: "", professions: ["Vedoucí šéfkuchař", "Svazková jídelna Panská Pole"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VŠ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2879–R5A2889"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 8, order: 8, name: "Ing. arch. Břetislav Lukeš", office: "Člen stavebního výboru", professions: ["Architekt"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "BL", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2841–R5A2866"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 9, order: 9, name: "Lenka Brožová", office: "Členka stavebního výboru", professions: ["Realitní konzultantka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2974–R5A2996"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 10, order: 10, name: "Mgr. Bc. Jakub Tříska", office: "", professions: ["Ministerský rada MF ČR"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JT", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2919–R5A2929"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 11, order: 11, name: "Vojta Brož", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
 ];
+
+const expandPhotoRanges = (ranges: string[]) => ranges.flatMap((range) => {
+  const match = range.match(/^(R5A)(\d+)[–-](?:R5A)?(\d+)$/);
+  if (!match) return [range];
+  const [, prefix, start, end] = match;
+  return Array.from({ length: Number(end) - Number(start) + 1 }, (_, index) => `${prefix}${Number(start) + index}`);
+});
 
 const initialPosts: SocialPost[] = [
   { id: 1, date: "2026-08-03", title: "Přezleťáci znovu a otevřeně", pillar: "Lidé", format: "Carousel", status: "Copy", author: "Copy", graphic: "Čeká", copy: "Rozpracováno", approval: "Ne" },
@@ -234,6 +256,7 @@ export default function Home() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [candidates, setCandidates] = useState<Candidate[]>(initialCandidates);
+  const [candidateView, setCandidateView] = useState<CandidateView>("overview");
   const [posts, setPosts] = useState<SocialPost[]>(initialPosts);
   const [hydrated, setHydrated] = useState(false);
   const [createType, setCreateType] = useState<"project" | "candidate" | "post" | "task" | null>(null);
@@ -258,10 +281,12 @@ export default function Home() {
       const saved = window.localStorage.getItem("prezletaci-campaign-os");
       if (saved) {
         const data = JSON.parse(saved);
-        if (Array.isArray(data.tasks)) setTasks(data.tasks);
-        if (Array.isArray(data.projects)) setProjects(data.projects);
-        if (Array.isArray(data.candidates)) setCandidates(data.candidates);
-        if (Array.isArray(data.posts)) setPosts(data.posts);
+        if (data.dataVersion === 2) {
+          if (Array.isArray(data.tasks)) setTasks(data.tasks);
+          if (Array.isArray(data.projects)) setProjects(data.projects);
+          if (Array.isArray(data.candidates)) setCandidates(data.candidates);
+          if (Array.isArray(data.posts)) setPosts(data.posts);
+        }
         if (data.theme === "dark" || data.theme === "light") setTheme(data.theme);
       }
     } catch {
@@ -274,7 +299,7 @@ export default function Home() {
     if (!hydrated) return;
     window.localStorage.setItem(
       "prezletaci-campaign-os",
-      JSON.stringify({ tasks, projects, candidates, posts, theme }),
+      JSON.stringify({ dataVersion: 2, tasks, projects, candidates, posts, theme }),
     );
   }, [hydrated, tasks, projects, candidates, posts, theme]);
 
@@ -315,7 +340,12 @@ export default function Home() {
 
   const completeProjects = projects.filter((project) => project.status === "Hotové").length;
   const activeProjects = projects.filter((project) => project.status === "Rozpracované").length;
-  const readyCandidates = candidates.filter((candidate) => !candidate.placeholder && candidate.bio.length > 80).length;
+  const readyCandidates = candidates.filter((candidate) => candidate.assets.bio && candidate.assets.medallion).length;
+  const candidatesWithPhotos = candidates.filter((candidate) => candidate.assets.photos).length;
+  const candidatesWithMedallion = candidates.filter((candidate) => candidate.assets.medallion).length;
+  const candidatesWithVideo = candidates.filter((candidate) => candidate.assets.video).length;
+  const candidatesWithProfile = candidates.filter((candidate) => candidate.name && candidate.order && candidate.professions.length && candidate.assets.photos).length;
+  const candidatesWithPosts = candidates.filter((candidate) => candidate.plannedPostIds.length).length;
   const openTasks = tasks.filter((task) => task.status !== "Done").length;
   const clientDebts = tasks.filter((task) => task.owner === "Klient" && task.status !== "Done");
   const plannedPosts = posts.filter((post) => post.status !== "Publikováno").length;
@@ -326,7 +356,7 @@ export default function Home() {
     const items = [
       ...navItems.map((item) => ({ title: item.label, meta: "Sekce", action: () => navigate(item.id) })),
       ...projects.map((item) => ({ title: item.title, meta: `Projekt · ${item.status}`, action: () => { setSelectedProject(item); setSearchOpen(false); } })),
-      ...candidates.map((item) => ({ title: item.name, meta: `Kandidát · ${item.area}`, action: () => { setSelectedCandidate(item); setSearchOpen(false); } })),
+      ...candidates.map((item) => ({ title: item.name, meta: `Kandidát · ${item.professions.join(", ")}`, action: () => { setSelectedCandidate(item); setSearchOpen(false); } })),
       ...documents.map((item) => ({ title: item.title, meta: `Dokument · ${item.category}`, action: () => { setSelectedDocument(item); setSearchOpen(false); } })),
     ];
     return items.filter((item) => `${item.title} ${item.meta}`.toLowerCase().includes(query)).slice(0, 8);
@@ -355,14 +385,8 @@ export default function Home() {
       setProjects((items) => [...items, { id, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Doplnit garanta", summary: createForm.detail || "Nový projekt čeká na doplnění briefu.", evidence: "Doplnit", risk: "Vyhodnotit", argument: "Připravit", next: "Doplnit vlastníka a první krok.", history: "Projekt založen v Campaign OS." }]);
     }
     if (createType === "candidate") {
-      const candidate: Candidate = { id, name: createForm.title, role: createForm.detail || "Role k doplnění", area: createForm.meta || "Téma k doplnění", bio: "Nový kandidát čeká na doplnění medailonku.", status: "Čeká na text", initials: createForm.title.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase() };
-      setCandidates((items) => {
-        const slot = items.findIndex((item) => item.placeholder);
-        if (slot < 0) return [...items, candidate];
-        const copy = [...items];
-        copy[slot] = candidate;
-        return copy;
-      });
+      const candidate: Candidate = { id, order: candidates.length + 1, name: createForm.title, office: createForm.detail, professions: [createForm.meta || "Profese k doplnění"], bio: "Nový kandidát čeká na doplnění medailonku.", initials: createForm.title.split(" ").filter((part) => !part.endsWith(".")).map((part) => part[0]).join("").slice(0, 2).toUpperCase(), topics: ["Doplnit komunikační témata"], photoRanges: [], assets: { photos: false, medallion: false, bio: false, quote: false, video: false, faq: false }, plannedPostIds: [], projectIds: [], documents: [] };
+      setCandidates((items) => [...items, candidate]);
     }
     if (createType === "post") {
       setPosts((items) => [...items, { id, date: /^2026-\d{2}-\d{2}$/.test(createForm.meta) ? createForm.meta : "2026-08-01", title: createForm.title, pillar: "Práce", format: "Post", status: "Námět", author: createForm.detail || "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" }]);
@@ -380,7 +404,7 @@ export default function Home() {
   }
 
   function exportData() {
-    const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify({ dataVersion: 2, exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -396,7 +420,7 @@ export default function Home() {
       const data = JSON.parse(await file.text());
       if (Array.isArray(data.tasks)) setTasks(data.tasks);
       if (Array.isArray(data.projects)) setProjects(data.projects);
-      if (Array.isArray(data.candidates)) setCandidates(data.candidates);
+      if (data.dataVersion === 2 && Array.isArray(data.candidates)) setCandidates(data.candidates);
       if (Array.isArray(data.posts)) setPosts(data.posts);
       setToast("Záloha byla načtena.");
     } catch {
@@ -466,7 +490,7 @@ export default function Home() {
           ["Hotové projekty", completeProjects, "s doloženým stavem", "projects"],
           ["Rozpracované", activeProjects, "vyžadují update", "projects"],
           ["Příspěvky", plannedPosts, "v publikačním plánu", "calendar"],
-          ["Nafoceno", "0 / 11", "čekáme na termín", "candidates"],
+          ["Fotografie", `${candidatesWithPhotos} / 11`, "rozsahy přiřazeny", "candidates"],
           ["Videa", "0 / 11", "shotlist se připravuje", "calendar"],
           ["Otevřené úkoly", openTasks, "napříč týmem", "checklist"],
         ].map(([label, value, note, section]) => (
@@ -561,28 +585,60 @@ export default function Home() {
     </div>
   );
 
-  const renderCandidates = () => (
-    <div className="section-stack">
-      <section className="section-intro compact-intro glass-card">
-        <div><span className="eyebrow">Kandidátní tým</span><h1>11 lidí, 11 důvodů věřit</h1><p>Jedno skutečné jméno je načtené. Zbývajících deset míst transparentně čeká na podklady klienta.</p></div>
-        <button className="primary-button" onClick={() => openCreate("candidate")}>＋ Přidat kandidáta</button>
-      </section>
-      <section className="candidate-readiness glass-card">
-        <div><span>Texty</span><strong>1 / 11</strong><div className="mini-progress"><i style={{ width: "9%" }} /></div></div>
-        <div><span>Fotografie</span><strong>0 / 11</strong><div className="mini-progress"><i style={{ width: "0%" }} /></div></div>
-        <div><span>Videa</span><strong>0 / 11</strong><div className="mini-progress"><i style={{ width: "0%" }} /></div></div>
-        <div><span>FAQ</span><strong>0 / 11</strong><div className="mini-progress"><i style={{ width: "0%" }} /></div></div>
-      </section>
-      <section className="candidate-grid">
-        {candidates.map((candidate) => (
-          <button className={`candidate-card glass-card ${candidate.placeholder ? "placeholder-card" : ""}`} key={candidate.id} onClick={() => setSelectedCandidate(candidate)}>
-            <div className="candidate-visual"><span>{candidate.initials}</span><i>{candidate.placeholder ? "Podklady chybí" : "Foto chybí"}</i></div>
-            <div className="candidate-copy"><span className={`status-pill candidate-status ${candidate.status === "Medailonek hotový" ? "success" : candidate.status === "Chybí fotografie" ? "danger-pill" : "warning-pill"}`}>{candidate.status}</span><h2>{candidate.name}</h2><strong>{candidate.role}</strong><p>{candidate.area}</p><small>Otevřít profil →</small></div>
-          </button>
-        ))}
-      </section>
-    </div>
-  );
+  const renderCandidates = () => {
+    const coverage = [
+      { label: "Kandidátů", value: candidates.length, note: "kompletní kandidátka", tone: "blue" },
+      { label: "Fotografie", value: candidatesWithPhotos, note: "rozsahy přiřazeny", tone: "green" },
+      { label: "Medailonek", value: candidatesWithMedallion, note: "obsah připraven", tone: "yellow" },
+      { label: "Video", value: candidatesWithVideo, note: "výstup připraven", tone: "purple" },
+      { label: "Profil", value: candidatesWithProfile, note: "základní karta", tone: "blue" },
+      { label: "Příspěvky", value: candidatesWithPosts, note: "má plánovaný výstup", tone: "green" },
+    ];
+    return (
+      <div className="section-stack candidates-module">
+        <section className="section-intro compact-intro glass-card candidate-intro">
+          <div><span className="eyebrow">Kandidátka Přezleťáci 2026</span><h1>11 lidí pro Přezletice</h1><p>Kompletní kandidátní databáze propojuje profily, produkční podklady, projekty a budoucí komunikační výstupy.</p></div>
+          <button className="primary-button" onClick={() => openCreate("candidate")}>＋ Přidat kandidáta</button>
+        </section>
+
+        <nav className="candidate-tabs glass-card" aria-label="Pohledy kandidátky">
+          {(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => setCandidateView(view)}><span>{view === "overview" ? "◎" : view === "matrix" ? "▦" : "◫"}</span>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}
+        </nav>
+
+        {candidateView === "overview" && <>
+          <section className="candidate-readiness glass-card">
+            <div><span>Fotografie</span><strong>{candidatesWithPhotos} / {candidates.length}</strong><div className="mini-progress"><i style={{ width: `${candidatesWithPhotos / candidates.length * 100}%` }} /></div></div>
+            <div><span>Medailonky</span><strong>{candidatesWithMedallion} / {candidates.length}</strong><div className="mini-progress"><i style={{ width: `${candidatesWithMedallion / candidates.length * 100}%` }} /></div></div>
+            <div><span>Videa</span><strong>{candidatesWithVideo} / {candidates.length}</strong><div className="mini-progress"><i style={{ width: `${candidatesWithVideo / candidates.length * 100}%` }} /></div></div>
+            <div><span>Naplánované výstupy</span><strong>{candidatesWithPosts} / {candidates.length}</strong><div className="mini-progress"><i style={{ width: `${candidatesWithPosts / candidates.length * 100}%` }} /></div></div>
+          </section>
+          <section className="candidate-grid">
+            {[...candidates].sort((a, b) => a.order - b.order).map((candidate) => {
+              const photoCount = expandPhotoRanges(candidate.photoRanges).length;
+              const readiness = Object.values(candidate.assets).filter(Boolean).length;
+              return <button className="candidate-card glass-card" key={candidate.id} onClick={() => setSelectedCandidate(candidate)}>
+                <div className="candidate-visual"><span>{candidate.initials}</span><b>#{candidate.order}</b><i>{photoCount} foto přiřazeno</i></div>
+                <div className="candidate-copy"><span className={`status-pill candidate-status ${readiness >= 4 ? "success" : "warning-pill"}`}>{readiness} / 6 podkladů</span><h2>{candidate.name}</h2><strong>{candidate.office || candidate.professions[0]}</strong><p>{candidate.office ? candidate.professions.join(" · ") : candidate.professions.slice(1).join(" · ") || "Profil připraven k doplnění"}</p><small>Otevřít profil →</small></div>
+              </button>;
+            })}
+          </section>
+        </>}
+
+        {candidateView === "matrix" && <section className="candidate-matrix glass-card">
+          <div className="card-heading"><div><span className="eyebrow">Candidate Matrix</span><h2>Vazby a připravenost</h2></div><span className="count-pill">{candidates.length}</span></div>
+          <div className="matrix-scroll"><table><thead><tr><th>Kandidát</th><th>Funkce</th><th>Projekty</th><th>Příspěvky</th><th>Stav podkladů</th></tr></thead><tbody>{[...candidates].sort((a, b) => a.order - b.order).map((candidate) => {
+            const completed = Object.values(candidate.assets).filter(Boolean).length;
+            return <tr key={candidate.id} onClick={() => setSelectedCandidate(candidate)}><td><span className="matrix-person"><b>{candidate.order}</b><i>{candidate.initials}</i><span><strong>{candidate.name}</strong><small>{candidate.professions[0]}</small></span></span></td><td>{candidate.office || "—"}</td><td><strong>{candidate.projectIds.length}</strong><small> propojení</small></td><td><strong>{candidate.plannedPostIds.length}</strong><small> v plánu</small></td><td><div className="matrix-progress"><span><b>{completed}/6</b><small>{Math.round(completed / 6 * 100)} %</small></span><div className="mini-progress"><i style={{ width: `${completed / 6 * 100}%` }} /></div></div></td></tr>;
+          })}</tbody></table></div>
+        </section>}
+
+        {candidateView === "dashboard" && <>
+          <section className="candidate-coverage-grid">{coverage.map((metric) => <article className={`glass-card coverage-card coverage-${metric.tone}`} key={metric.label}><span>{metric.label}</span><strong>{metric.value}<small> / {candidates.length}</small></strong><p>{metric.note}</p><div className="mini-progress"><i style={{ width: `${Math.min(100, metric.value / candidates.length * 100)}%` }} /></div></article>)}</section>
+          <section className="candidate-production glass-card"><div className="card-heading"><div><span className="eyebrow">Stav podkladů</span><h2>Produkční pokrytí kandidátky</h2></div><span className="status-pill warning-pill">Priorita: obsah</span></div><div className="production-bars">{(["photos", "medallion", "bio", "quote", "video", "faq"] as const).map((asset) => { const count = candidates.filter((candidate) => candidate.assets[asset]).length; const labels = { photos: "Fotografie", medallion: "Medailonek", bio: "Bio", quote: "Citace", video: "Video", faq: "FAQ" }; return <div key={asset}><span><strong>{labels[asset]}</strong><small>{count} / {candidates.length}</small></span><div className="progress-track"><i style={{ width: `${count / candidates.length * 100}%` }} /></div></div>; })}</div></section>
+        </>}
+      </div>
+    );
+  };
 
   const renderProjects = () => (
     <div className="section-stack">
@@ -703,10 +759,35 @@ export default function Home() {
       <section className="settings-grid">
         <article className="settings-card glass-card"><span className="eyebrow">Vzhled</span><h2>Barevný režim</h2><p>Volba se ukládá pouze v tomto prohlížeči.</p><div className="theme-cards"><button className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")}><span className="theme-preview light-preview" /><strong>Světlý</strong></button><button className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")}><span className="theme-preview dark-preview" /><strong>Tmavý</strong></button></div></article>
         <article className="settings-card glass-card"><span className="eyebrow">Data</span><h2>Lokální režim</h2><p>Bez backendu se nové úkoly, projekty, kandidáti a posty ukládají do tohoto zařízení. Pravidelně exportujte zálohu.</p><div className="settings-actions"><button className="primary-button" onClick={exportData}>Exportovat JSON</button><label className="secondary-button">Importovat JSON<input type="file" accept="application/json" onChange={(event) => importData(event.target.files?.[0])} /></label></div></article>
-        <article className="settings-card glass-card full-settings"><span className="eyebrow">Datové zdraví</span><h2>Připravenost zdrojů</h2><div className="health-grid"><div><strong>100 %</strong><span>Strategie</span></div><div><strong>9 %</strong><span>Kandidáti</span></div><div><strong>38 %</strong><span>Projekty</span></div><div><strong>0 %</strong><span>Fotografie</span></div><div><strong>0 %</strong><span>Video</span></div></div></article>
+        <article className="settings-card glass-card full-settings"><span className="eyebrow">Datové zdraví</span><h2>Připravenost zdrojů</h2><div className="health-grid"><div><strong>100 %</strong><span>Strategie</span></div><div><strong>100 %</strong><span>Kandidátní profily</span></div><div><strong>38 %</strong><span>Projekty</span></div><div><strong>100 %</strong><span>Foto rozsahy</span></div><div><strong>0 %</strong><span>Video</span></div></div></article>
       </section>
     </div>
   );
+
+  const renderCandidateDetail = () => {
+    if (!selectedCandidate) return null;
+    const gallery = expandPhotoRanges(selectedCandidate.photoRanges);
+    const relatedPosts = posts.filter((post) => selectedCandidate.plannedPostIds.includes(post.id));
+    const relatedProjects = projects.filter((project) => selectedCandidate.projectIds.includes(project.id));
+    const assetLabels = { photos: "Fotografie", medallion: "Medailonek", bio: "Bio", quote: "Citace", video: "Video", faq: "FAQ" };
+    return <div className="modal-backdrop" onMouseDown={() => setSelectedCandidate(null)}><section className="detail-modal candidate-detail candidate-profile" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedCandidate(null)}>×</button>
+      <div className="candidate-detail-hero"><div className="detail-avatar"><span>{selectedCandidate.initials}</span><b>#{selectedCandidate.order}</b></div><div><span className="eyebrow">Kandidát č. {selectedCandidate.order}</span><h2>{selectedCandidate.name}</h2>{selectedCandidate.office && <strong>{selectedCandidate.office}</strong>}<p>{selectedCandidate.professions.join(" · ")}</p></div></div>
+      <div className="candidate-profile-grid">
+        <article className="profile-panel profile-about"><div className="profile-panel-head"><span className="eyebrow">Profil</span><b>{selectedCandidate.assets.bio ? "Rozpracováno" : "Doplnit"}</b></div><p>{selectedCandidate.bio}</p>{selectedCandidate.quote && <blockquote>„{selectedCandidate.quote}“</blockquote>}</article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Stav podkladů</span><b>{Object.values(selectedCandidate.assets).filter(Boolean).length}/6</b></div><ul className="asset-checklist">{(Object.keys(selectedCandidate.assets) as (keyof Candidate["assets"])[]).map((asset) => <li className={selectedCandidate.assets[asset] ? "done" : ""} key={asset}><span>{selectedCandidate.assets[asset] ? "✓" : ""}</span>{assetLabels[asset]}</li>)}</ul></article>
+      </div>
+      <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Komunikační témata</span><button onClick={() => setToast("Témata budou doplněna v další obsahové fázi.")}>＋ Přidat</button></div><div className="tag-list">{selectedCandidate.topics.map((topic) => <span key={topic}>{topic}</span>)}</div></article>
+      <div className="candidate-profile-grid">
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${pillarClass(post.pillar)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Projekty</span><b>{relatedProjects.length}</b></div><div className="profile-link-list">{relatedProjects.length ? relatedProjects.map((project) => <button key={project.id} onClick={() => { setSelectedCandidate(null); setSelectedProject(project); }}><span className="project-link-code">P-{String(project.id).padStart(2, "0")}</span><span><strong>{project.title}</strong><small>{project.status} · {project.area}</small></span><b>→</b></button>) : <div className="profile-empty">Vazby na projekty jsou připravené k doplnění.</div>}</div></article>
+      </div>
+      <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>{gallery.length} fotografií</b></div><p className="asset-source">Automaticky přiřazeno podle rozsahů {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{gallery.slice(0, 12).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 12 && <div className="gallery-more"><strong>+{gallery.length - 12}</strong><small>dalších</small></div>}</div></article>
+      <div className="candidate-profile-grid">
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Video</span><b>0 / 4</b></div><div className="video-placeholders">{["Rozhovor", "Reels", "Podcast", "Veřejná setkání"].map((format) => <button key={format}><span>▶</span><strong>{format}</strong><small>Připojit výstup</small></button>)}</div></article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Dokumenty</span><b>{selectedCandidate.documents.length}</b></div><div className="profile-documents">{selectedCandidate.documents.length ? selectedCandidate.documents.map((document) => <div key={document}><span>DOC</span><strong>{document}</strong></div>) : <div className="profile-empty">PDF, usnesení, fotografie a zápisy lze připojit později.</div>}<button className="secondary-button" onClick={() => setToast("Připojení dokumentů je připravené pro interní úložiště.")}>＋ Připojit dokument</button></div></article>
+      </div>
+    </section></div>;
+  };
 
   const views: Record<SectionId, () => React.ReactNode> = {
     dashboard: renderDashboard,
@@ -734,7 +815,7 @@ export default function Home() {
         </div>
         <nav aria-label="Hlavní navigace">
           <span className="nav-label">Pracovní prostor</span>
-          {navItems.slice(0, 8).map((item) => <button key={item.id} className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>1/11</b>}</button>)}
+          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}</div>)}
           <span className="nav-label utility-label">Systém</span>
           {navItems.slice(8).map((item) => <button key={item.id} className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span></button>)}
         </nav>
@@ -757,9 +838,9 @@ export default function Home() {
 
       {searchOpen && <div className="modal-backdrop search-backdrop" onMouseDown={() => setSearchOpen(false)}><section className="command-menu" onMouseDown={(event) => event.stopPropagation()}><div className="command-input"><span>⌕</span><input autoFocus value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Hledat sekci, projekt, člověka nebo dokument…" /><kbd>ESC</kbd></div><div className="command-results">{searchQuery ? searchResults.length ? searchResults.map((result) => <button key={`${result.meta}-${result.title}`} onClick={result.action}><span>{result.title}</span><small>{result.meta}</small><b>↵</b></button>) : <div className="empty-state">Nic jsme nenašli.</div> : <><span className="command-hint">Rychlá navigace</span>{navItems.slice(0, 6).map((item) => <button key={item.id} onClick={() => navigate(item.id)}><span>{item.icon} {item.label}</span><small>Sekce</small><b>→</b></button>)}</>}</div></section></div>}
 
-      {createType && <div className="modal-backdrop" onMouseDown={() => setCreateType(null)}><form className="detail-modal create-modal" onSubmit={submitCreate} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="modal-close" onClick={() => setCreateType(null)}>×</button><span className="eyebrow">Nová položka</span><h2>{createType === "project" ? "Přidat projekt" : createType === "candidate" ? "Přidat kandidáta" : createType === "post" ? "Přidat příspěvek" : "Přidat úkol"}</h2><label>Název<input autoFocus required value={createForm.title} onChange={(event) => setCreateForm({ ...createForm, title: event.target.value })} placeholder={createType === "candidate" ? "Jméno a příjmení" : "Stručný pracovní název"} /></label><label>{createType === "post" ? "Autor" : createType === "task" ? "Deadline" : createType === "candidate" ? "Role" : "Krátký popis"}<input value={createForm.detail} onChange={(event) => setCreateForm({ ...createForm, detail: event.target.value })} placeholder="Doplňte základní informaci" /></label><label>{createType === "post" ? "Datum (RRRR-MM-DD)" : createType === "task" ? "Owner" : createType === "candidate" ? "Oblast" : "Kategorie"}<input value={createForm.meta} onChange={(event) => setCreateForm({ ...createForm, meta: event.target.value })} placeholder={createType === "post" ? "2026-08-01" : "Volitelné"} /></label><button className="primary-button full-button" type="submit">Vytvořit položku</button><p className="local-note">Uloží se do lokální pracovní verze tohoto zařízení.</p></form></div>}
+      {createType && <div className="modal-backdrop" onMouseDown={() => setCreateType(null)}><form className="detail-modal create-modal" onSubmit={submitCreate} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="modal-close" onClick={() => setCreateType(null)}>×</button><span className="eyebrow">Nová položka</span><h2>{createType === "project" ? "Přidat projekt" : createType === "candidate" ? "Přidat kandidáta" : createType === "post" ? "Přidat příspěvek" : "Přidat úkol"}</h2><label>Název<input autoFocus required value={createForm.title} onChange={(event) => setCreateForm({ ...createForm, title: event.target.value })} placeholder={createType === "candidate" ? "Jméno a příjmení" : "Stručný pracovní název"} /></label><label>{createType === "post" ? "Autor" : createType === "task" ? "Deadline" : createType === "candidate" ? "Funkce" : "Krátký popis"}<input value={createForm.detail} onChange={(event) => setCreateForm({ ...createForm, detail: event.target.value })} placeholder="Doplňte základní informaci" /></label><label>{createType === "post" ? "Datum (RRRR-MM-DD)" : createType === "task" ? "Owner" : createType === "candidate" ? "Profese" : "Kategorie"}<input value={createForm.meta} onChange={(event) => setCreateForm({ ...createForm, meta: event.target.value })} placeholder={createType === "post" ? "2026-08-01" : "Volitelné"} /></label><button className="primary-button full-button" type="submit">Vytvořit položku</button><p className="local-note">Uloží se do lokální pracovní verze tohoto zařízení.</p></form></div>}
 
-      {selectedCandidate && <div className="modal-backdrop" onMouseDown={() => setSelectedCandidate(null)}><section className="detail-modal candidate-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedCandidate(null)}>×</button><div className="candidate-detail-hero"><div className="detail-avatar">{selectedCandidate.initials}</div><div><span className={`status-pill ${selectedCandidate.placeholder ? "warning-pill" : "danger-pill"}`}>{selectedCandidate.status}</span><h2>{selectedCandidate.name}</h2><strong>{selectedCandidate.role}</strong><p>{selectedCandidate.area}</p></div></div><div className="detail-section"><span className="eyebrow">Medailonek</span><p>{selectedCandidate.bio}</p></div>{selectedCandidate.quote && <blockquote>„{selectedCandidate.quote}“</blockquote>}<div className="detail-columns"><div><span className="eyebrow">Komunikační témata</span><div className="tag-list">{(selectedCandidate.topics || ["Doplnit témata"]).map((topic) => <span key={topic}>{topic}</span>)}</div></div><div><span className="eyebrow">Checklist</span><ul className="detail-checklist"><li className={!selectedCandidate.placeholder ? "done" : ""}>Zdrojový text</li><li>Finální copy</li><li>Fotografie</li><li>Video</li><li>FAQ</li></ul></div></div><button className="primary-button full-button" onClick={() => { setSelectedCandidate(null); navigate("checklist"); }}>Otevřít související úkoly</button></section></div>}
+      {renderCandidateDetail()}
 
       {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
