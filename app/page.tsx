@@ -71,11 +71,14 @@ type Candidate = {
 
 type CandidateView = "overview" | "matrix" | "dashboard";
 
+type ContentType = "people" | "completed" | "progress" | "future" | "explain" | "evidence";
+
 type SocialPost = {
   id: number;
   date: string;
   title: string;
-  pillar: "Lidé" | "Práce" | "Rozdělané" | "Plány" | "Vysvětlování";
+  contentType?: ContentType;
+  pillar: "Lidé" | "Práce" | "Rozdělané" | "Plány" | "Vysvětlování" | "Dokumenty";
   format: "Post" | "Carousel" | "Video" | "Story" | "Reels";
   status: "Námět" | "Copy" | "Grafika" | "Ke schválení" | "Naplánováno" | "Publikováno";
   author: string;
@@ -83,6 +86,86 @@ type SocialPost = {
   copy: string;
   approval: string;
 };
+
+type ContentTemplate = {
+  label: string;
+  icon: string;
+  pillar: SocialPost["pillar"];
+  badge: string;
+  purpose: string;
+  typical: string[];
+  layout: string;
+  cta: string;
+  example: string;
+  visual: string;
+};
+
+const contentTemplates: Record<ContentType, ContentTemplate> = {
+  people: { label: "Lidé", icon: "👥", pillar: "Lidé", badge: "LIDÉ", purpose: "Budování důvěry, kandidáti, lidské příběhy, zákulisí a komunita.", typical: ["Medailonky", "Společné fotografie", "Rozhovory a osobní postoje"], layout: "Horní identifikační pruh, fotografie přes většinu plochy, jméno a krátký claim.", cta: "Přečtěte si celý příběh", example: "Jan Macourek: proč dotahuji stavby", visual: "Portrét / autentická fotografie" },
+  completed: { label: "Hotová práce", icon: "✔", pillar: "Práce", badge: "HOTOVO", purpose: "Ukázat výsledky a doložit kompetenci konkrétním dopadem.", typical: ["Dokončené projekty", "Nová infrastruktura", "Fotografie před / po"], layout: "Velká fotografie výsledku, výrazný badge HOTOVO a krátké shrnutí dole.", cta: "Podívejte se na výsledek", example: "Co jsme dotáhli", visual: "Fotografie výsledku" },
+  progress: { label: "Rozdělané věci", icon: "🚧", pillar: "Rozdělané", badge: "45 %", purpose: "Transparentně ukázat, na čem se pracuje a co bude následovat.", typical: ["Průběh stavby", "Průběh příprav", "Aktuální stav projektu"], layout: "Fotografie průběhu, progress badge a jednoznačný další krok.", cta: "Sledujte další postup", example: "Dlouhý park: kde právě jsme", visual: "Fotografie průběhu" },
+  future: { label: "Plány", icon: "🎯", pillar: "Plány", badge: "PLÁN", purpose: "Představit budoucnost, program, priority a realistickou vizi.", typical: ["Volební program", "Nové projekty", "Priority 2026–2030"], layout: "Velká ilustrace nebo vizualizace, dominantní headline a více prostoru pro text.", cta: "Projděte si celý plán", example: "Plán pro roky 2026–2030", visual: "Ilustrace / vizualizace" },
+  explain: { label: "Vysvětlujeme", icon: "❗", pillar: "Vysvětlování", badge: "VYSVĚTLUJEME", purpose: "Srozumitelně vysvětlit složitá témata, FAQ a sporná tvrzení.", typical: ["Škola a kapacity", "Development a územní plán", "Financování projektů"], layout: "Minimalistická infografika, více textu, diagram a citace zdrojů.", cta: "Zjistěte všechna fakta", example: "Škola: kapacita dnes a další krok", visual: "Infografika / diagram" },
+  evidence: { label: "Dokumenty a důkazy", icon: "📄", pillar: "Dokumenty", badge: "DŮKAZ", purpose: "Podpořit tvrzení dohledatelnými dokumenty, mapami a historickými podklady.", typical: ["Usnesení a smlouvy", "Mapy a studie", "Historické dokumenty"], layout: "Dokument jako hlavní prvek, citace zdroje a QR kód na úplný podklad.", cta: "Podívejte se na dokumenty", example: "Dlouhý park: stavební povolení", visual: "Náhled dokumentu + QR" },
+};
+
+const contentTypeFromPillar = (pillar: SocialPost["pillar"]): ContentType => ({
+  Lidé: "people",
+  Práce: "completed",
+  Rozdělané: "progress",
+  Plány: "future",
+  Vysvětlování: "explain",
+  Dokumenty: "evidence",
+})[pillar];
+
+function ContentCard({ type, title, compact = false }: { type: ContentType; title: string; compact?: boolean }) {
+  const template = contentTemplates[type];
+  return (
+    <article className={`content-card content-card-${type}${compact ? " content-card-compact" : ""}`} aria-label={`Šablona ${template.label}`}>
+      <header><span className="content-card-pillar"><b>{template.icon}</b>{template.label}</span><span className="content-card-logo">PŘEZLEŤÁCI</span></header>
+      <div className="content-card-visual"><span>{template.visual}</span><i>{template.badge}</i></div>
+      <div className="content-card-copy"><span>{template.badge}</span><h3>{title}</h3><footer><small>{template.cta}</small><b>→</b></footer></div>
+    </article>
+  );
+}
+
+function DesignSystemChapter() {
+  const templates = Object.entries(contentTemplates) as [ContentType, ContentTemplate][];
+  const productionChecks = ["Správná šablona", "Správná barva", "Správná ikona", "Jeden jasný CTA", "Fotografie ve správném poměru", "Titulky u videa", "Odkaz na web"];
+  return (
+    <div className="design-system-content">
+      <section className="design-system-lead">
+        <div><span className="eyebrow">Cíl systému</span><h2>Rozpoznat typ sdělení na první pohled</h2><p>Každý statický příspěvek používá stejné rozmístění prvků. Mění se pouze centrálně řízená identita typu obsahu: barva, ikona, badge, CTA a styl titulku.</p></div>
+        <aside><strong>Pracovní paleta</strong><p>Barvy níže jsou dočasné. Po dodání vizuální identity od Karla Hemzy se vymění pouze šest centrálních tokenů — bez úprav jednotlivých příspěvků.</p></aside>
+      </section>
+
+      <section className="content-template-grid" aria-label="Šest grafických šablon">
+        {templates.map(([type, template]) => <ContentCard key={type} type={type} title={template.example} />)}
+      </section>
+
+      <section className="template-rules-grid">
+        {templates.map(([type, template]) => (
+          <article className={`template-rule template-rule-${type}`} key={type}>
+            <header><span>{template.icon}</span><div><strong>{template.label}</strong><small>{type}</small></div></header>
+            <p>{template.purpose}</p>
+            <dl><div><dt>Typické výstupy</dt><dd>{template.typical.join(" · ")}</dd></div><div><dt>Šablona</dt><dd>{template.layout}</dd></div><div><dt>Výchozí CTA</dt><dd>{template.cta}</dd></div></dl>
+          </article>
+        ))}
+      </section>
+
+      <section className="design-standards-grid">
+        <article><span className="eyebrow">Jednotné prvky</span><h3>Stejná kostra každého výstupu</h3><ul>{["Logo Přezleťáků", "Identifikační barva a ikona", "Jednotná typografie", "Stejné odsazení a grid", "Jeden jasný CTA"].map((item) => <li key={item}>{item}</li>)}</ul></article>
+        <article><span className="eyebrow">Facebook</span><h3>Kontext a cesta na web</h3><p>Delší text, vysvětlení souvislostí a odkaz na úplný příběh nebo důkaz.</p><span className="eyebrow channel-instagram">Instagram</span><h3>Emoce a vizuální rytmus</h3><p>Více karuselů a Reels, méně textu v obrazu, silnější první slide.</p></article>
+        <article><span className="eyebrow">Produkční kontrola</span><h3>Před publikací</h3><div className="production-checks">{productionChecks.map((item) => <span key={item}><i>✓</i>{item}</span>)}</div></article>
+      </section>
+
+      <section className="implementation-note">
+        <div><span className="eyebrow">Implementováno</span><h3>Jedna komponenta ContentCard</h3><p>Autor zvolí pouze typ obsahu. Komponenta automaticky převezme odpovídající barvu, ikonu, badge, CTA a vizuální režim.</p></div>
+        <code>type: people | completed | progress | future | explain | evidence</code>
+      </section>
+    </div>
+  );
+}
 
 const navItems: { id: SectionId; label: string; icon: string }[] = [
   { id: "dashboard", label: "Dashboard", icon: "⌂" },
@@ -170,13 +253,16 @@ const initialPosts: SocialPost[] = [
   { id: 12, date: "2026-10-08", title: "Jedenáct lidí, jedna obec", pillar: "Lidé", format: "Reels", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Ne" },
 ];
 
-const bibleChapters = [
+type BibleChapter = { title: string; label: string; body: string; bullets: string[]; kind?: "design-system" };
+
+const bibleChapters: BibleChapter[] = [
   { title: "DNA kampaně", label: "Základ", body: "Kampaň není billboard ani souboj hesel. Je to veřejný důkazový systém: lidé, odvedená práce, rozdělané věci, realistické plány a otevřené vysvětlování.", bullets: ["Přezletice tvoří lidé, práce a konkrétní výsledky.", "Ukazovat fakta dřív než tvrzení.", "Přiznat stav věcí včetně překážek."] },
   { title: "Positioning", label: "Schválit", body: "Známe Přezletice zblízka. Ukazujeme lidi, práci a plán pro další roky.", bullets: ["Méně slibů. Více odvedené práce.", "Přezletice vedeme s respektem k lidem, místu i budoucnosti."] },
   { title: "Tone of Voice", label: "Pravidlo", body: "Klidný, sousedský, konkrétní, neútočný, neúřední, důkazový a lidský tón.", bullets: ["Krátké věty a běžná čeština.", "Bez agresivní politiky a přehnaných slibů.", "Mluvit jménem konkrétních lidí, ne anonymního kolektivu."] },
-  { title: "Komunikační pilíře", label: "5 pilířů", body: "Lidé, Práce, Rozdělané věci, Plány a Vysvětlování tvoří společný obsahový systém.", bullets: ["Lidé budují důvěru.", "Práce dokládá kompetenci.", "Rozdělané věci ukazují realitu.", "Plány dávají směr.", "Vysvětlování předchází nedůvěře."] },
+  { title: "Komunikační pilíře", label: "6 typů obsahu", body: "Lidé, Hotová práce, Rozdělané věci, Plány a Vysvětlování tvoří pět strategických pilířů. Dokumenty a důkazy jsou jejich společnou ověřovací vrstvou.", bullets: ["Lidé budují důvěru.", "Hotová práce dokládá kompetenci.", "Rozdělané věci ukazují realitu.", "Plány dávají směr.", "Vysvětlování předchází nedůvěře.", "Dokumenty a důkazy podpírají každé tvrzení."] },
   { title: "Lidé", label: "1 / 11", body: "Medailonek není životopis. Musí odpovědět, proč má občan tomuto člověku věřit, že bude pracovat pro obec.", bullets: ["Osobní motivace", "Konkrétní role", "Vztah k obci", "Jedno silné téma", "Civilní fotografie a krátké video"] },
   { title: "Hotová práce", label: "Důkazy", body: "Každý výsledek popsat přes problém, postup, výsledek, dopad na lidi a dohledatelný důkaz.", bullets: ["Fotografie před / po", "Rozpočet nebo dokument", "Konkrétní člověk za projektem", "Dopad na každodenní život"] },
+  { title: "Design System komunikačních pilířů", label: "6 šablon · pracovní paleta", body: "Jednotný informační systém propojuje barvu, ikonu, badge, CTA, typografii a grid. Občan díky němu pozná typ sdělení ještě před přečtením textu.", bullets: [], kind: "design-system" },
   { title: "Rozdělané věci", label: "Transparentnost", body: "U každé rozpracované věci ukázat fázi, brzdu, další krok a termín další aktualizace.", bullets: ["Co řešíme", "Co už proběhlo", "Co nás brzdí", "Kdo je garant", "Kdy dáme další update"] },
   { title: "Plány", label: "2026–2030", body: "Program obsahuje přes padesát záměrů. Pro kampaň je nutné vybrat 10–12 nejsilnějších, realisticky vysvětlit první krok a přiřadit garanta.", bullets: ["Priorita pro obyvatele", "Reálná míra kontroly obce", "První proveditelný krok", "Zdroje a partneři"] },
   { title: "Citlivá témata", label: "Riziko", body: "D0/SOKP 520, tempo developerské výstavby, kapacita škol, voda a kanalizace, rozpočty velkých staveb a termíny nadřazených institucí.", bullets: ["Oddělit fakta od domněnek.", "Přiznat, co obec neřídí sama.", "Doložit chronologii jednání."] },
@@ -263,6 +349,7 @@ export default function Home() {
   const [hydrated, setHydrated] = useState(false);
   const [createType, setCreateType] = useState<"project" | "candidate" | "post" | "task" | null>(null);
   const [createForm, setCreateForm] = useState({ title: "", detail: "", meta: "" });
+  const [createContentType, setCreateContentType] = useState<ContentType>("completed");
   const [selectedCandidate, setSelectedCandidate] = useState<Candidate | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
@@ -376,6 +463,7 @@ export default function Home() {
 
   function openCreate(type: "project" | "candidate" | "post" | "task", preset = "") {
     setCreateForm({ title: "", detail: "", meta: preset });
+    setCreateContentType("completed");
     setCreateType(type);
   }
 
@@ -394,7 +482,7 @@ export default function Home() {
       setCandidates((items) => [...items, candidate]);
     }
     if (createType === "post") {
-      setPosts((items) => [...items, { id, date: /^2026-\d{2}-\d{2}$/.test(createForm.meta) ? createForm.meta : "2026-08-01", title: createForm.title, pillar: "Práce", format: "Post", status: "Námět", author: createForm.detail || "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" }]);
+      setPosts((items) => [...items, { id, date: /^2026-\d{2}-\d{2}$/.test(createForm.meta) ? createForm.meta : "2026-08-01", title: createForm.title, contentType: createContentType, pillar: contentTemplates[createContentType].pillar, format: "Post", status: "Námět", author: createForm.detail || "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Ne" }]);
     }
     setCreateType(null);
     setToast("Položka byla přidána do lokální pracovní verze.");
@@ -581,9 +669,9 @@ export default function Home() {
       </section>
       <div className="accordion-list">
         {bibleChapters.map((chapter, index) => (
-          <details className="glass-card accordion-item" key={chapter.title} open={index === 0}>
+          <details className={`glass-card accordion-item${chapter.kind === "design-system" ? " design-system-chapter" : ""}`} key={chapter.title} open={index === 0 || chapter.kind === "design-system"}>
             <summary><span className="accordion-index">{String(index + 1).padStart(2, "0")}</span><span><strong>{chapter.title}</strong><small>{chapter.label}</small></span><b>＋</b></summary>
-            <div className="accordion-content"><p>{chapter.body}</p><ul>{chapter.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div>
+            {chapter.kind === "design-system" ? <DesignSystemChapter /> : <div className="accordion-content"><p>{chapter.body}</p><ul>{chapter.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div>}
           </details>
         ))}
       </div>
@@ -686,7 +774,7 @@ export default function Home() {
         </section>
         <div className="calendar-layout">
           <section className="calendar-panel glass-card">
-            <div className="calendar-toolbar"><div className="month-switcher">{monthOptions.map((month, index) => <button className={calendarMonth === index ? "active" : ""} key={month.label} onClick={() => setCalendarMonth(index)}>{month.label}</button>)}</div><div className="calendar-legend"><span className="pillar-lide">Lidé</span><span className="pillar-prace">Práce</span><span className="pillar-plany">Plány</span></div></div>
+            <div className="calendar-toolbar"><div className="month-switcher">{monthOptions.map((month, index) => <button className={calendarMonth === index ? "active" : ""} key={month.label} onClick={() => setCalendarMonth(index)}>{month.label}</button>)}</div><div className="calendar-legend"><span className="pillar-lide">Lidé</span><span className="pillar-prace">Hotová práce</span><span className="pillar-rozdelane">Rozdělané</span><span className="pillar-plany">Plány</span><span className="pillar-vysvetlovani">Vysvětlujeme</span><span className="pillar-dokumenty">Důkazy</span></div></div>
             <div className="weekday-row">{["Po", "Út", "St", "Čt", "Pá", "So", "Ne"].map((day) => <span key={day}>{day}</span>)}</div>
             <div className="calendar-grid">
               {cells.map((day, index) => {
@@ -843,13 +931,13 @@ export default function Home() {
 
       {searchOpen && <div className="modal-backdrop search-backdrop" onMouseDown={() => setSearchOpen(false)}><section className="command-menu" onMouseDown={(event) => event.stopPropagation()}><div className="command-input"><span>⌕</span><input autoFocus value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Hledat sekci, projekt, člověka nebo dokument…" /><kbd>ESC</kbd></div><div className="command-results">{searchQuery ? searchResults.length ? searchResults.map((result) => <button key={`${result.meta}-${result.title}`} onClick={result.action}><span>{result.title}</span><small>{result.meta}</small><b>↵</b></button>) : <div className="empty-state">Nic jsme nenašli.</div> : <><span className="command-hint">Rychlá navigace</span>{navItems.slice(0, 6).map((item) => <button key={item.id} onClick={() => navigate(item.id)}><span>{item.icon} {item.label}</span><small>Sekce</small><b>→</b></button>)}</>}</div></section></div>}
 
-      {createType && <div className="modal-backdrop" onMouseDown={() => setCreateType(null)}><form className="detail-modal create-modal" onSubmit={submitCreate} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="modal-close" onClick={() => setCreateType(null)}>×</button><span className="eyebrow">Nová položka</span><h2>{createType === "project" ? "Přidat projekt" : createType === "candidate" ? "Přidat kandidáta" : createType === "post" ? "Přidat příspěvek" : "Přidat úkol"}</h2><label>Název<input autoFocus required value={createForm.title} onChange={(event) => setCreateForm({ ...createForm, title: event.target.value })} placeholder={createType === "candidate" ? "Jméno a příjmení" : "Stručný pracovní název"} /></label><label>{createType === "post" ? "Autor" : createType === "task" ? "Deadline" : createType === "candidate" ? "Funkce" : "Krátký popis"}<input value={createForm.detail} onChange={(event) => setCreateForm({ ...createForm, detail: event.target.value })} placeholder="Doplňte základní informaci" /></label><label>{createType === "post" ? "Datum (RRRR-MM-DD)" : createType === "task" ? "Owner" : createType === "candidate" ? "Profese" : "Kategorie"}<input value={createForm.meta} onChange={(event) => setCreateForm({ ...createForm, meta: event.target.value })} placeholder={createType === "post" ? "2026-08-01" : "Volitelné"} /></label><button className="primary-button full-button" type="submit">Vytvořit položku</button><p className="local-note">Uloží se do lokální pracovní verze tohoto zařízení.</p></form></div>}
+      {createType && <div className="modal-backdrop" onMouseDown={() => setCreateType(null)}><form className="detail-modal create-modal" onSubmit={submitCreate} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="modal-close" onClick={() => setCreateType(null)}>×</button><span className="eyebrow">Nová položka</span><h2>{createType === "project" ? "Přidat projekt" : createType === "candidate" ? "Přidat kandidáta" : createType === "post" ? "Přidat příspěvek" : "Přidat úkol"}</h2><label>Název<input autoFocus required value={createForm.title} onChange={(event) => setCreateForm({ ...createForm, title: event.target.value })} placeholder={createType === "candidate" ? "Jméno a příjmení" : "Stručný pracovní název"} /></label>{createType === "post" && <label>Typ obsahu<select value={createContentType} onChange={(event) => setCreateContentType(event.target.value as ContentType)}>{(Object.entries(contentTemplates) as [ContentType, ContentTemplate][]).map(([type, template]) => <option key={type} value={type}>{template.icon} {template.label}</option>)}</select><small className="field-help">Barva, ikona, badge a CTA se nastaví automaticky.</small></label>}<label>{createType === "post" ? "Autor" : createType === "task" ? "Deadline" : createType === "candidate" ? "Funkce" : "Krátký popis"}<input value={createForm.detail} onChange={(event) => setCreateForm({ ...createForm, detail: event.target.value })} placeholder="Doplňte základní informaci" /></label><label>{createType === "post" ? "Datum (RRRR-MM-DD)" : createType === "task" ? "Owner" : createType === "candidate" ? "Profese" : "Kategorie"}<input value={createForm.meta} onChange={(event) => setCreateForm({ ...createForm, meta: event.target.value })} placeholder={createType === "post" ? "2026-08-01" : "Volitelné"} /></label>{createType === "post" && <ContentCard compact type={createContentType} title={createForm.title || "Náhled titulku příspěvku"} />}<button className="primary-button full-button" type="submit">Vytvořit položku</button><p className="local-note">Uloží se do lokální pracovní verze tohoto zařízení.</p></form></div>}
 
       {renderCandidateDetail()}
 
       {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
-      {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${pillarClass(selectedPost.pillar)}`}>{selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
+      {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${pillarClass(selectedPost.pillar)}`}>{selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
 
       {selectedTask && <div className="modal-backdrop" onMouseDown={() => setSelectedTask(null)}><section className="detail-modal task-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedTask(null)}>×</button><div className="task-tags"><span className={`priority-tag priority-${slugify(selectedTask.priority)}`}>{selectedTask.priority}</span><span className="status-pill neutral">{selectedTask.status}</span></div><h2>{selectedTask.title}</h2><p>{selectedTask.note}</p><dl><div><dt>Owner</dt><dd>{selectedTask.owner}</dd></div><div><dt>Deadline</dt><dd>{selectedTask.deadline}</dd></div><div><dt>Dokument</dt><dd>{selectedTask.document || "Bez přílohy"}</dd></div></dl>{selectedTask.status !== "Done" && <button className="primary-button full-button" onClick={() => advanceTask(selectedTask)}>Posunout úkol dál →</button>}</section></div>}
 

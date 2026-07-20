@@ -71,3 +71,19 @@ test("does not publish source JPGs or macOS metadata", async () => {
   await access(new URL("../public/og.png", import.meta.url));
   await access(root);
 });
+
+test("defines the six centrally themed ContentCard templates", async () => {
+  const [page, styles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  const types = ["people", "completed", "progress", "future", "explain", "evidence"];
+  for (const type of types) {
+    assert.match(page, new RegExp(`\\b${type}: \\{`));
+    assert.match(styles, new RegExp(`--pillar-${type}:`));
+    assert.match(styles, new RegExp(`\\.content-card-${type} \\{`));
+  }
+  assert.match(page, /Design System komunikačních pilířů/);
+  assert.match(page, /Karla Hemzy/);
+  assert.match(page, /function ContentCard/);
+});
