@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { initialPosts, legacyInitialPosts, mergePostsWithPlan } from "../app/postplan.ts";
+import {
+  AI_CONTEXT_MARKDOWN,
+  WEB_BRIEF_MARKDOWN,
+  baseWebsiteContentItems,
+  campaignCandidateNames,
+  webBlockers,
+  webBriefSections,
+} from "../app/web-content.ts";
 
 const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
@@ -123,4 +131,37 @@ test("version 4 migration adds the plan without erasing user changes", () => {
   assert.equal(migrated.length, 40);
   assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
   assert.equal(migrated.some((post) => post.id === customPost.id), true);
+});
+
+test("keeps Web Brief and AI Context markdown exports synchronized", async () => {
+  const [briefFile, aiFile] = await Promise.all([
+    readFile(new URL("../WEB_BRIEF.md", import.meta.url), "utf8"),
+    readFile(new URL("../AI_CONTEXT.md", import.meta.url), "utf8"),
+  ]);
+  assert.equal(briefFile, WEB_BRIEF_MARKDOWN);
+  assert.equal(aiFile, AI_CONTEXT_MARKDOWN);
+  assert.match(briefFile, /## Role webu v kampani/);
+  assert.match(briefFile, /## Živé otevřené body/);
+  assert.match(aiFile, /## Pravidla práce s fakty/);
+  assert.equal(campaignCandidateNames.length, 11);
+  for (const candidate of campaignCandidateNames) assert.match(aiFile, new RegExp(candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+});
+
+test("defines a complete structured Web workspace", async () => {
+  const [page, styles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  assert.equal(webBriefSections.length, 15);
+  assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
+  assert.equal(baseWebsiteContentItems.length >= 9, true);
+  assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);
+  assert.match(page, /Sitemap & Content Inventory/);
+  assert.match(page, /Otevřít \{document\.name\}/);
+  assert.match(page, /Kopírovat pro AI/);
+  assert.match(page, /Stáhnout \.md/);
+  assert.match(page, /candidateWebsiteItems/);
+  assert.match(page, /projectWebsiteItems/);
+  assert.match(styles, /\.web-inventory-filters/);
+  assert.match(styles, /\.markdown-modal/);
 });

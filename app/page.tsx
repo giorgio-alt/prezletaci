@@ -4,6 +4,15 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { initialPosts, mergePostsWithPlan, sortPosts } from "./postplan";
 import type { ContentType, SocialPost } from "./postplan";
+import {
+  AI_CONTEXT_MARKDOWN,
+  WEB_BRIEF_MARKDOWN,
+  baseWebsiteContentItems,
+  webBlockers,
+  webBriefSections,
+  webOpenIssues,
+} from "./web-content";
+import type { WebsiteContentItem, WebsiteContentStatus, WebsitePriority } from "./web-content";
 
 type SectionId =
   | "dashboard"
@@ -72,6 +81,8 @@ type Candidate = {
 };
 
 type CandidateView = "overview" | "matrix" | "dashboard";
+type WebView = "brief" | "inventory";
+type MarkdownDocument = { name: "WEB_BRIEF.md" | "AI_CONTEXT.md"; content: string };
 
 type ContentTemplate = {
   label: string;
@@ -260,17 +271,6 @@ const bibleChapters: BibleChapter[] = [
   { title: "FAQ", label: "Připravit", body: "FAQ musí pokrýt školu, dopravu, developery, vodu, kanalizaci, rozpočet, termíny velkých staveb a kompetence obce.", bullets: ["Krátká odpověď", "Detailní vysvětlení", "Zdroj nebo dokument", "Datum poslední aktualizace"] },
 ];
 
-const webSections = [
-  { name: "Homepage", purpose: "Během 30 sekund vysvětlit, kdo jsou Přezleťáci a proč jim věnovat pozornost.", content: "Positioning, lidé, vybrané výsledky, rozdělané věci, plán a poslední aktuality.", cta: "Poznejte lidi a naši práci", photos: "Skupinová fotografie, 3 projektové fotografie", video: "Krátký manifest / reintrodukce", readiness: 35 },
-  { name: "O nás", purpose: "Ukázat občanskou a lokální povahu skupiny bez stranického klišé.", content: "Příběh skupiny, hodnoty, způsob práce a otevřenost.", cta: "Napište nám", photos: "Tým při práci v obci", video: "Volitelné", readiness: 25 },
-  { name: "Lidé", purpose: "Budovat důvěru skrze konkrétní osoby, role a motivaci.", content: "11 medailonků, témata, citace, videa a vazby na projekty.", cta: "Poznejte celý tým", photos: "11 portrétů + pracovní fotografie", video: "11 krátkých vstupů", readiness: 9 },
-  { name: "Výsledky", purpose: "Doložit kompetenci konkrétními výsledky a důkazy.", content: "Problém, postup, výsledek, dopad, garant a dokumenty.", cta: "Podívejte se na důkazy", photos: "Před / po, hotové projekty", video: "Výběrově", readiness: 30 },
-  { name: "Projekty", purpose: "Transparentně ukázat rozpracované věci a jejich další kroky.", content: "Stav, historie, překážky, harmonogram a odpovědný člověk.", cta: "Co právě řešíme", photos: "Aktuální stav a vizualizace", video: "Vysvětlující vstupy", readiness: 44 },
-  { name: "Program", purpose: "Převést více než 50 bodů programu do srozumitelných priorit.", content: "Devět oblastí, 10–12 hlavních priorit, první kroky a garanti.", cta: "Projděte si plán 2026–2030", photos: "Mapy a vizualizace", video: "Shrnutí priorit", readiness: 52 },
-  { name: "FAQ", purpose: "Předcházet nedůvěře a odpovědět na citlivá témata.", content: "Škola, doprava, výstavba, voda, rozpočet, termíny a kompetence.", cta: "Zeptejte se", photos: "Nejsou nutné", video: "Výběrově", readiness: 18 },
-  { name: "Kontakt", purpose: "Nabídnout jednoduchý a lidský kontakt s týmem.", content: "E-mail, sociální sítě, kontaktní formulář a pravidla moderace.", cta: "Ozvěte se nám", photos: "Skupinová fotografie", video: "Ne", readiness: 20 },
-];
-
 const timelineItems = [
   { date: "1. 8.", title: "Spuštění kampaně", category: "Marketing", note: "Reintrodukce Přezleťáků a vysvětlení důkazového přístupu." },
   { date: "4.–8. 8.", title: "Focení kandidátů", category: "Produkce", note: "Portréty, pracovní situace, obec a skupinová fotografie." },
@@ -333,6 +333,7 @@ export default function Home() {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [candidates, setCandidates] = useState<Candidate[]>(initialCandidates);
   const [candidateView, setCandidateView] = useState<CandidateView>("overview");
+  const [webView, setWebView] = useState<WebView>("brief");
   const [posts, setPosts] = useState<SocialPost[]>(initialPosts);
   const [hydrated, setHydrated] = useState(false);
   const [createType, setCreateType] = useState<"project" | "candidate" | "post" | "task" | null>(null);
@@ -343,6 +344,7 @@ export default function Home() {
   const [selectedPost, setSelectedPost] = useState<SocialPost | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<(typeof documents)[number] | null>(null);
+  const [selectedMarkdown, setSelectedMarkdown] = useState<MarkdownDocument | null>(null);
   const [toast, setToast] = useState("");
   const [projectStatus, setProjectStatus] = useState<"Vše" | ProjectStatus>("Vše");
   const [projectQuery, setProjectQuery] = useState("");
@@ -352,6 +354,15 @@ export default function Home() {
   const [timelineFilter, setTimelineFilter] = useState("Vše");
   const [documentQuery, setDocumentQuery] = useState("");
   const [documentCategory, setDocumentCategory] = useState("Vše");
+  const [webQuery, setWebQuery] = useState("");
+  const [webStatus, setWebStatus] = useState<"Vše" | WebsiteContentStatus>("Vše");
+  const [webPriority, setWebPriority] = useState<"Vše" | WebsitePriority>("Vše");
+  const [webPageType, setWebPageType] = useState("Vše");
+  const [webPillar, setWebPillar] = useState("Vše");
+  const [webOwner, setWebOwner] = useState("Všichni");
+  const [webCandidate, setWebCandidate] = useState("Všichni");
+  const [webProject, setWebProject] = useState("Všechny");
+  const [webDeadline, setWebDeadline] = useState("Všechny");
 
   useEffect(() => {
     let data: { dataVersion?: number; tasks?: Task[]; projects?: Project[]; candidates?: Candidate[]; posts?: SocialPost[]; theme?: string } | null = null;
@@ -398,6 +409,7 @@ export default function Home() {
         setSelectedPost(null);
         setSelectedTask(null);
         setSelectedDocument(null);
+        setSelectedMarkdown(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -511,6 +523,144 @@ export default function Home() {
       setToast("Soubor není platná záloha Campaign OS.");
     }
   }
+
+  async function copyMarkdown(document: MarkdownDocument) {
+    try {
+      await navigator.clipboard.writeText(document.content);
+      setToast(`${document.name} je zkopírovaný do schránky.`);
+    } catch {
+      setToast("Kopírování se nepodařilo. Otevřete dokument a označte text ručně.");
+    }
+  }
+
+  function downloadMarkdown(document: MarkdownDocument) {
+    const blob = new Blob([document.content], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = window.document.createElement("a");
+    anchor.href = url;
+    anchor.download = document.name;
+    anchor.click();
+    URL.revokeObjectURL(url);
+    setToast(`${document.name} byl připraven ke stažení.`);
+  }
+
+  const markdownDocuments: MarkdownDocument[] = [
+    { name: "WEB_BRIEF.md", content: WEB_BRIEF_MARKDOWN },
+    { name: "AI_CONTEXT.md", content: AI_CONTEXT_MARKDOWN },
+  ];
+
+  const candidateWebsiteItems = useMemo<WebsiteContentItem[]>(() => candidates.map((candidate) => {
+    const checklist = [
+      { label: "Profilový text", available: candidate.assets.bio },
+      { label: "Krátký medailonek", available: candidate.assets.medallion },
+      { label: "Profilová fotografie", available: candidate.assets.photos },
+      { label: "Doplňkové fotografie", available: candidate.photoRanges.length > 0 },
+      { label: "Témata", available: candidate.topics.some((topic) => !topic.startsWith("Doplnit")) },
+      { label: "Citace", available: candidate.assets.quote },
+      { label: "Video", available: candidate.assets.video },
+      { label: "Související projekty", available: candidate.projectIds.length > 0 },
+      { label: "Finální schválení", available: false },
+    ];
+    const readiness = Math.round(checklist.filter((item) => item.available).length / checklist.length * 100);
+    return {
+      id: `candidate-${candidate.id}`,
+      title: candidate.name,
+      pageType: "Kandidátský profil",
+      section: "Lidé",
+      purpose: `Představit kandidáta č. ${candidate.order}, jeho profesní zkušenost, vztah k obci a odpovědnost v týmu.`,
+      pillar: "Lidé",
+      status: readiness >= 75 ? "Podklady připraveny" : "Čeká na podklady",
+      priority: candidate.order <= 2 ? "Kritická" : "Vysoká",
+      owner: candidate.assets.bio ? "Copy + Kandidát" : "Copy",
+      deadline: candidate.order <= 4 ? "8. 8. 2026" : "15. 8. 2026",
+      candidateIds: [candidate.id],
+      projectIds: candidate.projectIds,
+      sourceLinks: ["Modul Kandidáti", ...candidate.documents],
+      draftLink: `Campaign HQ / Kandidáti / ${candidate.name}`,
+      notes: candidate.office || candidate.professions.join(" · "),
+      blockers: checklist.filter((item) => !item.available).map((item) => item.label),
+      readiness,
+      checklist,
+    };
+  }), [candidates]);
+
+  const projectWebsiteItems = useMemo<WebsiteContentItem[]>(() => projects.map((project) => {
+    const linkedCandidates = candidates.filter((candidate) => candidate.projectIds.includes(project.id));
+    const hasEvidence = Boolean(project.evidence && !project.evidence.toLowerCase().startsWith("doplnit"));
+    const checklist = [
+      { label: "Stručný popis", available: Boolean(project.summary) },
+      { label: "Celý příběh", available: Boolean(project.history && project.argument) },
+      { label: "Výchozí situace", available: Boolean(project.history) },
+      { label: "Výsledek", available: project.status === "Hotové" },
+      { label: "Aktuální stav", available: Boolean(project.status) },
+      { label: "Časová osa", available: project.history.includes("→") },
+      { label: "Fotografie", available: false },
+      { label: "Fotografie před a po", available: false },
+      { label: "Čísla", available: false },
+      { label: "Dokumenty", available: hasEvidence },
+      { label: "Mapy", available: /map|situační|trasy/i.test(project.evidence) },
+      { label: "FAQ", available: false },
+      { label: "Citace", available: false },
+      { label: "Související kandidát", available: linkedCandidates.length > 0 },
+      { label: "Výstupy pro sociální sítě", available: false },
+    ];
+    const readiness = Math.round(checklist.filter((item) => item.available).length / checklist.length * 100);
+    return {
+      id: `project-${project.id}`,
+      title: project.title,
+      pageType: "Projekt",
+      section: project.status === "Hotové" ? "Hotová práce" : project.status === "Rozpracované" ? "Rozdělané věci" : "Plány",
+      purpose: project.summary,
+      pillar: project.status === "Hotové" ? "Hotová práce" : project.status === "Rozpracované" ? "Rozdělané věci" : "Plány",
+      status: readiness >= 70 ? "Podklady připraveny" : hasEvidence ? "Copy v přípravě" : "Čeká na podklady",
+      priority: project.id === 4 || project.id === 7 || project.id === 11 ? "Kritická" : "Vysoká",
+      owner: project.owner,
+      deadline: project.status === "Hotové" ? "12. 8. 2026" : "18. 8. 2026",
+      candidateIds: linkedCandidates.map((candidate) => candidate.id),
+      projectIds: [project.id],
+      sourceLinks: ["Modul Projekty", ...(hasEvidence ? [project.evidence] : [])],
+      draftLink: `Campaign HQ / Projekty / ${project.title}`,
+      notes: project.next,
+      blockers: checklist.filter((item) => !item.available).map((item) => item.label),
+      readiness,
+      checklist,
+    };
+  }), [projects, candidates]);
+
+  const websiteContentItems = useMemo(
+    () => [...baseWebsiteContentItems, ...candidateWebsiteItems, ...projectWebsiteItems],
+    [candidateWebsiteItems, projectWebsiteItems],
+  );
+
+  const websiteStatuses = ["Vše", ...Array.from(new Set(websiteContentItems.map((item) => item.status)))] as ("Vše" | WebsiteContentStatus)[];
+  const websitePriorities = ["Vše", "Kritická", "Vysoká", "Střední", "Nízká"] as ("Vše" | WebsitePriority)[];
+  const websitePageTypes = ["Vše", ...Array.from(new Set(websiteContentItems.map((item) => item.pageType)))];
+  const websitePillars = ["Vše", ...Array.from(new Set(websiteContentItems.map((item) => item.pillar)))];
+  const websiteOwners = ["Všichni", ...Array.from(new Set(websiteContentItems.map((item) => item.owner)))];
+  const websiteDeadlines = ["Všechny", ...Array.from(new Set(websiteContentItems.map((item) => item.deadline)))];
+  const filteredWebsiteItems = websiteContentItems.filter((item) => {
+    const query = webQuery.trim().toLowerCase();
+    const selectedCandidateId = webCandidate === "Všichni" ? null : Number(webCandidate);
+    const selectedProjectId = webProject === "Všechny" ? null : Number(webProject);
+    return (!query || `${item.title} ${item.purpose} ${item.section} ${item.notes}`.toLowerCase().includes(query))
+      && (webStatus === "Vše" || item.status === webStatus)
+      && (webPriority === "Vše" || item.priority === webPriority)
+      && (webPageType === "Vše" || item.pageType === webPageType)
+      && (webPillar === "Vše" || item.pillar === webPillar)
+      && (webOwner === "Všichni" || item.owner === webOwner)
+      && (selectedCandidateId === null || item.candidateIds?.includes(selectedCandidateId))
+      && (selectedProjectId === null || item.projectIds?.includes(selectedProjectId))
+      && (webDeadline === "Všechny" || item.deadline === webDeadline);
+  });
+
+  const websiteReadiness = Math.round(websiteContentItems.reduce((sum, item) => sum + item.readiness, 0) / websiteContentItems.length);
+  const websiteMetrics = {
+    total: websiteContentItems.length,
+    published: websiteContentItems.filter((item) => item.status === "Publikováno").length,
+    handoff: websiteContentItems.filter((item) => ["Předáno webdesignerovi", "Připraveno k publikaci", "Publikováno"].includes(item.status)).length,
+    waiting: websiteContentItems.filter((item) => item.status === "Čeká na podklady").length,
+    critical: webBlockers.filter((blocker) => blocker.severity === "Kritická" && blocker.status !== "Vyřešeno").length,
+  };
 
   const filteredProjects = projects.filter((project) => {
     const statusMatches = projectStatus === "Vše" || project.status === projectStatus;
@@ -789,17 +939,86 @@ export default function Home() {
   };
 
   const renderWeb = () => (
-    <div className="section-stack">
-      <section className="section-intro glass-card web-intro"><div><span className="eyebrow">Brief pro webaře</span><h1>Veřejný web jako důkazový systém</h1><p>Web vysvětluje do hloubky. Facebook shrnuje a odkazuje. Instagram zlidšťuje. Video buduje důvěru.</p></div><div className="web-score"><span>Připravenost briefu</span><strong>29 %</strong><div className="progress-track"><i style={{ width: "29%" }} /></div></div></section>
-      <section className="web-map">
-        {webSections.map((section, index) => (
-          <article className="web-card glass-card" key={section.name}>
-            <div className="web-card-head"><span>{String(index + 1).padStart(2, "0")}</span><h2>{section.name}</h2><b>{section.readiness} %</b></div>
-            <div className="mini-progress"><i style={{ width: `${section.readiness}%` }} /></div>
-            <dl><div><dt>Účel</dt><dd>{section.purpose}</dd></div><div><dt>Obsah</dt><dd>{section.content}</dd></div><div><dt>CTA</dt><dd>{section.cta}</dd></div><div><dt>Fotografie</dt><dd>{section.photos}</dd></div><div><dt>Video</dt><dd>{section.video}</dd></div></dl>
-          </article>
-        ))}
+    <div className="section-stack web-workspace">
+      <section className="section-intro glass-card web-intro">
+        <div><span className="eyebrow">Jediný zdroj pravdy</span><h1>Webový obsah kampaně</h1><p>Živý brief pro webdesignéra, pracovní sitemap, stav podkladů a exportovatelný kontext pro celý tým.</p></div>
+        <div className="web-score"><span>Připravenost obsahu</span><strong>{websiteReadiness} %</strong><div className="progress-track"><i style={{ width: `${websiteReadiness}%` }} /></div><small>{websiteMetrics.total} plánovaných stránek a profilů</small></div>
       </section>
+
+      <nav className="web-tabs glass-card" aria-label="Podsekce Web">
+        <button className={webView === "brief" ? "active" : ""} onClick={() => setWebView("brief")}><span>01</span><strong>Web Brief</strong><small>Strategie a zadání</small></button>
+        <button className={webView === "inventory" ? "active" : ""} onClick={() => setWebView("inventory")}><span>02</span><strong>Sitemap & Content Inventory</strong><small>{websiteMetrics.total} položek</small></button>
+      </nav>
+
+      {webView === "brief" ? <>
+        <section className="markdown-export-grid" aria-label="Markdown exporty">
+          {markdownDocuments.map((document) => <article className="markdown-export-card glass-card" key={document.name}>
+            <div className="markdown-file-mark">MD</div>
+            <div><span className="eyebrow">Synchronizovaný dokument</span><h2>{document.name}</h2><p>{document.name === "WEB_BRIEF.md" ? "Kompletní strategický a obsahový brief pro webdesignéra." : "Kompaktní kontext kampaně pro Codex, ChatGPT, Claude, Cursor a Gemini."}</p></div>
+            <div className="markdown-actions"><button className="primary-button" onClick={() => setSelectedMarkdown(document)}>Otevřít {document.name}</button><button className="secondary-button" onClick={() => copyMarkdown(document)}>{document.name === "AI_CONTEXT.md" ? "Kopírovat pro AI" : "Kopírovat obsah"}</button><button className="secondary-button" onClick={() => downloadMarkdown(document)}>Stáhnout .md</button></div>
+          </article>)}
+        </section>
+
+        <section className="web-brief-layout">
+          <div className="web-brief-accordions">
+            {webBriefSections.map((section, index) => <details className="web-brief-section glass-card" key={section.id} open={index < 2}>
+              <summary><span>{String(index + 1).padStart(2, "0")}</span><div><h2>{section.title}</h2><p>{section.summary}</p></div><b className={`brief-status brief-${section.status}`}>{section.status === "approved" ? "Schváleno" : section.status === "review" ? "K revizi" : "Koncept"}</b><i>＋</i></summary>
+              <div className="brief-section-body">
+                {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                {section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}
+                {section.numbered && <ol>{section.numbered.map((item) => <li key={item}>{item}</li>)}</ol>}
+                <small>Aktualizováno {section.updatedAt}</small>
+              </div>
+            </details>)}
+          </div>
+
+          <aside className="web-brief-aside">
+            <article className="glass-card web-principle-card"><span className="eyebrow">Hlavní princip</span><blockquote>„Nechceme pouze říkat, co jsme udělali. Chceme vysvětlit, proč to vzniklo, co to obci přineslo a jak na to navážeme.“</blockquote></article>
+            <article className="glass-card web-workflow-card"><span className="eyebrow">Obsahové workflow</span><div>{["Nápad", "Podklady", "Webové copy", "Kontrola faktů", "Schválení", "Publikace", "Social výstupy", "Distribuce", "Aktualizace"].map((step, index) => <div key={step}><b>{index + 1}</b><span>{step}</span>{index < 8 && <i>↓</i>}</div>)}</div></article>
+          </aside>
+        </section>
+
+        <section className="web-open-issues glass-card">
+          <div className="card-heading"><div><span className="eyebrow">Živá evidence</span><h2>Otevřené body</h2></div><span className="count-pill">{webOpenIssues.length}</span></div>
+          <div className="web-issue-grid">{webOpenIssues.map((issue) => <article key={issue.id}><div><span className={`priority-tag priority-${slugify(issue.priority)}`}>{issue.priority}</span><span className="status-pill warning-pill">{issue.status}</span></div><h3>{issue.title}</h3><p>{issue.description}</p><dl><div><dt>Odpovědnost</dt><dd>{issue.owner}</dd></div><div><dt>Termín</dt><dd>{issue.deadline}</dd></div></dl><small>{issue.note}</small></article>)}</div>
+        </section>
+      </> : <>
+        <section className="web-readiness-grid" aria-label="Připravenost webového obsahu">
+          {[{ label: "Plánované stránky", value: websiteMetrics.total, note: "včetně profilů a projektů" }, { label: "Publikováno", value: websiteMetrics.published, note: "živé stránky" }, { label: "Připraveno k předání", value: websiteMetrics.handoff, note: "webdesignerovi" }, { label: "Čeká na podklady", value: websiteMetrics.waiting, note: "blokované položky" }, { label: "Kritické blokátory", value: websiteMetrics.critical, note: "ohrožují spuštění" }, { label: "Content readiness", value: `${websiteReadiness} %`, note: "vážený průměr podkladů" }].map((metric) => <article className="glass-card" key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}
+        </section>
+
+        <section className="web-inventory-filters glass-card">
+          <label className="inline-search"><span>⌕</span><input value={webQuery} onChange={(event) => setWebQuery(event.target.value)} placeholder="Hledat stránku, účel nebo poznámku…" /></label>
+          <div className="web-filter-grid">
+            <label>Stav<select value={webStatus} onChange={(event) => setWebStatus(event.target.value as "Vše" | WebsiteContentStatus)}>{websiteStatuses.map((value) => <option key={value}>{value}</option>)}</select></label>
+            <label>Priorita<select value={webPriority} onChange={(event) => setWebPriority(event.target.value as "Vše" | WebsitePriority)}>{websitePriorities.map((value) => <option key={value}>{value}</option>)}</select></label>
+            <label>Typ stránky<select value={webPageType} onChange={(event) => setWebPageType(event.target.value)}>{websitePageTypes.map((value) => <option key={value}>{value}</option>)}</select></label>
+            <label>Pilíř<select value={webPillar} onChange={(event) => setWebPillar(event.target.value)}>{websitePillars.map((value) => <option key={value}>{value}</option>)}</select></label>
+            <label>Odpovědnost<select value={webOwner} onChange={(event) => setWebOwner(event.target.value)}>{websiteOwners.map((value) => <option key={value}>{value}</option>)}</select></label>
+            <label>Kandidát<select value={webCandidate} onChange={(event) => setWebCandidate(event.target.value)}><option>Všichni</option>{candidates.map((candidate) => <option value={candidate.id} key={candidate.id}>{candidate.name}</option>)}</select></label>
+            <label>Projekt<select value={webProject} onChange={(event) => setWebProject(event.target.value)}><option>Všechny</option>{projects.map((project) => <option value={project.id} key={project.id}>{project.title}</option>)}</select></label>
+            <label>Termín<select value={webDeadline} onChange={(event) => setWebDeadline(event.target.value)}>{websiteDeadlines.map((value) => <option key={value}>{value}</option>)}</select></label>
+          </div>
+          <span className="web-filter-result">Zobrazeno {filteredWebsiteItems.length} z {websiteContentItems.length} položek</span>
+        </section>
+
+        <section className="web-inventory-list">
+          {filteredWebsiteItems.map((item) => <details className="web-inventory-item glass-card" key={item.id}>
+            <summary><div className="inventory-readiness"><strong>{item.readiness}%</strong><span><i style={{ width: `${item.readiness}%` }} /></span></div><div><span className="eyebrow">{item.pageType} · {item.section}</span><h2>{item.title}</h2><p>{item.purpose}</p></div><div className="inventory-tags"><span className={`priority-tag priority-${slugify(item.priority)}`}>{item.priority}</span><span className={`status-pill web-status-${slugify(item.status)}`}>{item.status}</span></div><i>＋</i></summary>
+            <div className="inventory-detail-grid">
+              <dl><div><dt>Komunikační pilíř</dt><dd>{item.pillar}</dd></div><div><dt>Odpovědnost</dt><dd>{item.owner}</dd></div><div><dt>Termín</dt><dd>{item.deadline}</dd></div><div><dt>Rozpracovaný obsah</dt><dd>{item.draftLink}</dd></div><div><dt>Podklady</dt><dd>{item.sourceLinks.join(" · ") || "Čeká"}</dd></div><div><dt>Poznámka</dt><dd>{item.notes}</dd></div></dl>
+              {item.checklist && <div className="inventory-checklist"><strong>Stav podkladů</strong>{item.checklist.map((check) => <span className={check.available ? "done" : ""} key={check.label}><i>{check.available ? "✓" : ""}</i>{check.label}</span>)}</div>}
+              <div className="inventory-blockers"><strong>Chybí / blokuje</strong>{item.blockers.length ? item.blockers.map((blocker) => <span key={blocker}>! {blocker}</span>) : <span className="resolved">✓ Bez evidovaného blokátoru</span>}</div>
+            </div>
+          </details>)}
+          {!filteredWebsiteItems.length && <div className="empty-state glass-card">Žádná položka neodpovídá zvoleným filtrům.</div>}
+        </section>
+
+        <section className="web-blockers glass-card">
+          <div className="card-heading"><div><span className="eyebrow danger">Rizika spuštění</span><h2>Blokátory webu</h2></div><span className="count-pill danger-pill">{webBlockers.filter((blocker) => blocker.status !== "Vyřešeno").length}</span></div>
+          <div className="web-blocker-grid">{webBlockers.map((blocker) => <article key={blocker.id}><div><span className={`priority-tag priority-${slugify(blocker.severity)}`}>{blocker.severity}</span><span className="status-pill warning-pill">{blocker.status}</span></div><h3>{blocker.title}</h3><p>{blocker.description}</p><dl><div><dt>Odpovědnost</dt><dd>{blocker.owner}</dd></div><div><dt>Další krok</dt><dd>{blocker.nextStep}</dd></div></dl></article>)}</div>
+        </section>
+      </>}
     </div>
   );
 
@@ -899,7 +1118,7 @@ export default function Home() {
         </div>
         <nav aria-label="Hlavní navigace">
           <span className="nav-label">Pracovní prostor</span>
-          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}</div>)}
+          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}{item.id === "web" && activeSection === "web" && <div className="candidate-subnav">{(["brief", "inventory"] as WebView[]).map((view) => <button key={view} className={webView === view ? "active" : ""} onClick={() => { setWebView(view); setMobileNav(false); }}>{view === "brief" ? "Web Brief" : "Sitemap & Inventory"}</button>)}</div>}</div>)}
           <span className="nav-label utility-label">Systém</span>
           {navItems.slice(8).map((item) => <button key={item.id} className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span></button>)}
         </nav>
@@ -933,6 +1152,8 @@ export default function Home() {
       {selectedTask && <div className="modal-backdrop" onMouseDown={() => setSelectedTask(null)}><section className="detail-modal task-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedTask(null)}>×</button><div className="task-tags"><span className={`priority-tag priority-${slugify(selectedTask.priority)}`}>{selectedTask.priority}</span><span className="status-pill neutral">{selectedTask.status}</span></div><h2>{selectedTask.title}</h2><p>{selectedTask.note}</p><dl><div><dt>Owner</dt><dd>{selectedTask.owner}</dd></div><div><dt>Deadline</dt><dd>{selectedTask.deadline}</dd></div><div><dt>Dokument</dt><dd>{selectedTask.document || "Bez přílohy"}</dd></div></dl>{selectedTask.status !== "Done" && <button className="primary-button full-button" onClick={() => advanceTask(selectedTask)}>Posunout úkol dál →</button>}</section></div>}
 
       {selectedDocument && <div className="modal-backdrop" onMouseDown={() => setSelectedDocument(null)}><section className="detail-modal document-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedDocument(null)}>×</button><div className={`file-icon file-${selectedDocument.type.toLowerCase()}`}>{selectedDocument.type.slice(0, 3)}</div><span className="eyebrow">{selectedDocument.category}</span><h2>{selectedDocument.title}</h2><p>{selectedDocument.description}</p><dl><div><dt>Stav</dt><dd>{selectedDocument.status}</dd></div><div><dt>Aktualizace</dt><dd>{selectedDocument.updated}</dd></div><div><dt>Typ</dt><dd>{selectedDocument.type}</dd></div></dl><div className="local-note">Repository zatím eviduje metadata. Samotné soubory zůstávají v interním úložišti týmu.</div></section></div>}
+
+      {selectedMarkdown && <div className="modal-backdrop" onMouseDown={() => setSelectedMarkdown(null)}><section className="detail-modal markdown-modal" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedMarkdown(null)}>×</button><span className="eyebrow">Markdown náhled</span><h2>{selectedMarkdown.name}</h2><div className="markdown-modal-actions"><button className="secondary-button" onClick={() => copyMarkdown(selectedMarkdown)}>Kopírovat obsah</button><button className="primary-button" onClick={() => downloadMarkdown(selectedMarkdown)}>Stáhnout .md</button></div><pre>{selectedMarkdown.content}</pre></section></div>}
 
       {toast && <div className="toast"><span>✓</span>{toast}</div>}
     </div>
