@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 
 type SectionId =
   | "dashboard"
@@ -47,6 +48,7 @@ type Candidate = {
   id: number;
   order: number;
   name: string;
+  image: string;
   office: string;
   professions: string[];
   bio: string;
@@ -133,17 +135,17 @@ const initialProjects: Project[] = [
 const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
 
 const initialCandidates: Candidate[] = [
-  { id: 1, order: 1, name: "Tomáš Říha", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 2, order: 2, name: "Jan Macourek", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [2, 12], projectIds: [4], documents: ["Jan Macoure1.docx"] },
-  { id: 3, order: 3, name: "Romana Bernardová", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 4, order: 4, name: "Ing. Lenka Bulová", office: "Členka stavebního výboru", professions: ["Zahradní a krajinná architektka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2949–R5A2973"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 5, order: 5, name: "Ing. Jan Káňa", office: "", professions: ["Projektový manažer"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JK", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2933–R5A2948"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 6, order: 6, name: "Pavel Řeřucha", office: "", professions: ["Operační vedoucí Městské policie Praha"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "PŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2890–R5A2905"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 7, order: 7, name: "Václav Šmerda", office: "", professions: ["Vedoucí šéfkuchař", "Svazková jídelna Panská Pole"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VŠ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2879–R5A2889"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 8, order: 8, name: "Ing. arch. Břetislav Lukeš", office: "Člen stavebního výboru", professions: ["Architekt"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "BL", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2841–R5A2866"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 9, order: 9, name: "Lenka Brožová", office: "Členka stavebního výboru", professions: ["Realitní konzultantka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2974–R5A2996"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 10, order: 10, name: "Mgr. Bc. Jakub Tříska", office: "", professions: ["Ministerský rada MF ČR"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JT", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2919–R5A2929"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
-  { id: 11, order: 11, name: "Vojta Brož", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 1, order: 1, name: "Tomáš Říha", image: "/images/candidates/tomas-riha.webp", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 2, order: 2, name: "Jan Macourek", image: "/images/candidates/jan-macourek.webp", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [2, 12], projectIds: [4], documents: ["Jan Macoure1.docx"] },
+  { id: 3, order: 3, name: "Romana Bernardová", image: "/images/candidates/romana-bernardova.webp", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 4, order: 4, name: "Ing. Lenka Bulová", image: "/images/candidates/lenka-bulova.webp", office: "Členka stavebního výboru", professions: ["Zahradní a krajinná architektka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2949–R5A2973"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 5, order: 5, name: "Ing. Jan Káňa", image: "/images/candidates/jan-kana.webp", office: "", professions: ["Projektový manažer"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JK", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2933–R5A2948"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 6, order: 6, name: "Pavel Řeřucha", image: "/images/candidates/pavel-rerucha.webp", office: "", professions: ["Operační vedoucí Městské policie Praha"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "PŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2890–R5A2905"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 7, order: 7, name: "Václav Šmerda", image: "/images/candidates/vaclav-smerda.webp", office: "", professions: ["Vedoucí šéfkuchař", "Svazková jídelna Panská Pole"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VŠ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2879–R5A2889"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 8, order: 8, name: "Ing. arch. Břetislav Lukeš", image: "/images/candidates/bretislav-lukes.webp", office: "Člen stavebního výboru", professions: ["Architekt"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "BL", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2841–R5A2866"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 9, order: 9, name: "Lenka Brožová", image: "/images/candidates/lenka-brozova.webp", office: "Členka stavebního výboru", professions: ["Realitní konzultantka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "LB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2974–R5A2996"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 10, order: 10, name: "Mgr. Bc. Jakub Tříska", image: "/images/candidates/jakub-triska.webp", office: "", professions: ["Ministerský rada MF ČR"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "JT", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2919–R5A2929"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
+  { id: 11, order: 11, name: "Vojta Brož", image: "/images/candidates/vojta-broz.webp", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [12], projectIds: [], documents: [] },
 ];
 
 const expandPhotoRanges = (ranges: string[]) => ranges.flatMap((range) => {
@@ -277,29 +279,32 @@ export default function Home() {
   const [documentCategory, setDocumentCategory] = useState("Vše");
 
   useEffect(() => {
+    let data: { dataVersion?: number; tasks?: Task[]; projects?: Project[]; candidates?: Candidate[]; posts?: SocialPost[]; theme?: string } | null = null;
     try {
       const saved = window.localStorage.getItem("prezletaci-campaign-os");
-      if (saved) {
-        const data = JSON.parse(saved);
-        if (data.dataVersion === 2) {
+      if (saved) data = JSON.parse(saved);
+    } catch {
+      // A malformed local draft must never prevent the campaign OS from loading.
+    }
+    queueMicrotask(() => {
+      if (data) {
+        if (data.dataVersion === 2 || data.dataVersion === 3) {
           if (Array.isArray(data.tasks)) setTasks(data.tasks);
           if (Array.isArray(data.projects)) setProjects(data.projects);
-          if (Array.isArray(data.candidates)) setCandidates(data.candidates);
+          if (Array.isArray(data.candidates)) setCandidates(data.dataVersion === 3 ? data.candidates : initialCandidates.map((base) => ({ ...base, ...(data.candidates.find((candidate: Candidate) => candidate.id === base.id) || {}), image: base.image })));
           if (Array.isArray(data.posts)) setPosts(data.posts);
         }
         if (data.theme === "dark" || data.theme === "light") setTheme(data.theme);
       }
-    } catch {
-      // A malformed local draft must never prevent the campaign OS from loading.
-    }
-    setHydrated(true);
+      setHydrated(true);
+    });
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
     window.localStorage.setItem(
       "prezletaci-campaign-os",
-      JSON.stringify({ dataVersion: 2, tasks, projects, candidates, posts, theme }),
+      JSON.stringify({ dataVersion: 3, tasks, projects, candidates, posts, theme }),
     );
   }, [hydrated, tasks, projects, candidates, posts, theme]);
 
@@ -385,7 +390,7 @@ export default function Home() {
       setProjects((items) => [...items, { id, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Doplnit garanta", summary: createForm.detail || "Nový projekt čeká na doplnění briefu.", evidence: "Doplnit", risk: "Vyhodnotit", argument: "Připravit", next: "Doplnit vlastníka a první krok.", history: "Projekt založen v Campaign OS." }]);
     }
     if (createType === "candidate") {
-      const candidate: Candidate = { id, order: candidates.length + 1, name: createForm.title, office: createForm.detail, professions: [createForm.meta || "Profese k doplnění"], bio: "Nový kandidát čeká na doplnění medailonku.", initials: createForm.title.split(" ").filter((part) => !part.endsWith(".")).map((part) => part[0]).join("").slice(0, 2).toUpperCase(), topics: ["Doplnit komunikační témata"], photoRanges: [], assets: { photos: false, medallion: false, bio: false, quote: false, video: false, faq: false }, plannedPostIds: [], projectIds: [], documents: [] };
+      const candidate: Candidate = { id, order: candidates.length + 1, name: createForm.title, image: "", office: createForm.detail, professions: [createForm.meta || "Profese k doplnění"], bio: "Nový kandidát čeká na doplnění medailonku.", initials: createForm.title.split(" ").filter((part) => !part.endsWith(".")).map((part) => part[0]).join("").slice(0, 2).toUpperCase(), topics: ["Doplnit komunikační témata"], photoRanges: [], assets: { photos: false, medallion: false, bio: false, quote: false, video: false, faq: false }, plannedPostIds: [], projectIds: [], documents: [] };
       setCandidates((items) => [...items, candidate]);
     }
     if (createType === "post") {
@@ -404,7 +409,7 @@ export default function Home() {
   }
 
   function exportData() {
-    const blob = new Blob([JSON.stringify({ dataVersion: 2, exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify({ dataVersion: 3, exportedAt: new Date().toISOString(), tasks, projects, candidates, posts }, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -420,7 +425,7 @@ export default function Home() {
       const data = JSON.parse(await file.text());
       if (Array.isArray(data.tasks)) setTasks(data.tasks);
       if (Array.isArray(data.projects)) setProjects(data.projects);
-      if (data.dataVersion === 2 && Array.isArray(data.candidates)) setCandidates(data.candidates);
+      if (data.dataVersion === 3 && Array.isArray(data.candidates)) setCandidates(data.candidates);
       if (Array.isArray(data.posts)) setPosts(data.posts);
       setToast("Záloha byla načtena.");
     } catch {
@@ -598,7 +603,7 @@ export default function Home() {
       <div className="section-stack candidates-module">
         <section className="section-intro compact-intro glass-card candidate-intro">
           <div><span className="eyebrow">Kandidátka Přezleťáci 2026</span><h1>11 lidí pro Přezletice</h1><p>Kompletní kandidátní databáze propojuje profily, produkční podklady, projekty a budoucí komunikační výstupy.</p></div>
-          <button className="primary-button" onClick={() => openCreate("candidate")}>＋ Přidat kandidáta</button>
+          <div className="candidate-intro-media"><Image src="/images/team/team-hero.webp" alt="Tým Přezleťáků" fill sizes="(max-width: 640px) 100vw, 360px" priority unoptimized /><button className="primary-button" onClick={() => openCreate("candidate")}>＋ Přidat kandidáta</button></div>
         </section>
 
         <nav className="candidate-tabs glass-card" aria-label="Pohledy kandidátky">
@@ -617,7 +622,7 @@ export default function Home() {
               const photoCount = expandPhotoRanges(candidate.photoRanges).length;
               const readiness = Object.values(candidate.assets).filter(Boolean).length;
               return <button className="candidate-card glass-card" key={candidate.id} onClick={() => setSelectedCandidate(candidate)}>
-                <div className="candidate-visual"><span>{candidate.initials}</span><b>#{candidate.order}</b><i>{photoCount} foto přiřazeno</i></div>
+                <div className="candidate-visual"><span aria-hidden="true">{candidate.initials}</span>{candidate.image && <Image src={candidate.image} alt={`Portrét – ${candidate.name}`} fill sizes="(max-width: 640px) 100vw, (max-width: 1180px) 50vw, 25vw" unoptimized onError={(event) => { event.currentTarget.hidden = true; }} />}<b>#{candidate.order}</b><i>{photoCount} foto přiřazeno</i></div>
                 <div className="candidate-copy"><span className={`status-pill candidate-status ${readiness >= 4 ? "success" : "warning-pill"}`}>{readiness} / 6 podkladů</span><h2>{candidate.name}</h2><strong>{candidate.office || candidate.professions[0]}</strong><p>{candidate.office ? candidate.professions.join(" · ") : candidate.professions.slice(1).join(" · ") || "Profil připraven k doplnění"}</p><small>Otevřít profil →</small></div>
               </button>;
             })}
@@ -771,7 +776,7 @@ export default function Home() {
     const relatedProjects = projects.filter((project) => selectedCandidate.projectIds.includes(project.id));
     const assetLabels = { photos: "Fotografie", medallion: "Medailonek", bio: "Bio", quote: "Citace", video: "Video", faq: "FAQ" };
     return <div className="modal-backdrop" onMouseDown={() => setSelectedCandidate(null)}><section className="detail-modal candidate-detail candidate-profile" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedCandidate(null)}>×</button>
-      <div className="candidate-detail-hero"><div className="detail-avatar"><span>{selectedCandidate.initials}</span><b>#{selectedCandidate.order}</b></div><div><span className="eyebrow">Kandidát č. {selectedCandidate.order}</span><h2>{selectedCandidate.name}</h2>{selectedCandidate.office && <strong>{selectedCandidate.office}</strong>}<p>{selectedCandidate.professions.join(" · ")}</p></div></div>
+      <div className="candidate-detail-hero"><div className="detail-avatar"><span aria-hidden="true">{selectedCandidate.initials}</span>{selectedCandidate.image && <Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="114px" unoptimized onError={(event) => { event.currentTarget.hidden = true; }} />}<b>#{selectedCandidate.order}</b></div><div><span className="eyebrow">Kandidát č. {selectedCandidate.order}</span><h2>{selectedCandidate.name}</h2>{selectedCandidate.office && <strong>{selectedCandidate.office}</strong>}<p>{selectedCandidate.professions.join(" · ")}</p></div></div>
       <div className="candidate-profile-grid">
         <article className="profile-panel profile-about"><div className="profile-panel-head"><span className="eyebrow">Profil</span><b>{selectedCandidate.assets.bio ? "Rozpracováno" : "Doplnit"}</b></div><p>{selectedCandidate.bio}</p>{selectedCandidate.quote && <blockquote>„{selectedCandidate.quote}“</blockquote>}</article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Stav podkladů</span><b>{Object.values(selectedCandidate.assets).filter(Boolean).length}/6</b></div><ul className="asset-checklist">{(Object.keys(selectedCandidate.assets) as (keyof Candidate["assets"])[]).map((asset) => <li className={selectedCandidate.assets[asset] ? "done" : ""} key={asset}><span>{selectedCandidate.assets[asset] ? "✓" : ""}</span>{assetLabels[asset]}</li>)}</ul></article>
@@ -781,7 +786,7 @@ export default function Home() {
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${pillarClass(post.pillar)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Projekty</span><b>{relatedProjects.length}</b></div><div className="profile-link-list">{relatedProjects.length ? relatedProjects.map((project) => <button key={project.id} onClick={() => { setSelectedCandidate(null); setSelectedProject(project); }}><span className="project-link-code">P-{String(project.id).padStart(2, "0")}</span><span><strong>{project.title}</strong><small>{project.status} · {project.area}</small></span><b>→</b></button>) : <div className="profile-empty">Vazby na projekty jsou připravené k doplnění.</div>}</div></article>
       </div>
-      <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>{gallery.length} fotografií</b></div><p className="asset-source">Automaticky přiřazeno podle rozsahů {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{gallery.slice(0, 12).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 12 && <div className="gallery-more"><strong>+{gallery.length - 12}</strong><small>dalších</small></div>}</div></article>
+      <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Video</span><b>0 / 4</b></div><div className="video-placeholders">{["Rozhovor", "Reels", "Podcast", "Veřejná setkání"].map((format) => <button key={format}><span>▶</span><strong>{format}</strong><small>Připojit výstup</small></button>)}</div></article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Dokumenty</span><b>{selectedCandidate.documents.length}</b></div><div className="profile-documents">{selectedCandidate.documents.length ? selectedCandidate.documents.map((document) => <div key={document}><span>DOC</span><strong>{document}</strong></div>) : <div className="profile-empty">PDF, usnesení, fotografie a zápisy lze připojit později.</div>}<button className="secondary-button" onClick={() => setToast("Připojení dokumentů je připravené pro interní úložiště.")}>＋ Připojit dokument</button></div></article>
