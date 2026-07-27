@@ -32,6 +32,7 @@ Komunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní
 
 - Candidate
 - Project
+- Topic
 - Article
 - FAQ
 - Document
@@ -41,6 +42,10 @@ Komunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní
 - Website Page
 - Meeting Note
 - Open Issue
+
+## Relationship Engine
+
+Web je propojená znalostní síť. Entity nejsou spojeny pouze odkazy v textu, ale strukturovanými obousměrnými vazbami. Kandidát může pracovat na více projektech, projekt může patřit do více témat a obsahovat články, dokumenty, videa, FAQ a galerie. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.
 
 ## Kandidáti
 

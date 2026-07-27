@@ -256,6 +256,27 @@ export const webBriefSections: BriefSection[] = [
     status: "draft",
     updatedAt,
   },
+  {
+    id: "relationship-engine",
+    title: "Relationship Engine",
+    summary: "Veřejný web funguje jako propojená znalostní síť, nikoli jako soubor izolovaných stránek.",
+    paragraphs: [
+      "Každý kandidát, projekt, téma, článek, dokument, video, FAQ a galerie má stabilní identitu a strukturované vazby na související entity.",
+      "Důležité stránky používají jednotný blok Související obsah. Zobrazuje pouze existující vazby a umožňuje přirozeně pokračovat k lidem, projektům, článkům, videím, dokumentům, FAQ a galeriím.",
+      "Stejný vztahový model je zdrojem pro web, sociální sítě, newslettery i tiskoviny. Informace se proto nevytvářejí znovu pro každý kanál.",
+    ],
+    bullets: [
+      "Kandidát ↔ projekty: Na čem pracuji a Lidé za projektem",
+      "Projekt ↔ články: Čtěte také",
+      "Projekt ↔ dokumenty: vysvětlený důkaz, nikoli anonymní seznam PDF",
+      "Projekt ↔ FAQ: odpovědi v kontextu konkrétního projektu",
+      "Téma: obsahový hub pro všechny související typy obsahu",
+      "Quality gate: evidence osiřelých entit bez přirozené další cesty",
+      "Rozšiřitelnost: nové typy entit a vazeb bez změny existujících záznamů",
+    ],
+    status: "approved",
+    updatedAt: "27. 7. 2026",
+  },
 ];
 
 export const baseWebsiteContentItems: WebsiteContentItem[] = [
@@ -306,7 +327,7 @@ export function buildWebBriefMarkdown() {
 }
 
 export function buildAiContextMarkdown() {
-  return `# Přezleťáci 2026 – AI Context\n\n## Projekt\n\nPřezleťáci 2026 jsou komunální volební projekt v obci Přezletice.\n\nPřezleťáci působí ve vedení obce již tři volební období:\n- 2014–2018\n- 2018–2022\n- 2022–2026\n\nV současném období zastávají pozice starosty a místostarosty.\n\n## Role webu\n\nWeb je hlavní komunikační platforma kampaně. Obsahuje kompletní informace, zatímco sociální sítě slouží především k distribuci a přivádění uživatelů na web.\n\n## Filozofie kampaně\n\nKomunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní a založená na výsledcích a ověřitelných faktech. Nemá být útočná, populistická, agresivní, založená na strachu ani na nepodložených tvrzeních.\n\n## Komunikační pilíře\n\n1. Lidé\n2. Hotová práce\n3. Rozdělané věci\n4. Plány\n5. Vysvětlujeme\n6. Dokumenty a důkazy\n\n## Hlavní obsahové entity\n\n- Candidate\n- Project\n- Article\n- FAQ\n- Document\n- Gallery\n- Video\n- Social Post\n- Website Page\n- Meeting Note\n- Open Issue\n\n## Kandidáti\n\n${campaignCandidateNames.map((name, index) => `${index + 1}. ${name}`).join("\n")}\n\n## Hlavní témata\n\n- rozvoj obce\n- škola\n- development\n- územní plán\n- doprava\n- bezpečnost\n- veřejný prostor\n- komunita\n- historie vedení obce\n- dokončené projekty\n- probíhající projekty\n- plány na další volební období\n\n## Pravidla práce s fakty\n\nNevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.\n\n## Tone of Voice\n\nPiš lidsky, klidně, sebevědomě, konkrétně, bez zbytečných politických frází a bez marketingového balastu. Složitější témata vysvětluj běžným jazykem.\n\n## Pravidlo distribuce\n\nWeb obsahuje celý příběh. Sociální sítě vybírají jednu část příběhu a směřují uživatele k podrobnějším informacím.\n\n## Dlouhodobý princip\n\nCampaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.\n`;
+  return `# Přezleťáci 2026 – AI Context\n\n## Projekt\n\nPřezleťáci 2026 jsou komunální volební projekt v obci Přezletice.\n\nPřezleťáci působí ve vedení obce již tři volební období:\n- 2014–2018\n- 2018–2022\n- 2022–2026\n\nV současném období zastávají pozice starosty a místostarosty.\n\n## Role webu\n\nWeb je hlavní komunikační platforma kampaně. Obsahuje kompletní informace, zatímco sociální sítě slouží především k distribuci a přivádění uživatelů na web.\n\n## Filozofie kampaně\n\nKomunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní a založená na výsledcích a ověřitelných faktech. Nemá být útočná, populistická, agresivní, založená na strachu ani na nepodložených tvrzeních.\n\n## Komunikační pilíře\n\n1. Lidé\n2. Hotová práce\n3. Rozdělané věci\n4. Plány\n5. Vysvětlujeme\n6. Dokumenty a důkazy\n\n## Hlavní obsahové entity\n\n- Candidate\n- Project\n- Topic\n- Article\n- FAQ\n- Document\n- Gallery\n- Video\n- Social Post\n- Website Page\n- Meeting Note\n- Open Issue\n\n## Relationship Engine\n\nWeb je propojená znalostní síť. Entity nejsou spojeny pouze odkazy v textu, ale strukturovanými obousměrnými vazbami. Kandidát může pracovat na více projektech, projekt může patřit do více témat a obsahovat články, dokumenty, videa, FAQ a galerie. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.\n\n## Kandidáti\n\n${campaignCandidateNames.map((name, index) => `${index + 1}. ${name}`).join("\n")}\n\n## Hlavní témata\n\n- rozvoj obce\n- škola\n- development\n- územní plán\n- doprava\n- bezpečnost\n- veřejný prostor\n- komunita\n- historie vedení obce\n- dokončené projekty\n- probíhající projekty\n- plány na další volební období\n\n## Pravidla práce s fakty\n\nNevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.\n\n## Tone of Voice\n\nPiš lidsky, klidně, sebevědomě, konkrétně, bez zbytečných politických frází a bez marketingového balastu. Složitější témata vysvětluj běžným jazykem.\n\n## Pravidlo distribuce\n\nWeb obsahuje celý příběh. Sociální sítě vybírají jednu část příběhu a směřují uživatele k podrobnějším informacím.\n\n## Dlouhodobý princip\n\nCampaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.\n`;
 }
 
 export const WEB_BRIEF_MARKDOWN = buildWebBriefMarkdown();

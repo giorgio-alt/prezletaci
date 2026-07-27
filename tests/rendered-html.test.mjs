@@ -10,6 +10,13 @@ import {
   webBlockers,
   webBriefSections,
 } from "../app/web-content.ts";
+import {
+  contentKnowledgeEntities,
+  findOrphanEntities,
+  getRelatedEntityIds,
+  knowledgeEntityMeta,
+  knowledgeRelationships,
+} from "../app/relationships.ts";
 
 const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
@@ -152,7 +159,7 @@ test("defines a complete structured Web workspace", async () => {
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
-  assert.equal(webBriefSections.length, 15);
+  assert.equal(webBriefSections.length, 16);
   assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
   assert.equal(baseWebsiteContentItems.length >= 9, true);
   assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);
@@ -164,4 +171,28 @@ test("defines a complete structured Web workspace", async () => {
   assert.match(page, /projectWebsiteItems/);
   assert.match(styles, /\.web-inventory-filters/);
   assert.match(styles, /\.markdown-modal/);
+});
+
+test("defines a valid extensible Relationship Engine", async () => {
+  const [page, styles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+  ]);
+  const entityIds = new Set([
+    ...Array.from({ length: 11 }, (_, index) => `candidate:${index + 1}`),
+    ...Array.from({ length: 18 }, (_, index) => `project:${index + 1}`),
+    ...contentKnowledgeEntities.map((entity) => entity.id),
+  ]);
+  assert.equal(Object.keys(knowledgeEntityMeta).length, 8);
+  assert.equal(new Set(contentKnowledgeEntities.map((entity) => entity.id)).size, contentKnowledgeEntities.length);
+  assert.equal(new Set(knowledgeRelationships.map((relationship) => relationship.id)).size, knowledgeRelationships.length);
+  assert.equal(knowledgeRelationships.every((relationship) => entityIds.has(relationship.from) && entityIds.has(relationship.to)), true);
+  assert.equal(getRelatedEntityIds("project:4").includes("candidate:2"), true);
+  assert.equal(findOrphanEntities(contentKnowledgeEntities).some((entity) => entity.id === "topic:safety"), true);
+  assert.match(page, /Relationship Engine/);
+  assert.match(page, /Na čem pracuji/);
+  assert.match(page, /Lidé za projektem/);
+  assert.match(page, /Související obsah/);
+  assert.match(styles, /\.relationship-workspace/);
+  assert.match(styles, /\.relationship-panel/);
 });

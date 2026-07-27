@@ -13,6 +13,16 @@ import {
   webOpenIssues,
 } from "./web-content";
 import type { WebsiteContentItem, WebsiteContentStatus, WebsitePriority } from "./web-content";
+import {
+  contentKnowledgeEntities,
+  findOrphanEntities,
+  getEntityRelationships,
+  groupRelatedEntities,
+  knowledgeEntityMeta,
+  knowledgeRelationships,
+  relationshipTypeLabels,
+} from "./relationships";
+import type { KnowledgeEntity, KnowledgeEntityType } from "./relationships";
 
 type SectionId =
   | "dashboard"
@@ -81,7 +91,7 @@ type Candidate = {
 };
 
 type CandidateView = "overview" | "matrix" | "dashboard";
-type WebView = "brief" | "inventory";
+type WebView = "brief" | "inventory" | "relationships";
 type MarkdownDocument = { name: "WEB_BRIEF.md" | "AI_CONTEXT.md"; content: string };
 
 type ContentTemplate = {
@@ -121,6 +131,33 @@ function ContentCard({ type, title, compact = false }: { type: ContentType; titl
       <header><span className="content-card-pillar"><b>{template.icon}</b>{template.label}</span><span className="content-card-logo">PŘEZLEŤÁCI</span></header>
       <div className="content-card-visual"><span>{template.visual}</span><i>{template.badge}</i></div>
       <div className="content-card-copy"><span>{template.badge}</span><h3>{title}</h3><footer><small>{template.cta}</small><b>→</b></footer></div>
+    </article>
+  );
+}
+
+function RelationshipPanel({
+  entityId,
+  entities,
+  onOpen,
+  title = "Související obsah",
+}: {
+  entityId: string;
+  entities: KnowledgeEntity[];
+  onOpen: (entity: KnowledgeEntity) => void;
+  title?: string;
+}) {
+  const entityTypes = Object.keys(knowledgeEntityMeta) as KnowledgeEntityType[];
+  const groups = groupRelatedEntities(entityId, entities);
+  const populatedTypes = entityTypes.filter((type) => groups[type]?.length);
+  return (
+    <article className="relationship-panel">
+      <div className="profile-panel-head"><span className="eyebrow">{title}</span><b>{populatedTypes.reduce((sum, type) => sum + (groups[type]?.length ?? 0), 0)}</b></div>
+      {populatedTypes.length ? <div className="relationship-panel-groups">{populatedTypes.map((type) => (
+        <section key={type}>
+          <header><span>{knowledgeEntityMeta[type].icon}</span><strong>{knowledgeEntityMeta[type].publicLabel}</strong></header>
+          <div>{groups[type]?.map((entity) => <button key={entity.id} onClick={() => onOpen(entity)}><span><strong>{entity.title}</strong><small>{entity.summary}</small></span><b>→</b></button>)}</div>
+        </section>
+      ))}</div> : <div className="profile-empty">Zatím bez doložených vazeb. Relationship Engine stránku označuje jako osiřelou.</div>}
     </article>
   );
 }
@@ -363,6 +400,7 @@ export default function Home() {
   const [webCandidate, setWebCandidate] = useState("Všichni");
   const [webProject, setWebProject] = useState("Všechny");
   const [webDeadline, setWebDeadline] = useState("Všechny");
+  const [relationshipType, setRelationshipType] = useState<"Vše" | KnowledgeEntityType>("Vše");
 
   useEffect(() => {
     let data: { dataVersion?: number; tasks?: Task[]; projects?: Project[]; candidates?: Candidate[]; posts?: SocialPost[]; theme?: string } | null = null;
@@ -662,6 +700,55 @@ export default function Home() {
     critical: webBlockers.filter((blocker) => blocker.severity === "Kritická" && blocker.status !== "Vyřešeno").length,
   };
 
+  const knowledgeEntities = useMemo<KnowledgeEntity[]>(() => [
+    ...candidates.map((candidate) => ({
+      id: `candidate:${candidate.id}`,
+      type: "candidate" as const,
+      title: candidate.name,
+      summary: candidate.office || candidate.professions.join(" · "),
+      status: candidate.assets.bio ? "Rozpracováno" as const : "Čeká na podklady" as const,
+      sourceId: candidate.id,
+    })),
+    ...projects.map((project) => ({
+      id: `project:${project.id}`,
+      type: "project" as const,
+      title: project.title,
+      summary: project.summary,
+      status: project.status === "Hotové" ? "Připraveno" as const : "Rozpracováno" as const,
+      sourceId: project.id,
+    })),
+    ...contentKnowledgeEntities,
+  ], [candidates, projects]);
+
+  const orphanKnowledgeEntities = findOrphanEntities(knowledgeEntities);
+  const connectedKnowledgeEntities = knowledgeEntities.length - orphanKnowledgeEntities.length;
+  const relationshipCoverage = Math.round(connectedKnowledgeEntities / knowledgeEntities.length * 100);
+  const visibleKnowledgeEntities = relationshipType === "Vše"
+    ? knowledgeEntities
+    : knowledgeEntities.filter((entity) => entity.type === relationshipType);
+  const topicHubs = knowledgeEntities.filter((entity) => entity.type === "topic");
+  const relationshipEntityTypes = Object.keys(knowledgeEntityMeta) as KnowledgeEntityType[];
+
+  function openKnowledgeEntity(entity: KnowledgeEntity) {
+    if (entity.type === "candidate" && entity.sourceId) {
+      const candidate = candidates.find((item) => item.id === entity.sourceId);
+      if (candidate) {
+        setSelectedProject(null);
+        setSelectedCandidate(candidate);
+      }
+      return;
+    }
+    if (entity.type === "project" && entity.sourceId) {
+      const project = projects.find((item) => item.id === entity.sourceId);
+      if (project) {
+        setSelectedCandidate(null);
+        setSelectedProject(project);
+      }
+      return;
+    }
+    setToast(`${knowledgeEntityMeta[entity.type].publicLabel}: ${entity.title}`);
+  }
+
   const filteredProjects = projects.filter((project) => {
     const statusMatches = projectStatus === "Vše" || project.status === projectStatus;
     const queryMatches = `${project.title} ${project.area} ${project.owner}`.toLowerCase().includes(projectQuery.toLowerCase());
@@ -938,6 +1025,72 @@ export default function Home() {
     );
   };
 
+  const renderRelationshipEngine = () => (
+    <div className="relationship-workspace">
+      <section className="relationship-hero glass-card">
+        <div><span className="eyebrow">Knowledge Graph / Relationship Engine</span><h2>Síť vztahů mezi lidmi, projekty a obsahem</h2><p>Stránky nejsou izolované dokumenty. Každá entita má stabilní identitu a strukturované vazby, ze kterých lze skládat web, sociální sítě, newslettery i tiskoviny bez přepisování stejných informací.</p></div>
+        <aside><span>Architektonické pravidlo</span><strong>Žádná slepá stránka</strong><small>Panel se skládá pouze z existujících a doložených vazeb.</small></aside>
+      </section>
+
+      <section className="relationship-metrics" aria-label="Stav Relationship Engine">
+        {[
+          { label: "Typy entit", value: relationshipEntityTypes.length, note: "rozšiřitelný registr" },
+          { label: "Entity", value: knowledgeEntities.length, note: "jeden společný kontext" },
+          { label: "Strukturované vazby", value: knowledgeRelationships.length, note: "obousměrně dohledatelné" },
+          { label: "Pokrytí vztahy", value: `${relationshipCoverage} %`, note: `${orphanKnowledgeEntities.length} entit čeká na vazbu` },
+        ].map((metric) => <article className="glass-card" key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}
+      </section>
+
+      <section className="relationship-entity-map glass-card">
+        <div className="card-heading"><div><span className="eyebrow">Datový model</span><h2>Osm rovnocenných typů obsahu</h2></div><span className="count-pill">{visibleKnowledgeEntities.length}</span></div>
+        <div className="relationship-type-filter"><button className={relationshipType === "Vše" ? "active" : ""} onClick={() => setRelationshipType("Vše")}>Vše</button>{relationshipEntityTypes.map((type) => <button className={relationshipType === type ? "active" : ""} onClick={() => setRelationshipType(type)} key={type}>{knowledgeEntityMeta[type].icon} {knowledgeEntityMeta[type].label}</button>)}</div>
+        <div className="relationship-type-grid">{relationshipEntityTypes.filter((type) => relationshipType === "Vše" || relationshipType === type).map((type) => {
+          const entities = knowledgeEntities.filter((entity) => entity.type === type);
+          const connected = entities.filter((entity) => getEntityRelationships(entity.id).length > 0).length;
+          return <article key={type}><span>{knowledgeEntityMeta[type].icon}</span><div><strong>{knowledgeEntityMeta[type].label}</strong><small>{connected} propojeno z {entities.length}</small></div><b>{entities.length}</b></article>;
+        })}</div>
+      </section>
+
+      <section className="relationship-main-grid">
+        <article className="relationship-stream glass-card">
+          <div className="card-heading"><div><span className="eyebrow">Relationship registry</span><h2>Doložené vazby</h2></div><span className="count-pill">{knowledgeRelationships.length}</span></div>
+          <div>{knowledgeRelationships.map((relationship) => {
+            const from = knowledgeEntities.find((entity) => entity.id === relationship.from);
+            const to = knowledgeEntities.find((entity) => entity.id === relationship.to);
+            if (!from || !to) return null;
+            return <div className="relationship-row" key={relationship.id}><button onClick={() => openKnowledgeEntity(from)}><span>{knowledgeEntityMeta[from.type].icon}</span><strong>{from.title}</strong></button><div><small>{relationshipTypeLabels[relationship.type]}</small><i>↔</i></div><button onClick={() => openKnowledgeEntity(to)}><span>{knowledgeEntityMeta[to.type].icon}</span><strong>{to.title}</strong></button>{relationship.role && <p>{relationship.role}</p>}</div>;
+          })}</div>
+        </article>
+
+        <aside className="relationship-audit glass-card">
+          <div className="card-heading"><div><span className="eyebrow warning">Quality gate</span><h2>Osiřelý obsah</h2></div><span className="count-pill warning-pill">{orphanKnowledgeEntities.length}</span></div>
+          <p>Tyto entity zatím nevytvářejí přirozenou další cestu. Nejde o chybu dat, ale o řízený seznam vazeb k doplnění.</p>
+          <div>{orphanKnowledgeEntities.slice(0, 12).map((entity) => <button key={entity.id} onClick={() => openKnowledgeEntity(entity)}><span>{knowledgeEntityMeta[entity.type].icon}</span><div><strong>{entity.title}</strong><small>{knowledgeEntityMeta[entity.type].label} · {entity.status}</small></div><b>＋</b></button>)}</div>
+          {orphanKnowledgeEntities.length > 12 && <small className="relationship-more">+ {orphanKnowledgeEntities.length - 12} dalších entit čeká na vazbu</small>}
+        </aside>
+      </section>
+
+      <section className="topic-hub-section glass-card">
+        <div className="card-heading"><div><span className="eyebrow">Obsahové huby</span><h2>Témata odpovídají tomu, co občany zajímá</h2></div><span className="count-pill">{topicHubs.length}</span></div>
+        <div className="topic-hub-grid">{topicHubs.map((topic) => {
+          const groups = groupRelatedEntities(topic.id, knowledgeEntities);
+          const relatedCount = Object.values(groups).reduce((sum, entities) => sum + (entities?.length ?? 0), 0);
+          return <article key={topic.id}><span className="topic-hub-icon">◉</span><h3>{topic.title}</h3><p>{topic.summary}</p><footer><span>{relatedCount} vazeb</span><div>{relationshipEntityTypes.filter((type) => groups[type]?.length).map((type) => <i title={knowledgeEntityMeta[type].label} key={type}>{knowledgeEntityMeta[type].icon}</i>)}</div></footer></article>;
+        })}</div>
+      </section>
+
+      <section className="relationship-output-grid">
+        <article className="glass-card"><span className="eyebrow">Jednotný veřejný blok</span><h2>Relationship Panel</h2><p>Na kandidátovi, projektu, článku, dokumentu i tématu používá stejnou logiku. Prázdné kategorie se nezobrazují.</p><RelationshipPanel entityId="project:4" entities={knowledgeEntities} onOpen={openKnowledgeEntity} /></article>
+        <article className="glass-card"><span className="eyebrow">Multichannel</span><h2>Jeden vztah, více výstupů</h2><div className="relationship-output-flow">{[
+          ["Projekt", "Lidé za projektem", "Carousel"],
+          ["Kandidát", "Na čem pracuji", "Instagram"],
+          ["Článek", "Související projekt", "Facebook"],
+          ["Téma", "FAQ + dokumenty", "Newsletter"],
+        ].map((flow) => <div key={flow.join("-")}><strong>{flow[0]}</strong><span>↓</span><strong>{flow[1]}</strong><span>↓</span><b>{flow[2]}</b></div>)}</div></article>
+      </section>
+    </div>
+  );
+
   const renderWeb = () => (
     <div className="section-stack web-workspace">
       <section className="section-intro glass-card web-intro">
@@ -948,6 +1101,7 @@ export default function Home() {
       <nav className="web-tabs glass-card" aria-label="Podsekce Web">
         <button className={webView === "brief" ? "active" : ""} onClick={() => setWebView("brief")}><span>01</span><strong>Web Brief</strong><small>Strategie a zadání</small></button>
         <button className={webView === "inventory" ? "active" : ""} onClick={() => setWebView("inventory")}><span>02</span><strong>Sitemap & Content Inventory</strong><small>{websiteMetrics.total} položek</small></button>
+        <button className={webView === "relationships" ? "active" : ""} onClick={() => setWebView("relationships")}><span>03</span><strong>Relationship Engine</strong><small>{knowledgeRelationships.length} vazeb</small></button>
       </nav>
 
       {webView === "brief" ? <>
@@ -982,7 +1136,7 @@ export default function Home() {
           <div className="card-heading"><div><span className="eyebrow">Živá evidence</span><h2>Otevřené body</h2></div><span className="count-pill">{webOpenIssues.length}</span></div>
           <div className="web-issue-grid">{webOpenIssues.map((issue) => <article key={issue.id}><div><span className={`priority-tag priority-${slugify(issue.priority)}`}>{issue.priority}</span><span className="status-pill warning-pill">{issue.status}</span></div><h3>{issue.title}</h3><p>{issue.description}</p><dl><div><dt>Odpovědnost</dt><dd>{issue.owner}</dd></div><div><dt>Termín</dt><dd>{issue.deadline}</dd></div></dl><small>{issue.note}</small></article>)}</div>
         </section>
-      </> : <>
+      </> : webView === "inventory" ? <>
         <section className="web-readiness-grid" aria-label="Připravenost webového obsahu">
           {[{ label: "Plánované stránky", value: websiteMetrics.total, note: "včetně profilů a projektů" }, { label: "Publikováno", value: websiteMetrics.published, note: "živé stránky" }, { label: "Připraveno k předání", value: websiteMetrics.handoff, note: "webdesignerovi" }, { label: "Čeká na podklady", value: websiteMetrics.waiting, note: "blokované položky" }, { label: "Kritické blokátory", value: websiteMetrics.critical, note: "ohrožují spuštění" }, { label: "Content readiness", value: `${websiteReadiness} %`, note: "vážený průměr podkladů" }].map((metric) => <article className="glass-card" key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}
         </section>
@@ -1018,7 +1172,7 @@ export default function Home() {
           <div className="card-heading"><div><span className="eyebrow danger">Rizika spuštění</span><h2>Blokátory webu</h2></div><span className="count-pill danger-pill">{webBlockers.filter((blocker) => blocker.status !== "Vyřešeno").length}</span></div>
           <div className="web-blocker-grid">{webBlockers.map((blocker) => <article key={blocker.id}><div><span className={`priority-tag priority-${slugify(blocker.severity)}`}>{blocker.severity}</span><span className="status-pill warning-pill">{blocker.status}</span></div><h3>{blocker.title}</h3><p>{blocker.description}</p><dl><div><dt>Odpovědnost</dt><dd>{blocker.owner}</dd></div><div><dt>Další krok</dt><dd>{blocker.nextStep}</dd></div></dl></article>)}</div>
         </section>
-      </>}
+      </> : renderRelationshipEngine()}
     </div>
   );
 
@@ -1082,8 +1236,9 @@ export default function Home() {
       <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Komunikační témata</span><button onClick={() => setToast("Témata budou doplněna v další obsahové fázi.")}>＋ Přidat</button></div><div className="tag-list">{selectedCandidate.topics.map((topic) => <span key={topic}>{topic}</span>)}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
-        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Projekty</span><b>{relatedProjects.length}</b></div><div className="profile-link-list">{relatedProjects.length ? relatedProjects.map((project) => <button key={project.id} onClick={() => { setSelectedCandidate(null); setSelectedProject(project); }}><span className="project-link-code">P-{String(project.id).padStart(2, "0")}</span><span><strong>{project.title}</strong><small>{project.status} · {project.area}</small></span><b>→</b></button>) : <div className="profile-empty">Vazby na projekty jsou připravené k doplnění.</div>}</div></article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Na čem pracuji</span><b>{relatedProjects.length}</b></div><div className="profile-link-list">{relatedProjects.length ? relatedProjects.map((project) => <button key={project.id} onClick={() => { setSelectedCandidate(null); setSelectedProject(project); }}><span className="project-link-code">P-{String(project.id).padStart(2, "0")}</span><span><strong>{project.title}</strong><small>{project.status} · {project.area}</small></span><b>→</b></button>) : <div className="profile-empty">Vazby na projekty jsou připravené k doplnění.</div>}</div></article>
       </div>
+      <RelationshipPanel entityId={`candidate:${selectedCandidate.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} />
       <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Video</span><b>0 / 4</b></div><div className="video-placeholders">{["Rozhovor", "Reels", "Podcast", "Veřejná setkání"].map((format) => <button key={format}><span>▶</span><strong>{format}</strong><small>Připojit výstup</small></button>)}</div></article>
@@ -1118,7 +1273,7 @@ export default function Home() {
         </div>
         <nav aria-label="Hlavní navigace">
           <span className="nav-label">Pracovní prostor</span>
-          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}{item.id === "web" && activeSection === "web" && <div className="candidate-subnav">{(["brief", "inventory"] as WebView[]).map((view) => <button key={view} className={webView === view ? "active" : ""} onClick={() => { setWebView(view); setMobileNav(false); }}>{view === "brief" ? "Web Brief" : "Sitemap & Inventory"}</button>)}</div>}</div>)}
+          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}{item.id === "web" && activeSection === "web" && <div className="candidate-subnav">{(["brief", "inventory", "relationships"] as WebView[]).map((view) => <button key={view} className={webView === view ? "active" : ""} onClick={() => { setWebView(view); setMobileNav(false); }}>{view === "brief" ? "Web Brief" : view === "inventory" ? "Sitemap & Inventory" : "Relationship Engine"}</button>)}</div>}</div>)}
           <span className="nav-label utility-label">Systém</span>
           {navItems.slice(8).map((item) => <button key={item.id} className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span></button>)}
         </nav>
@@ -1145,7 +1300,7 @@ export default function Home() {
 
       {renderCandidateDetail()}
 
-      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
+      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><article className="relationship-people"><div className="profile-panel-head"><span className="eyebrow">Lidé za projektem</span><b>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length}</b></div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length ? <div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).map((candidate) => <button key={candidate.id} onClick={() => { setSelectedProject(null); setSelectedCandidate(candidate); }}><span className="relationship-person-photo"><span>{candidate.initials}</span>{candidate.image && <Image src={candidate.image} alt={`Portrét – ${candidate.name}`} fill sizes="48px" unoptimized />}</span><span><strong>{candidate.name}</strong><small>{getEntityRelationships(`candidate:${candidate.id}`).find((relationship) => relationship.to === `project:${selectedProject.id}` || relationship.from === `project:${selectedProject.id}`)?.role || "Vazba na projekt"}</small></span><b>→</b></button>)}</div> : <div className="profile-empty">Konkrétní odpovědnost zatím není doložena.</div>}</article><RelationshipPanel entityId={`project:${selectedProject.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} /><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
       {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
 

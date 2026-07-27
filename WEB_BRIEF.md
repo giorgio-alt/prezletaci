@@ -244,6 +244,28 @@ _Stav: draft · Aktualizováno: 20. 7. 2026_
 
 ---
 
+## Relationship Engine
+
+Veřejný web funguje jako propojená znalostní síť, nikoli jako soubor izolovaných stránek.
+
+Každý kandidát, projekt, téma, článek, dokument, video, FAQ a galerie má stabilní identitu a strukturované vazby na související entity.
+
+Důležité stránky používají jednotný blok Související obsah. Zobrazuje pouze existující vazby a umožňuje přirozeně pokračovat k lidem, projektům, článkům, videím, dokumentům, FAQ a galeriím.
+
+Stejný vztahový model je zdrojem pro web, sociální sítě, newslettery i tiskoviny. Informace se proto nevytvářejí znovu pro každý kanál.
+
+- Kandidát ↔ projekty: Na čem pracuji a Lidé za projektem
+- Projekt ↔ články: Čtěte také
+- Projekt ↔ dokumenty: vysvětlený důkaz, nikoli anonymní seznam PDF
+- Projekt ↔ FAQ: odpovědi v kontextu konkrétního projektu
+- Téma: obsahový hub pro všechny související typy obsahu
+- Quality gate: evidence osiřelých entit bez přirozené další cesty
+- Rozšiřitelnost: nové typy entit a vazeb bez změny existujících záznamů
+
+_Stav: approved · Aktualizováno: 27. 7. 2026_
+
+---
+
 ## Živé otevřené body
 
 ### Schválit obsahovou prioritu homepage
