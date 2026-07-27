@@ -23,6 +23,11 @@ import {
   relationshipTypeLabels,
 } from "./relationships";
 import type { KnowledgeEntity, KnowledgeEntityType } from "./relationships";
+import {
+  mergeProjectCatalog,
+  projectImageByProjectId,
+  projectImageManifest,
+} from "./project-images";
 
 type SectionId =
   | "dashboard"
@@ -38,7 +43,7 @@ type SectionId =
 
 type TaskStatus = "To Do" | "Waiting" | "Doing" | "Done";
 type Priority = "Kritická" | "Vysoká" | "Střední" | "Nízká";
-type ProjectStatus = "Hotové" | "Rozpracované" | "Plánované";
+type ProjectStatus = "Hotové" | "Rozpracované" | "Plánované" | "Doplnit";
 
 type Task = {
   id: number;
@@ -53,6 +58,9 @@ type Task = {
 
 type Project = {
   id: number;
+  slug: string;
+  image?: string;
+  imageAlt?: string;
   title: string;
   status: ProjectStatus;
   area: string;
@@ -227,7 +235,15 @@ const initialTasks: Task[] = [
   { id: 11, title: "Importovat strategické podklady", status: "Done", priority: "Vysoká", owner: "PM", deadline: "18. 7.", note: "Campaign Hub, executive summary, program a ukázkový medailonek jsou načtené." },
 ];
 
-const initialProjects: Project[] = [
+const slugFromTitle = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+const coreProjects: Omit<Project, "slug" | "image" | "imageAlt">[] = [
   { id: 1, title: "Tři celky podzemních kontejnerů", status: "Hotové", area: "Životní prostředí", owner: "Obec", summary: "Tři již realizované celky jsou podkladem pro vytipování dalších lokalit.", evidence: "Doplnit fotografie a umístění", risk: "Bez fotek působí výsledek abstraktně.", argument: "Jde o ověřený formát, na který lze navázat dalšími lokalitami.", next: "Vybrat další místa a připravit stavbu.", history: "Realizovány tři celky; pokračování je součástí programu 2026–2030." },
   { id: 2, title: "Digitalizace plateb a agend", status: "Hotové", area: "Digitalizace", owner: "Úřad", summary: "Zaveden ITIS, správa veřejných prostranství Mawis a platební brána pro odpady a psy.", evidence: "Snímky systémů, statistiky využití", risk: "Občané nemusí vědět, co již lze vyřídit online.", argument: "Digitalizace má lidem šetřit návštěvy úřadu a čas.", next: "Připravit přehled služeb dostupných z domova.", history: "První nástroje jsou v provozu; pokračuje komplexní digitalizace." },
   { id: 3, title: "Elektronická úřední deska", status: "Hotové", area: "Digitalizace", owner: "Úřad", summary: "První informační panel stojí před obecním úřadem.", evidence: "Fotografie panelu", risk: "Vnímaná jen jako zákonná úřední deska.", argument: "Panel nabízí širší spektrum praktických informací pro obyvatele.", next: "Připravit druhý panel na Zlatém kopci.", history: "První panel realizován, druhý je programovou prioritou." },
@@ -246,6 +262,36 @@ const initialProjects: Project[] = [
   { id: 16, title: "Rekonstrukce Sokolovny", status: "Plánované", area: "Kultura", owner: "Obec", summary: "Na hotovou studii má navázat kulturní dům pro plesy, výstavy a další aktivity.", evidence: "Studie rekonstrukce", risk: "Rozpočet, etapizace a budoucí provozní náklady.", argument: "Hotová studie umožňuje otevřeně porovnat rozsah, cenu a etapy.", next: "Zveřejnit studii a varianty financování.", history: "Studie je hotová; projekt čeká na další přípravu." },
   { id: 17, title: "Mateřská škola nad školou", status: "Plánované", area: "Školství", owner: "Obec", summary: "Příprava nové MŠ v návaznosti na potřeby při rozšiřování obce.", evidence: "Demografická data a územní podklady", risk: "Termín musí odpovídat reálnému růstu počtu dětí.", argument: "Kapacita se má připravovat podle dat, ne až po vzniku akutního problému.", next: "Aktualizovat demografický výhled.", history: "Záměr je navázán na rozvoj lokality a potřeby obce." },
   { id: 18, title: "Nový obecní úřad", status: "Plánované", area: "Digitalizace", owner: "Obec + developer", summary: "Důstojné prostory pro rozdělení úřadu na jednotlivé agendy; stavbu má financovat developer.", evidence: "Smluvní závazek a prostorový program", risk: "Vnímání jako nákladná budova místo služby občanům.", argument: "Nové prostory reagují na personální a agendový růst obce.", next: "Ukázat kapacitní potřebu a zdroj financování.", history: "Záměr je smluvně spojen s developerskou výstavbou." },
+];
+
+const initialProjects: Project[] = [
+  ...coreProjects.map((project) => {
+    const media = projectImageByProjectId.get(project.id);
+    return {
+      ...project,
+      slug: media?.slug ?? slugFromTitle(project.title),
+      image: media?.image,
+      imageAlt: media?.imageAlt,
+    };
+  }),
+  ...projectImageManifest
+    .filter((record) => record.projectId > 18)
+    .map((record): Project => ({
+      id: record.projectId,
+      slug: record.slug,
+      image: record.image,
+      imageAlt: record.imageAlt,
+      title: record.title,
+      status: "Doplnit",
+      area: record.area,
+      owner: "Doplnit",
+      summary: "Projekt je doložen fotografií. Věcný popis čeká na doplnění.",
+      evidence: "Fotografie",
+      risk: "Doplnit",
+      argument: "Doplnit",
+      next: "Doplnit stav, garanta a ověřený popis projektu.",
+      history: "Doplnit",
+    })),
 ];
 
 const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
@@ -343,14 +389,9 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 4;
+const DATA_VERSION = 5;
 
-const slugify = (value: string) =>
-  value
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-");
+const slugify = slugFromTitle;
 
 const pillarClass = (pillar: string) => `pillar-${slugify(pillar)}`;
 const postPillarClass = (post: SocialPost) => post.contentType === "evidence" ? "pillar-dokumenty" : pillarClass(post.pillar);
@@ -408,14 +449,14 @@ export default function Home() {
       const saved = window.localStorage.getItem("prezletaci-campaign-os");
       if (saved) data = JSON.parse(saved);
     } catch {
-      // A malformed local draft must never prevent the campaign OS from loading.
+      // A malformed local draft must never prevent Campaign HQ from loading.
     }
     queueMicrotask(() => {
       if (data) {
-        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === DATA_VERSION) {
+        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === DATA_VERSION) {
           const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(data.tasks);
-          if (Array.isArray(data.projects)) setProjects(data.projects);
+          if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
           if (Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, migratedPosts));
           setPosts(migratedPosts);
         }
@@ -515,7 +556,7 @@ export default function Home() {
       setTasks((items) => [...items, { id, title: createForm.title, status: "To Do", priority: "Střední", owner: createForm.meta || "PM", deadline: createForm.detail || "Bez termínu", note: "Nově přidaný lokální úkol." }]);
     }
     if (createType === "project") {
-      setProjects((items) => [...items, { id, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Doplnit garanta", summary: createForm.detail || "Nový projekt čeká na doplnění briefu.", evidence: "Doplnit", risk: "Vyhodnotit", argument: "Připravit", next: "Doplnit vlastníka a první krok.", history: "Projekt založen v Campaign OS." }]);
+      setProjects((items) => [...items, { id, slug: `${slugFromTitle(createForm.title)}-${id}`, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Doplnit garanta", summary: createForm.detail || "Nový projekt čeká na doplnění briefu.", evidence: "Doplnit", risk: "Vyhodnotit", argument: "Připravit", next: "Doplnit vlastníka a první krok.", history: "Projekt založen v Campaign HQ." }]);
     }
     if (createType === "candidate") {
       const candidate: Candidate = { id, order: candidates.length + 1, name: createForm.title, image: "", office: createForm.detail, professions: [createForm.meta || "Profese k doplnění"], bio: "Nový kandidát čeká na doplnění medailonku.", initials: createForm.title.split(" ").filter((part) => !part.endsWith(".")).map((part) => part[0]).join("").slice(0, 2).toUpperCase(), topics: ["Doplnit komunikační témata"], photoRanges: [], assets: { photos: false, medallion: false, bio: false, quote: false, video: false, faq: false }, plannedPostIds: [], projectIds: [], documents: [] };
@@ -552,13 +593,13 @@ export default function Home() {
     try {
       const data = JSON.parse(await file.text());
       if (Array.isArray(data.tasks)) setTasks(data.tasks);
-      if (Array.isArray(data.projects)) setProjects(data.projects);
+      if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
       const importedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
-      if ((data.dataVersion === 3 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
+      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
       setPosts(importedPosts);
       setToast("Záloha byla načtena.");
     } catch {
-      setToast("Soubor není platná záloha Campaign OS.");
+      setToast("Soubor není platná záloha Campaign HQ.");
     }
   }
 
@@ -969,7 +1010,7 @@ export default function Home() {
       </section>
       <div className="filter-bar glass-card">
         <div className="segmented-control">
-          {(["Vše", "Hotové", "Rozpracované", "Plánované"] as const).map((status) => <button className={projectStatus === status ? "active" : ""} key={status} onClick={() => setProjectStatus(status)}>{status}<span>{status === "Vše" ? projects.length : projects.filter((project) => project.status === status).length}</span></button>)}
+          {(["Vše", "Hotové", "Rozpracované", "Plánované", "Doplnit"] as const).map((status) => <button className={projectStatus === status ? "active" : ""} key={status} onClick={() => setProjectStatus(status)}>{status}<span>{status === "Vše" ? projects.length : projects.filter((project) => project.status === status).length}</span></button>)}
         </div>
         <label className="inline-search"><span>⌕</span><input value={projectQuery} onChange={(event) => setProjectQuery(event.target.value)} placeholder="Hledat projekt, oblast nebo garanta…" /></label>
       </div>
@@ -977,7 +1018,7 @@ export default function Home() {
         {filteredProjects.map((project) => (
           <button className="project-card glass-card" key={project.id} onClick={() => setSelectedProject(project)}>
             <div className="project-top"><span className={`status-pill project-${slugify(project.status)}`}>{project.status}</span><span className="project-id">P-{String(project.id).padStart(2, "0")}</span></div>
-            <div className="project-image-placeholder"><span>{project.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>
+            {project.image ? <div className="project-image"><Image src={project.image} alt={project.imageAlt || `Fotografie projektu ${project.title}`} fill sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw" unoptimized /></div> : <div className="project-image-placeholder"><span>{project.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>}
             <div className="project-copy"><span className="eyebrow">{project.area}</span><h2>{project.title}</h2><p>{project.summary}</p></div>
             <div className="project-footer"><span><small>Garant</small><strong>{project.owner}</strong></span><span><small>Důkaz</small><strong>{project.evidence === "Doplnit" ? "Chybí" : "Evidován"}</strong></span><b>→</b></div>
           </button>
@@ -1212,7 +1253,7 @@ export default function Home() {
 
   const renderSettings = () => (
     <div className="section-stack settings-stack">
-      <section className="section-intro compact-intro glass-card"><div><span className="eyebrow">Campaign OS</span><h1>Nastavení</h1><p>Vzhled, lokální data a přenos pracovní verze mezi zařízeními.</p></div><span className="version-pill">Verze 1.0</span></section>
+      <section className="section-intro compact-intro glass-card"><div><span className="eyebrow">Campaign HQ</span><h1>Nastavení</h1><p>Vzhled, lokální data a přenos pracovní verze mezi zařízeními.</p></div><span className="version-pill">Verze 1.0</span></section>
       <section className="settings-grid">
         <article className="settings-card glass-card"><span className="eyebrow">Vzhled</span><h2>Barevný režim</h2><p>Volba se ukládá pouze v tomto prohlížeči.</p><div className="theme-cards"><button className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")}><span className="theme-preview light-preview" /><strong>Světlý</strong></button><button className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")}><span className="theme-preview dark-preview" /><strong>Tmavý</strong></button></div></article>
         <article className="settings-card glass-card"><span className="eyebrow">Data</span><h2>Lokální režim</h2><p>Bez backendu se nové úkoly, projekty, kandidáti a posty ukládají do tohoto zařízení. Pravidelně exportujte zálohu.</p><div className="settings-actions"><button className="primary-button" onClick={exportData}>Exportovat JSON</button><label className="secondary-button">Importovat JSON<input type="file" accept="application/json" onChange={(event) => importData(event.target.files?.[0])} /></label></div></article>
@@ -1267,8 +1308,8 @@ export default function Home() {
       <div className="ambient ambient-one" /><div className="ambient ambient-two" /><div className="noise-grid" />
       <aside className={`sidebar ${mobileNav ? "mobile-open" : ""}`}>
         <div className="brand">
-          <div className="brand-mark"><span>✦</span></div>
-          <div><strong>Přezleťáci</strong><span>Campaign OS · 2026</span></div>
+          <div className="brand-mark"><Image src="/images/brand/prezletaci-logo.png" alt="Logo Přezleťáků – podaná ruka" fill sizes="43px" priority unoptimized /></div>
+          <div><strong>Přezleťáci</strong><span>Campaign HQ · 2026</span></div>
           <button className="mobile-close" aria-label="Zavřít navigaci" onClick={() => setMobileNav(false)}>×</button>
         </div>
         <nav aria-label="Hlavní navigace">
@@ -1283,7 +1324,7 @@ export default function Home() {
 
       <div className="main-shell">
         <header className="topbar">
-          <div className="breadcrumb"><button className="menu-button" aria-label="Otevřít navigaci" onClick={() => setMobileNav(true)}>☰</button><span>Campaign OS</span><b>/</b><strong>{activeLabel}</strong></div>
+          <div className="breadcrumb"><button className="menu-button" aria-label="Otevřít navigaci" onClick={() => setMobileNav(true)}>☰</button><span>Campaign HQ</span><b>/</b><strong>{activeLabel}</strong></div>
           <div className="topbar-actions">
             <button className="search-trigger" onClick={() => setSearchOpen(true)}><span>⌕</span><b>Hledat cokoli…</b><kbd>⌘ K</kbd></button>
             <button className="icon-button theme-toggle" aria-label="Přepnout barevný režim" onClick={() => setTheme(theme === "light" ? "dark" : "light")}>{theme === "light" ? "☾" : "☀"}</button>
@@ -1300,7 +1341,7 @@ export default function Home() {
 
       {renderCandidateDetail()}
 
-      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><article className="relationship-people"><div className="profile-panel-head"><span className="eyebrow">Lidé za projektem</span><b>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length}</b></div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length ? <div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).map((candidate) => <button key={candidate.id} onClick={() => { setSelectedProject(null); setSelectedCandidate(candidate); }}><span className="relationship-person-photo"><span>{candidate.initials}</span>{candidate.image && <Image src={candidate.image} alt={`Portrét – ${candidate.name}`} fill sizes="48px" unoptimized />}</span><span><strong>{candidate.name}</strong><small>{getEntityRelationships(`candidate:${candidate.id}`).find((relationship) => relationship.to === `project:${selectedProject.id}` || relationship.from === `project:${selectedProject.id}`)?.role || "Vazba na projekt"}</small></span><b>→</b></button>)}</div> : <div className="profile-empty">Konkrétní odpovědnost zatím není doložena.</div>}</article><RelationshipPanel entityId={`project:${selectedProject.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} /><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
+      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div>{selectedProject.image ? <div className="project-detail-image"><Image src={selectedProject.image} alt={selectedProject.imageAlt || `Fotografie projektu ${selectedProject.title}`} fill sizes="(max-width: 760px) 100vw, 720px" unoptimized /></div> : <div className="project-image-placeholder project-detail-placeholder"><span>{selectedProject.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>}<div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><article className="relationship-people"><div className="profile-panel-head"><span className="eyebrow">Lidé za projektem</span><b>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length}</b></div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).length ? <div>{candidates.filter((candidate) => candidate.projectIds.includes(selectedProject.id)).map((candidate) => <button key={candidate.id} onClick={() => { setSelectedProject(null); setSelectedCandidate(candidate); }}><span className="relationship-person-photo"><span>{candidate.initials}</span>{candidate.image && <Image src={candidate.image} alt={`Portrét – ${candidate.name}`} fill sizes="48px" unoptimized />}</span><span><strong>{candidate.name}</strong><small>{getEntityRelationships(`candidate:${candidate.id}`).find((relationship) => relationship.to === `project:${selectedProject.id}` || relationship.from === `project:${selectedProject.id}`)?.role || "Vazba na projekt"}</small></span><b>→</b></button>)}</div> : <div className="profile-empty">Konkrétní odpovědnost zatím není doložena.</div>}</article><RelationshipPanel entityId={`project:${selectedProject.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} /><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
       {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
 

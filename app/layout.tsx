@@ -13,14 +13,14 @@ export async function generateMetadata(): Promise<Metadata> {
     (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
   const description =
-    "Interní operační systém kampaně Přezleťáků pro komunální volby 2026.";
+    "Interní Campaign HQ Přezleťáků pro komunální volby 2026.";
 
   return {
     metadataBase: new URL(origin),
-    title: "Přezleťáci 2026 — Campaign OS",
+    title: "Přezleťáci 2026 — Campaign HQ",
     description,
     openGraph: {
-      title: "Přezleťáci 2026 — Campaign OS",
+      title: "Přezleťáci 2026 — Campaign HQ",
       description,
       type: "website",
       locale: "cs_CZ",
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Přezleťáci 2026 — Campaign OS",
+      title: "Přezleťáci 2026 — Campaign HQ",
       description,
       images: [`${origin}/og.png`],
     },

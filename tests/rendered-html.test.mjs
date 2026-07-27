@@ -17,10 +17,16 @@ import {
   knowledgeEntityMeta,
   knowledgeRelationships,
 } from "../app/relationships.ts";
+import {
+  mergeProjectCatalog,
+  projectImageManifest,
+  selectFirstSupportedImage,
+} from "../app/project-images.ts";
 
 const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
 const teamDir = new URL("../public/images/team/", import.meta.url);
+const projectDir = new URL("../public/images/projects/", import.meta.url);
 
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -33,12 +39,12 @@ async function render() {
   );
 }
 
-test("server-renders the Přezleťáci Campaign OS", async () => {
+test("server-renders the Přezleťáci Campaign HQ", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<title>Přezleťáci 2026 — Campaign OS<\/title>/);
+  assert.match(html, /<title>Přezleťáci 2026 — Campaign HQ<\/title>/);
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
@@ -87,6 +93,71 @@ test("does not publish source JPGs or macOS metadata", async () => {
   assert.equal(publicFiles.includes(".DS_Store"), false);
   await access(new URL("../public/og.png", import.meta.url));
   await access(root);
+});
+
+test("imports one optimized photograph for every non-empty project folder", async () => {
+  const [page, styles, projectFiles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readdir(projectDir),
+  ]);
+  const slugs = projectImageManifest.map((record) => record.slug);
+  const projectIds = projectImageManifest.map((record) => record.projectId);
+  const expectedFiles = projectImageManifest.map((record) => record.image.split("/").at(-1)).sort();
+
+  assert.equal(projectImageManifest.length, 26);
+  assert.equal(new Set(slugs).size, projectImageManifest.length);
+  assert.equal(new Set(projectIds).size, projectImageManifest.length);
+  assert.equal(new Set(projectImageManifest.map((record) => record.source)).size, projectImageManifest.length);
+  assert.equal(new Set(projectImageManifest.map((record) => record.image)).size, projectImageManifest.length);
+  assert.deepEqual(projectFiles.sort(), expectedFiles);
+  assert.equal(projectImageManifest.every((record) => record.source.toLowerCase().endsWith(".jpg")), true);
+  assert.equal(projectImageManifest.every((record) => record.image.endsWith(".webp")), true);
+  assert.equal(selectFirstSupportedImage(["z03.jpg", "z01.jpg", "notes.txt", "z02.png"]), "z01.jpg");
+  for (const record of projectImageManifest) {
+    await access(new URL(`../public${record.image}`, import.meta.url));
+    assert.equal(record.source.split("/").at(-1)?.startsWith(record.source.split("/").at(-2) ?? ""), true);
+  }
+  assert.match(page, /project\.image \? <div className="project-image">/);
+  assert.match(page, /className="project-detail-image"/);
+  assert.match(page, /Fotografie k doplnění/);
+  assert.match(styles, /\.project-image img \{ object-fit:cover/);
+  assert.match(styles, /\.project-detail-image img \{ object-fit:cover/);
+  assert.equal(projectImageManifest.find((record) => record.projectId === 1)?.slug, "tri-celky-podzemnich-kontejneru");
+  assert.equal(projectImageManifest.find((record) => record.projectId === 3)?.slug, "elektronicka-uredni-deska");
+  assert.equal(projectImageManifest.find((record) => record.projectId === 16)?.slug, "rekonstrukce-sokolovny");
+});
+
+test("version 5 project migration preserves edits and adds catalog media", async () => {
+  const saved = [
+    { id: 1, title: "Uživatelský název", slug: "", image: "", imageAlt: "" },
+    { id: 999, title: "Vlastní projekt", slug: "vlastni-projekt", image: "/custom.webp", imageAlt: "Vlastní fotografie" },
+  ];
+  const catalog = [
+    { id: 1, title: "Výchozí název", slug: "vychozi", image: "/catalog.webp", imageAlt: "Katalogová fotografie" },
+    { id: 2, title: "Nová karta", slug: "nova-karta", image: "/new.webp", imageAlt: "Nová fotografie" },
+  ];
+  const migrated = mergeProjectCatalog(saved, catalog);
+  const page = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  assert.equal(migrated.length, 3);
+  assert.equal(migrated.find((project) => project.id === 1)?.title, "Uživatelský název");
+  assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
+  assert.equal(migrated.some((project) => project.id === 2), true);
+  assert.equal(migrated.some((project) => project.id === 999), true);
+  assert.match(page, /const DATA_VERSION = 5;/);
+  assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
+});
+
+test("renders the supplied campaign logo instead of the star mark", async () => {
+  const [page, logo] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    access(new URL("../public/images/brand/prezletaci-logo.png", import.meta.url)),
+  ]);
+  assert.equal(logo, undefined);
+  assert.match(page, /\/images\/brand\/prezletaci-logo\.png/);
+  assert.doesNotMatch(page, /<span>✦<\/span>/);
+  assert.match(page, /Campaign HQ · 2026/);
 });
 
 test("defines the six centrally themed ContentCard templates", async () => {
@@ -180,7 +251,7 @@ test("defines a valid extensible Relationship Engine", async () => {
   ]);
   const entityIds = new Set([
     ...Array.from({ length: 11 }, (_, index) => `candidate:${index + 1}`),
-    ...Array.from({ length: 18 }, (_, index) => `project:${index + 1}`),
+    ...Array.from({ length: 38 }, (_, index) => `project:${index + 1}`),
     ...contentKnowledgeEntities.map((entity) => entity.id),
   ]);
   assert.equal(Object.keys(knowledgeEntityMeta).length, 8);
