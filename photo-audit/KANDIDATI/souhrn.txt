@@ -1,0 +1,14 @@
+Celkem fotografií: 186
+Jednotlivci: 175
+Tým a prapor: 11
+Vybráno agenturou: 11
+Zařazeno podle klíče: 186
+Nezařazeno: 0
+Kontrola ostrosti: 19
+Kontrola podobnosti: 85
+Skupin přesných duplicit: 0
+Celková velikost originálů: 1433573534 B
+
+Originály nebyly změněny, přesunuty ani smazány.
+Pracovní složky obsahují pouze symbolické odkazy.
+Webové exporty v public/images/candidates jsou odvozené soubory a nejsou znovu počítány jako originály.

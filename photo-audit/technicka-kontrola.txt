@@ -1,0 +1,8 @@
+Hranice spodních 10 % ostrosti: 67.220
+Fotografií označených ke kontrole ostrosti: 21
+Fotografií s velmi podobným sousedním záběrem: 13
+Skupin přesných binárních duplicit: 0
+
+Přesné duplicity:
+
+Jde pouze o kontrolní signály. Žádná fotografie nebyla odstraněna.

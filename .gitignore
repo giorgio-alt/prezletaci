@@ -22,6 +22,11 @@
 # misc
 .DS_Store
 *.pem
+__pycache__/
+*.py[cod]
+
+# Local high-resolution source archive. A GitHub-ready copy lives in /photo-library.
+/Originální Fotky/
 
 # debug
 npm-debug.log*
