@@ -162,21 +162,33 @@ test("version 6 project migration preserves edits and adds catalog media", async
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
-test("renders the supplied campaign logo instead of the star mark", async () => {
-  const [page, logo] = await Promise.all([
+test("renders the canonical responsive brand assets instead of the star mark", async () => {
+  const [page, logo, symbolBlue, symbolWhite, lockupBlue, lockupWhite, socialYellow, socialBlue] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     access(new URL("../public/images/brand/prezletaci-logo.png", import.meta.url)),
+    access(new URL("../public/images/brand/prezletaci-symbol-blue.png", import.meta.url)),
+    access(new URL("../public/images/brand/prezletaci-symbol-white.png", import.meta.url)),
+    access(new URL("../public/images/brand/prezletaci-lockup-blue.png", import.meta.url)),
+    access(new URL("../public/images/brand/prezletaci-lockup-white.png", import.meta.url)),
+    access(new URL("../public/images/brand/social/prezletaci-social-yellow.png", import.meta.url)),
+    access(new URL("../public/images/brand/social/prezletaci-social-blue.png", import.meta.url)),
   ]);
-  assert.equal(logo, undefined);
-  assert.match(page, /\/images\/brand\/prezletaci-logo\.png/);
+  assert.equal([logo, symbolBlue, symbolWhite, lockupBlue, lockupWhite, socialYellow, socialBlue].every((result) => result === undefined), true);
+  assert.match(page, /\/images\/brand\/prezletaci-symbol-blue\.png/);
+  assert.match(page, /\/images\/brand\/prezletaci-symbol-white\.png/);
+  assert.match(page, /\/images\/brand\/prezletaci-lockup-blue\.png/);
+  assert.match(page, /\/images\/brand\/prezletaci-lockup-white\.png/);
+  assert.match(page, /Symbol Přezleťáků s podanou rukou/);
   assert.doesNotMatch(page, /<span>✦<\/span>/);
   assert.match(page, /Campaign HQ · 2026/);
 });
 
 test("defines the six centrally themed ContentCard templates", async () => {
-  const [page, styles] = await Promise.all([
+  const [page, styles, layout, packageFile] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
   const types = ["people", "completed", "progress", "future", "explain", "evidence"];
   for (const type of types) {
@@ -185,8 +197,15 @@ test("defines the six centrally themed ContentCard templates", async () => {
     assert.match(styles, new RegExp(`\\.content-card-${type} \\{`));
   }
   assert.match(page, /Design System komunikačních pilířů/);
-  assert.match(page, /Karla Hemzy/);
+  assert.doesNotMatch(page, /Pracovní paleta|Barvy níže jsou dočasné|Karla Hemzy/);
   assert.match(page, /function ContentCard/);
+  assert.match(layout, /@fontsource-variable\/commissioner/);
+  assert.equal(JSON.parse(packageFile).dependencies["@fontsource-variable/commissioner"], "^5.3.0");
+  for (const token of ["blue", "yellow", "night", "paper", "people", "completed", "progress", "future", "explain", "evidence", "culture", "bg-domov", "bg-rano", "bg-dialog", "bg-people", "bg-environment", "bg-navy", "bg-horizon"]) {
+    assert.match(styles, new RegExp(`--prz-${token}:`));
+  }
+  assert.match(styles, /font-family: "Commissioner Variable"/);
+  assert.match(styles, /\.brand-mark img \{ width:38px; height:38px; object-fit:contain/);
 });
 
 test("imports the complete chronological 39-post publication plan", async () => {

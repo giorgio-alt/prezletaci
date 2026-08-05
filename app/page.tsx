@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { CSSProperties, FormEvent, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { initialPosts, mergePostsWithPlan, sortPosts } from "./postplan";
 import type { ContentType, SocialPost } from "./postplan";
@@ -189,11 +189,31 @@ function RelationshipPanel({
 function DesignSystemChapter() {
   const templates = Object.entries(contentTemplates) as [ContentType, ContentTemplate][];
   const productionChecks = ["Správná šablona", "Správná barva", "Správná ikona", "Jeden jasný CTA", "Fotografie ve správném poměru", "Titulky u videa", "Odkaz na web"];
+  const primaryColors = [["Blue", "#123A8C"], ["Yellow", "#FFE500"], ["Night", "#071F5C"], ["Paper", "#F8F9F4"]];
+  const colorFamilies = [["Lidé", "people"], ["Hotovo", "completed"], ["Práce", "progress"], ["Plány", "future"], ["Vysvětlení", "explain"], ["Důkazy", "evidence"], ["Kultura", "culture"]];
+  const backgrounds = [["Domov", "domov"], ["Ráno", "rano"], ["Dialog", "dialog"], ["Lidé", "people"], ["Krajina", "environment"], ["Navy", "navy"], ["Horizont", "horizon"]];
   return (
     <div className="design-system-content">
       <section className="design-system-lead">
         <div><span className="eyebrow">Cíl systému</span><h2>Rozpoznat typ sdělení na první pohled</h2><p>Každý statický příspěvek používá stejné rozmístění prvků. Mění se pouze centrálně řízená identita typu obsahu: barva, ikona, badge, CTA a styl titulku.</p></div>
-        <aside><strong>Pracovní paleta</strong><p>Barvy níže jsou dočasné. Po dodání vizuální identity od Karla Hemzy se vymění pouze šest centrálních tokenů — bez úprav jednotlivých příspěvků.</p></aside>
+        <aside><strong>Schválená identita</strong><p>Logo, Commissioner, primární paleta a obsahové rodiny vycházejí z kanonického brand sheetu Přezleťáků.</p></aside>
+      </section>
+
+      <section className="brand-foundations" aria-label="Základy vizuální identity">
+        <article className="brand-logo-showcase"><div className="logo-stage logo-stage-light"><Image src="/images/brand/prezletaci-lockup-blue.png" alt="Modré logo Přezleťáků" width={365} height={99} unoptimized /></div><div className="logo-stage logo-stage-dark"><Image src="/images/brand/prezletaci-lockup-white.png" alt="Bílé logo Přezleťáků" width={365} height={99} unoptimized /></div><footer><div><strong>Kanonické logo</strong><span>Modrá varianta na světlé ploše · bílý negativ na Night</span></div><div className="logo-symbols"><span><Image src="/images/brand/prezletaci-symbol-blue.png" alt="Modrý symbol Přezleťáků" width={38} height={38} unoptimized /></span><span><Image src="/images/brand/prezletaci-symbol-white.png" alt="Bílý symbol Přezleťáků" width={38} height={38} unoptimized /></span></div></footer></article>
+        <article className="brand-type-sample"><span className="eyebrow">Commissioner Variable</span><strong>Jasně. Lidsky.<br /><i>V pohybu.</i></strong><div><b>Display 780</b><b>Navigace 650</b><b>Text 460</b><b>Mikroakcent 680</b></div></article>
+      </section>
+
+      <section className="brand-palette" aria-label="Primární paleta">
+        {primaryColors.map(([name, hex]) => <article key={name} style={{ "--swatch": hex } as CSSProperties}><i /><strong>{name}</strong><code>{hex}</code></article>)}
+      </section>
+
+      <section className="brand-family-grid" aria-label="Sekundární barevné rodiny">
+        {colorFamilies.map(([name, token]) => <article className={`brand-family brand-family-${token}`} key={name}><i /><strong>{name}</strong><small>hlavní · světlá</small></article>)}
+      </section>
+
+      <section className="brand-background-grid" aria-label="Sedm rodin pozadí">
+        {backgrounds.map(([name, token]) => <article className={`brand-background prz-bg-${token}`} key={name}><small>{name}</small><strong>{name === "Navy" ? "Více práce." : name === "Horizont" ? "Hotovo. Teď další krok." : `${name} / Přezleťáci`}</strong></article>)}
       </section>
 
       <section className="content-template-grid" aria-label="Šest grafických šablon">
@@ -344,7 +364,7 @@ const bibleChapters: BibleChapter[] = [
   { title: "Komunikační pilíře", label: "6 typů obsahu", body: "Lidé, Hotová práce, Rozdělané věci, Plány a Vysvětlování tvoří pět strategických pilířů. Dokumenty a důkazy jsou jejich společnou ověřovací vrstvou.", bullets: ["Lidé budují důvěru.", "Hotová práce dokládá kompetenci.", "Rozdělané věci ukazují realitu.", "Plány dávají směr.", "Vysvětlování předchází nedůvěře.", "Dokumenty a důkazy podpírají každé tvrzení."] },
   { title: "Lidé", label: "1 / 11", body: "Medailonek není životopis. Musí odpovědět, proč má občan tomuto člověku věřit, že bude pracovat pro obec.", bullets: ["Osobní motivace", "Konkrétní role", "Vztah k obci", "Jedno silné téma", "Civilní fotografie a krátké video"] },
   { title: "Hotová práce", label: "Důkazy", body: "Každý výsledek popsat přes problém, postup, výsledek, dopad na lidi a dohledatelný důkaz.", bullets: ["Fotografie před / po", "Rozpočet nebo dokument", "Jasně popsaný přínos", "Dopad na každodenní život"] },
-  { title: "Design System komunikačních pilířů", label: "6 šablon · pracovní paleta", body: "Jednotný informační systém propojuje barvu, ikonu, badge, CTA, typografii a grid. Občan díky němu pozná typ sdělení ještě před přečtením textu.", bullets: [], kind: "design-system" },
+  { title: "Design System komunikačních pilířů", label: "Schválená identita · 7 rodin", body: "Jednotný informační systém propojuje logo, Commissioner, barvu, ikonu, badge, CTA, typografii a grid. Občan díky němu pozná typ sdělení ještě před přečtením textu.", bullets: [], kind: "design-system" },
   { title: "Rozdělané věci", label: "Transparentnost", body: "U každé rozpracované věci ukázat fázi, brzdu, další krok a termín další aktualizace.", bullets: ["Co řešíme", "Co už proběhlo", "Co nás brzdí", "Kdo je garant", "Kdy dáme další update"] },
   { title: "Plány", label: "2026–2030", body: "Program obsahuje přes padesát záměrů. Pro kampaň je nutné vybrat 10–12 nejsilnějších, realisticky vysvětlit první krok a přiřadit garanta.", bullets: ["Priorita pro obyvatele", "Reálná míra kontroly obce", "První proveditelný krok", "Zdroje a partneři"] },
   { title: "Citlivá témata", label: "Riziko", body: "D0/SOKP 520, tempo developerské výstavby, kapacita škol, voda a kanalizace, rozpočty velkých staveb a termíny nadřazených institucí.", bullets: ["Oddělit fakta od domněnek.", "Přiznat, co obec neřídí sama.", "Doložit chronologii jednání."] },
@@ -1326,7 +1346,7 @@ export default function Home() {
       <div className="ambient ambient-one" /><div className="ambient ambient-two" /><div className="noise-grid" />
       <aside className={`sidebar ${mobileNav ? "mobile-open" : ""}`}>
         <div className="brand">
-          <div className="brand-mark"><Image src="/images/brand/prezletaci-logo.png" alt="Logo Přezleťáků – podaná ruka" fill sizes="43px" priority unoptimized /></div>
+          <div className="brand-mark"><Image src={theme === "dark" ? "/images/brand/prezletaci-symbol-white.png" : "/images/brand/prezletaci-symbol-blue.png"} alt="Symbol Přezleťáků s podanou rukou" width={38} height={38} priority unoptimized /></div>
           <div><strong>Přezleťáci</strong><span>Campaign HQ · 2026</span></div>
           <button className="mobile-close" aria-label="Zavřít navigaci" onClick={() => setMobileNav(false)}>×</button>
         </div>
