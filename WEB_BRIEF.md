@@ -10,7 +10,7 @@ Tato část Campaign HQ slouží jako obsahový a strategický brief pro vznik v
 
 Nediktuje design ani konkrétní technické řešení. Vysvětluje smysl webu, jeho roli v kampani, strukturu obsahu, charakter komunikace, hlavní témata, vztah k sociálním sítím a očekávanou cestu návštěvníka.
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -22,7 +22,7 @@ Web bude centrálním zdrojem kompletních informací, místem pro vysvětlení 
 
 Facebook, Instagram a případně YouTube mají zaujmout, otevřít téma a přivést návštěvníka na web. Na sociálních sítích je zkrácená verze sdělení; na webu celý příběh, kontext, dokumenty, fotografie a související informace.
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -39,7 +39,7 @@ Web má působit jako otevřená, důvěryhodná a obsahově bohatá informačn�
 - Prostor pro útoky na politické soupeře
 - Soubor marketingových sloganů bez obsahu
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -53,7 +53,7 @@ Kampaň stojí na dlouhodobě odvedené práci, konkrétních výsledcích, zku�
 
 Komunikace má být sebevědomá, ale ne agresivní.
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -72,7 +72,7 @@ Nechceme pouze říkat, co jsme udělali. Chceme vysvětlit, proč to vzniklo, j
 - Dokumenty nebo důkazy
 - Navazující plán
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -87,7 +87,7 @@ _Stav: approved · Aktualizováno: 20. 7. 2026_
 - Vysvětlujeme — Jaká je skutečná situace a proč obec postupovala právě takto?
 - Dokumenty a důkazy — Na základě čeho toto tvrzení vzniklo?
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -105,7 +105,7 @@ Pracovní obsahová logika, kterou může webdesigner uspořádat vhodnějším 
 - Dokumenty — zdroje zasazené do kontextu konkrétních témat
 - Kontakt a zapojení — kontakty, otázky, setkání a výzva k dialogu
 
-_Stav: review · Aktualizováno: 20. 7. 2026_
+_Stav: review · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -124,7 +124,7 @@ Po návštěvě webu by si člověk měl odnést pocit klidu, důvěry, kompeten
 7. Svá tvrzení jsou připraveni doložit.
 8. Jsou otevřeni otázkám a dialogu.
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -137,12 +137,12 @@ Každý profil je samostatný příběh a zároveň součást jednoho týmu.
 - Krátké představení
 - Vztah k Přezleticím
 - Osobní motivace
-- Témata
-- Související projekty a články
+- Oblasti, kterým se věnuje
+- Související články a témata
 - Fotografie
 - Video nebo rozhovor
 
-_Stav: review · Aktualizováno: 20. 7. 2026_
+_Stav: review · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -161,9 +161,9 @@ Ne každý projekt musí využít všechny části. Rozsah se řídí dostupným
 - Časová osa
 - Fotografie a videa
 - Dokumenty a FAQ
-- Související kandidáti, články a projekty
+- Související články
 
-_Stav: review · Aktualizováno: 20. 7. 2026_
+_Stav: review · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -181,7 +181,7 @@ Věcně, klidně, srozumitelně, bez osobních útoků a s doložením zdrojů.
 8. Jaké dokumenty tvrzení dokládají
 9. Odpovědi na nejčastější otázky
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -193,7 +193,7 @@ Používat krátké a jasné věty, konkrétní příklady, ověřená čísla, 
 
 Nepoužívat politické fráze, přehnané superlativy, populistické sliby, agresivní titulky, clickbait, zesměšňování soupeřů, nepodložená tvrzení ani úřednický jazyk bez vysvětlení.
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -212,7 +212,26 @@ Ne každý příspěvek musí odkazovat na web. U zásadních, vysvětlujících
 - Infografika
 - Dokumentový příspěvek
 
-_Stav: approved · Aktualizováno: 20. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
+
+---
+
+## Produkční strategie Sprint 03
+
+První dva týdny stojí na kandidátských medailoncích; webový obsah se rozvíjí až po spuštění webu.
+
+Web zatím nebude obsahovat všechny články, proto první kandidátské výstupy nemají odkazovat na neexistující obsah.
+
+Po spuštění webu se komunikace postupně přesune k projektovým článkům, vysvětlujícím tématům, FAQ, dokumentům a dlouhým příběhům.
+
+1. Kandidátské medailonky
+2. První grafické šablony
+3. Publikace kandidátů
+4. Spuštění webu
+5. Projektové články
+6. Vysvětlující obsah
+
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -230,7 +249,7 @@ Jeden dohledatelný proces od nápadu po aktualizaci.
 8. Distribuce
 9. Archivace a případná aktualizace
 
-_Stav: review · Aktualizováno: 20. 7. 2026_
+_Stav: review · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -240,7 +259,7 @@ _Stav: review · Aktualizováno: 20. 7. 2026_
 
 Každý bod má název, popis, stav, prioritu, odpovědnou osobu, termín a poznámku. Evidence je zobrazena přímo pod briefem.
 
-_Stav: draft · Aktualizováno: 20. 7. 2026_
+_Stav: draft · Aktualizováno: 5. 8. 2026_
 
 ---
 
@@ -250,11 +269,13 @@ Veřejný web funguje jako propojená znalostní síť, nikoli jako soubor izolo
 
 Každý kandidát, projekt, téma, článek, dokument, video, FAQ a galerie má stabilní identitu a strukturované vazby na související entity.
 
-Důležité stránky používají jednotný blok Související obsah. Zobrazuje pouze existující vazby a umožňuje přirozeně pokračovat k lidem, projektům, článkům, videím, dokumentům, FAQ a galeriím.
+Kandidát se propojuje s oblastmi, kterým se věnuje, souvisejícími články a tématy. Kandidáti se nepropojují přímo s jednotlivými projekty.
+
+Projekt zůstává samostatnou obsahovou jednotkou a propojuje se pouze s články, dokumenty, FAQ, galeriemi a videi.
 
 Stejný vztahový model je zdrojem pro web, sociální sítě, newslettery i tiskoviny. Informace se proto nevytvářejí znovu pro každý kanál.
 
-- Kandidát ↔ projekty: Na čem pracuji a Lidé za projektem
+- Kandidát → oblasti → související články → související témata
 - Projekt ↔ články: Čtěte také
 - Projekt ↔ dokumenty: vysvětlený důkaz, nikoli anonymní seznam PDF
 - Projekt ↔ FAQ: odpovědi v kontextu konkrétního projektu
@@ -262,7 +283,7 @@ Stejný vztahový model je zdrojem pro web, sociální sítě, newslettery i tis
 - Quality gate: evidence osiřelých entit bez přirozené další cesty
 - Rozšiřitelnost: nové typy entit a vazeb bez změny existujících záznamů
 
-_Stav: approved · Aktualizováno: 27. 7. 2026_
+_Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 

@@ -15,6 +15,10 @@ V současném období zastávají pozice starosty a místostarosty.
 
 Web je hlavní komunikační platforma kampaně. Obsahuje kompletní informace, zatímco sociální sítě slouží především k distribuci a přivádění uživatelů na web.
 
+## Produkční strategie Sprint 03
+
+První dva týdny kampaně jsou postavené na kandidátských medailoncích. Dokud web neobsahuje všechny články, příspěvky nesměřují na neexistující obsah. Po spuštění webu se komunikace přesouvá k projektovým článkům, vysvětlujícím tématům, FAQ, dokumentům a dlouhým příběhům.
+
 ## Filozofie kampaně
 
 Komunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní a založená na výsledcích a ověřitelných faktech. Nemá být útočná, populistická, agresivní, založená na strachu ani na nepodložených tvrzeních.
@@ -45,7 +49,7 @@ Komunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní
 
 ## Relationship Engine
 
-Web je propojená znalostní síť. Entity nejsou spojeny pouze odkazy v textu, ale strukturovanými obousměrnými vazbami. Kandidát může pracovat na více projektech, projekt může patřit do více témat a obsahovat články, dokumenty, videa, FAQ a galerie. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.
+Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým se věnuje, se souvisejícími články a tématy; nepropojuje se přímo s jednotlivými projekty. Projekt je samostatná obsahová jednotka a propojuje se pouze s články, dokumenty, FAQ, galeriemi a videi. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.
 
 ## Kandidáti
 

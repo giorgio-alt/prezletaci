@@ -20,8 +20,9 @@ export type KnowledgeEntity = {
 };
 
 export type RelationshipType =
-  | "works_on"
   | "belongs_to"
+  | "focuses_on"
+  | "contributes_to"
   | "explains"
   | "documents"
   | "answers"
@@ -50,8 +51,9 @@ export const knowledgeEntityMeta: Record<KnowledgeEntityType, { label: string; i
 };
 
 export const relationshipTypeLabels: Record<RelationshipType, string> = {
-  works_on: "Pracuje na",
   belongs_to: "Patří k tématu",
+  focuses_on: "Věnuje se oblasti",
+  contributes_to: "Související článek",
   explains: "Vysvětluje",
   documents: "Dokládá",
   answers: "Odpovídá na",
@@ -83,26 +85,23 @@ export const contentKnowledgeEntities: KnowledgeEntity[] = [
 ];
 
 export const knowledgeRelationships: KnowledgeRelationship[] = [
-  { id: "rel:c2-p4", from: "candidate:2", to: "project:4", type: "works_on", label: "Na čem pracuji", role: "Dlouhodobá příprava a komunikace projektu", description: "Vazba vychází z existujícího garanta projektu a kandidátského profilu." },
-  { id: "rel:p4-t-public", from: "project:4", to: "topic:public-space", type: "belongs_to", label: "Veřejný prostor" },
+  { id: "rel:c2-t-school", from: "candidate:2", to: "topic:school", type: "focuses_on", label: "Oblasti, kterým se věnuje", description: "Vazba vychází z doloženého kandidátského tématu Školství." },
+  { id: "rel:c2-a-school", from: "candidate:2", to: "article:school-capacity", type: "contributes_to", label: "Související články", description: "Článek navazuje na doloženou roli ve svazku obcí pro školu." },
   { id: "rel:p4-a-progress", from: "project:4", to: "article:long-park-progress", type: "explains", label: "Čtěte také" },
   { id: "rel:p4-d-permit", from: "project:4", to: "document:long-park-permit", type: "documents", label: "Dokumenty a důkazy" },
   { id: "rel:p4-f-delay", from: "project:4", to: "faq:long-park-delay", type: "answers", label: "Časté otázky" },
   { id: "rel:p4-g-long", from: "project:4", to: "gallery:long-park", type: "shows", label: "Galerie" },
   { id: "rel:p4-v-interview", from: "project:4", to: "video:long-park-interview", type: "features", label: "Video" },
-  { id: "rel:p7-t-school", from: "project:7", to: "topic:school", type: "belongs_to", label: "Škola" },
   { id: "rel:p7-a-school", from: "project:7", to: "article:school-capacity", type: "explains", label: "Čtěte také" },
   { id: "rel:p7-f-school", from: "project:7", to: "faq:school-next", type: "answers", label: "Časté otázky" },
   { id: "rel:p7-v-school", from: "project:7", to: "video:school-explainer", type: "features", label: "Video" },
-  { id: "rel:p8-t-school", from: "project:8", to: "topic:school", type: "belongs_to", label: "Škola" },
-  { id: "rel:p8-t-sport", from: "project:8", to: "topic:sport", type: "belongs_to", label: "Sport" },
-  { id: "rel:p11-t-transport", from: "project:11", to: "topic:transport", type: "belongs_to", label: "Doprava" },
   { id: "rel:p11-a-sokp", from: "project:11", to: "article:sokp-role", type: "explains", label: "Čtěte také" },
   { id: "rel:p11-f-sokp", from: "project:11", to: "faq:sokp-control", type: "answers", label: "Časté otázky" },
-  { id: "rel:p12-t-transport", from: "project:12", to: "topic:transport", type: "belongs_to", label: "Doprava" },
   { id: "rel:p12-d-study", from: "project:12", to: "document:rail-study", type: "documents", label: "Dokumenty a důkazy" },
-  { id: "rel:p16-t-public", from: "project:16", to: "topic:public-space", type: "belongs_to", label: "Veřejný prostor" },
   { id: "rel:p16-d-study", from: "project:16", to: "document:sokolovna-study", type: "documents", label: "Dokumenty a důkazy" },
+  { id: "rel:a-long-t-public", from: "article:long-park-progress", to: "topic:public-space", type: "belongs_to", label: "Veřejný prostor" },
+  { id: "rel:a-school-t-school", from: "article:school-capacity", to: "topic:school", type: "belongs_to", label: "Škola" },
+  { id: "rel:a-sokp-t-transport", from: "article:sokp-role", to: "topic:transport", type: "belongs_to", label: "Doprava" },
   { id: "rel:g-public-t-public", from: "gallery:public-space", to: "topic:public-space", type: "shows", label: "Galerie" },
 ];
 

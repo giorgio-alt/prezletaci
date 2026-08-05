@@ -22,6 +22,19 @@ import {
   projectImageManifest,
   selectFirstSupportedImage,
 } from "../app/project-images.ts";
+import {
+  activeProjectStatus,
+  campaignReadiness,
+  candidateProductionChecklist,
+  clientInputs,
+  completedProjectStatus,
+  firstCandidateWave,
+  mergeSprintTasks,
+  sprintRisks,
+  sprintRoadmap,
+  sprintTasks,
+  weeklyFocus,
+} from "../app/sprint-status.ts";
 
 const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
@@ -128,7 +141,7 @@ test("imports one optimized photograph for every non-empty project folder", asyn
   assert.equal(projectImageManifest.find((record) => record.projectId === 16)?.slug, "rekonstrukce-sokolovny");
 });
 
-test("version 5 project migration preserves edits and adds catalog media", async () => {
+test("version 6 project migration preserves edits and adds catalog media", async () => {
   const saved = [
     { id: 1, title: "Uživatelský název", slug: "", image: "", imageAlt: "" },
     { id: 999, title: "Vlastní projekt", slug: "vlastni-projekt", image: "/custom.webp", imageAlt: "Vlastní fotografie" },
@@ -145,7 +158,7 @@ test("version 5 project migration preserves edits and adds catalog media", async
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 5;/);
+  assert.match(page, /const DATA_VERSION = 6;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -230,7 +243,7 @@ test("defines a complete structured Web workspace", async () => {
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
-  assert.equal(webBriefSections.length, 16);
+  assert.equal(webBriefSections.length, 17);
   assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
   assert.equal(baseWebsiteContentItems.length >= 9, true);
   assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);
@@ -258,12 +271,58 @@ test("defines a valid extensible Relationship Engine", async () => {
   assert.equal(new Set(contentKnowledgeEntities.map((entity) => entity.id)).size, contentKnowledgeEntities.length);
   assert.equal(new Set(knowledgeRelationships.map((relationship) => relationship.id)).size, knowledgeRelationships.length);
   assert.equal(knowledgeRelationships.every((relationship) => entityIds.has(relationship.from) && entityIds.has(relationship.to)), true);
-  assert.equal(getRelatedEntityIds("project:4").includes("candidate:2"), true);
+  assert.equal(getRelatedEntityIds("project:4").includes("candidate:2"), false);
+  assert.equal(getRelatedEntityIds("candidate:2").includes("topic:school"), true);
+  assert.equal(getRelatedEntityIds("candidate:2").includes("article:school-capacity"), true);
+  assert.equal(knowledgeRelationships.some((relationship) => relationship.type === "works_on"), false);
+  const allowedProjectTargets = new Set(["article", "document", "faq", "gallery", "video"]);
+  assert.equal(knowledgeRelationships.filter((relationship) => relationship.from.startsWith("project:")).every((relationship) => allowedProjectTargets.has(relationship.to.split(":")[0])), true);
+  assert.equal(knowledgeRelationships.filter((relationship) => relationship.to.startsWith("project:")).every((relationship) => allowedProjectTargets.has(relationship.from.split(":")[0])), true);
   assert.equal(findOrphanEntities(contentKnowledgeEntities).some((entity) => entity.id === "topic:safety"), true);
   assert.match(page, /Relationship Engine/);
-  assert.match(page, /Na čem pracuji/);
-  assert.match(page, /Lidé za projektem/);
+  assert.match(page, /Oblasti, kterým se věnuji/);
+  assert.doesNotMatch(page, /Na čem pracuji/);
+  assert.doesNotMatch(page, /Lidé za projektem/);
   assert.match(page, /Související obsah/);
   assert.match(styles, /\.relationship-workspace/);
   assert.match(styles, /\.relationship-panel/);
+});
+
+test("centralizes the complete Campaign HQ Sprint 03 operating state", async () => {
+  const [page, brief] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/web-content.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.equal(weeklyFocus.length, 5);
+  assert.equal(completedProjectStatus.length, 9);
+  assert.equal(activeProjectStatus.length, 4);
+  assert.equal(candidateProductionChecklist.length, 7);
+  assert.deepEqual(firstCandidateWave, [11, 10, 9, 8, 7, 6]);
+  assert.equal(clientInputs.length, 5);
+  assert.equal(sprintRisks.length, 5);
+  assert.deepEqual(campaignReadiness.map(({ label, value }) => [label, value]), [
+    ["Strategie", 100], ["Campaign HQ", 100], ["Publikační plán", 100], ["Web Brief", 100], ["Mockup webu", 100],
+    ["Brand", 80], ["Web", 70], ["Medailonky", 30], ["První příspěvky", 20], ["Facebook", 10],
+  ]);
+  assert.deepEqual(sprintRoadmap.map((item) => item.title), [
+    "Schválení identity", "Dokončení medailonků", "První grafické šablony", "Publikace kandidátů", "Spuštění webu", "Projektové články", "Vysvětlující obsah",
+  ]);
+
+  const editedTask = { ...sprintTasks[0], status: "Doing" };
+  const legacyTask = { ...sprintTasks[0], id: 1, title: "Původní systémová položka" };
+  const customTask = { ...sprintTasks[0], id: 999, title: "Vlastní položka" };
+  const migrated = mergeSprintTasks([editedTask, legacyTask, customTask], sprintTasks, 5);
+  assert.equal(migrated.find((task) => task.id === sprintTasks[0].id)?.status, "Doing");
+  assert.equal(migrated.some((task) => task.id === 1), false);
+  assert.equal(migrated.some((task) => task.id === 999), true);
+
+  assert.match(page, /Fokus týdne/);
+  assert.match(page, /War Room/);
+  assert.match(page, /Připravenost kampaně/);
+  assert.match(page, /Aktuální rizika/);
+  assert.match(page, /Poslední změna \{item\.updatedAt\}/);
+  assert.match(brief, /Produkční strategie Sprint 03/);
+  assert.match(brief, /Kandidát → oblasti → související články → související témata/);
+  assert.doesNotMatch(brief, /Kandidát ↔ projekty/);
 });
