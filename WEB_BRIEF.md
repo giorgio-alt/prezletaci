@@ -287,6 +287,21 @@ _Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
+## Programový obsah
+
+### Plán pro Přezletice 2026–2030
+
+Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na odvedenou práci, pojmenovává rozdělané věci a říká, co chceme v dalších letech konkrétně posunout.
+
+- Stav: copy ke schválení
+- Markdown: content/program/plan-pro-prezletice-2026-2030.md
+- Budoucí webová adresa: /program
+- Programové okruhy: Doprava a infrastruktura · Školství a kapacity · Veřejný prostor a zeleň · Sport, volný čas a komunitní život · Bezpečnost a prevence · Služby v obci · Rozumný rozvoj a územní plánování · Kultura a společenské centrum · Digitalizace a komunikace obce · Odpovědné hospodaření
+- SoMe post: 137
+- Kontrola: Schválit finální pořadí priorit · Doplnit odkazy na projektové karty · Provést faktickou a kompetenční kontrolu
+
+---
+
 ## Připravené webové články
 
 ### Jak se staráme o zeleň v Přezleticích

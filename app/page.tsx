@@ -46,6 +46,7 @@ import {
 } from "./sprint-status";
 import { candidateContentUpdates } from "./candidate-content";
 import { articleContentBySlug } from "./article-content";
+import { programContentBySlug } from "./program-content";
 
 type SectionId =
   | "dashboard"
@@ -425,7 +426,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 8;
+const DATA_VERSION = 9;
 
 const slugify = slugFromTitle;
 
@@ -489,7 +490,7 @@ export default function Home() {
     }
     queueMicrotask(() => {
       if (data) {
-        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === 7 || data.dataVersion === DATA_VERSION) {
+        if (typeof data.dataVersion === "number" && data.dataVersion >= 2 && data.dataVersion <= DATA_VERSION) {
           const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
           if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
@@ -631,7 +632,7 @@ export default function Home() {
       if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
       if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
       const importedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
-      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === 7 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
+      if (typeof data.dataVersion === "number" && data.dataVersion >= 3 && data.dataVersion <= DATA_VERSION && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
       setPosts(importedPosts);
       setToast("Záloha byla načtena.");
     } catch {
@@ -1354,10 +1355,44 @@ export default function Home() {
   const renderPostDetail = () => {
     if (!selectedPost) return null;
     const article = selectedPost.articleSlug ? articleContentBySlug.get(selectedPost.articleSlug) : null;
-    const linkedCandidate = selectedPost.id === 134 ? undefined : candidates.find((candidate) => candidate.plannedPostIds.includes(selectedPost.id));
+    const program = selectedPost.programSlug ? programContentBySlug.get(selectedPost.programSlug) : null;
+    const linkedCandidate = selectedPost.candidateId
+      ? candidates.find((candidate) => candidate.id === selectedPost.candidateId)
+      : selectedPost.id === 134 ? undefined : candidates.find((candidate) => candidate.plannedPostIds.includes(selectedPost.id));
+    const linkedProject = selectedPost.projectId ? projects.find((project) => project.id === selectedPost.projectId) : null;
     const galleryImages = selectedPost.galleryImages ?? article?.galleryImages ?? [];
-    const primaryImage = selectedPost.primaryImage ?? article?.primaryImage ?? linkedCandidate?.image;
-    return <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail post-readable-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{article?.title ?? linkedCandidate?.name ?? selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format} · {selectedPost.status}</p>{primaryImage ? <div className="post-asset-hero"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 680px" unoptimized /></div> : <ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} />}<div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{linkedCandidate && <article className="post-readable-card"><div className="profile-panel-head"><span className="eyebrow">SoMe medailonek kandidáta</span><b>#{linkedCandidate.order}</b></div>{linkedCandidate.headline && <blockquote>„{linkedCandidate.headline}“</blockquote>}<p className="social-copy-preview">{linkedCandidate.socialCopy || linkedCandidate.bio}</p><dl className="post-article-meta"><div><dt>Kandidát</dt><dd>{linkedCandidate.name}</dd></div><div><dt>Profil</dt><dd>Campaign HQ / Kandidáti / {linkedCandidate.name}</dd></div><div><dt>Témata</dt><dd>{linkedCandidate.topics.join(" · ")}</dd></div></dl></article>}{article && <article className="post-readable-card article-readable-card"><div className="profile-panel-head"><span className="eyebrow">Webový článek ke kontrole</span><b>{article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</b></div><p className="article-perex">{article.perex}</p>{article.body.map((section) => <section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}<div className="post-social-derivative"><span className="eyebrow">Text pro sociální sítě</span><p>{article.socialCopy}</p><strong>Carousel</strong><ol>{article.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {article.cta}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{article.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Projekty</dt><dd>{article.projectIds.join(", ")}</dd></div></dl></article>}{galleryImages.length > 0 && <div className="post-gallery-assets"><span className="eyebrow">Přiřazené fotografie</span><div>{galleryImages.map((image) => <figure key={image}><Image src={image} alt={`Doplňková fotografie pro ${selectedPost.title}`} fill sizes="120px" unoptimized /><figcaption>{image.split("/").pop()}</figcaption></figure>)}</div></div>}<div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate(article ? "web" : linkedCandidate ? "candidates" : "checklist"); }}>Otevřít související sekci</button></section></div>;
+    const primaryImage = selectedPost.primaryImage ?? article?.primaryImage ?? linkedProject?.image ?? linkedCandidate?.image;
+    const openRelatedSection = () => {
+      setSelectedPost(null);
+      if (linkedCandidate) {
+        setSelectedCandidate(linkedCandidate);
+        navigate("candidates");
+      } else if (article || program) {
+        setWebView("inventory");
+        navigate("web");
+      } else if (linkedProject) {
+        setSelectedProject(linkedProject);
+        navigate("projects");
+      } else {
+        navigate("checklist");
+      }
+    };
+    return <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail post-readable-detail" onMouseDown={(event) => event.stopPropagation()}>
+      <button className="modal-close" onClick={() => setSelectedPost(null)}>×</button>
+      <span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span>
+      <h2>{selectedPost.title}</h2>
+      <p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format} · {selectedPost.status}</p>
+      {primaryImage ? <div className="post-asset-hero"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 680px" unoptimized /></div> : <ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} />}
+      <article className="post-readable-card post-production-brief"><div className="profile-panel-head"><span className="eyebrow">Obsah a produkční zadání</span><b>Zdroj pravdy</b></div><h3>Co má post sdělit</h3><p>{selectedPost.contentSummary ?? "Obsahový brief čeká na doplnění."}</p><h3>Co použít pro produkci</h3><p>{selectedPost.productionNote ?? "Produkční podklad čeká na doplnění."}</p>{selectedPost.draftLink && <small className="asset-source">Pracovní podklad: {selectedPost.draftLink}</small>}</article>
+      <div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
+      {linkedCandidate && <article className="post-readable-card"><div className="profile-panel-head"><span className="eyebrow">SoMe medailonek kandidáta</span><b>#{linkedCandidate.order}</b></div>{linkedCandidate.headline && <blockquote>„{linkedCandidate.headline}“</blockquote>}<p className="social-copy-preview">{linkedCandidate.socialCopy || linkedCandidate.bio}</p><dl className="post-article-meta"><div><dt>Kandidát</dt><dd>{linkedCandidate.name}</dd></div><div><dt>Profil</dt><dd>Campaign HQ / Kandidáti / {linkedCandidate.name}</dd></div><div><dt>Témata</dt><dd>{linkedCandidate.topics.join(" · ")}</dd></div></dl></article>}
+      {linkedProject && <article className="post-readable-card post-project-brief"><div className="profile-panel-head"><span className="eyebrow">Konkrétní projektový podklad</span><b>P-{String(linkedProject.id).padStart(2, "0")}</b></div><h3>{linkedProject.title}</h3><p>{linkedProject.summary}</p><dl className="post-article-meta"><div><dt>Stav</dt><dd>{linkedProject.status}</dd></div><div><dt>Oblast</dt><dd>{linkedProject.area}</dd></div><div><dt>Další krok</dt><dd>{linkedProject.next}</dd></div><div><dt>Důkaz</dt><dd>{linkedProject.evidence}</dd></div></dl></article>}
+      {article && <article className="post-readable-card article-readable-card"><div className="profile-panel-head"><span className="eyebrow">Webový článek ke kontrole</span><b>{article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</b></div><p className="article-perex">{article.perex}</p>{article.body.map((section) => <section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}<div className="post-social-derivative"><span className="eyebrow">Text pro sociální sítě</span><p>{article.socialCopy}</p><strong>Carousel</strong><ol>{article.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {article.cta}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{article.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Projekty</dt><dd>{article.projectIds.join(", ")}</dd></div></dl></article>}
+      {program && <article className="post-readable-card article-readable-card program-readable-card"><div className="profile-panel-head"><span className="eyebrow">Programový obsahový brief</span><b>Copy ke schválení</b></div><h3>{program.title}</h3><p className="article-perex">{program.perex}</p><p>{program.mainMessage}</p><div className="program-area-list">{program.areas.map((area) => <section key={area.title}><h3>{area.title}</h3><dl><div><dt>Co řešíme</dt><dd>{area.whatWeSolve}</dd></div><div><dt>Proč je to důležité</dt><dd>{area.whyItMatters}</dd></div><div><dt>Co bude další krok</dt><dd>{area.nextStep}</dd></div></dl></section>)}</div><div className="post-social-derivative"><span className="eyebrow">Úvodní text pro sociální sítě</span><p>{program.socialCopy}</p><strong>Carousel „Jak číst náš program“</strong><ol>{program.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {program.cta} · budoucí web: {program.futureWebPath}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{program.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Kontrola</dt><dd>{program.checks.join(" · ")}</dd></div></dl></article>}
+      {galleryImages.length > 0 && <div className="post-gallery-assets"><span className="eyebrow">Přiřazené fotografie</span><div>{galleryImages.map((image) => <figure key={image}><Image src={image} alt={`Doplňková fotografie pro ${selectedPost.title}`} fill sizes="120px" unoptimized /><figcaption>{image.split("/").pop()}</figcaption></figure>)}</div></div>}
+      <div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div>
+      <button className="primary-button full-button" onClick={openRelatedSection}>Otevřít související sekci</button>
+    </section></div>;
   };
 
   const views: Record<SectionId, () => React.ReactNode> = {

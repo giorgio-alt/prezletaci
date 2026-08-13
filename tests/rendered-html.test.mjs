@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { initialPosts, legacyInitialPosts, mergePostsWithPlan } from "../app/postplan.ts";
+import { PROGRAM_MARKDOWN, programContent } from "../app/program-content.ts";
 import {
   AI_CONTEXT_MARKDOWN,
   WEB_BRIEF_MARKDOWN,
@@ -61,7 +62,7 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
-  assert.match(html, /Příspěvky<\/span><strong>39/);
+  assert.match(html, /Příspěvky<\/span><strong>41/);
 });
 
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
@@ -141,7 +142,7 @@ test("imports one optimized photograph for every non-empty project folder", asyn
   assert.equal(projectImageManifest.find((record) => record.projectId === 16)?.slug, "rekonstrukce-sokolovny");
 });
 
-test("version 6 project migration preserves edits and adds catalog media", async () => {
+test("project migration preserves edits and adds catalog media", async () => {
   const saved = [
     { id: 1, title: "Uživatelský název", slug: "", image: "", imageAlt: "" },
     { id: 999, title: "Vlastní projekt", slug: "vlastni-projekt", image: "/custom.webp", imageAlt: "Vlastní fotografie" },
@@ -158,7 +159,7 @@ test("version 6 project migration preserves edits and adds catalog media", async
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 6;/);
+  assert.match(page, /const DATA_VERSION = 9;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -208,16 +209,20 @@ test("defines the six centrally themed ContentCard templates", async () => {
   assert.match(styles, /\.brand-mark img \{ width:38px; height:38px; object-fit:contain/);
 });
 
-test("imports the complete chronological 39-post publication plan", async () => {
-  assert.equal(initialPosts.length, 39);
+test("imports the complete chronological publication plan with concrete production metadata", async () => {
+  assert.equal(initialPosts.length, 41);
   assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
   assert.equal(initialPosts.every((post) => /^2026-(08|09|10)-\d{2}$/.test(post.date)), true);
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 12, "09": 17, "10": 10 },
+    { "08": 12, "09": 19, "10": 10 },
   );
+  assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
+  assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
+  assert.deepEqual(initialPosts.filter((post) => post.candidateId).map((post) => post.candidateId), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  assert.equal(initialPosts.find((post) => post.id === 137)?.programSlug, programContent.slug);
 });
 
 test("all candidate post links resolve to imported posts", async () => {
@@ -229,27 +234,42 @@ test("all candidate post links resolve to imported posts", async () => {
   assert.equal(references.every((id) => ids.has(id)), true);
 });
 
-test("version 4 migration adds the plan without erasing user changes", () => {
-  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 39);
+test("version 9 migration enriches the plan without erasing user changes", () => {
+  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 41);
   const editedLegacy = { ...legacyInitialPosts[1], title: "Uživatelská úprava medailonku" };
   const withEditedLegacy = mergePostsWithPlan([editedLegacy], 3);
-  assert.equal(withEditedLegacy.length, 40);
+  assert.equal(withEditedLegacy.length, 42);
   assert.equal(withEditedLegacy.find((post) => post.id === editedLegacy.id)?.title, editedLegacy.title);
   const editedPlanPost = { ...initialPosts[0], status: "Copy" };
   const customPost = { ...legacyInitialPosts[0], id: 999001, title: "Vlastní uživatelský příspěvek" };
   const migrated = mergePostsWithPlan([editedPlanPost, customPost], 4);
-  assert.equal(migrated.length, 40);
+  assert.equal(migrated.length, 42);
   assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
   assert.equal(migrated.some((post) => post.id === customPost.id), true);
+  const oldDefault = { ...initialPosts.find((post) => post.id === 102), title: "Medailonek 1", candidateId: undefined, contentSummary: undefined, productionNote: undefined };
+  const renamed = mergePostsWithPlan([oldDefault], 8).find((post) => post.id === 102);
+  assert.equal(renamed?.title, "Lidé · Medailonek · Tomáš Říha");
+  assert.equal(renamed?.candidateId, 1);
+  const customTitle = { ...oldDefault, title: "Můj vlastní název" };
+  assert.equal(mergePostsWithPlan([customTitle], 8).find((post) => post.id === 102)?.title, customTitle.title);
+  const oldProgramDefault = { ...initialPosts.find((post) => post.id === 137), title: "Program", status: "Námět", copy: "Čeká", approval: "Čeká" };
+  const migratedProgram = mergePostsWithPlan([oldProgramDefault], 8).find((post) => post.id === 137);
+  assert.equal(migratedProgram?.status, "Copy");
+  assert.equal(migratedProgram?.copy, "Hotovo");
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {
-  const [briefFile, aiFile] = await Promise.all([
+  const [briefFile, aiFile, programFile] = await Promise.all([
     readFile(new URL("../WEB_BRIEF.md", import.meta.url), "utf8"),
     readFile(new URL("../AI_CONTEXT.md", import.meta.url), "utf8"),
+    readFile(new URL("../content/program/plan-pro-prezletice-2026-2030.md", import.meta.url), "utf8"),
   ]);
   assert.equal(briefFile, WEB_BRIEF_MARKDOWN);
   assert.equal(aiFile, AI_CONTEXT_MARKDOWN);
+  assert.equal(programFile, PROGRAM_MARKDOWN);
+  assert.match(programFile, /# Plán pro Přezletice 2026–2030/);
+  assert.equal(programContent.areas.length, 10);
+  assert.equal(baseWebsiteContentItems.some((item) => item.id === "page-plans" && item.draftLink === programContent.markdownPath), true);
   assert.match(briefFile, /## Role webu v kampani/);
   assert.match(briefFile, /## Živé otevřené body/);
   assert.match(aiFile, /## Pravidla práce s fakty/);
