@@ -27,6 +27,9 @@ __pycache__/
 
 # Local high-resolution source archive. A GitHub-ready copy lives in /photo-library.
 /Originální Fotky/
+/content-audit/00_zdrojove_zipy/
+/content-audit/01_rozbaleno/
+/content-audit/02_extrakce/
 
 # debug
 npm-debug.log*

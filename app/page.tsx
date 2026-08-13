@@ -44,6 +44,7 @@ import {
   sprintUpdatedAt,
   weeklyFocus,
 } from "./sprint-status";
+import { candidateContentUpdates } from "./candidate-content";
 
 type SectionId =
   | "dashboard"
@@ -96,7 +97,10 @@ type Candidate = {
   image: string;
   office: string;
   professions: string[];
+  headline?: string;
+  headlineStatus?: string;
   bio: string;
+  socialCopy?: string;
   initials: string;
   quote?: string;
   topics: string[];
@@ -112,6 +116,7 @@ type Candidate = {
   plannedPostIds: number[];
   projectIds: number[];
   documents: string[];
+  reviewNotes?: string[];
 };
 
 type CandidateView = "overview" | "matrix" | "dashboard";
@@ -319,10 +324,11 @@ const initialProjects: Project[] = [
 ];
 
 const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
+const candidateContentById = new Map(candidateContentUpdates.map((content) => [content.id, content]));
 
 // Zdrojový kalendář označuje medailonky čísly 1–11; vazba proto kopíruje
 // explicitní pořadí kandidátů. Příspěvek „Celý tým“ je přiřazen všem.
-const initialCandidates: Candidate[] = [
+const initialCandidateBase: Candidate[] = [
   { id: 1, order: 1, name: "Tomáš Říha", image: "/images/candidates/tomas-riha.webp", office: "Starosta obce Přezletice", professions: ["Jednatel obchodní společnosti hasičské a záchranářské techniky"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "TŘ", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2830–R5A2840"], assets: { ...candidateBaseAssets }, plannedPostIds: [102, 134], projectIds: [], documents: [] },
   { id: 2, order: 2, name: "Jan Macourek", image: "/images/candidates/jan-macourek.webp", office: "Místostarosta obce Přezletice", professions: ["Předseda svazku Přezletice – Podolanka – Jenštejn", "Podnikatel v nábytkářství"], bio: "V Přezleticích žije přes dvacet let. Je truhlář, dvanáct let působí v zastupitelstvu a ve svazku obcí pro výstavbu a provoz svazkové školy. Prosazuje technicky i finančně realistické projekty a hlídá vyvážený rozpočet.", initials: "JM", quote: "Mnohé plány vypadaly nemožně. Povedly se — a stejně konkrétně chci pracovat i dál.", topics: ["Rozvoj", "Finance", "Školství"], photoRanges: ["R5A2815–R5A2829", "R5A2867–R5A2878", "R5A3010–R5A3016"], assets: { ...candidateBaseAssets, medallion: true, bio: true, quote: true }, plannedPostIds: [104, 134], projectIds: [], documents: ["Jan Macoure1.docx"] },
   { id: 3, order: 3, name: "Romana Bernardová", image: "/images/candidates/romana-bernardova.webp", office: "", professions: ["Důchodkyně", "Bývalá technická redaktorka"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "RB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2907–R5A2918"], assets: { ...candidateBaseAssets }, plannedPostIds: [107, 134], projectIds: [], documents: [] },
@@ -336,6 +342,23 @@ const initialCandidates: Candidate[] = [
   { id: 11, order: 11, name: "Vojta Brož", image: "/images/candidates/vojta-broz.webp", office: "", professions: ["Student ČVUT", "Fakulta stavební"], bio: "Medailonek a osobní bio čekají na doplnění.", initials: "VB", topics: ["Doplnit komunikační témata"], photoRanges: ["R5A2997–R5A3008"], assets: { ...candidateBaseAssets }, plannedPostIds: [133, 134], projectIds: [], documents: [] },
 ];
 
+const initialCandidates: Candidate[] = initialCandidateBase.map((candidate) => {
+  const content = candidateContentById.get(candidate.id);
+  if (!content) return candidate;
+  return {
+    ...candidate,
+    headline: content.headline,
+    headlineStatus: content.headlineStatus,
+    bio: content.bio,
+    socialCopy: content.socialCopy,
+    topics: content.topics,
+    documents: content.documents,
+    reviewNotes: content.reviewNotes,
+    quote: undefined,
+    assets: { ...candidate.assets, medallion: true, bio: true, quote: false },
+  };
+});
+
 const mergeCandidatesWithPlan = (savedCandidates: Candidate[], availablePosts: SocialPost[]) => {
   const validPostIds = new Set(availablePosts.map((post) => post.id));
   const knownIds = new Set(initialCandidates.map((candidate) => candidate.id));
@@ -343,7 +366,7 @@ const mergeCandidatesWithPlan = (savedCandidates: Candidate[], availablePosts: S
     const saved = savedCandidates.find((candidate) => candidate.id === base.id);
     if (!saved) return base;
     const savedLinks = Array.isArray(saved.plannedPostIds) ? saved.plannedPostIds.filter((id) => validPostIds.has(id)) : [];
-    return { ...base, ...saved, image: base.image, projectIds: [], plannedPostIds: Array.from(new Set([...base.plannedPostIds, ...savedLinks])) };
+    return { ...saved, ...base, image: base.image, projectIds: [], plannedPostIds: Array.from(new Set([...base.plannedPostIds, ...savedLinks])) };
   });
   return [...merged, ...savedCandidates.filter((candidate) => !knownIds.has(candidate.id))];
 };
@@ -401,7 +424,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 6;
+const DATA_VERSION = 7;
 
 const slugify = slugFromTitle;
 
@@ -465,7 +488,7 @@ export default function Home() {
     }
     queueMicrotask(() => {
       if (data) {
-        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === DATA_VERSION) {
+        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === DATA_VERSION) {
           const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
           if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
@@ -607,7 +630,7 @@ export default function Home() {
       if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
       if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
       const importedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
-      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
+      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
       setPosts(importedPosts);
       setToast("Záloha byla načtena.");
     } catch {
@@ -1309,9 +1332,10 @@ export default function Home() {
     return <div className="modal-backdrop" onMouseDown={() => setSelectedCandidate(null)}><section className="detail-modal candidate-detail candidate-profile" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedCandidate(null)}>×</button>
       <div className="candidate-detail-hero"><div className="detail-avatar"><span aria-hidden="true">{selectedCandidate.initials}</span>{selectedCandidate.image && <Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="114px" unoptimized onError={(event) => { event.currentTarget.hidden = true; }} />}<b>#{selectedCandidate.order}</b></div><div><span className="eyebrow">Kandidát č. {selectedCandidate.order}</span><h2>{selectedCandidate.name}</h2>{selectedCandidate.office && <strong>{selectedCandidate.office}</strong>}<p>{selectedCandidate.professions.join(" · ")}</p></div></div>
       <div className="candidate-profile-grid">
-        <article className="profile-panel profile-about"><div className="profile-panel-head"><span className="eyebrow">Profil</span><b>{selectedCandidate.assets.bio ? "Rozpracováno" : "Doplnit"}</b></div><p>{selectedCandidate.bio}</p>{selectedCandidate.quote && <blockquote>„{selectedCandidate.quote}“</blockquote>}</article>
+        <article className="profile-panel profile-about"><div className="profile-panel-head"><span className="eyebrow">Profil</span><b>{selectedCandidate.assets.bio ? "Připraveno" : "Doplnit"}</b></div>{selectedCandidate.headline && <blockquote>„{selectedCandidate.headline}“</blockquote>}{selectedCandidate.headlineStatus && <small className="asset-source">Claim: {selectedCandidate.headlineStatus}</small>}<p>{selectedCandidate.bio}</p>{selectedCandidate.quote && <blockquote>„{selectedCandidate.quote}“</blockquote>}</article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Produkční checklist</span><b>{productionChecks.filter((item) => item.done).length}/7</b></div><ul className="asset-checklist">{productionChecks.map((item) => <li className={item.done ? "done" : ""} key={item.label}><span>{item.done ? "✓" : ""}</span>{item.label}</li>)}</ul></article>
       </div>
+      {selectedCandidate.socialCopy && <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">SoMe medailonek</span><b>{selectedCandidate.socialCopy.length} znaků</b></div><p className="social-copy-preview">{selectedCandidate.socialCopy}</p></article>}
       <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Komunikační témata</span><button onClick={() => setToast("Témata budou doplněna v další obsahové fázi.")}>＋ Přidat</button></div><div className="tag-list">{selectedCandidate.topics.map((topic) => <span key={topic}>{topic}</span>)}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Naplánované příspěvky</span><b>{relatedPosts.length}</b></div><div className="profile-link-list">{relatedPosts.length ? relatedPosts.map((post) => <button key={post.id} onClick={() => { setSelectedCandidate(null); setSelectedPost(post); }}><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{formatDate(post.date)} · {post.format}</small></span><b>→</b></button>) : <div className="profile-empty">Zatím bez naplánovaného příspěvku.</div>}</div></article>
@@ -1321,7 +1345,7 @@ export default function Home() {
       <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Video</span><b>0 / 4</b></div><div className="video-placeholders">{["Rozhovor", "Reels", "Podcast", "Veřejná setkání"].map((format) => <button key={format}><span>▶</span><strong>{format}</strong><small>Připojit výstup</small></button>)}</div></article>
-        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Dokumenty</span><b>{selectedCandidate.documents.length}</b></div><div className="profile-documents">{selectedCandidate.documents.length ? selectedCandidate.documents.map((document) => <div key={document}><span>DOC</span><strong>{document}</strong></div>) : <div className="profile-empty">PDF, usnesení, fotografie a zápisy lze připojit později.</div>}<button className="secondary-button" onClick={() => setToast("Připojení dokumentů je připravené pro interní úložiště.")}>＋ Připojit dokument</button></div></article>
+        <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Dokumenty</span><b>{selectedCandidate.documents.length}</b></div><div className="profile-documents">{selectedCandidate.documents.length ? selectedCandidate.documents.map((document) => <div key={document}><span>DOC</span><strong>{document}</strong></div>) : <div className="profile-empty">PDF, usnesení, fotografie a zápisy lze připojit později.</div>}{selectedCandidate.reviewNotes?.length ? <div className="review-notes">{selectedCandidate.reviewNotes.map((note) => <small key={note}>{note}</small>)}</div> : null}<button className="secondary-button" onClick={() => setToast("Připojení dokumentů je připravené pro interní úložiště.")}>＋ Připojit dokument</button></div></article>
       </div>
     </section></div>;
   };
