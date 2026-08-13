@@ -1,3 +1,5 @@
+import { articleContent } from "./article-content.ts";
+
 export type BriefSection = {
   id: string;
   title: string;
@@ -302,6 +304,31 @@ export const baseWebsiteContentItems: WebsiteContentItem[] = [
   { id: "page-history", title: "Historie", pageType: "Historická stránka", section: "Historie", purpose: "Věcně popsat vývoj Přezleťáků a tři volební období práce.", pillar: "Dokumenty a důkazy", status: "Čeká na podklady", priority: "Střední", owner: "Copy + Klient", deadline: "20. 8. 2026", sourceLinks: ["Dokumenty", "Zápisy"], draftLink: "Čeká na chronologii", notes: "Tvrzení o dalších subjektech musí mít konkrétní doklad.", blockers: ["Chybějící historické podklady"], readiness: 18 },
   { id: "page-documents", title: "Dokumenty", pageType: "Dokument", section: "Dokumenty", purpose: "Zpřístupnit zdroje vždy v kontextu konkrétního tématu.", pillar: "Dokumenty a důkazy", status: "Čeká na podklady", priority: "Vysoká", owner: "PM", deadline: "18. 8. 2026", sourceLinks: ["Modul Dokumenty"], draftLink: "Campaign HQ / Dokumenty", notes: "Nevytvářet neuspořádaný seznam PDF.", blockers: ["Nedodané dokumenty a mapy"], readiness: 24 },
   { id: "page-contact", title: "Kontakt a zapojení", pageType: "Kontakt", section: "Kontakt", purpose: "Nabídnout možnost zaslat otázku a přijít na osobní setkání.", pillar: "Lidé", status: "Nápad", priority: "Střední", owner: "Web + Klient", deadline: "20. 8. 2026", sourceLinks: ["Sociální sítě", "Timeline"], draftLink: "Čeká na zadání", notes: "Kontakty a termíny musí být před publikací ověřené.", blockers: ["Chybějící kontaktní údaje"], readiness: 15 },
+  ...articleContent.map((article): WebsiteContentItem => ({
+    id: `article-${article.slug}`,
+    title: article.title,
+    pageType: "Článek",
+    section: article.slug === "zelen-v-prezleticich" ? "Hotová práce" : "Plány",
+    purpose: article.summary,
+    pillar: article.pillar,
+    status: "Copy ke schválení",
+    priority: "Vysoká",
+    owner: "Copy + Web",
+    deadline: article.slug === "zelen-v-prezleticich" ? "18. 9. 2026" : "25. 9. 2026",
+    projectIds: article.projectIds,
+    sourceLinks: article.sourceLinks,
+    draftLink: article.markdownPath,
+    notes: `Primární obrázek: ${article.primaryImage}. Doplňkové obrázky: ${article.galleryImages.join(" · ")}.`,
+    blockers: article.checks,
+    readiness: 82,
+    checklist: [
+      { label: "Webový Markdown", available: true },
+      { label: "SoMe derivát", available: true },
+      { label: "Primární fotografie", available: true },
+      { label: "Doplňkové fotografie", available: article.galleryImages.length > 0 },
+      { label: "Faktická kontrola", available: false },
+    ],
+  })),
 ];
 
 export const webOpenIssues: WebOpenIssue[] = [
@@ -334,13 +361,14 @@ export function buildWebBriefMarkdown() {
     return parts.join("\n\n");
   }).join("\n\n---\n\n");
 
+  const articles = articleContent.map((article) => `### ${article.title}\n\n- Stav: copy ke schválení\n- Markdown: ${article.markdownPath}\n- Primární obrázek: ${article.primaryImage}\n- Doplňkové obrázky: ${article.galleryImages.join(" · ")}\n- Související projekty: ${article.projectIds.join(", ")}\n- SoMe posty: ${article.socialPostIds.join(", ")}\n- Kontrola: ${article.checks.join(" · ")}`).join("\n\n");
   const issues = webOpenIssues.map((issue) => `### ${issue.title}\n\n- Stav: ${issue.status}\n- Priorita: ${issue.priority}\n- Odpovědnost: ${issue.owner}\n- Termín: ${issue.deadline}\n- Popis: ${issue.description}\n- Poznámka: ${issue.note}`).join("\n\n");
 
-  return `# Přezleťáci 2026 – Web Brief\n\nTento dokument je generovaný ze stejného strukturovaného zdroje jako sekce Web v Campaign HQ. Slouží jako obsahový a strategický brief; nediktuje design ani technické řešení výsledného volebního webu.\n\n${sections}\n\n---\n\n## Živé otevřené body\n\n${issues}\n`;
+  return `# Přezleťáci 2026 – Web Brief\n\nTento dokument je generovaný ze stejného strukturovaného zdroje jako sekce Web v Campaign HQ. Slouží jako obsahový a strategický brief; nediktuje design ani technické řešení výsledného volebního webu.\n\n${sections}\n\n---\n\n## Připravené webové články\n\n${articles}\n\n---\n\n## Živé otevřené body\n\n${issues}\n`;
 }
 
 export function buildAiContextMarkdown() {
-  return `# Přezleťáci 2026 – AI Context\n\n## Projekt\n\nPřezleťáci 2026 jsou komunální volební projekt v obci Přezletice.\n\nPřezleťáci působí ve vedení obce již tři volební období:\n- 2014–2018\n- 2018–2022\n- 2022–2026\n\nV současném období zastávají pozice starosty a místostarosty.\n\n## Role webu\n\nWeb je hlavní komunikační platforma kampaně. Obsahuje kompletní informace, zatímco sociální sítě slouží především k distribuci a přivádění uživatelů na web.\n\n## Produkční strategie Sprint 03\n\nPrvní dva týdny kampaně jsou postavené na kandidátských medailoncích. Dokud web neobsahuje všechny články, příspěvky nesměřují na neexistující obsah. Po spuštění webu se komunikace přesouvá k projektovým článkům, vysvětlujícím tématům, FAQ, dokumentům a dlouhým příběhům.\n\n## Filozofie kampaně\n\nKomunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní a založená na výsledcích a ověřitelných faktech. Nemá být útočná, populistická, agresivní, založená na strachu ani na nepodložených tvrzeních.\n\n## Komunikační pilíře\n\n1. Lidé\n2. Hotová práce\n3. Rozdělané věci\n4. Plány\n5. Vysvětlujeme\n6. Dokumenty a důkazy\n\n## Hlavní obsahové entity\n\n- Candidate\n- Project\n- Topic\n- Article\n- FAQ\n- Document\n- Gallery\n- Video\n- Social Post\n- Website Page\n- Meeting Note\n- Open Issue\n\n## Relationship Engine\n\nWeb je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým se věnuje, se souvisejícími články a tématy; nepropojuje se přímo s jednotlivými projekty. Projekt je samostatná obsahová jednotka a propojuje se pouze s články, dokumenty, FAQ, galeriemi a videi. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.\n\n## Kandidáti\n\n${campaignCandidateNames.map((name, index) => `${index + 1}. ${name}`).join("\n")}\n\n## Hlavní témata\n\n- rozvoj obce\n- škola\n- development\n- územní plán\n- doprava\n- bezpečnost\n- veřejný prostor\n- komunita\n- historie vedení obce\n- dokončené projekty\n- probíhající projekty\n- plány na další volební období\n\n## Pravidla práce s fakty\n\nNevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.\n\n## Tone of Voice\n\nPiš lidsky, klidně, sebevědomě, konkrétně, bez zbytečných politických frází a bez marketingového balastu. Složitější témata vysvětluj běžným jazykem.\n\n## Pravidlo distribuce\n\nWeb obsahuje celý příběh. Sociální sítě vybírají jednu část příběhu a směřují uživatele k podrobnějším informacím.\n\n## Dlouhodobý princip\n\nCampaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.\n`;
+  return `# Přezleťáci 2026 – AI Context\n\n## Projekt\n\nPřezleťáci 2026 jsou komunální volební projekt v obci Přezletice.\n\nPřezleťáci působí ve vedení obce již tři volební období:\n- 2014–2018\n- 2018–2022\n- 2022–2026\n\nV současném období zastávají pozice starosty a místostarosty.\n\n## Role webu\n\nWeb je hlavní komunikační platforma kampaně. Obsahuje kompletní informace, zatímco sociální sítě slouží především k distribuci a přivádění uživatelů na web.\n\n## Produkční strategie Sprint 03\n\nPrvní dva týdny kampaně jsou postavené na kandidátských medailoncích. Dokud web neobsahuje všechny články, příspěvky nesměřují na neexistující obsah. Po spuštění webu se komunikace přesouvá k projektovým článkům, vysvětlujícím tématům, FAQ, dokumentům a dlouhým příběhům.\n\n## Filozofie kampaně\n\nKomunikace je pozitivní, věcná, klidná, lidská, konkrétní, transparentní a založená na výsledcích a ověřitelných faktech. Nemá být útočná, populistická, agresivní, založená na strachu ani na nepodložených tvrzeních.\n\n## Komunikační pilíře\n\n1. Lidé\n2. Hotová práce\n3. Rozdělané věci\n4. Plány\n5. Vysvětlujeme\n6. Dokumenty a důkazy\n\n## Hlavní obsahové entity\n\n- Candidate\n- Project\n- Topic\n- Article\n- FAQ\n- Document\n- Gallery\n- Video\n- Social Post\n- Website Page\n- Meeting Note\n- Open Issue\n\n## Relationship Engine\n\nWeb je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým se věnuje, se souvisejícími články a tématy; nepropojuje se přímo s jednotlivými projekty. Projekt je samostatná obsahová jednotka a propojuje se pouze s články, dokumenty, FAQ, galeriemi a videi. Důležité veřejné stránky používají jednotný blok Související obsah a nesmí končit jako slepá stránka. Stejná data lze využít pro web, sociální sítě, newslettery a tiskoviny.\n\n## Kandidáti\n\n${campaignCandidateNames.map((name, index) => `${index + 1}. ${name}`).join("\n")}\n\n## Hlavní témata\n\n- rozvoj obce\n- škola\n- development\n- územní plán\n- doprava\n- bezpečnost\n- veřejný prostor\n- komunita\n- historie vedení obce\n- dokončené projekty\n- probíhající projekty\n- plány na další volební období\n\n## Připravené články pro web\n\n${articleContent.map((article) => `### ${article.title}\n\n- Slug: ${article.slug}\n- Status: copy ke schválení\n- Markdown: ${article.markdownPath}\n- Primární obrázek: ${article.primaryImage}\n- Doplňkové obrázky: ${article.galleryImages.join(" · ")}\n- Související projekty: ${article.projectIds.join(", ")}\n- SoMe posty: ${article.socialPostIds.join(", ")}\n- Zdrojové podklady: ${article.sourceLinks.join(" · ")}\n- Kontrola před publikací: ${article.checks.join(" · ")}`).join("\n\n")}\n\n## Pravidla práce s fakty\n\nNevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.\n\n## Tone of Voice\n\nPiš lidsky, klidně, sebevědomě, konkrétně, bez zbytečných politických frází a bez marketingového balastu. Složitější témata vysvětluj běžným jazykem.\n\n## Pravidlo distribuce\n\nWeb obsahuje celý příběh. Sociální sítě vybírají jednu část příběhu a směřují uživatele k podrobnějším informacím.\n\n## Dlouhodobý princip\n\nCampaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.\n`;
 }
 
 export const WEB_BRIEF_MARKDOWN = buildWebBriefMarkdown();

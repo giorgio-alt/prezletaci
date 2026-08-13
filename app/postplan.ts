@@ -12,6 +12,11 @@ export type SocialPost = {
   graphic: string;
   copy: string;
   approval: string;
+  articleSlug?: string;
+  websiteItemId?: string;
+  primaryImage?: string;
+  galleryImages?: string[];
+  draftLink?: string;
 };
 
 // Zdroj: Prezletaci_2026_Postplan_Kalendar.xlsx (listy August, September, October).
@@ -57,6 +62,8 @@ export const initialPosts: SocialPost[] = [
   { id: 137, date: "2026-10-08", title: "Program", contentType: "future", pillar: "Plány", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká" },
   { id: 138, date: "2026-10-09", title: "Jak volit", contentType: "evidence", pillar: "Vysvětlování", format: "Post", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Čeká" },
   { id: 139, date: "2026-10-10", title: "Volby", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká" },
+  { id: 140, date: "2026-09-18", title: "Jak se staráme o zeleň v Přezleticích", contentType: "completed", pillar: "Práce", format: "Carousel", status: "Copy", author: "Copy + Grafika", graphic: "Fotky přiřazeny", copy: "Hotovo", approval: "Ke schválení", articleSlug: "zelen-v-prezleticich", websiteItemId: "article-zelen-v-prezleticich", primaryImage: "/images/projects/zelen-mistni-komunikace.webp", galleryImages: ["/images/projects/zelen-prutahove-komunikace.webp", "/images/projects/zelen-podzemni-kontejnery.webp", "/images/projects/hruskove-aleje-a-dalsi-zelen.webp", "/images/projects/dalsi-lokalni-zelen.webp", "/images/projects/komunitni-centrum-zlatak.webp"], draftLink: "content/articles/zelen-v-prezleticich.md" },
+  { id: 141, date: "2026-09-25", title: "Nová radnice jako nové centrum obce", contentType: "future", pillar: "Plány", format: "Carousel", status: "Copy", author: "Copy + Grafika", graphic: "Fotky přiřazeny", copy: "Hotovo", approval: "Ke schválení", articleSlug: "nova-radnice-centrum-obce", websiteItemId: "article-nova-radnice-centrum-obce", primaryImage: "/images/projects/rekonstrukce-sokolovny.webp", galleryImages: ["/images/projects/komunitni-centrum-zlatak.webp", "/images/projects/elektronicka-uredni-deska.webp", "/images/projects/kaplicka-a-zvon.webp", "/images/brand/social/prezletaci-social-yellow.png"], draftLink: "content/articles/nova-radnice-centrum-obce.md" },
 ];
 
 // Výchozí demonstrační položky verze 3. Při migraci se odstraní pouze tehdy,

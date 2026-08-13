@@ -287,6 +287,30 @@ _Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ---
 
+## Připravené webové články
+
+### Jak se staráme o zeleň v Přezleticích
+
+- Stav: copy ke schválení
+- Markdown: content/articles/zelen-v-prezleticich.md
+- Primární obrázek: /images/projects/zelen-mistni-komunikace.webp
+- Doplňkové obrázky: /images/projects/zelen-prutahove-komunikace.webp · /images/projects/zelen-podzemni-kontejnery.webp · /images/projects/hruskove-aleje-a-dalsi-zelen.webp · /images/projects/dalsi-lokalni-zelen.webp · /images/projects/komunitni-centrum-zlatak.webp
+- Související projekty: 19, 20, 23, 24, 25, 34
+- SoMe posty: 140
+- Kontrola: Ověřit přesné označení etap u průtahových komunikací. · Ověřit formulaci „šest let“ u trvalkovo-travinných záhonů. · Potvrdit aktuální stav pasportu zeleně a plánu péče.
+
+### Nová radnice jako nové centrum obce
+
+- Stav: copy ke schválení
+- Markdown: content/articles/nova-radnice-centrum-obce.md
+- Primární obrázek: /images/projects/rekonstrukce-sokolovny.webp
+- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp · /images/projects/elektronicka-uredni-deska.webp · /images/projects/kaplicka-a-zvon.webp · /images/brand/social/prezletaci-social-yellow.png
+- Související projekty: 16, 34, 35, 3
+- SoMe posty: 141
+- Kontrola: Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024. · Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání. · U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.
+
+---
+
 ## Živé otevřené body
 
 ### Schválit obsahovou prioritu homepage

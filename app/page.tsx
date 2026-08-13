@@ -45,6 +45,7 @@ import {
   weeklyFocus,
 } from "./sprint-status";
 import { candidateContentUpdates } from "./candidate-content";
+import { articleContentBySlug } from "./article-content";
 
 type SectionId =
   | "dashboard"
@@ -424,7 +425,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 7;
+const DATA_VERSION = 8;
 
 const slugify = slugFromTitle;
 
@@ -488,7 +489,7 @@ export default function Home() {
     }
     queueMicrotask(() => {
       if (data) {
-        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === DATA_VERSION) {
+        if (data.dataVersion === 2 || data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === 7 || data.dataVersion === DATA_VERSION) {
           const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
           if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
@@ -630,7 +631,7 @@ export default function Home() {
       if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
       if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
       const importedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
-      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
+      if ((data.dataVersion === 3 || data.dataVersion === 4 || data.dataVersion === 5 || data.dataVersion === 6 || data.dataVersion === 7 || data.dataVersion === DATA_VERSION) && Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, importedPosts));
       setPosts(importedPosts);
       setToast("Záloha byla načtena.");
     } catch {
@@ -973,8 +974,8 @@ export default function Home() {
 
       <section className="source-strip glass-card">
         <div className="source-icon">✓</div>
-        <div><span className="eyebrow">Zdroje načteny</span><strong>Dashboard je založen na dodaných podkladech</strong><p>Publikační kalendář, Campaign Hub, executive summary, program 2026–2030 a medailonek Jana Macourka.</p></div>
-        <div className="source-stats"><span><b>39</b> naplánovaných výstupů</span><span><b>{projects.length}</b> projektových karet</span><span><b>11</b> kandidátů</span></div>
+        <div><span className="eyebrow">Zdroje načteny</span><strong>Dashboard je založen na dodaných podkladech</strong><p>Publikační kalendář, Campaign Hub, executive summary, program 2026–2030, medailonky kandidátů a první článkové balíčky.</p></div>
+        <div className="source-stats"><span><b>{posts.length}</b> naplánovaných výstupů</span><span><b>{projects.length}</b> projektových karet</span><span><b>11</b> kandidátů</span></div>
       </section>
     </div>
   );
@@ -1350,6 +1351,14 @@ export default function Home() {
     </section></div>;
   };
 
+  const renderPostDetail = () => {
+    if (!selectedPost) return null;
+    const article = selectedPost.articleSlug ? articleContentBySlug.get(selectedPost.articleSlug) : null;
+    const galleryImages = selectedPost.galleryImages ?? article?.galleryImages ?? [];
+    const primaryImage = selectedPost.primaryImage ?? article?.primaryImage;
+    return <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p>{primaryImage ? <div className="post-asset-hero"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 680px" unoptimized /></div> : <ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} />}<div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>{article && <div className="detail-section"><span className="eyebrow">Webový článek</span><p>{article.summary}</p><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{article.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Projekty</dt><dd>{article.projectIds.join(", ")}</dd></div></dl></div>}{galleryImages.length > 0 && <div className="post-gallery-assets"><span className="eyebrow">Přiřazené fotografie</span><div>{galleryImages.map((image) => <figure key={image}><Image src={image} alt={`Doplňková fotografie pro ${selectedPost.title}`} fill sizes="120px" unoptimized /><figcaption>{image.split("/").pop()}</figcaption></figure>)}</div></div>}<div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>;
+  };
+
   const views: Record<SectionId, () => React.ReactNode> = {
     dashboard: renderDashboard,
     bible: renderBible,
@@ -1405,7 +1414,7 @@ export default function Home() {
 
       {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div>{selectedProject.image ? <div className="project-detail-image"><Image src={selectedProject.image} alt={selectedProject.imageAlt || `Fotografie projektu ${selectedProject.title}`} fill sizes="(max-width: 760px) 100vw, 720px" unoptimized /></div> : <div className="project-image-placeholder project-detail-placeholder"><span>{selectedProject.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>}<div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><RelationshipPanel entityId={`project:${selectedProject.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} /><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
 
-      {selectedPost && <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedPost(null)}>×</button><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><h2>{selectedPost.title}</h2><p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format}</p><ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} /><div className="post-workflow">{[["Námět", "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div><button className="primary-button full-button" onClick={() => { setSelectedPost(null); navigate("checklist"); }}>Otevřít produkční úkoly</button></section></div>}
+      {renderPostDetail()}
 
       {selectedTask && <div className="modal-backdrop" onMouseDown={() => setSelectedTask(null)}><section className="detail-modal task-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedTask(null)}>×</button><div className="task-tags"><span className={`priority-tag priority-${slugify(selectedTask.priority)}`}>{selectedTask.priority}</span><span className="status-pill neutral">{selectedTask.status}</span></div><h2>{selectedTask.title}</h2><p>{selectedTask.note}</p><dl><div><dt>Owner</dt><dd>{selectedTask.owner}</dd></div><div><dt>Deadline</dt><dd>{selectedTask.deadline}</dd></div><div><dt>Dokument</dt><dd>{selectedTask.document || "Bez přílohy"}</dd></div></dl>{selectedTask.status !== "Done" && <button className="primary-button full-button" onClick={() => advanceTask(selectedTask)}>Posunout úkol dál →</button>}</section></div>}
 

@@ -80,6 +80,32 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - probíhající projekty
 - plány na další volební období
 
+## Připravené články pro web
+
+### Jak se staráme o zeleň v Přezleticích
+
+- Slug: zelen-v-prezleticich
+- Status: copy ke schválení
+- Markdown: content/articles/zelen-v-prezleticich.md
+- Primární obrázek: /images/projects/zelen-mistni-komunikace.webp
+- Doplňkové obrázky: /images/projects/zelen-prutahove-komunikace.webp · /images/projects/zelen-podzemni-kontejnery.webp · /images/projects/hruskove-aleje-a-dalsi-zelen.webp · /images/projects/dalsi-lokalni-zelen.webp · /images/projects/komunitni-centrum-zlatak.webp
+- Související projekty: 19, 20, 23, 24, 25, 34
+- SoMe posty: 140
+- Zdrojové podklady: content/articles/zelen-v-prezleticich.md · content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md · TK2603-0192/zelen.docx
+- Kontrola před publikací: Ověřit přesné označení etap u průtahových komunikací. · Ověřit formulaci „šest let“ u trvalkovo-travinných záhonů. · Potvrdit aktuální stav pasportu zeleně a plánu péče.
+
+### Nová radnice jako nové centrum obce
+
+- Slug: nova-radnice-centrum-obce
+- Status: copy ke schválení
+- Markdown: content/articles/nova-radnice-centrum-obce.md
+- Primární obrázek: /images/projects/rekonstrukce-sokolovny.webp
+- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp · /images/projects/elektronicka-uredni-deska.webp · /images/projects/kaplicka-a-zvon.webp · /images/brand/social/prezletaci-social-yellow.png
+- Související projekty: 16, 34, 35, 3
+- SoMe posty: 141
+- Zdrojové podklady: content/articles/nova-radnice-centrum-obce.md · content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md · TK2603-0192/Studie radnice.pdf
+- Kontrola před publikací: Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024. · Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání. · U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.
+
 ## Pravidla práce s fakty
 
 Nevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.

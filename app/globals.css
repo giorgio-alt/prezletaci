@@ -636,9 +636,20 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
 .next-step { margin-top:14px; padding:14px 16px; border-radius:12px; color:var(--blue-deep); background:linear-gradient(110deg,rgba(255,229,0,.5),rgba(255,244,168,.18)); }
 .next-step span,.next-step strong { display:block; }.next-step span { font-size:7px; font-weight:850; text-transform:uppercase; }.next-step strong { margin-top:5px; font-size:10px; }
 .post-date { margin-top:0 !important; }
+.post-asset-hero { position:relative; overflow:hidden; height:220px; margin:16px 0; border:1px solid var(--hairline); border-radius:16px; background:var(--surface-soft); }
+.post-asset-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
 .post-workflow { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin:18px 0; }
 .post-workflow div { padding:10px 7px; border-radius:10px; background:var(--surface-soft); }
 .post-workflow span,.post-workflow strong { display:block; }.post-workflow span { color:var(--muted); font-size:6px; text-transform:uppercase; }.post-workflow strong { overflow:hidden; margin-top:5px; font-size:8px; text-overflow:ellipsis; }
+.post-article-meta { display:grid; gap:5px; margin:10px 0 0; }
+.post-article-meta div { display:grid; grid-template-columns:86px 1fr; gap:8px; }
+.post-article-meta dt { color:var(--muted); font-size:7px; }
+.post-article-meta dd { margin:0; font-size:8px; word-break:break-word; }
+.post-gallery-assets { margin-top:14px; }
+.post-gallery-assets > div { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:8px; }
+.post-gallery-assets figure { position:relative; overflow:hidden; min-height:86px; margin:0; border:1px solid var(--hairline); border-radius:10px; background:var(--surface-soft); }
+.post-gallery-assets img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.post-gallery-assets figcaption { position:absolute; right:5px; bottom:5px; left:5px; overflow:hidden; padding:4px 5px; border-radius:6px; color:#fff; background:rgba(3,10,25,.58); font-size:6px; font-weight:760; text-overflow:ellipsis; white-space:nowrap; }
 .task-detail dl,.document-detail dl { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:18px 0 0; }
 .task-detail dl div,.document-detail dl div { padding:10px; border-radius:10px; background:var(--surface-soft); }
 .task-detail dt,.document-detail dt { color:var(--muted); font-size:6px; text-transform:uppercase; }.task-detail dd,.document-detail dd { margin:4px 0 0; font-size:8px; font-weight:750; }
