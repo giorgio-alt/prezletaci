@@ -667,6 +667,10 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
 .post-cta { display:grid; gap:4px; margin-top:12px; padding:10px 12px; border-radius:12px; color:var(--blue); background:rgba(255,229,0,.16); }
 .post-cta span { color:var(--muted); font-size:6px; font-weight:850; text-transform:uppercase; }
 .post-cta strong { font-size:9px; line-height:1.4; }
+.post-channel-brief { display:grid; gap:12px; }
+.post-channel-brief section { display:grid; gap:8px; padding:12px; border-radius:12px; background:var(--surface-strong); }
+.post-channel-brief .profile-panel-head > button { border:0; color:var(--blue-bright); background:transparent; cursor:pointer; font-size:8px; font-weight:850; }
+.post-channel-brief ol { margin:8px 0 0; padding-left:18px; color:var(--muted); font-size:8px; line-height:1.55; }
 .post-readable-card blockquote { margin:12px 0; padding:11px 13px; font-size:10px; }
 .post-production-brief h3,.post-project-brief h3 { margin:12px 0 5px; font-size:10px; }
 .post-production-brief p,.post-project-brief p { margin:0; color:var(--muted); font-size:9px; line-height:1.6; }

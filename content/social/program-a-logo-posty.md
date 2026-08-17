@@ -1,4 +1,4 @@
-# SoMe balíčky: program a Instagram
+# SoMe balíčky: program, logo a Instagram
 
 Datum zpracování: 2026-08-17
 
@@ -62,7 +62,62 @@ Grafika v modré a žluté identitě Přezleťáků s textem „Plán pro Přezl
 
 Tento post má otevřít programovou linku, ale nemá přebít medailonky. Použít jako proložení mezi kandidátskými profily nebo jako rozcestník na budoucí programovou stránku.
 
-## Post B: Lidé · Instagram · Sledujte Přezleťáky i tam
+## Post B: Lidé · Identita · Představujeme logo Přezleťáků
+
+**Pilíř:** Lidé
+
+**Formát:** Instagram feed / Facebook post
+
+**Grafika:** `public/images/social/logo-predstaveni-prezletaku.svg`
+
+**Doporučený webový odkaz:** `/`
+
+**CTA:** Sledujte nás. V příštích dnech postupně představíme lidi, práci i plán Přezleťáků 2026.
+
+### Facebook copy
+
+Představujeme vizuální identitu Přezleťáků pro rok 2026.
+
+Stojí na jednoduché myšlence: Přezletice tvoří lidé, kteří se znají, potkávají a dokážou spolupracovat. Proto v identitě pracujeme se symbolem podané ruky, jasnou modrou a výraznou žlutou.
+
+Modrá pro nás znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb. Společně vytvářejí systém, který budeme používat napříč kampaní: u medailonků kandidátů, projektů, programu, článků i vysvětlujících příspěvků.
+
+Nechceme, aby naše komunikace byla jen hezká. Chceme, aby byla srozumitelná. Aby lidé na první pohled poznali, jestli mluvíme o člověku, hotové práci, rozdělaném projektu, plánu nebo vysvětlení složitějšího tématu.
+
+Nová identita je proto hlavně praktický nástroj: pomáhá držet kampaň přehlednou, klidnou a čitelnou.
+
+### Instagram copy
+
+Představujeme logo a vizuální identitu Přezleťáků 2026.
+
+Podaná ruka. Modrá a žlutá. Jasný, čitelný systém pro celou kampaň.
+
+Modrá znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb.
+
+Stejnou identitu budeme používat u lidí, projektů, programu i vysvětlujících témat. Chceme, aby bylo na první pohled jasné, o čem mluvíme a proč je to pro Přezletice důležité.
+
+### Carousel / grafická varianta
+
+1. Představujeme identitu Přezleťáků 2026.
+2. Podaná ruka jako symbol spolupráce.
+3. Modrá: klid, důvěra, odpovědnost.
+4. Žlutá: energie, otevřenost, pohyb.
+5. Jeden systém pro lidi, práci, plán i vysvětlování.
+6. Přehledná komunikace pro Přezletice.
+
+### Hashtagy
+
+`#prezletaci #prezletice #volby2026 #logo #identita #spoluprace`
+
+### Alt text
+
+Grafika ve žluté a modré identitě Přezleťáků se symbolem podané ruky a textem „Představujeme identitu Přezleťáků 2026“.
+
+### Produkční poznámka
+
+Použít jako samostatný brand post po startu kampaně nebo jako lehké proložení před sérií medailonků. V Campaign HQ navázat na brand assety v `public/images/brand`.
+
+## Post C: Lidé · Instagram · Sledujte Přezleťáky i na Instagramu
 
 **Pilíř:** Lidé
 
