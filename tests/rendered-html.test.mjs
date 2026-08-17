@@ -3,7 +3,16 @@ import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { initialPosts, legacyInitialPosts, mergePostsWithPlan } from "../app/postplan.ts";
 import { PROGRAM_MARKDOWN, programContent } from "../app/program-content.ts";
-import { ORIGINAL_PHOTOS_ZIP_DRIVE_URL, PHOTO_AUDIT_DRIVE_URL, PHOTO_DRIVE_ROOT_URL, photoAuditDriveFolders } from "../app/photo-drive.ts";
+import {
+  ORIGINAL_PHOTOS_ZIP_DRIVE_URL,
+  PHOTO_AUDIT_DRIVE_URL,
+  PHOTO_DRIVE_ROOT_URL,
+  candidatePortraitDriveUrls,
+  candidateSourceDriveFolders,
+  getProjectPhotoDriveUrlForSource,
+  photoAuditDriveFolders,
+  projectPhotoDriveFoldersBySourceFolder,
+} from "../app/photo-drive.ts";
 import {
   AI_CONTEXT_MARKDOWN,
   WEB_BRIEF_MARKDOWN,
@@ -21,6 +30,7 @@ import {
 } from "../app/relationships.ts";
 import {
   mergeProjectCatalog,
+  getProjectPhotoDriveUrlForImage,
   projectImageManifest,
   selectFirstSupportedImage,
 } from "../app/project-images.ts";
@@ -161,7 +171,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 15;/);
+  assert.match(page, /const DATA_VERSION = 16;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -177,12 +187,22 @@ test("exposes external Google Drive photo sources throughout Campaign HQ", async
   assert.doesNotMatch(photoDrive, /1DF9dOqb7fcisBI49U4UbhcvHexAox7-X/);
   assert.match(photoDrive, new RegExp(PHOTO_AUDIT_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.match(photoDrive, new RegExp(ORIGINAL_PHOTOS_ZIP_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-  assert.match(page, /Otevřít fotky k produkci na Disku/);
-  assert.match(page, /Otevřít kandidátské fotky na Disku/);
+  assert.match(page, /Otevřít fotku k produkci na Disku/);
+  assert.match(page, /Otevřít konkrétní zdroj fotky\/složku/);
+  assert.match(page, /Otevřít vybraný portrét na Disku/);
   assert.match(page, /Otevřít fotky projektu na Disku/);
+  assert.match(page, /Zdroj fotky na Disku/);
   assert.match(page, /photoLibraryPath: getProjectPhotoLibraryPath/);
+  assert.match(page, /getProjectPhotoDriveUrlForImage/);
+  assert.match(webContent, /getProjectPhotoDriveUrlForImage/);
   assert.match(webContent, /PHOTO_AUDIT_DRIVE_URL/);
   assert.match(photoDrive, new RegExp(photoAuditDriveFolders.root.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.equal(projectPhotoDriveFoldersBySourceFolder["zelen-mistni-komunikace"], "https://drive.google.com/drive/folders/1SOQzBQ7_l6CDD2URaFifGSddw9grqFm3");
+  assert.equal(getProjectPhotoDriveUrlForImage("/images/projects/zelen-mistni-komunikace.webp"), projectPhotoDriveFoldersBySourceFolder["zelen-mistni-komunikace"]);
+  assert.equal(getProjectPhotoDriveUrlForSource(projectImageManifest.find((record) => record.slug === "rekonstrukce-sokolovny")?.source), "https://drive.google.com/drive/folders/1Ob9QKK1ZZ7m2tyFhl4XDi57Xjnaz3arP");
+  assert.equal(projectImageManifest.every((record) => getProjectPhotoDriveUrlForImage(record.image).startsWith("https://drive.google.com/drive/folders/")), true);
+  assert.equal(candidatePortraitDriveUrls[1], "https://drive.google.com/file/d/1Bb8BzDrsynfEBhn8774M_jIjBYevv2Yn/view?usp=drivesdk");
+  assert.equal(candidateSourceDriveFolders[1], "https://drive.google.com/drive/folders/1eCKVptQ6OFlqhr2_odkioZQgZUgy_xNH");
 });
 
 test("renders the canonical responsive brand assets instead of the star mark", async () => {
@@ -336,7 +356,14 @@ test("defines the campaign start post as a ready-to-produce first social item", 
   assert.match(page, /Subject type/);
   assert.match(page, /Asset status/);
   assert.match(page, /Kanálové varianty/);
-  assert.match(page, /Chybí Google Drive link/);
+  assert.match(page, /postPreviewShape/);
+  assert.match(page, /post-preview-\$\{postPreviewShape\(selectedPost\.format\)\}/);
+  assert.match(page, /post-preview-generated/);
+  assert.match(page, /Otevřít správnou fotku/);
+  assert.match(styles, /\.post-preview-media img \{[^}]*object-fit:contain/);
+  assert.doesNotMatch(styles, /\.post-asset-hero img \{[^}]*object-fit:cover/);
+  assert.match(styles, /\.post-preview-square .*aspect-ratio:1\/1/);
+  assert.match(styles, /\.post-preview-portrait .*aspect-ratio:9\/16/);
   assert.match(styles, /\.post-social-copy-card/);
   assert.match(styles, /\.post-channel-brief/);
   assert.match(styles, /\.post-cta/);

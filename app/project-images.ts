@@ -1,3 +1,5 @@
+import { getProjectPhotoDriveUrlForSource } from "./photo-drive.ts";
+
 export type ProjectImageRecord = {
   projectId: number;
   slug: string;
@@ -47,6 +49,16 @@ export const projectImageManifest: ProjectImageRecord[] = [
 export const projectImageByProjectId = new Map(
   projectImageManifest.map((record) => [record.projectId, record]),
 );
+
+export const projectImageByImagePath = new Map(
+  projectImageManifest.map((record) => [record.image, record]),
+);
+
+export const getProjectPhotoDriveUrlForImage = (imagePath?: string) => {
+  if (!imagePath) return undefined;
+  const record = projectImageByImagePath.get(imagePath);
+  return record ? getProjectPhotoDriveUrlForSource(record.source) : undefined;
+};
 
 export function mergeProjectCatalog<T extends {
   id: number;

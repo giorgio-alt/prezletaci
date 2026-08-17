@@ -655,8 +655,25 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
 .next-step { margin-top:14px; padding:14px 16px; border-radius:12px; color:var(--blue-deep); background:linear-gradient(110deg,rgba(255,229,0,.5),rgba(255,244,168,.18)); }
 .next-step span,.next-step strong { display:block; }.next-step span { font-size:7px; font-weight:850; text-transform:uppercase; }.next-step strong { margin-top:5px; font-size:10px; }
 .post-date { margin-top:0 !important; }
-.post-asset-hero { position:relative; overflow:hidden; height:220px; margin:16px 0; border:1px solid var(--hairline); border-radius:16px; background:var(--surface-soft); }
-.post-asset-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.post-asset-hero { position:relative; display:grid; gap:12px; width:min(100%,760px); margin:16px auto 18px; padding:14px; border:1px solid var(--hairline); border-radius:22px; background:linear-gradient(135deg,rgba(18,58,140,.08),rgba(255,229,0,.12)),var(--surface-soft); box-shadow:inset 0 0 0 1px rgba(255,255,255,.45); }
+.post-asset-hero header,.post-asset-hero footer { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--muted); font-size:7px; font-weight:850; letter-spacing:.08em; text-transform:uppercase; }
+.post-asset-hero header span,.post-asset-hero footer strong { color:var(--blue-bright); }
+.post-preview-media { position:relative; overflow:hidden; width:100%; min-height:0; border:1px solid var(--hairline); border-radius:17px; background:radial-gradient(circle at 20% 0%,rgba(255,229,0,.18),transparent 38%),linear-gradient(135deg,rgba(248,249,244,.86),rgba(226,232,240,.66)); }
+.theme-dark .post-preview-media { background:radial-gradient(circle at 20% 0%,rgba(255,229,0,.15),transparent 38%),linear-gradient(135deg,rgba(15,23,42,.82),rgba(30,41,59,.58)); }
+.post-preview-media img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:center; }
+.post-preview-square .post-preview-media,.post-preview-square .post-preview-generated { aspect-ratio:1/1; max-height:min(62vh,720px); }
+.post-preview-landscape .post-preview-media,.post-preview-landscape .post-preview-generated { aspect-ratio:16/9; max-height:min(56vh,520px); }
+.post-preview-portrait { width:min(100%,520px); }
+.post-preview-portrait .post-preview-media,.post-preview-portrait .post-preview-generated { aspect-ratio:9/16; max-height:min(70vh,760px); }
+.post-preview-generated { display:flex; flex-direction:column; justify-content:flex-end; min-height:360px; padding:28px; overflow:hidden; border:1px solid var(--hairline); border-radius:17px; color:#fff; background:linear-gradient(145deg,#123a8c,#071f5c); }
+.post-preview-generated span { display:grid; width:50px; height:50px; margin-bottom:auto; place-items:center; border-radius:15px; background:rgba(255,229,0,.96); color:#123a8c; font-size:24px; }
+.post-preview-generated h3 { max-width:92%; margin:0 0 10px; font-size:clamp(23px,5vw,46px); line-height:.98; letter-spacing:-.06em; }
+.post-preview-generated p { max-width:88%; margin:0; color:rgba(255,255,255,.86); font-size:12px; line-height:1.45; }
+.post-preview-generated small { display:inline-flex; width:max-content; max-width:100%; margin-top:14px; padding:9px 11px; border-radius:999px; color:#123a8c; background:#ffe500; font-size:8px; font-weight:900; }
+.post-preview-generated-completed { background:linear-gradient(145deg,#2563eb,#071f5c); }
+.post-preview-generated-progress { background:linear-gradient(145deg,#f59e0b,#7c2d12); }
+.post-preview-generated-future { background:linear-gradient(145deg,#8b5cf6,#312e81); }
+.post-preview-generated-explain,.post-preview-generated-evidence { background:linear-gradient(145deg,#ef4444,#7f1d1d); }
 .post-workflow { display:grid; grid-template-columns:repeat(5,1fr); gap:5px; margin:18px 0; }
 .post-workflow div { padding:10px 7px; border-radius:10px; background:var(--surface-soft); }
 .post-workflow span,.post-workflow strong { display:block; }.post-workflow span { color:var(--muted); font-size:6px; text-transform:uppercase; }.post-workflow strong { overflow:hidden; margin-top:5px; font-size:8px; text-overflow:ellipsis; }

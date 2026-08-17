@@ -24,6 +24,7 @@ import {
 } from "./relationships";
 import type { KnowledgeEntity, KnowledgeEntityType } from "./relationships";
 import {
+  getProjectPhotoDriveUrlForImage,
   mergeProjectCatalog,
   projectImageByProjectId,
   projectImageManifest,
@@ -50,10 +51,14 @@ import {
   ORIGINAL_PHOTOS_ZIP_DRIVE_URL,
   PHOTO_AUDIT_DRIVE_URL,
   PHOTO_DRIVE_ROOT_URL,
+  candidatePortraitDriveUrls,
+  candidateSourceDriveFolders,
   getPhotoAuditFolderForAsset,
+  getProjectPhotoDriveUrlForSource,
   getProjectPhotoLibraryPath,
   photoAuditDriveFolders,
   photoDriveLinks,
+  teamSourceDriveFolder,
 } from "./photo-drive";
 import { programContentBySlug } from "./program-content";
 
@@ -120,6 +125,8 @@ type Candidate = {
   topics: string[];
   photoRanges: string[];
   photoDriveUrl?: string;
+  photoSourceDriveUrl?: string;
+  portraitDriveUrl?: string;
   assets: {
     photos: boolean;
     medallion: boolean;
@@ -188,6 +195,12 @@ function ContentCard({ type, title, compact = false }: { type: ContentType; titl
     </article>
   );
 }
+
+const postPreviewShape = (format: SocialPost["format"]) => {
+  if (format === "Story" || format === "Reels") return "portrait";
+  if (format === "Video") return "landscape";
+  return "square";
+};
 
 function RelationshipPanel({
   entityId,
@@ -336,7 +349,7 @@ const initialProjects: Project[] = [
       imageAlt: media?.imageAlt,
       photoSource: media?.source,
       photoLibraryPath: getProjectPhotoLibraryPath(media?.source),
-      photoDriveUrl: media ? photoAuditDriveFolders.workingSort : PHOTO_AUDIT_DRIVE_URL,
+      photoDriveUrl: media ? getProjectPhotoDriveUrlForSource(media.source) : PHOTO_AUDIT_DRIVE_URL,
     };
   }),
   ...projectImageManifest
@@ -348,7 +361,7 @@ const initialProjects: Project[] = [
       imageAlt: record.imageAlt,
       photoSource: record.source,
       photoLibraryPath: getProjectPhotoLibraryPath(record.source),
-      photoDriveUrl: photoAuditDriveFolders.workingSort,
+      photoDriveUrl: getProjectPhotoDriveUrlForSource(record.source),
       title: record.title,
       status: "Doplnit",
       area: record.area,
@@ -383,11 +396,15 @@ const initialCandidateBase: Candidate[] = [
 
 const initialCandidates: Candidate[] = initialCandidateBase.map((candidate) => {
   const content = candidateContentById.get(candidate.id);
-  const photoDriveUrl = photoAuditDriveFolders.candidateSelected;
-  if (!content) return { ...candidate, photoDriveUrl };
+  const portraitDriveUrl = candidatePortraitDriveUrls[candidate.id] ?? photoAuditDriveFolders.candidateSelected;
+  const photoSourceDriveUrl = candidateSourceDriveFolders[candidate.id] ?? photoAuditDriveFolders.candidateOriginals;
+  const photoDriveUrl = portraitDriveUrl;
+  if (!content) return { ...candidate, photoDriveUrl, portraitDriveUrl, photoSourceDriveUrl };
   return {
     ...candidate,
     photoDriveUrl,
+    portraitDriveUrl,
+    photoSourceDriveUrl,
     headline: content.headline,
     headlineStatus: content.headlineStatus,
     bio: content.bio,
@@ -407,7 +424,7 @@ const mergeCandidatesWithPlan = (savedCandidates: Candidate[], availablePosts: S
     const saved = savedCandidates.find((candidate) => candidate.id === base.id);
     if (!saved) return base;
     const savedLinks = Array.isArray(saved.plannedPostIds) ? saved.plannedPostIds.filter((id) => validPostIds.has(id)) : [];
-    return { ...saved, ...base, image: base.image, photoDriveUrl: base.photoDriveUrl, projectIds: [], plannedPostIds: Array.from(new Set([...base.plannedPostIds, ...savedLinks])) };
+    return { ...saved, ...base, image: base.image, photoDriveUrl: base.photoDriveUrl, portraitDriveUrl: base.portraitDriveUrl, photoSourceDriveUrl: base.photoSourceDriveUrl, projectIds: [], plannedPostIds: Array.from(new Set([...base.plannedPostIds, ...savedLinks])) };
   });
   return [...merged, ...savedCandidates.filter((candidate) => !knownIds.has(candidate.id))];
 };
@@ -757,7 +774,7 @@ export default function Home() {
       owner: candidate.assets.bio ? "Copy + Kandidát" : "Copy",
       deadline: candidate.order <= 4 ? "8. 8. 2026" : "15. 8. 2026",
       candidateIds: [candidate.id],
-      sourceLinks: ["Modul Kandidáti", candidate.photoDriveUrl ?? PHOTO_AUDIT_DRIVE_URL, ...candidate.documents],
+      sourceLinks: ["Modul Kandidáti", candidate.portraitDriveUrl ?? candidate.photoDriveUrl ?? PHOTO_AUDIT_DRIVE_URL, candidate.photoSourceDriveUrl ?? photoAuditDriveFolders.candidateOriginals, ...candidate.documents],
       draftLink: `Campaign HQ / Kandidáti / ${candidate.name}`,
       notes: candidate.office || candidate.professions.join(" · "),
       blockers: checklist.filter((item) => !item.available).map((item) => item.label),
@@ -1421,7 +1438,7 @@ export default function Home() {
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Oblasti, kterým se věnuji</span><b>{selectedCandidate.topics.filter((topic) => !topic.startsWith("Doplnit")).length}</b></div><div className="candidate-topic-list">{selectedCandidate.topics.map((topic) => <span key={topic}>{topic}</span>)}</div><p className="profile-hint">Oblasti se propojují se souvisejícími články a tematickými huby, nikoli přímo s projektovými kartami.</p></article>
       </div>
       <RelationshipPanel entityId={`candidate:${selectedCandidate.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} />
-      <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="photo-source-actions"><a href={selectedCandidate.photoDriveUrl ?? photoAuditDriveFolders.candidateSelected} target="_blank" rel="noreferrer">Otevřít kandidátské fotky na Disku ↗</a><small>Lokálně: photo-library/01_kandidati</small></div><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
+      <article className="profile-panel gallery-panel"><div className="profile-panel-head"><span className="eyebrow">Galerie</span><b>1 webový portrét · {gallery.length} zdrojů</b></div><p className="asset-source">Portrét je přiřazen podle názvu zdrojového souboru. Produkční rozsahy: {selectedCandidate.photoRanges.join(", ")}.</p><div className="photo-source-actions"><a href={selectedCandidate.portraitDriveUrl ?? selectedCandidate.photoDriveUrl ?? photoAuditDriveFolders.candidateSelected} target="_blank" rel="noreferrer">Otevřít vybraný portrét na Disku ↗</a><a href={selectedCandidate.photoSourceDriveUrl ?? photoAuditDriveFolders.candidateOriginals} target="_blank" rel="noreferrer">Otevřít zdrojovou sérii ↗</a><small>Lokálně: photo-library/01_kandidati</small></div><div className="candidate-gallery">{selectedCandidate.image && <div className="gallery-photo"><Image src={selectedCandidate.image} alt={`Portrét – ${selectedCandidate.name}`} fill sizes="300px" unoptimized /><small>{selectedCandidate.image.split("/").pop()}</small></div>}{gallery.slice(0, 10).map((photo) => <div key={photo} data-filename={photo}><span>{selectedCandidate.initials}</span><small>{photo}</small></div>)}{gallery.length > 10 && <div className="gallery-more"><strong>+{gallery.length - 10}</strong><small>zdrojů</small></div>}</div></article>
       <div className="candidate-profile-grid">
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Video</span><b>0 / 4</b></div><div className="video-placeholders">{["Rozhovor", "Reels", "Podcast", "Veřejná setkání"].map((format) => <button key={format}><span>▶</span><strong>{format}</strong><small>Připojit výstup</small></button>)}</div></article>
         <article className="profile-panel"><div className="profile-panel-head"><span className="eyebrow">Dokumenty</span><b>{selectedCandidate.documents.length}</b></div><div className="profile-documents">{selectedCandidate.documents.length ? selectedCandidate.documents.map((document) => <div key={document}><span>DOC</span><strong>{document}</strong></div>) : <div className="profile-empty">PDF, usnesení, fotografie a zápisy lze připojit později.</div>}{selectedCandidate.reviewNotes?.length ? <div className="review-notes">{selectedCandidate.reviewNotes.map((note) => <small key={note}>{note}</small>)}</div> : null}<button className="secondary-button" onClick={() => setToast("Připojení dokumentů je připravené pro interní úložiště.")}>＋ Připojit dokument</button></div></article>
@@ -1439,6 +1456,12 @@ export default function Home() {
     const linkedProject = selectedPost.projectId ? projects.find((project) => project.id === selectedPost.projectId) : null;
     const galleryImages = selectedPost.galleryImages ?? article?.galleryImages ?? [];
     const primaryImage = selectedPost.primaryImage ?? article?.primaryImage ?? linkedProject?.image ?? linkedCandidate?.image;
+    const primaryImageDriveUrl = primaryImage
+      ? getProjectPhotoDriveUrlForImage(primaryImage) ?? (linkedCandidate ? linkedCandidate.portraitDriveUrl : undefined) ?? linkedProject?.photoDriveUrl ?? getPhotoAuditFolderForAsset(primaryImage)
+      : (linkedCandidate ? linkedCandidate.portraitDriveUrl : undefined) ?? linkedProject?.photoDriveUrl ?? (selectedPost.id === 134 ? teamSourceDriveFolder : PHOTO_DRIVE_ROOT_URL);
+    const postGoogleDriveUrl = selectedPost.googleDriveUrl ?? primaryImageDriveUrl;
+    const articlePrimaryDriveUrl = article ? getProjectPhotoDriveUrlForImage(article.primaryImage) : undefined;
+    const articleGalleryDriveUrls = article?.galleryImages.map((image) => ({ image, driveUrl: getProjectPhotoDriveUrlForImage(image) ?? getPhotoAuditFolderForAsset(image) })) ?? [];
     const fillState = getPostFillState(selectedPost);
     const openRelatedSection = () => {
       setSelectedPost(null);
@@ -1460,16 +1483,20 @@ export default function Home() {
       <div className="post-detail-badges"><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><span className={`fill-badge fill-${fillState.key}`} title={fillState.description}>{fillState.label}</span></div>
       <h2>{selectedPost.title}</h2>
       <p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format} · {selectedPost.status} · {fillState.description}</p>
-      {primaryImage ? <div className="post-asset-hero"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 680px" unoptimized /></div> : <ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} />}
+      <article className={`post-asset-hero post-preview-${postPreviewShape(selectedPost.format)}`} aria-label={`Náhled postu ${selectedPost.title}`}>
+        <header><span>{selectedPost.format}</span><b>{formatDate(selectedPost.date)}</b></header>
+        {primaryImage ? <div className="post-preview-media"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 760px" unoptimized /></div> : <div className={`post-preview-generated post-preview-generated-${selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)}`}><span>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].icon : contentTemplates[contentTypeFromPillar(selectedPost.pillar)].icon}</span><h3>{selectedPost.title}</h3><p>{selectedPost.contentSummary ?? selectedPost.socialCopy ?? "Produkční náhled čeká na doplnění finální grafiky."}</p>{selectedPost.cta && <small>{selectedPost.cta}</small>}</div>}
+        <footer><span>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><strong>Přezleťáci 2026</strong></footer>
+      </article>
       {selectedPost.socialCopy && <article className="post-readable-card post-social-copy-card"><div className="profile-panel-head"><span className="eyebrow">Hlavní SoMe text</span><button onClick={() => copyToClipboard(selectedPost.socialCopy ?? "", "Text postu")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.socialCopy}</p>{selectedPost.cta && <div className="post-cta"><span>CTA</span><strong>{selectedPost.cta}</strong></div>}</article>}
       {(selectedPost.facebookCopy || selectedPost.instagramCopy || selectedPost.carouselOutline?.length || selectedPost.hashtags?.length || selectedPost.altText) && <article className="post-readable-card post-channel-brief"><div className="profile-panel-head"><span className="eyebrow">Kanálové varianty</span><b>FB / IG / Carousel</b></div>{selectedPost.facebookCopy && <section><div className="profile-panel-head"><span>Facebook copy</span><button onClick={() => copyToClipboard(selectedPost.facebookCopy ?? "", "Facebook copy")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.facebookCopy}</p></section>}{selectedPost.instagramCopy && <section><div className="profile-panel-head"><span>Instagram copy</span><button onClick={() => copyToClipboard(selectedPost.instagramCopy ?? "", "Instagram copy")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.instagramCopy}</p></section>}{selectedPost.carouselOutline?.length ? <section><strong>Carousel osnova</strong><ol>{selectedPost.carouselOutline.map((slide) => <li key={slide}>{slide}</li>)}</ol></section> : null}<dl className="post-article-meta">{selectedPost.hashtags?.length ? <div><dt>Hashtagy</dt><dd>{selectedPost.hashtags.join(" ")}</dd></div> : null}{selectedPost.altText ? <div><dt>Alt text</dt><dd>{selectedPost.altText}</dd></div> : null}</dl></article>}
-      <article className="post-readable-card post-production-brief"><div className="profile-panel-head"><span className="eyebrow">Obsah a produkční zadání</span><b>Zdroj pravdy</b></div><h3>Co má post sdělit</h3><p>{selectedPost.contentSummary ?? "Obsahový brief čeká na doplnění."}</p><h3>Co použít pro produkci</h3><p>{selectedPost.productionNote ?? "Produkční podklad čeká na doplnění."}</p><dl className="post-article-meta"><div><dt>Subject type</dt><dd>{selectedPost.subjectType ?? "general"}</dd></div><div><dt>Asset status</dt><dd>{selectedPost.assetStatus ?? selectedPost.graphic}</dd></div><div><dt>Web / kanál</dt><dd>{selectedPost.futureWebPath ?? "Čeká"}</dd></div><div><dt>Google Drive</dt><dd>{selectedPost.googleDriveUrl ? <a href={selectedPost.googleDriveUrl} target="_blank" rel="noreferrer">Otevřít Google Drive ↗</a> : "Chybí Google Drive link"}</dd></div></dl><div className="photo-source-actions"><a href={getPhotoAuditFolderForAsset(primaryImage)} target="_blank" rel="noreferrer">Otevřít fotky k produkci na Disku ↗</a><a href={PHOTO_DRIVE_ROOT_URL} target="_blank" rel="noreferrer">Všechny fotky ↗</a></div>{selectedPost.draftLink && <small className="asset-source">Pracovní podklad: {selectedPost.draftLink}</small>}</article>
+      <article className="post-readable-card post-production-brief"><div className="profile-panel-head"><span className="eyebrow">Obsah a produkční zadání</span><b>Zdroj pravdy</b></div><h3>Co má post sdělit</h3><p>{selectedPost.contentSummary ?? "Obsahový brief čeká na doplnění."}</p><h3>Co použít pro produkci</h3><p>{selectedPost.productionNote ?? "Produkční podklad čeká na doplnění."}</p><dl className="post-article-meta"><div><dt>Subject type</dt><dd>{selectedPost.subjectType ?? "general"}</dd></div><div><dt>Asset status</dt><dd>{selectedPost.assetStatus ?? selectedPost.graphic}</dd></div><div><dt>Web / kanál</dt><dd>{selectedPost.futureWebPath ?? "Čeká"}</dd></div><div><dt>Google Drive</dt><dd><a href={postGoogleDriveUrl} target="_blank" rel="noreferrer">Otevřít konkrétní zdroj fotky/složku ↗</a></dd></div></dl><div className="photo-source-actions"><a href={primaryImageDriveUrl} target="_blank" rel="noreferrer">Otevřít fotku k produkci na Disku ↗</a><a href={PHOTO_DRIVE_ROOT_URL} target="_blank" rel="noreferrer">Všechny fotky ↗</a></div>{selectedPost.draftLink && <small className="asset-source">Pracovní podklad: {selectedPost.draftLink}</small>}</article>
       <div className="post-workflow">{[["Námět", selectedPost.status === "Námět" ? "Rozpracováno" : "Hotovo"], ["Copy", selectedPost.copy], ["Grafika", selectedPost.graphic], ["Schválení", selectedPost.approval], ["Publikace", selectedPost.status]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
-      {linkedCandidate && <article className="post-readable-card"><div className="profile-panel-head"><span className="eyebrow">SoMe medailonek kandidáta</span><b>#{linkedCandidate.order}</b></div>{linkedCandidate.headline && <blockquote>„{linkedCandidate.headline}“</blockquote>}<p className="social-copy-preview">{linkedCandidate.socialCopy || linkedCandidate.bio}</p><dl className="post-article-meta"><div><dt>Kandidát</dt><dd>{linkedCandidate.name}</dd></div><div><dt>Profil</dt><dd>Campaign HQ / Kandidáti / {linkedCandidate.name}</dd></div><div><dt>Fotky</dt><dd><a href={linkedCandidate.photoDriveUrl ?? photoAuditDriveFolders.candidateSelected} target="_blank" rel="noreferrer">Kandidátská složka na Disku</a></dd></div><div><dt>Témata</dt><dd>{linkedCandidate.topics.join(" · ")}</dd></div></dl></article>}
+      {linkedCandidate && <article className="post-readable-card"><div className="profile-panel-head"><span className="eyebrow">SoMe medailonek kandidáta</span><b>#{linkedCandidate.order}</b></div>{linkedCandidate.headline && <blockquote>„{linkedCandidate.headline}“</blockquote>}<p className="social-copy-preview">{linkedCandidate.socialCopy || linkedCandidate.bio}</p><dl className="post-article-meta"><div><dt>Kandidát</dt><dd>{linkedCandidate.name}</dd></div><div><dt>Profil</dt><dd>Campaign HQ / Kandidáti / {linkedCandidate.name}</dd></div><div><dt>Vybraný portrét</dt><dd><a href={linkedCandidate.portraitDriveUrl ?? linkedCandidate.photoDriveUrl ?? photoAuditDriveFolders.candidateSelected} target="_blank" rel="noreferrer">Otevřít správnou fotku ↗</a></dd></div><div><dt>Zdrojová série</dt><dd><a href={linkedCandidate.photoSourceDriveUrl ?? photoAuditDriveFolders.candidateOriginals} target="_blank" rel="noreferrer">Otevřít složku zdrojů ↗</a></dd></div><div><dt>Témata</dt><dd>{linkedCandidate.topics.join(" · ")}</dd></div></dl></article>}
       {linkedProject && <article className="post-readable-card post-project-brief"><div className="profile-panel-head"><span className="eyebrow">Konkrétní projektový podklad</span><b>P-{String(linkedProject.id).padStart(2, "0")}</b></div><h3>{linkedProject.title}</h3><p>{linkedProject.summary}</p><dl className="post-article-meta"><div><dt>Stav</dt><dd>{linkedProject.status}</dd></div><div><dt>Oblast</dt><dd>{linkedProject.area}</dd></div><div><dt>Foto zdroj</dt><dd>{linkedProject.photoLibraryPath || "Čeká"} {linkedProject.photoDriveUrl && <a href={linkedProject.photoDriveUrl} target="_blank" rel="noreferrer">Disk ↗</a>}</dd></div><div><dt>Další krok</dt><dd>{linkedProject.next}</dd></div><div><dt>Důkaz</dt><dd>{linkedProject.evidence}</dd></div></dl></article>}
-      {article && <article className="post-readable-card article-readable-card"><div className="profile-panel-head"><span className="eyebrow">Webový článek ke kontrole</span><b>{article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</b></div><p className="article-perex">{article.perex}</p>{article.body.map((section) => <section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}<div className="post-social-derivative"><span className="eyebrow">Text pro sociální sítě</span><p>{article.socialCopy}</p><strong>Carousel</strong><ol>{article.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {article.cta}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{article.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Projekty</dt><dd>{article.projectIds.join(", ")}</dd></div></dl></article>}
+      {article && <article className="post-readable-card article-readable-card"><div className="profile-panel-head"><span className="eyebrow">Webový článek ke kontrole</span><b>{article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</b></div><p className="article-perex">{article.perex}</p>{article.body.map((section) => <section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}<div className="post-social-derivative"><span className="eyebrow">Text pro sociální sítě</span><p>{article.socialCopy}</p><strong>Carousel</strong><ol>{article.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {article.cta}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{article.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Projekty</dt><dd>{article.projectIds.join(", ")}</dd></div><div><dt>Primární foto</dt><dd><a href={articlePrimaryDriveUrl ?? postGoogleDriveUrl} target="_blank" rel="noreferrer">Zdroj fotky na Disku ↗</a></dd></div></dl>{articleGalleryDriveUrls.length ? <div className="photo-source-actions">{articleGalleryDriveUrls.map(({ image, driveUrl }) => <a key={image} href={driveUrl} target="_blank" rel="noreferrer">{image.split("/").pop()} ↗</a>)}</div> : null}</article>}
       {program && <article className="post-readable-card article-readable-card program-readable-card"><div className="profile-panel-head"><span className="eyebrow">Programový obsahový brief</span><b>Copy ke schválení</b></div><h3>{program.title}</h3><p className="article-perex">{program.perex}</p><p>{program.mainMessage}</p><div className="program-area-list">{program.areas.map((area) => <section key={area.title}><h3>{area.title}</h3><dl><div><dt>Co řešíme</dt><dd>{area.whatWeSolve}</dd></div><div><dt>Proč je to důležité</dt><dd>{area.whyItMatters}</dd></div><div><dt>Co bude další krok</dt><dd>{area.nextStep}</dd></div></dl></section>)}</div><div className="post-social-derivative"><span className="eyebrow">Úvodní text pro sociální sítě</span><p>{program.socialCopy}</p><strong>Carousel „Jak číst náš program“</strong><ol>{program.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {program.cta} · budoucí web: {program.futureWebPath}</small></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{program.markdownPath}</dd></div><div><dt>Web ID</dt><dd>{selectedPost.websiteItemId}</dd></div><div><dt>Kontrola</dt><dd>{program.checks.join(" · ")}</dd></div></dl></article>}
-      {galleryImages.length > 0 && <div className="post-gallery-assets"><span className="eyebrow">Přiřazené fotografie</span><div>{galleryImages.map((image) => <figure key={image}><Image src={image} alt={`Doplňková fotografie pro ${selectedPost.title}`} fill sizes="120px" unoptimized /><figcaption>{image.split("/").pop()}<a href={getPhotoAuditFolderForAsset(image)} target="_blank" rel="noreferrer">Disk ↗</a></figcaption></figure>)}</div></div>}
+      {galleryImages.length > 0 && <div className="post-gallery-assets"><span className="eyebrow">Přiřazené fotografie</span><div>{galleryImages.map((image) => <figure key={image}><Image src={image} alt={`Doplňková fotografie pro ${selectedPost.title}`} fill sizes="120px" unoptimized /><figcaption>{image.split("/").pop()}<a href={getProjectPhotoDriveUrlForImage(image) ?? getPhotoAuditFolderForAsset(image)} target="_blank" rel="noreferrer">Disk ↗</a></figcaption></figure>)}</div></div>}
       <div className="detail-section"><span className="eyebrow">Autor / owner</span><p>{selectedPost.author}</p></div>
       <button className="primary-button full-button" onClick={openRelatedSection}>Otevřít související sekci</button>
     </section></div>;

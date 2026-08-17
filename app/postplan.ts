@@ -230,7 +230,7 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       ...canonical,
       ...post,
       date: refreshCanonicalUpdate || refreshCanonicalSchedule ? canonical.date : post.date,
-      title: refreshDefaultTitle || refreshCanonicalUpdate || refreshCanonicalSchedule ? canonical.title : post.title,
+      title: refreshDefaultTitle || refreshCanonicalUpdate ? canonical.title : post.title,
       status: refreshCanonicalUpdate ? canonical.status : post.status,
       graphic: refreshCanonicalUpdate ? canonical.graphic : post.graphic,
       copy: refreshCanonicalUpdate ? canonical.copy : post.copy,

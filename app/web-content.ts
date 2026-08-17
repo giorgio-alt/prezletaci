@@ -1,6 +1,7 @@
 import { articleContent } from "./article-content.ts";
 import { PHOTO_AUDIT_DRIVE_URL, PHOTO_DRIVE_ROOT_URL, ORIGINAL_PHOTOS_ZIP_DRIVE_URL } from "./photo-drive.ts";
 import { programContent } from "./program-content.ts";
+import { getProjectPhotoDriveUrlForImage } from "./project-images.ts";
 
 export type BriefSection = {
   id: string;
@@ -306,7 +307,11 @@ export const baseWebsiteContentItems: WebsiteContentItem[] = [
   { id: "page-history", title: "Historie", pageType: "Historická stránka", section: "Historie", purpose: "Věcně popsat vývoj Přezleťáků a tři volební období práce.", pillar: "Dokumenty a důkazy", status: "Čeká na podklady", priority: "Střední", owner: "Copy + Klient", deadline: "20. 8. 2026", sourceLinks: ["Dokumenty", "Zápisy"], draftLink: "Čeká na chronologii", notes: "Tvrzení o dalších subjektech musí mít konkrétní doklad.", blockers: ["Chybějící historické podklady"], readiness: 18 },
   { id: "page-documents", title: "Dokumenty", pageType: "Dokument", section: "Dokumenty", purpose: "Zpřístupnit zdroje vždy v kontextu konkrétního tématu.", pillar: "Dokumenty a důkazy", status: "Čeká na podklady", priority: "Vysoká", owner: "PM", deadline: "18. 8. 2026", sourceLinks: ["Modul Dokumenty", PHOTO_DRIVE_ROOT_URL, PHOTO_AUDIT_DRIVE_URL, ORIGINAL_PHOTOS_ZIP_DRIVE_URL], draftLink: "Campaign HQ / Dokumenty", notes: "Nevytvářet neuspořádaný seznam PDF. Fotografie jsou externě dostupné přes Google Disk, auditní složku a ZIP originálů.", blockers: ["Nedodané dokumenty a mapy"], readiness: 36 },
   { id: "page-contact", title: "Kontakt a zapojení", pageType: "Kontakt", section: "Kontakt", purpose: "Nabídnout možnost zaslat otázku a přijít na osobní setkání.", pillar: "Lidé", status: "Nápad", priority: "Střední", owner: "Web + Klient", deadline: "20. 8. 2026", sourceLinks: ["Sociální sítě", "Timeline"], draftLink: "Čeká na zadání", notes: "Kontakty a termíny musí být před publikací ověřené.", blockers: ["Chybějící kontaktní údaje"], readiness: 15 },
-  ...articleContent.map((article): WebsiteContentItem => ({
+  ...articleContent.map((article): WebsiteContentItem => {
+    const photoSourceLinks = [article.primaryImage, ...article.galleryImages]
+      .map((image) => getProjectPhotoDriveUrlForImage(image))
+      .filter((url): url is string => Boolean(url));
+    return {
     id: `article-${article.slug}`,
     title: article.title,
     pageType: "Článek",
@@ -318,7 +323,7 @@ export const baseWebsiteContentItems: WebsiteContentItem[] = [
     owner: "Copy + Web",
     deadline: article.slug === "zelen-v-prezleticich" ? "18. 9. 2026" : "25. 9. 2026",
     projectIds: article.projectIds,
-    sourceLinks: article.sourceLinks,
+    sourceLinks: Array.from(new Set([...article.sourceLinks, ...photoSourceLinks])),
     draftLink: article.markdownPath,
     notes: `Primární obrázek: ${article.primaryImage}. Doplňkové obrázky: ${article.galleryImages.join(" · ")}.`,
     blockers: article.checks,
@@ -330,7 +335,8 @@ export const baseWebsiteContentItems: WebsiteContentItem[] = [
       { label: "Doplňkové fotografie", available: article.galleryImages.length > 0 },
       { label: "Faktická kontrola", available: false },
     ],
-  })),
+    };
+  }),
 ];
 
 export const webOpenIssues: WebOpenIssue[] = [
