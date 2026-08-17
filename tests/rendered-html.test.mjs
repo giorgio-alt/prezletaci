@@ -161,7 +161,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 12;/);
+  assert.match(page, /const DATA_VERSION = 13;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -247,13 +247,13 @@ test("imports the complete chronological publication plan with concrete producti
   assert.equal(initialPosts.find((post) => post.id === 137)?.programSlug, programContent.slug);
 });
 
-test("includes the program and new logo posts as concrete ready social packages", async () => {
+test("includes the program and Instagram posts as concrete ready social packages", async () => {
   await Promise.all([
     access(new URL("program-plan-pro-prezletice-2026-2030.svg", socialDir)),
-    access(new URL("logo-predstaveni-prezletaku.svg", socialDir)),
+    access(new URL("post-instagram-start.png", socialDir)),
   ]);
   const programPost = initialPosts.find((post) => post.id === 137);
-  const logoPost = initialPosts.find((post) => post.id === 142);
+  const instagramPost = initialPosts.find((post) => post.id === 142);
 
   assert.equal(programPost?.title, "Plány · Program · Plán pro Přezletice 2026–2030");
   assert.equal(programPost?.subjectType, "program");
@@ -263,14 +263,17 @@ test("includes the program and new logo posts as concrete ready social packages"
   assert.equal(programPost?.cta, "Projděte si, čeho se náš program týká. Jednotlivá témata budeme postupně rozepisovat podrobněji.");
   assert.equal(programPost?.draftLink, "content/social/program-a-logo-posty.md");
 
-  assert.equal(logoPost?.date, "2026-08-19");
-  assert.equal(logoPost?.title, "Lidé · Identita · Představujeme logo Přezleťáků");
-  assert.equal(logoPost?.primaryImage, "/images/social/logo-predstaveni-prezletaku.svg");
-  assert.equal(logoPost?.status, "Copy");
-  assert.equal(logoPost?.graphic, "Připraveno");
-  assert.equal(logoPost?.copy, "Hotovo");
-  assert.match(logoPost?.socialCopy ?? "", /Představujeme vizuální identitu Přezleťáků/);
-  assert.match(logoPost?.contentSummary ?? "", /podanou ruku, modrou a žlutou/);
+  assert.equal(instagramPost?.date, "2026-08-21");
+  assert.equal(instagramPost?.title, "Lidé · Instagram · Sledujte Přezleťáky i tam");
+  assert.equal(instagramPost?.primaryImage, "/images/social/post-instagram-start.png");
+  assert.equal(instagramPost?.status, "Copy");
+  assert.equal(instagramPost?.graphic, "Připraveno");
+  assert.equal(instagramPost?.copy, "Hotovo");
+  assert.match(instagramPost?.socialCopy ?? "", /nově najdete i na Instagramu/);
+  assert.match(instagramPost?.socialCopy ?? "", /https:\/\/www\.instagram\.com\/prezletaci\.2011\//);
+  assert.equal(instagramPost?.cta, "Sledujte nás i na Instagramu: @prezletaci.2011");
+  assert.match(instagramPost?.contentSummary ?? "", /Přezleťáky lidé nově najdou i na Instagramu/);
+  assert.match(instagramPost?.productionNote ?? "", /tři až čtyři dny po startovacím postu/);
 });
 
 test("defines the campaign start post as a ready-to-produce first social item", async () => {
@@ -370,6 +373,24 @@ test("versioned migration enriches the plan without erasing user changes", () =>
   assert.match(migratedStart?.socialCopy ?? "", /Brzy vám představíme jedenáct sousedů/);
   const customStart = { ...oldStartDefault, title: "Můj vlastní start kampaně" };
   assert.equal(mergePostsWithPlan([customStart], 10).find((post) => post.id === 101)?.title, customStart.title);
+  const oldLogoDefault = {
+    ...initialPosts.find((post) => post.id === 142),
+    date: "2026-08-19",
+    title: "Lidé · Identita · Představujeme logo Přezleťáků",
+    primaryImage: "/images/social/logo-predstaveni-prezletaku.svg",
+    socialCopy: "Představujeme vizuální identitu Přezleťáků pro rok 2026.",
+    status: "Copy",
+    graphic: "Připraveno",
+    copy: "Hotovo",
+    approval: "Ke schválení",
+  };
+  const migratedInstagram = mergePostsWithPlan([oldLogoDefault], 12).find((post) => post.id === 142);
+  assert.equal(migratedInstagram?.date, "2026-08-21");
+  assert.equal(migratedInstagram?.title, "Lidé · Instagram · Sledujte Přezleťáky i tam");
+  assert.equal(migratedInstagram?.primaryImage, "/images/social/post-instagram-start.png");
+  assert.match(migratedInstagram?.socialCopy ?? "", /nově najdete i na Instagramu/);
+  const customInstagram = { ...oldLogoDefault, title: "Můj vlastní brand post" };
+  assert.equal(mergePostsWithPlan([customInstagram], 12).find((post) => post.id === 142)?.title, customInstagram.title);
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {

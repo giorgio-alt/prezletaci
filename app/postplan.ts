@@ -46,15 +46,14 @@ U každé priority chceme ukázat tři věci: proč je důležitá, jaký je sou
 
 Začínáme přehledem hlavních oblastí. Detailní stránky a konkrétní kroky budeme postupně doplňovat.`;
 
-const logoShowcaseSocialCopy = `Představujeme vizuální identitu Přezleťáků pro rok 2026.
+const instagramLaunchSocialCopy = `Možná jste si všimli, že ne každý už dneska chodí pro novinky na Facebook... a tak nás nově najdete i na Instagramu! 🎉
 
-Stojí na jednoduché myšlence: Přezletice tvoří lidé, kteří se znají, potkávají a dokážou spolupracovat. Proto v identitě pracujeme se symbolem podané ruky, jasnou modrou a výraznou žlutou.
+Budeme tam sdílet, co se v Přezleticích děje, na čem pracujeme, co plánujeme a postupně vám představíme i celý náš tým.
 
-Modrá pro nás znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb. Společně vytvářejí systém, který budeme používat napříč kampaní: u medailonků kandidátů, projektů, programu, článků i vysvětlujících příspěvků.
+➡️ Sledovat nás můžete tady
+https://www.instagram.com/prezletaci.2011/
 
-Nechceme, aby naše komunikace byla jen hezká. Chceme, aby byla srozumitelná. Aby lidé na první pohled poznali, jestli mluvíme o člověku, hotové práci, rozdělaném projektu, plánu nebo vysvětlení složitějšího tématu.
-
-Nová identita je proto hlavně praktický nástroj: pomáhá držet kampaň přehlednou, klidnou a čitelnou.`;
+Tak nás sledujte i tam. 👋`;
 
 // Zdroj: Prezletaci_2026_Postplan_Kalendar.xlsx (listy August, September, October).
 // Tabulka nedokládá formát ani produkční stav. Proto zůstávají nedoložené položky
@@ -62,7 +61,7 @@ Nová identita je proto hlavně praktický nástroj: pomáhá držet kampaň př
 export const initialPosts: SocialPost[] = [
   { id: 101, date: "2026-08-17", title: "Lidé · Start kampaně · Přezleťáci 2026", contentType: "people", pillar: "Lidé", format: "Post", status: "Ke schválení", author: "Obsahový tým", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/post-001-start-kampane.avif", socialCopy: campaignStartSocialCopy, cta: "Sledujte nás. V příštích dnech představíme tým Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/post-001-start-kampane.avif", contentSummary: "Přezleťáci 2026 navazují na dlouhodobou práci v obci. V kampani postupně představíme lidi, kteří za týmem stojí, dokončené projekty, rozdělané věci i plán pro další roky. Začínáme tím nejdůležitějším: jedenácti sousedy, kteří chtějí dál pracovat pro Přezletice.", productionNote: "Startovací post otevírá kampaň a navazuje na sérii kandidátských medailonků. Po něm prioritně publikovat medailonky, články používat jako občasné proložení." },
   { id: 102, date: "2026-08-18", title: "Lidé · Medailonek · Tomáš Říha", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 1, contentSummary: "Kandidátský medailonek Tomáše Říhy: zkušenost s vedením obce a dlouhodobý rozvoj Přezletic.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
-  { id: 142, date: "2026-08-19", title: "Lidé · Identita · Představujeme logo Přezleťáků", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/logo-predstaveni-prezletaku.svg", draftLink: "content/social/program-a-logo-posty.md", socialCopy: logoShowcaseSocialCopy, cta: "Sledujte nás. V příštích dnech postupně představíme lidi, práci i plán Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/logo-predstaveni-prezletaku.svg", contentSummary: "Samostatný brand post představuje novou vizuální identitu Přezleťáků 2026: podanou ruku, modrou a žlutou jako praktický systém pro přehlednou kampaň.", productionNote: "Použít jako lehké brandové proložení po startu kampaně a před rozjetím hlavní medailonkové linky. Navázat na brand assety v public/images/brand." },
+  { id: 142, date: "2026-08-21", title: "Lidé · Instagram · Sledujte Přezleťáky i tam", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/post-instagram-start.png", draftLink: "content/social/program-a-logo-posty.md", socialCopy: instagramLaunchSocialCopy, cta: "Sledujte nás i na Instagramu: @prezletaci.2011", assetStatus: "Klientem schválený text a grafika připraveny: public/images/social/post-instagram-start.png", contentSummary: "Krátký oznamovací post po startu kampaně říká, že Přezleťáky lidé nově najdou i na Instagramu, kde budou postupně sledovat dění v obci, práci, plány a představení celého týmu.", productionNote: "Zařadit tři až čtyři dny po startovacím postu. Text je schválený klientem; zachovat odkaz https://www.instagram.com/prezletaci.2011/ a tón sousedského oznámení." },
   { id: 103, date: "2026-08-22", title: "Hotová práce · Výsledky · Co se v Přezleticích podařilo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "První souhrnný výstup o konkrétních výsledcích dosavadní práce v obci.", productionNote: "Vybrat maximálně tři doložitelné výsledky a ke každému použít konkrétní fotografii nebo dokument." },
   { id: 104, date: "2026-08-20", title: "Lidé · Medailonek · Jan Macourek", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 2, contentSummary: "Kandidátský medailonek Jana Macourka: technická realita projektů, investice a odpovědný rozpočet.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
   { id: 105, date: "2026-08-24", title: "Hotová práce · Svazková škola · Co se povedlo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Výsledek dosavadní práce na vzniku a fungování svazkové školy a jídelny.", productionNote: "Oddělit již hotovou práci od navazujícího rozšiřování kapacity; použít ověřenou fotografii školy." },
@@ -113,7 +112,7 @@ const version8DefaultTitles: Record<number, string> = {
   126: "Komunita", 127: "Medailonek 9", 128: "Obecní policie", 129: "Digitalizace", 130: "Medailonek 10",
   131: "Infrastruktura", 132: "Financování", 133: "Medailonek 11", 134: "Celý tým", 135: "Shrnutí výsledků",
   136: "Co dotáhneme", 137: "Program", 138: "Jak volit", 139: "Volby",
-  140: "Jak se staráme o zeleň v Přezleticích", 141: "Nová radnice jako nové centrum obce", 142: "Představujeme logo Přezleťáků",
+  140: "Jak se staráme o zeleň v Přezleticích", 141: "Nová radnice jako nové centrum obce", 142: "Jsme nově i na Instagramu",
 };
 
 const version10DefaultPosts: Record<number, Partial<SocialPost>> = {
@@ -128,6 +127,7 @@ const version10DefaultPosts: Record<number, Partial<SocialPost>> = {
   111: { date: "2026-08-28", title: "Hotová práce · Veřejná zeleň · Upravená místa v obci" },
   112: { date: "2026-08-30", title: "Rozdělané věci · Park u křižovatky Nohavice · Aktuální stav" },
   137: { date: "2026-10-08", title: "Plány · Program · Plán pro Přezletice 2026–2030", status: "Copy", graphic: "Čeká", copy: "Hotovo", approval: "Ke schválení" },
+  142: { date: "2026-08-19", title: "Lidé · Identita · Představujeme logo Přezleťáků", status: "Copy", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení" },
 };
 
 const isUnchangedFromVersion10Default = (post: SocialPost) => {
@@ -170,7 +170,7 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       merged.set(post.id, post);
       continue;
     }
-    const refreshCanonicalUpdate = savedVersion < 12 && isUnchangedFromVersion10Default(post);
+    const refreshCanonicalUpdate = savedVersion < 13 && isUnchangedFromVersion10Default(post);
     const refreshDefaultTitle = savedVersion < 9 && post.title === version8DefaultTitles[post.id];
     const migrated = {
       ...canonical,
@@ -181,20 +181,20 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       graphic: refreshCanonicalUpdate ? canonical.graphic : post.graphic,
       copy: refreshCanonicalUpdate ? canonical.copy : post.copy,
       approval: refreshCanonicalUpdate ? canonical.approval : post.approval,
-      candidateId: post.candidateId ?? canonical.candidateId,
-      projectId: post.projectId ?? canonical.projectId,
-      programSlug: post.programSlug ?? canonical.programSlug,
-      subjectType: post.subjectType ?? canonical.subjectType,
-      articleSlug: post.articleSlug ?? canonical.articleSlug,
-      websiteItemId: post.websiteItemId ?? canonical.websiteItemId,
-      primaryImage: post.primaryImage ?? canonical.primaryImage,
-      galleryImages: post.galleryImages ?? canonical.galleryImages,
-      draftLink: post.draftLink ?? canonical.draftLink,
-      socialCopy: post.socialCopy ?? canonical.socialCopy,
-      cta: post.cta ?? canonical.cta,
-      assetStatus: post.assetStatus ?? canonical.assetStatus,
-      contentSummary: post.contentSummary ?? canonical.contentSummary,
-      productionNote: post.productionNote ?? canonical.productionNote,
+      candidateId: refreshCanonicalUpdate ? canonical.candidateId : post.candidateId ?? canonical.candidateId,
+      projectId: refreshCanonicalUpdate ? canonical.projectId : post.projectId ?? canonical.projectId,
+      programSlug: refreshCanonicalUpdate ? canonical.programSlug : post.programSlug ?? canonical.programSlug,
+      subjectType: refreshCanonicalUpdate ? canonical.subjectType : post.subjectType ?? canonical.subjectType,
+      articleSlug: refreshCanonicalUpdate ? canonical.articleSlug : post.articleSlug ?? canonical.articleSlug,
+      websiteItemId: refreshCanonicalUpdate ? canonical.websiteItemId : post.websiteItemId ?? canonical.websiteItemId,
+      primaryImage: refreshCanonicalUpdate ? canonical.primaryImage : post.primaryImage ?? canonical.primaryImage,
+      galleryImages: refreshCanonicalUpdate ? canonical.galleryImages : post.galleryImages ?? canonical.galleryImages,
+      draftLink: refreshCanonicalUpdate ? canonical.draftLink : post.draftLink ?? canonical.draftLink,
+      socialCopy: refreshCanonicalUpdate ? canonical.socialCopy : post.socialCopy ?? canonical.socialCopy,
+      cta: refreshCanonicalUpdate ? canonical.cta : post.cta ?? canonical.cta,
+      assetStatus: refreshCanonicalUpdate ? canonical.assetStatus : post.assetStatus ?? canonical.assetStatus,
+      contentSummary: refreshCanonicalUpdate ? canonical.contentSummary : post.contentSummary ?? canonical.contentSummary,
+      productionNote: refreshCanonicalUpdate ? canonical.productionNote : post.productionNote ?? canonical.productionNote,
     };
     if (savedVersion < 9 && post.id === 137) {
       if (post.status === "Námět") migrated.status = canonical.status;

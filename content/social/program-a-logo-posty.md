@@ -1,4 +1,4 @@
-# SoMe balíčky: program a logo
+# SoMe balíčky: program a Instagram
 
 Datum zpracování: 2026-08-17
 
@@ -62,57 +62,57 @@ Grafika v modré a žluté identitě Přezleťáků s textem „Plán pro Přezl
 
 Tento post má otevřít programovou linku, ale nemá přebít medailonky. Použít jako proložení mezi kandidátskými profily nebo jako rozcestník na budoucí programovou stránku.
 
-## Post B: Lidé · Identita · Představujeme logo Přezleťáků
+## Post B: Lidé · Instagram · Sledujte Přezleťáky i tam
 
 **Pilíř:** Lidé
 
 **Formát:** Instagram feed / Facebook post
 
-**Grafika:** `public/images/social/logo-predstaveni-prezletaku.svg`
+**Grafika:** `public/images/social/post-instagram-start.png`
 
-**Doporučený webový odkaz:** `/`
+**Doporučený odkaz:** `https://www.instagram.com/prezletaci.2011/`
 
-**CTA:** Sledujte nás. V příštích dnech postupně představíme lidi, práci i plán Přezleťáků 2026.
+**CTA:** Sledujte nás i na Instagramu: @prezletaci.2011
 
 ### Facebook copy
 
-Představujeme vizuální identitu Přezleťáků pro rok 2026.
+Možná jste si všimli, že ne každý už dneska chodí pro novinky na Facebook... a tak nás nově najdete i na Instagramu! 🎉
 
-Stojí na jednoduché myšlence: Přezletice tvoří lidé, kteří se znají, potkávají a dokážou spolupracovat. Proto v identitě pracujeme se symbolem podané ruky, jasnou modrou a výraznou žlutou.
+Budeme tam sdílet, co se v Přezleticích děje, na čem pracujeme, co plánujeme a postupně vám představíme i celý náš tým.
 
-Modrá pro nás znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb. Společně vytvářejí systém, který budeme používat napříč kampaní: u medailonků kandidátů, projektů, programu, článků i vysvětlujících příspěvků.
+➡️ Sledovat nás můžete tady
+https://www.instagram.com/prezletaci.2011/
 
-Nechceme, aby naše komunikace byla jen hezká. Chceme, aby byla srozumitelná. Aby lidé na první pohled poznali, jestli mluvíme o člověku, hotové práci, rozdělaném projektu, plánu nebo vysvětlení složitějšího tématu.
-
-Nová identita je proto hlavně praktický nástroj: pomáhá držet kampaň přehlednou, klidnou a čitelnou.
+Tak nás sledujte i tam. 👋
 
 ### Instagram copy
 
-Představujeme logo a vizuální identitu Přezleťáků 2026.
+Možná jste si všimli, že ne každý už dneska chodí pro novinky na Facebook... a tak nás nově najdete i na Instagramu! 🎉
 
-Podaná ruka. Modrá a žlutá. Jasný, čitelný systém pro celou kampaň.
+Budeme tam sdílet, co se v Přezleticích děje, na čem pracujeme, co plánujeme a postupně vám představíme i celý náš tým.
 
-Modrá znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb.
+➡️ Sledovat nás můžete tady
+https://www.instagram.com/prezletaci.2011/
 
-Stejnou identitu budeme používat u lidí, projektů, programu i vysvětlujících témat. Chceme, aby bylo na první pohled jasné, o čem mluvíme a proč je to pro Přezletice důležité.
+Tak nás sledujte i tam. 👋
 
 ### Carousel / grafická varianta
 
-1. Představujeme identitu Přezleťáků 2026.
-2. Podaná ruka jako symbol spolupráce.
-3. Modrá: klid, důvěra, odpovědnost.
-4. Žlutá: energie, otevřenost, pohyb.
-5. Jeden systém pro lidi, práci, plán i vysvětlování.
-6. Přehledná komunikace pro Přezletice.
+1. Jsme nově i na Instagramu
+2. Sledujte nás na @prezletaci.2011
+3. Co se v Přezleticích děje
+4. Na čem pracujeme
+5. Co plánujeme
+6. Postupně představíme celý tým
 
 ### Hashtagy
 
-`#prezletaci #prezletice #volby2026 #logo #identita #spoluprace`
+`#prezletaci #prezletice #volby2026 #instagram #obec #sousede`
 
 ### Alt text
 
-Grafika ve žluté a modré identitě Přezleťáků se symbolem podané ruky a textem „Představujeme identitu Přezleťáků 2026“.
+Grafika ve žluté a modré identitě Přezleťáků s textem „Jsme nově i na Instagramu“ a výzvou ke sledování profilu @prezletaci.2011.
 
 ### Produkční poznámka
 
-Použít jako samostatný brand post po startu kampaně nebo jako lehké proložení před sérií medailonků. V Campaign HQ navázat na brand assety v `public/images/brand`.
+Zařadit tři až čtyři dny po startovacím postu. Text je schválený klientem; zachovat odkaz `https://www.instagram.com/prezletaci.2011/` a tón sousedského oznámení.
