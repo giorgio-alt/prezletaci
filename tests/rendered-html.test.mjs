@@ -29,6 +29,10 @@ import {
   knowledgeRelationships,
 } from "../app/relationships.ts";
 import {
+  articleContent,
+  articleContentBySlug,
+} from "../app/article-content.ts";
+import {
   mergeProjectCatalog,
   getProjectPhotoDriveUrlForImage,
   projectImageManifest,
@@ -475,14 +479,25 @@ test("defines a complete structured Web workspace", async () => {
   assert.equal(webBriefSections.length, 17);
   assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
   assert.equal(baseWebsiteContentItems.length >= 9, true);
+  assert.equal(articleContent.length, 7);
+  assert.equal(baseWebsiteContentItems.filter((item) => item.pageType === "Článek").length, articleContent.length);
+  assert.equal(articleContent.every((article) => articleContentBySlug.get(article.slug) === article), true);
   assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);
   assert.match(page, /Sitemap & Content Inventory/);
+  assert.match(page, /Article Library/);
+  assert.match(page, /webView === "articles"/);
+  assert.match(page, /setSelectedArticle/);
+  assert.match(page, /shareArticle/);
+  assert.match(page, /Kopírovat celý článek/);
+  assert.match(page, /Kopírovat SoMe text/);
+  assert.match(page, /inline-link-button/);
   assert.match(page, /Otevřít \{document\.name\}/);
   assert.match(page, /Kopírovat pro AI/);
   assert.match(page, /Stáhnout \.md/);
   assert.match(page, /candidateWebsiteItems/);
   assert.match(page, /projectWebsiteItems/);
   assert.match(styles, /\.web-inventory-filters/);
+  assert.match(styles, /\.article-library-grid/);
   assert.match(styles, /\.markdown-modal/);
 });
 

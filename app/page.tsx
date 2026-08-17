@@ -46,7 +46,7 @@ import {
   weeklyFocus,
 } from "./sprint-status";
 import { candidateContentUpdates } from "./candidate-content";
-import { articleContentBySlug } from "./article-content";
+import { articleContent, articleContentBySlug, type ArticleContent } from "./article-content";
 import {
   ORIGINAL_PHOTOS_ZIP_DRIVE_URL,
   PHOTO_AUDIT_DRIVE_URL,
@@ -142,7 +142,7 @@ type Candidate = {
 };
 
 type CandidateView = "overview" | "matrix" | "dashboard";
-type WebView = "brief" | "inventory" | "relationships";
+type WebView = "brief" | "articles" | "inventory" | "relationships";
 type MarkdownDocument = { name: "WEB_BRIEF.md" | "AI_CONTEXT.md"; content: string };
 type RepositoryDocument = {
   title: string;
@@ -536,6 +536,7 @@ export default function Home() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [selectedDocument, setSelectedDocument] = useState<(typeof documents)[number] | null>(null);
   const [selectedMarkdown, setSelectedMarkdown] = useState<MarkdownDocument | null>(null);
+  const [selectedArticle, setSelectedArticle] = useState<ArticleContent | null>(null);
   const [toast, setToast] = useState("");
   const [projectStatus, setProjectStatus] = useState<"Vše" | ProjectStatus>("Vše");
   const [projectQuery, setProjectQuery] = useState("");
@@ -602,6 +603,7 @@ export default function Home() {
         setSelectedTask(null);
         setSelectedDocument(null);
         setSelectedMarkdown(null);
+        setSelectedArticle(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -643,6 +645,7 @@ export default function Home() {
       ...navItems.map((item) => ({ title: item.label, meta: "Sekce", action: () => navigate(item.id) })),
       ...projects.map((item) => ({ title: item.title, meta: `Projekt · ${item.status}`, action: () => { setSelectedProject(item); setSearchOpen(false); } })),
       ...candidates.map((item) => ({ title: item.name, meta: `Kandidát · ${item.professions.join(", ")}`, action: () => { setSelectedCandidate(item); setSearchOpen(false); } })),
+      ...articleContent.map((item) => ({ title: item.title, meta: `Článek · ${item.pillar}`, action: () => { setSelectedArticle(item); setSearchOpen(false); } })),
       ...documents.map((item) => ({ title: item.title, meta: `Dokument · ${item.category}`, action: () => { setSelectedDocument(item); setSearchOpen(false); } })),
     ];
     return items.filter((item) => `${item.title} ${item.meta}`.toLowerCase().includes(query)).slice(0, 8);
@@ -732,6 +735,58 @@ export default function Home() {
     } catch {
       setToast("Kopírování se nepodařilo. Označte text ručně.");
     }
+  }
+
+  function articlePublicPath(article: ArticleContent) {
+    return `/clanky/${article.slug}`;
+  }
+
+  function articleFullText(article: ArticleContent) {
+    return [
+      `# ${article.title}`,
+      "",
+      article.perex,
+      "",
+      ...article.body.flatMap((section) => [`## ${section.heading}`, "", ...section.paragraphs, ""]),
+      "## Text pro sociální sítě",
+      "",
+      article.socialCopy,
+      "",
+      "## Carousel",
+      "",
+      ...article.carousel.map((slide, index) => `${index + 1}. ${slide}`),
+      "",
+      `CTA: ${article.cta}`,
+      `Markdown: ${article.markdownPath}`,
+      `Budoucí web: ${articlePublicPath(article)}`,
+    ].join("\n");
+  }
+
+  function articleShareText(article: ArticleContent) {
+    return [article.title, "", article.perex, "", article.cta, "", `${window.location.origin}${articlePublicPath(article)}`].join("\n");
+  }
+
+  async function shareArticle(article: ArticleContent) {
+    const shareData = { title: article.title, text: article.perex, url: `${window.location.origin}${articlePublicPath(article)}` };
+    if ("share" in navigator) {
+      try {
+        await navigator.share(shareData);
+        setToast("Článek je připravený ke sdílení.");
+        return;
+      } catch {
+        // When native share is cancelled or unavailable, fall back to a copyable package.
+      }
+    }
+    await copyToClipboard(articleShareText(article), "Sdílecí balíček článku");
+  }
+
+  function openArticleFromWebsiteItem(item: WebsiteContentItem) {
+    const article = item.id.startsWith("article-") ? articleContentBySlug.get(item.id.replace("article-", "")) : undefined;
+    if (article) {
+      setSelectedArticle(article);
+      return;
+    }
+    setToast("Tahle položka zatím nemá čitelný článek v Campaign HQ.");
   }
 
   function downloadMarkdown(document: MarkdownDocument) {
@@ -1280,6 +1335,29 @@ export default function Home() {
     </div>
   );
 
+  const renderArticleLibrary = () => (
+    <section className="article-library section-stack" aria-label="Centrální seznam článků">
+      <div className="article-library-hero glass-card">
+        <div><span className="eyebrow">Article Library</span><h2>Všechny články na jednom místě</h2><p>Články už nejsou schované za neklikací MD cestou. Odsud je otevřeš, zkontroluješ webový text, vezmeš SoMe derivát a připravíš sdílení.</p></div>
+        <div className="article-library-stats"><strong>{articleContent.length}</strong><span>připravených článků</span><small>{articleContent.filter((article) => article.status === "copy-ke-schvaleni").length} ke schválení</small></div>
+      </div>
+      <div className="article-library-grid">
+        {articleContent.map((article) => {
+          const linkedPosts = posts.filter((post) => article.socialPostIds.includes(post.id));
+          const primaryDriveUrl = getProjectPhotoDriveUrlForImage(article.primaryImage) ?? getPhotoAuditFolderForAsset(article.primaryImage);
+          return <article className="article-library-card glass-card" key={article.slug}>
+            <button className="article-library-card-main" onClick={() => setSelectedArticle(article)}>
+              <div className="article-card-image"><Image src={article.primaryImage} alt={`Náhled článku ${article.title}`} fill sizes="(max-width: 760px) 100vw, 360px" unoptimized /></div>
+              <div><span className="eyebrow">{article.pillar} · {article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</span><h3>{article.title}</h3><p>{article.summary}</p></div>
+            </button>
+            <dl className="article-library-meta"><div><dt>Markdown</dt><dd><button className="inline-link-button" onClick={() => setSelectedArticle(article)}>{article.markdownPath}</button></dd></div><div><dt>Budoucí URL</dt><dd>{articlePublicPath(article)}</dd></div><div><dt>Posty</dt><dd>{linkedPosts.length ? linkedPosts.map((post) => `#${post.id}`).join(" · ") : "Čeká"}</dd></div></dl>
+            <div className="article-library-actions"><button className="primary-button" onClick={() => setSelectedArticle(article)}>Otevřít článek</button><button className="secondary-button" onClick={() => copyToClipboard(article.socialCopy, "SoMe text článku")}>Kopírovat SoMe</button><button className="secondary-button" onClick={() => shareArticle(article)}>Sdílet</button><a href={primaryDriveUrl} target="_blank" rel="noreferrer">Zdroj fotky ↗</a></div>
+          </article>;
+        })}
+      </div>
+    </section>
+  );
+
   const renderWeb = () => (
     <div className="section-stack web-workspace">
       <section className="section-intro glass-card web-intro">
@@ -1289,8 +1367,9 @@ export default function Home() {
 
       <nav className="web-tabs glass-card" aria-label="Podsekce Web">
         <button className={webView === "brief" ? "active" : ""} onClick={() => setWebView("brief")}><span>01</span><strong>Web Brief</strong><small>Strategie a zadání</small></button>
-        <button className={webView === "inventory" ? "active" : ""} onClick={() => setWebView("inventory")}><span>02</span><strong>Sitemap & Content Inventory</strong><small>{websiteMetrics.total} položek</small></button>
-        <button className={webView === "relationships" ? "active" : ""} onClick={() => setWebView("relationships")}><span>03</span><strong>Relationship Engine</strong><small>{knowledgeRelationships.length} vazeb</small></button>
+        <button className={webView === "articles" ? "active" : ""} onClick={() => setWebView("articles")}><span>02</span><strong>Články</strong><small>{articleContent.length} textů ke sdílení</small></button>
+        <button className={webView === "inventory" ? "active" : ""} onClick={() => setWebView("inventory")}><span>03</span><strong>Sitemap & Content Inventory</strong><small>{websiteMetrics.total} položek</small></button>
+        <button className={webView === "relationships" ? "active" : ""} onClick={() => setWebView("relationships")}><span>04</span><strong>Relationship Engine</strong><small>{knowledgeRelationships.length} vazeb</small></button>
       </nav>
 
       {webView === "brief" ? <>
@@ -1325,7 +1404,7 @@ export default function Home() {
           <div className="card-heading"><div><span className="eyebrow">Živá evidence</span><h2>Otevřené body</h2></div><span className="count-pill">{webOpenIssues.length}</span></div>
           <div className="web-issue-grid">{webOpenIssues.map((issue) => <article key={issue.id}><div><span className={`priority-tag priority-${slugify(issue.priority)}`}>{issue.priority}</span><span className="status-pill warning-pill">{issue.status}</span></div><h3>{issue.title}</h3><p>{issue.description}</p><dl><div><dt>Odpovědnost</dt><dd>{issue.owner}</dd></div><div><dt>Termín</dt><dd>{issue.deadline}</dd></div></dl><small>{issue.note}</small></article>)}</div>
         </section>
-      </> : webView === "inventory" ? <>
+      </> : webView === "articles" ? renderArticleLibrary() : webView === "inventory" ? <>
         <section className="web-readiness-grid" aria-label="Připravenost webového obsahu">
           {[{ label: "Plánované stránky", value: websiteMetrics.total, note: "včetně profilů a projektů" }, { label: "Publikováno", value: websiteMetrics.published, note: "živé stránky" }, { label: "Připraveno k předání", value: websiteMetrics.handoff, note: "webdesignerovi" }, { label: "Čeká na podklady", value: websiteMetrics.waiting, note: "blokované položky" }, { label: "Kritické blokátory", value: websiteMetrics.critical, note: "ohrožují spuštění" }, { label: "Content readiness", value: `${websiteReadiness} %`, note: "vážený průměr podkladů" }].map((metric) => <article className="glass-card" key={metric.label}><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></article>)}
         </section>
@@ -1349,7 +1428,7 @@ export default function Home() {
           {filteredWebsiteItems.map((item) => <details className="web-inventory-item glass-card" key={item.id}>
             <summary><div className="inventory-readiness"><strong>{item.readiness}%</strong><span><i style={{ width: `${item.readiness}%` }} /></span></div><div><span className="eyebrow">{item.pageType} · {item.section}</span><h2>{item.title}</h2><p>{item.purpose}</p></div><div className="inventory-tags"><span className={`priority-tag priority-${slugify(item.priority)}`}>{item.priority}</span><span className={`status-pill web-status-${slugify(item.status)}`}>{item.status}</span></div><i>＋</i></summary>
             <div className="inventory-detail-grid">
-              <dl><div><dt>Komunikační pilíř</dt><dd>{item.pillar}</dd></div><div><dt>Odpovědnost</dt><dd>{item.owner}</dd></div><div><dt>Termín</dt><dd>{item.deadline}</dd></div><div><dt>Rozpracovaný obsah</dt><dd>{item.draftLink}</dd></div><div><dt>Podklady</dt><dd>{item.sourceLinks.length ? item.sourceLinks.map((link, index) => <span key={`${item.id}-${link}`}>{index > 0 ? " · " : ""}{link.startsWith("http") ? <a href={link} target="_blank" rel="noreferrer">Google Disk ↗</a> : link}</span>) : "Čeká"}</dd></div><div><dt>Poznámka</dt><dd>{item.notes}</dd></div></dl>
+              <dl><div><dt>Komunikační pilíř</dt><dd>{item.pillar}</dd></div><div><dt>Odpovědnost</dt><dd>{item.owner}</dd></div><div><dt>Termín</dt><dd>{item.deadline}</dd></div><div><dt>Rozpracovaný obsah</dt><dd>{item.id.startsWith("article-") ? <button className="inline-link-button" onClick={() => openArticleFromWebsiteItem(item)}>{item.draftLink}</button> : item.draftLink}</dd></div><div><dt>Podklady</dt><dd>{item.sourceLinks.length ? item.sourceLinks.map((link, index) => <span key={`${item.id}-${link}`}>{index > 0 ? " · " : ""}{link.startsWith("http") ? <a href={link} target="_blank" rel="noreferrer">Google Disk ↗</a> : link}</span>) : "Čeká"}</dd></div><div><dt>Poznámka</dt><dd>{item.notes}</dd></div></dl>
               {item.checklist && <div className="inventory-checklist"><strong>Stav podkladů</strong>{item.checklist.map((check) => <span className={check.available ? "done" : ""} key={check.label}><i>{check.available ? "✓" : ""}</i>{check.label}</span>)}</div>}
               <div className="inventory-blockers"><strong>Chybí / blokuje</strong>{item.blockers.length ? item.blockers.map((blocker) => <span key={blocker}>! {blocker}</span>) : <span className="resolved">✓ Bez evidovaného blokátoru</span>}</div>
             </div>
@@ -1528,7 +1607,7 @@ export default function Home() {
         </div>
         <nav aria-label="Hlavní navigace">
           <span className="nav-label">Pracovní prostor</span>
-          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}{item.id === "web" && activeSection === "web" && <div className="candidate-subnav">{(["brief", "inventory", "relationships"] as WebView[]).map((view) => <button key={view} className={webView === view ? "active" : ""} onClick={() => { setWebView(view); setMobileNav(false); }}>{view === "brief" ? "Web Brief" : view === "inventory" ? "Sitemap & Inventory" : "Relationship Engine"}</button>)}</div>}</div>)}
+          {navItems.slice(0, 8).map((item) => <div className="nav-group" key={item.id}><button className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span>{item.id === "checklist" && <b>{openTasks}</b>}{item.id === "candidates" && <b>{candidates.length}/11</b>}</button>{item.id === "candidates" && activeSection === "candidates" && <div className="candidate-subnav">{(["overview", "matrix", "dashboard"] as CandidateView[]).map((view) => <button key={view} className={candidateView === view ? "active" : ""} onClick={() => { setCandidateView(view); setMobileNav(false); }}>{view === "overview" ? "Přehled" : view === "matrix" ? "Matrice" : "Dashboard"}</button>)}</div>}{item.id === "web" && activeSection === "web" && <div className="candidate-subnav">{(["brief", "articles", "inventory", "relationships"] as WebView[]).map((view) => <button key={view} className={webView === view ? "active" : ""} onClick={() => { setWebView(view); setMobileNav(false); }}>{view === "brief" ? "Web Brief" : view === "articles" ? "Články" : view === "inventory" ? "Sitemap & Inventory" : "Relationship Engine"}</button>)}</div>}</div>)}
           <span className="nav-label utility-label">Systém</span>
           {navItems.slice(8).map((item) => <button key={item.id} className={activeSection === item.id ? "active" : ""} onClick={() => navigate(item.id)} aria-current={activeSection === item.id ? "page" : undefined}><i>{item.icon}</i><span>{item.label}</span></button>)}
         </nav>
@@ -1562,6 +1641,8 @@ export default function Home() {
       {selectedTask && <div className="modal-backdrop" onMouseDown={() => setSelectedTask(null)}><section className="detail-modal task-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedTask(null)}>×</button><div className="task-tags"><span className={`priority-tag priority-${slugify(selectedTask.priority)}`}>{selectedTask.priority}</span><span className="status-pill neutral">{selectedTask.status}</span></div><h2>{selectedTask.title}</h2><p>{selectedTask.note}</p><dl><div><dt>Owner</dt><dd>{selectedTask.owner}</dd></div><div><dt>Deadline</dt><dd>{selectedTask.deadline}</dd></div><div><dt>Dokument</dt><dd>{selectedTask.document || "Bez přílohy"}</dd></div></dl>{selectedTask.status !== "Done" && <button className="primary-button full-button" onClick={() => advanceTask(selectedTask)}>Posunout úkol dál →</button>}</section></div>}
 
       {selectedDocument && <div className="modal-backdrop" onMouseDown={() => setSelectedDocument(null)}><section className="detail-modal document-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedDocument(null)}>×</button><div className={`file-icon file-${selectedDocument.type.toLowerCase()}`}>{selectedDocument.type.slice(0, 3)}</div><span className="eyebrow">{selectedDocument.category}</span><h2>{selectedDocument.title}</h2><p>{selectedDocument.description}</p><dl><div><dt>Stav</dt><dd>{selectedDocument.status}</dd></div><div><dt>Aktualizace</dt><dd>{selectedDocument.updated}</dd></div><div><dt>Typ</dt><dd>{selectedDocument.type}</dd></div>{selectedDocument.localPath && <div><dt>Lokální cesta</dt><dd>{selectedDocument.localPath}</dd></div>}{selectedDocument.driveUrl && <div><dt>Google Disk</dt><dd><a href={selectedDocument.driveUrl} target="_blank" rel="noreferrer">Otevřít externí složku ↗</a></dd></div>}</dl><div className="local-note">Repository eviduje metadata a produkční odkazy. Fotografie jsou dostupné externě přes Google Disk.</div></section></div>}
+
+      {selectedArticle && <div className="modal-backdrop" onMouseDown={() => setSelectedArticle(null)}><section className="detail-modal article-library-modal article-readable-card" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedArticle(null)}>×</button><div className="post-detail-badges"><span className={`status-pill ${slugify(selectedArticle.pillar)}`}>{selectedArticle.pillar}</span><span className="status-pill neutral">{selectedArticle.status === "copy-ke-schvaleni" ? "Copy ke schválení" : selectedArticle.status}</span></div><h2>{selectedArticle.title}</h2><p className="article-perex">{selectedArticle.perex}</p><div className="article-modal-actions"><button className="primary-button" onClick={() => shareArticle(selectedArticle)}>Sdílet</button><button className="secondary-button" onClick={() => copyToClipboard(articleFullText(selectedArticle), "Celý článek")}>Kopírovat celý článek</button><button className="secondary-button" onClick={() => copyToClipboard(selectedArticle.socialCopy, "SoMe text článku")}>Kopírovat SoMe text</button><button className="secondary-button" onClick={() => copyToClipboard(selectedArticle.markdownPath, "Markdown cesta")}>Kopírovat MD cestu</button></div><div className="article-modal-media"><Image src={selectedArticle.primaryImage} alt={`Primární fotografie článku ${selectedArticle.title}`} fill sizes="(max-width: 760px) 100vw, 760px" unoptimized /></div><dl className="post-article-meta"><div><dt>Markdown</dt><dd>{selectedArticle.markdownPath}</dd></div><div><dt>Budoucí web</dt><dd>{articlePublicPath(selectedArticle)}</dd></div><div><dt>Primární foto</dt><dd><a href={getProjectPhotoDriveUrlForImage(selectedArticle.primaryImage) ?? getPhotoAuditFolderForAsset(selectedArticle.primaryImage)} target="_blank" rel="noreferrer">Zdroj fotky na Disku ↗</a></dd></div><div><dt>Projekty</dt><dd>{selectedArticle.projectIds.join(", ") || "Čeká"}</dd></div><div><dt>Posty</dt><dd>{selectedArticle.socialPostIds.join(", ") || "Čeká"}</dd></div><div><dt>Kontroly</dt><dd>{selectedArticle.checks.join(" · ")}</dd></div></dl>{selectedArticle.body.map((section) => <section key={section.heading}><h3>{section.heading}</h3>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}<div className="post-social-derivative"><span className="eyebrow">Text pro sociální sítě</span><p>{selectedArticle.socialCopy}</p><strong>Carousel</strong><ol>{selectedArticle.carousel.map((slide) => <li key={slide}>{slide}</li>)}</ol><small>CTA: {selectedArticle.cta}</small></div>{selectedArticle.galleryImages.length ? <div className="photo-source-actions">{selectedArticle.galleryImages.map((image) => <a key={image} href={getProjectPhotoDriveUrlForImage(image) ?? getPhotoAuditFolderForAsset(image)} target="_blank" rel="noreferrer">{image.split("/").pop()} ↗</a>)}</div> : null}{selectedArticle.sourceLinks.length ? <div className="photo-source-actions">{selectedArticle.sourceLinks.map((link) => <a key={link} href={link} target="_blank" rel="noreferrer">Zdroj ↗</a>)}</div> : null}</section></div>}
 
       {selectedMarkdown && <div className="modal-backdrop" onMouseDown={() => setSelectedMarkdown(null)}><section className="detail-modal markdown-modal" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedMarkdown(null)}>×</button><span className="eyebrow">Markdown náhled</span><h2>{selectedMarkdown.name}</h2><div className="markdown-modal-actions"><button className="secondary-button" onClick={() => copyMarkdown(selectedMarkdown)}>Kopírovat obsah</button><button className="primary-button" onClick={() => downloadMarkdown(selectedMarkdown)}>Stáhnout .md</button></div><pre>{selectedMarkdown.content}</pre></section></div>}
 
