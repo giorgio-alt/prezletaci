@@ -171,7 +171,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 16;/);
+  assert.match(page, /const DATA_VERSION = 17;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -255,11 +255,12 @@ test("imports the complete chronological publication plan with concrete producti
   assert.equal(initialPosts.length, 46);
   assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
+  assert.equal(new Set(initialPosts.map((post) => post.date)).size, initialPosts.length);
   assert.equal(initialPosts.every((post) => /^2026-(08|09|10)-\d{2}$/.test(post.date)), true);
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 14, "09": 21, "10": 11 },
+    { "08": 14, "09": 22, "10": 10 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
@@ -279,7 +280,7 @@ test("includes the program, logo and Instagram posts as concrete ready social pa
   const instagramPost = initialPosts.find((post) => post.id === 142);
   const logoPost = initialPosts.find((post) => post.id === 143);
 
-  assert.equal(programPost?.date, "2026-08-31");
+  assert.equal(programPost?.date, "2026-08-30");
   assert.equal(programPost?.title, "Plány · Program · Plán pro Přezletice 2026–2030");
   assert.equal(programPost?.subjectType, "program");
   assert.equal(programPost?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
@@ -402,7 +403,7 @@ test("versioned migration enriches the plan without erasing user changes", () =>
   assert.equal(migratedProgram?.copy, "Hotovo");
   assert.equal(migratedProgram?.graphic, "Připraveno");
   assert.equal(migratedProgram?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
-  assert.equal(migratedProgram?.date, "2026-08-31");
+  assert.equal(migratedProgram?.date, "2026-08-30");
   const oldStartDefault = {
     ...initialPosts.find((post) => post.id === 101),
     date: "2026-08-01",
