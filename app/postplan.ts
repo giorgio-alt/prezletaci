@@ -186,6 +186,7 @@ const isUnchangedFromVersion10Default = (post: SocialPost) => {
 };
 
 const articleUpgradePostIds = new Set([115, 121, 123]);
+const canonicalSchedulePostIds = new Set(initialPosts.map((post) => post.id));
 
 // Výchozí demonstrační položky verze 3. Při migraci se odstraní pouze tehdy,
 // pokud zůstaly zcela beze změny. Jakákoli uživatelská úprava se zachová.
@@ -223,12 +224,13 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       continue;
     }
     const refreshCanonicalUpdate = (savedVersion < 14 && isUnchangedFromVersion10Default(post)) || (savedVersion < 15 && articleUpgradePostIds.has(post.id));
+    const refreshCanonicalSchedule = savedVersion < 16 && canonicalSchedulePostIds.has(post.id);
     const refreshDefaultTitle = savedVersion < 9 && post.title === version8DefaultTitles[post.id];
     const migrated = {
       ...canonical,
       ...post,
-      date: refreshCanonicalUpdate ? canonical.date : post.date,
-      title: refreshDefaultTitle || refreshCanonicalUpdate ? canonical.title : post.title,
+      date: refreshCanonicalUpdate || refreshCanonicalSchedule ? canonical.date : post.date,
+      title: refreshDefaultTitle || refreshCanonicalUpdate || refreshCanonicalSchedule ? canonical.title : post.title,
       status: refreshCanonicalUpdate ? canonical.status : post.status,
       graphic: refreshCanonicalUpdate ? canonical.graphic : post.graphic,
       copy: refreshCanonicalUpdate ? canonical.copy : post.copy,

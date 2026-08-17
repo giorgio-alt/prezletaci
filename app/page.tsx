@@ -467,7 +467,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 15;
+const DATA_VERSION = 16;
 
 const slugify = slugFromTitle;
 
