@@ -1,4 +1,4 @@
-export const PHOTO_DRIVE_ROOT_URL = "https://drive.google.com/drive/folders/1DF9dOqb7fcisBI49U4UbhcvHexAox7-X?usp=sharing";
+export const PHOTO_DRIVE_ROOT_URL = "https://drive.google.com/drive/folders/12v2pTUrP4dk4Di5Eucma0sVq6csEGnJs?usp=sharing";
 export const PHOTO_AUDIT_DRIVE_URL = "https://drive.google.com/drive/folders/1whjMB-LrwJSXUhQU-ZOTfjnHGp5Cs9cJ";
 export const ORIGINAL_PHOTOS_ZIP_DRIVE_URL = "https://drive.google.com/file/d/1tHWs_iMMZfT0jPH9hjwla0Tvu-yuBYCg/view?usp=drivesdk";
 

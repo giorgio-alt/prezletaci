@@ -64,7 +64,7 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
-  assert.match(html, /Příspěvky<\/span><strong>43/);
+  assert.match(html, /Příspěvky<\/span><strong>46/);
 });
 
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
@@ -161,7 +161,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 14;/);
+  assert.match(page, /const DATA_VERSION = 15;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -173,6 +173,8 @@ test("exposes external Google Drive photo sources throughout Campaign HQ", async
   ]);
 
   assert.match(photoDrive, new RegExp(PHOTO_DRIVE_ROOT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(PHOTO_DRIVE_ROOT_URL, /12v2pTUrP4dk4Di5Eucma0sVq6csEGnJs/);
+  assert.doesNotMatch(photoDrive, /1DF9dOqb7fcisBI49U4UbhcvHexAox7-X/);
   assert.match(photoDrive, new RegExp(PHOTO_AUDIT_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.match(photoDrive, new RegExp(ORIGINAL_PHOTOS_ZIP_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.match(page, /Otevřít fotky k produkci na Disku/);
@@ -230,14 +232,14 @@ test("defines the six centrally themed ContentCard templates", async () => {
 });
 
 test("imports the complete chronological publication plan with concrete production metadata", async () => {
-  assert.equal(initialPosts.length, 43);
+  assert.equal(initialPosts.length, 46);
   assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
   assert.equal(initialPosts.every((post) => /^2026-(08|09|10)-\d{2}$/.test(post.date)), true);
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 14, "09": 20, "10": 9 },
+    { "08": 14, "09": 21, "10": 11 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
@@ -350,15 +352,15 @@ test("all candidate post links resolve to imported posts", async () => {
 });
 
 test("versioned migration enriches the plan without erasing user changes", () => {
-  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 43);
+  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 46);
   const editedLegacy = { ...legacyInitialPosts[1], title: "Uživatelská úprava medailonku" };
   const withEditedLegacy = mergePostsWithPlan([editedLegacy], 3);
-  assert.equal(withEditedLegacy.length, 44);
+  assert.equal(withEditedLegacy.length, 47);
   assert.equal(withEditedLegacy.find((post) => post.id === editedLegacy.id)?.title, editedLegacy.title);
   const editedPlanPost = { ...initialPosts[0], status: "Copy" };
   const customPost = { ...legacyInitialPosts[0], id: 999001, title: "Vlastní uživatelský příspěvek" };
   const migrated = mergePostsWithPlan([editedPlanPost, customPost], 4);
-  assert.equal(migrated.length, 44);
+  assert.equal(migrated.length, 47);
   assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
   assert.equal(migrated.some((post) => post.id === customPost.id), true);
   const oldDefault = { ...initialPosts.find((post) => post.id === 102), title: "Medailonek 1", candidateId: undefined, contentSummary: undefined, productionNote: undefined };
