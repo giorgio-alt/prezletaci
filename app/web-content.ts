@@ -338,6 +338,7 @@ export const webOpenIssues: WebOpenIssue[] = [
   { id: "issue-brand", title: "Dodat finální vizuální identitu", description: "Komponenty používají centrální pracovní tokeny a čekají na brand manuál Karla Hemzy.", status: "Čeká na podklady", priority: "Vysoká", owner: "Klient", deadline: "31. 7. 2026", note: "Struktura Campaign HQ se kvůli paletě měnit nebude." },
   { id: "issue-program", title: "Potvrdit strukturu programu", description: "Rozhodnout, zda program členit primárně podle devíti oblastí, nebo podle nejsilnějších priorit.", status: "K rozhodnutí", priority: "Vysoká", owner: "PM + Klient", deadline: "28. 7. 2026", note: "Doporučení: oblast + vybrané priority + první konkrétní krok." },
   { id: "issue-sensitive", title: "Vybrat první citlivá témata", description: "Určit pořadí zpracování školy, developmentu, územního plánu a dopravy.", status: "Nové", priority: "Vysoká", owner: "PM + Copy", deadline: "29. 7. 2026", note: "Každé téma potřebuje faktickou osnovu a seznam zdrojů." },
+  { id: "issue-ice-rink-excluded", title: "Kluziště vyloučeno z článků", description: "Samostatný článek o kluzišti se nemá připravovat ani zařazovat do webového nebo social media publikačního plánu.", status: "Odloženo", priority: "Nízká", owner: "PM + Copy", deadline: "Bez termínu", note: "Rozhodnutí klienta: téma kluziště z článkové linky vynechat. Pokud se objeví ve sportovním souhrnu, pouze jako okrajová zmínka po schválení." },
 ];
 
 export const webBlockers: WebBlocker[] = [

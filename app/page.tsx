@@ -467,12 +467,30 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 14;
+const DATA_VERSION = 15;
 
 const slugify = slugFromTitle;
 
 const pillarClass = (pillar: string) => `pillar-${slugify(pillar)}`;
 const postPillarClass = (post: SocialPost) => post.contentType === "evidence" ? "pillar-dokumenty" : pillarClass(post.pillar);
+
+const getPostFillState = (post: SocialPost) => {
+  const hasCopy = Boolean(post.socialCopy || post.facebookCopy || post.instagramCopy || post.articleSlug || post.programSlug);
+  const hasVisual = Boolean(post.primaryImage || post.galleryImages?.length || post.graphic === "Připraveno" || post.graphic === "Fotky přiřazeny");
+  const hasStructuredBrief = Boolean(post.contentSummary || post.productionNote || post.carouselOutline?.length || post.cta || post.draftLink);
+  const hasLinkedSubject = Boolean(post.candidateId || post.projectId || post.websiteItemId || post.subjectType);
+  const productionStarted = post.copy !== "Čeká" || post.graphic !== "Čeká" || post.approval !== "Čeká" || post.status !== "Námět";
+
+  if (hasCopy && hasVisual && productionStarted) {
+    return { key: "full", label: "Plný", description: "Post má obsah i produkční podklady." };
+  }
+
+  if (hasStructuredBrief || hasLinkedSubject || productionStarted || hasVisual) {
+    return { key: "partial", label: "Částečný", description: "Post má část podkladů, ale ještě není kompletní." };
+  }
+
+  return { key: "empty", label: "Prázdný", description: "Post zatím čeká na obsah a podklady." };
+};
 
 const formatDate = (iso: string) => {
   const [year, month, day] = iso.split("-").map(Number);
@@ -1150,21 +1168,27 @@ export default function Home() {
       <section className="photo-drive-panel glass-card"><div><span className="eyebrow">Produkční fotky</span><h2>Odkazy pro tvorbu postů</h2><p>Rozkliknutý post ukazuje přiřazené obrázky a odkaz na odpovídající složku na Google Disku.</p></div><PhotoDriveLinks compact /></section>
         <div className="calendar-layout">
           <section className="calendar-panel glass-card">
-            <div className="calendar-toolbar"><div className="month-switcher">{monthOptions.map((month, index) => <button className={calendarMonth === index ? "active" : ""} key={month.label} onClick={() => setCalendarMonth(index)}>{month.label}</button>)}</div><div className="calendar-legend"><span className="pillar-lide">Lidé</span><span className="pillar-prace">Hotová práce</span><span className="pillar-rozdelane">Rozdělané</span><span className="pillar-plany">Plány</span><span className="pillar-vysvetlovani">Vysvětlujeme</span><span className="pillar-dokumenty">Důkazy</span></div></div>
+            <div className="calendar-toolbar"><div className="month-switcher">{monthOptions.map((month, index) => <button className={calendarMonth === index ? "active" : ""} key={month.label} onClick={() => setCalendarMonth(index)}>{month.label}</button>)}</div><div className="calendar-legend"><span className="pillar-lide">Lidé</span><span className="pillar-prace">Hotová práce</span><span className="pillar-rozdelane">Rozdělané</span><span className="pillar-plany">Plány</span><span className="pillar-vysvetlovani">Vysvětlujeme</span><span className="pillar-dokumenty">Důkazy</span><span className="fill-full">Plný</span><span className="fill-partial">Částečný</span><span className="fill-empty">Prázdný</span></div></div>
             <div className="weekday-row">{["Po", "Út", "St", "Čt", "Pá", "So", "Ne"].map((day) => <span key={day}>{day}</span>)}</div>
             <div className="calendar-grid">
               {cells.map((day, index) => {
                 if (!day) return <div className="calendar-day empty" key={`empty-${index}`} />;
                 const iso = `2026-${String(selected.month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
                 const dayPosts = posts.filter((post) => post.date === iso);
-                return <button className={`calendar-day ${dayPosts.length ? "has-post" : ""}`} key={iso} onClick={() => dayPosts[0] ? setSelectedPost(dayPosts[0]) : openCreate("post", iso)}><time>{day}</time>{dayPosts.map((post) => <span key={post.id} className={`calendar-event ${postPillarClass(post)}`}><b>{post.format}</b>{post.title}</span>)}{!dayPosts.length && <i>＋</i>}</button>;
+                return <button className={`calendar-day ${dayPosts.length ? "has-post" : ""}`} key={iso} onClick={() => dayPosts[0] ? setSelectedPost(dayPosts[0]) : openCreate("post", iso)}><time>{day}</time>{dayPosts.map((post) => {
+                  const fillState = getPostFillState(post);
+                  return <span key={post.id} className={`calendar-event ${postPillarClass(post)}`}><b>{post.format}<em className={`fill-dot fill-${fillState.key}`} title={fillState.description}>{fillState.label}</em></b>{post.title}</span>;
+                })}{!dayPosts.length && <i>＋</i>}</button>;
               })}
             </div>
           </section>
           <aside className="content-timeline glass-card">
             <div className="card-heading"><div><span className="eyebrow">Timeline</span><h2>{selected.label} 2026</h2></div><span className="count-pill">{monthPosts.length}</span></div>
             <div className="content-timeline-list">
-              {monthPosts.length ? monthPosts.map((post) => <button key={post.id} onClick={() => setSelectedPost(post)}><time>{new Date(`${post.date}T12:00:00`).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}</time><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{post.format} · {post.status}</small></span></button>) : <div className="empty-state">V tomto měsíci zatím nejsou žádné příspěvky.</div>}
+              {monthPosts.length ? monthPosts.map((post) => {
+                const fillState = getPostFillState(post);
+                return <button key={post.id} onClick={() => setSelectedPost(post)}><time>{new Date(`${post.date}T12:00:00`).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}</time><span className={`timeline-dot ${postPillarClass(post)}`} /><span><strong>{post.title}</strong><small>{post.format} · {post.status} · <em className={`fill-inline fill-${fillState.key}`}>{fillState.label}</em></small></span></button>;
+              }) : <div className="empty-state">V tomto měsíci zatím nejsou žádné příspěvky.</div>}
             </div>
             <div className={`calendar-capacity${monthPosts.length > 8 ? " over-capacity" : ""}`}><span>Kapacita týmu</span><strong>{monthPosts.length} / 8 výstupů</strong>{monthPosts.length > 8 && <small>Kapacita překročena o {monthPosts.length - 8}</small>}<div className="mini-progress"><i style={{ width: `${Math.min(100, monthPosts.length / 8 * 100)}%` }} /></div></div>
           </aside>
@@ -1415,6 +1439,7 @@ export default function Home() {
     const linkedProject = selectedPost.projectId ? projects.find((project) => project.id === selectedPost.projectId) : null;
     const galleryImages = selectedPost.galleryImages ?? article?.galleryImages ?? [];
     const primaryImage = selectedPost.primaryImage ?? article?.primaryImage ?? linkedProject?.image ?? linkedCandidate?.image;
+    const fillState = getPostFillState(selectedPost);
     const openRelatedSection = () => {
       setSelectedPost(null);
       if (linkedCandidate) {
@@ -1432,9 +1457,9 @@ export default function Home() {
     };
     return <div className="modal-backdrop" onMouseDown={() => setSelectedPost(null)}><section className="detail-modal post-detail post-readable-detail" onMouseDown={(event) => event.stopPropagation()}>
       <button className="modal-close" onClick={() => setSelectedPost(null)}>×</button>
-      <span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span>
+      <div className="post-detail-badges"><span className={`status-pill ${postPillarClass(selectedPost)}`}>{selectedPost.contentType ? contentTemplates[selectedPost.contentType].label : selectedPost.pillar}</span><span className={`fill-badge fill-${fillState.key}`} title={fillState.description}>{fillState.label}</span></div>
       <h2>{selectedPost.title}</h2>
-      <p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format} · {selectedPost.status}</p>
+      <p className="post-date">{formatDate(selectedPost.date)} · {selectedPost.format} · {selectedPost.status} · {fillState.description}</p>
       {primaryImage ? <div className="post-asset-hero"><Image src={primaryImage} alt={`Primární vizuál pro ${selectedPost.title}`} fill sizes="(max-width: 760px) 100vw, 680px" unoptimized /></div> : <ContentCard compact type={selectedPost.contentType ?? contentTypeFromPillar(selectedPost.pillar)} title={selectedPost.title} />}
       {selectedPost.socialCopy && <article className="post-readable-card post-social-copy-card"><div className="profile-panel-head"><span className="eyebrow">Hlavní SoMe text</span><button onClick={() => copyToClipboard(selectedPost.socialCopy ?? "", "Text postu")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.socialCopy}</p>{selectedPost.cta && <div className="post-cta"><span>CTA</span><strong>{selectedPost.cta}</strong></div>}</article>}
       {(selectedPost.facebookCopy || selectedPost.instagramCopy || selectedPost.carouselOutline?.length || selectedPost.hashtags?.length || selectedPost.altText) && <article className="post-readable-card post-channel-brief"><div className="profile-panel-head"><span className="eyebrow">Kanálové varianty</span><b>FB / IG / Carousel</b></div>{selectedPost.facebookCopy && <section><div className="profile-panel-head"><span>Facebook copy</span><button onClick={() => copyToClipboard(selectedPost.facebookCopy ?? "", "Facebook copy")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.facebookCopy}</p></section>}{selectedPost.instagramCopy && <section><div className="profile-panel-head"><span>Instagram copy</span><button onClick={() => copyToClipboard(selectedPost.instagramCopy ?? "", "Instagram copy")}>Kopírovat</button></div><p className="social-copy-preview">{selectedPost.instagramCopy}</p></section>}{selectedPost.carouselOutline?.length ? <section><strong>Carousel osnova</strong><ol>{selectedPost.carouselOutline.map((slide) => <li key={slide}>{slide}</li>)}</ol></section> : null}<dl className="post-article-meta">{selectedPost.hashtags?.length ? <div><dt>Hashtagy</dt><dd>{selectedPost.hashtags.join(" ")}</dd></div> : null}{selectedPost.altText ? <div><dt>Alt text</dt><dd>{selectedPost.altText}</dd></div> : null}</dl></article>}

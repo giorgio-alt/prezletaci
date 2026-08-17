@@ -324,6 +324,56 @@ Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který n
 - SoMe posty: 141
 - Kontrola: Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024. · Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání. · U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.
 
+### Jak vznikala kapacita škol a školek
+
+- Stav: copy ke schválení
+- Markdown: content/articles/kapacita-skol-a-skolek.md
+- Primární obrázek: /images/projects/rozsireni-kapacity-svazkove-skoly.webp
+- Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp · /images/projects/zahrada-ms.webp · /images/projects/vydejni-automaty-stravovani.webp
+- Související projekty: 7, 21, 22
+- SoMe posty: 106, 115
+- Kontrola: Doplnit přesná kapacitní čísla školy, školky a jídelny až po potvrzení zdrojem. · Ověřit aktuální stav rozšíření svazkové školy a odpovědnosti jednotlivých partnerů. · Před publikací zkontrolovat všechny formulace k termínům a financování.
+
+### Kolik rozvoje Přezletice unesou
+
+- Stav: copy ke schválení
+- Markdown: content/articles/rozvoj-obce-a-uzemni-plan.md
+- Primární obrázek: /images/projects/rekonstrukce-mistnich-komunikaci.webp
+- Doplňkové obrázky: /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/zelen-mistni-komunikace.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Související projekty: 8, 9, 20, 33
+- SoMe posty: 121, 123
+- Kontrola: Před publikací doplnit konkrétní odkazy na platné územně plánovací dokumenty. · Ověřit aktuální právní stav případných uzávěr, změn územního plánu a developerských smluv. · Nepoužívat neověřená číselná tvrzení o počtech bytů, domů nebo obyvatel.
+
+### Bílá vrátka: pozemek, škola a rozhodnutí v čase
+
+- Stav: copy ke schválení
+- Markdown: content/articles/bila-vratka-pozemek-skola.md
+- Primární obrázek: /images/brand/social/prezletaci-social-blue.png
+- Doplňkové obrázky: /images/projects/rozsireni-kapacity-svazkove-skoly.webp · /images/projects/elektronicka-uredni-deska.webp
+- Související projekty: 7, 3
+- SoMe posty: 144
+- Kontrola: Doplnit přesnou časovou osu jen z ověřených zápisů, usnesení, smluv a katastrálních podkladů. · Před publikací právně zkontrolovat všechny formulace o odpovědnosti konkrétních osob nebo stran. · Nepoužívat hodnotící tvrzení bez jasného oddělení od faktů.
+
+### Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala
+
+- Stav: copy ke schválení
+- Markdown: content/articles/hasici-v-prezleticich.md
+- Primární obrázek: /images/brand/social/prezletaci-social-yellow.png
+- Doplňkové obrázky: /images/projects/obecni-policie.webp · /images/projects/komunitni-centrum-zlatak.webp
+- Související projekty: 29, 34
+- SoMe posty: 145
+- Kontrola: Ověřit historická tvrzení v zápisech, usneseních a registru spolků. · Před publikací ověřit podmínky případné jednotky požární ochrany s HZS nebo relevantním odborným zdrojem. · Nepřipisovat konkrétním lidem či stranám motivy bez doložitelných dokumentů.
+
+### Jak ověřujeme tvrzení o historii obce
+
+- Stav: copy ke schválení
+- Markdown: content/articles/jak-overujeme-tvrzeni.md
+- Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
+- Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
+- Související projekty: 3
+- SoMe posty: 146
+- Kontrola: U každého navazujícího fact-check článku doplnit přímé odkazy na veřejné dokumenty. · Nahradit pracovní nebo Google Drive odkazy veřejně dostupnými URL, pokud má být text publikovaný na webu. · Před publikací citlivých témat provést faktickou a právní kontrolu.
+
 ---
 
 ## Živé otevřené body
@@ -363,3 +413,12 @@ Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který n
 - Termín: 29. 7. 2026
 - Popis: Určit pořadí zpracování školy, developmentu, územního plánu a dopravy.
 - Poznámka: Každé téma potřebuje faktickou osnovu a seznam zdrojů.
+
+### Kluziště vyloučeno z článků
+
+- Stav: Odloženo
+- Priorita: Nízká
+- Odpovědnost: PM + Copy
+- Termín: Bez termínu
+- Popis: Samostatný článek o kluzišti se nemá připravovat ani zařazovat do webového nebo social media publikačního plánu.
+- Poznámka: Rozhodnutí klienta: téma kluziště z článkové linky vynechat. Pokud se objeví ve sportovním souhrnu, pouze jako okrajová zmínka po schválení.
