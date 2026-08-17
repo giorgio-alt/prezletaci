@@ -1,0 +1,15 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1350" fill="#123A8C"/>
+  <rect x="72" y="72" width="936" height="1206" rx="36" fill="#FFE500"/>
+  <circle cx="838" cy="214" r="190" fill="#F8F9F4" fill-opacity="0.42"/>
+  <circle cx="210" cy="1120" r="245" fill="#123A8C" fill-opacity="0.12"/>
+  <g transform="translate(184 180) rotate(18 356 320)">
+    <rect x="0" y="250" width="112" height="260" rx="18" fill="#123A8C"/>
+    <path d="M150 288C196 264 230 220 272 184C318 145 360 128 426 122C504 115 590 78 660 36C697 14 734 32 740 74C748 132 682 202 620 224C548 250 496 260 472 296C452 326 470 354 506 380L820 562C858 584 862 638 826 661C806 674 780 674 756 661L574 564C558 556 544 578 560 588L742 700C780 724 776 778 738 798C716 810 692 808 668 794L506 700C490 691 476 713 492 724L638 826C672 850 666 900 630 918C608 929 584 926 560 912L432 836C416 827 402 849 418 860L526 940C558 964 550 1010 514 1026C492 1036 462 1032 438 1018L278 925C226 895 188 866 142 826L48 758L90 306L150 288Z" fill="#123A8C"/>
+  </g>
+  <text x="108" y="862" fill="#123A8C" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700">PŘEZLEŤÁCI 2026</text>
+  <text x="108" y="970" fill="#123A8C" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="800">Podaná ruka.</text>
+  <text x="108" y="1058" fill="#123A8C" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="800">Jasná identita.</text>
+  <text x="108" y="1140" fill="#123A8C" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600">Klid · důvěra · energie · spolupráce</text>
+  <text x="108" y="1210" fill="#123A8C" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700">Přehledná komunikace pro Přezletice</text>
+</svg>

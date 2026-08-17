@@ -3,6 +3,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { initialPosts, legacyInitialPosts, mergePostsWithPlan } from "../app/postplan.ts";
 import { PROGRAM_MARKDOWN, programContent } from "../app/program-content.ts";
+import { ORIGINAL_PHOTOS_ZIP_DRIVE_URL, PHOTO_AUDIT_DRIVE_URL, PHOTO_DRIVE_ROOT_URL, photoAuditDriveFolders } from "../app/photo-drive.ts";
 import {
   AI_CONTEXT_MARKDOWN,
   WEB_BRIEF_MARKDOWN,
@@ -41,6 +42,7 @@ const root = new URL("../", import.meta.url);
 const candidateDir = new URL("../public/images/candidates/", import.meta.url);
 const teamDir = new URL("../public/images/team/", import.meta.url);
 const projectDir = new URL("../public/images/projects/", import.meta.url);
+const socialDir = new URL("../public/images/social/", import.meta.url);
 
 async function render() {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -62,7 +64,7 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
-  assert.match(html, /Příspěvky<\/span><strong>41/);
+  assert.match(html, /Příspěvky<\/span><strong>42/);
 });
 
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
@@ -159,8 +161,26 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 9;/);
+  assert.match(page, /const DATA_VERSION = 12;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
+});
+
+test("exposes external Google Drive photo sources throughout Campaign HQ", async () => {
+  const [page, webContent, photoDrive] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/web-content.ts", import.meta.url), "utf8"),
+    readFile(new URL("../app/photo-drive.ts", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(photoDrive, new RegExp(PHOTO_DRIVE_ROOT_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(photoDrive, new RegExp(PHOTO_AUDIT_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(photoDrive, new RegExp(ORIGINAL_PHOTOS_ZIP_DRIVE_URL.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  assert.match(page, /Otevřít fotky k produkci na Disku/);
+  assert.match(page, /Otevřít kandidátské fotky na Disku/);
+  assert.match(page, /Otevřít fotky projektu na Disku/);
+  assert.match(page, /photoLibraryPath: getProjectPhotoLibraryPath/);
+  assert.match(webContent, /PHOTO_AUDIT_DRIVE_URL/);
+  assert.match(photoDrive, new RegExp(photoAuditDriveFolders.root.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
 test("renders the canonical responsive brand assets instead of the star mark", async () => {
@@ -210,19 +230,88 @@ test("defines the six centrally themed ContentCard templates", async () => {
 });
 
 test("imports the complete chronological publication plan with concrete production metadata", async () => {
-  assert.equal(initialPosts.length, 41);
+  assert.equal(initialPosts.length, 42);
   assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
   assert.equal(initialPosts.every((post) => /^2026-(08|09|10)-\d{2}$/.test(post.date)), true);
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 12, "09": 19, "10": 10 },
+    { "08": 12, "09": 20, "10": 10 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
+  assert.equal(initialPosts.filter((post) => post.date < "2026-08-17").length, 0);
+  assert.equal(initialPosts[0]?.id, 101);
   assert.deepEqual(initialPosts.filter((post) => post.candidateId).map((post) => post.candidateId), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   assert.equal(initialPosts.find((post) => post.id === 137)?.programSlug, programContent.slug);
+});
+
+test("includes the program and new logo posts as concrete ready social packages", async () => {
+  await Promise.all([
+    access(new URL("program-plan-pro-prezletice-2026-2030.svg", socialDir)),
+    access(new URL("logo-predstaveni-prezletaku.svg", socialDir)),
+  ]);
+  const programPost = initialPosts.find((post) => post.id === 137);
+  const logoPost = initialPosts.find((post) => post.id === 142);
+
+  assert.equal(programPost?.title, "Plány · Program · Plán pro Přezletice 2026–2030");
+  assert.equal(programPost?.subjectType, "program");
+  assert.equal(programPost?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
+  assert.equal(programPost?.graphic, "Připraveno");
+  assert.match(programPost?.socialCopy ?? "", /Přezletice nepotřebují seznam prázdných slibů/);
+  assert.equal(programPost?.cta, "Projděte si, čeho se náš program týká. Jednotlivá témata budeme postupně rozepisovat podrobněji.");
+  assert.equal(programPost?.draftLink, "content/social/program-a-logo-posty.md");
+
+  assert.equal(logoPost?.date, "2026-08-19");
+  assert.equal(logoPost?.title, "Lidé · Identita · Představujeme logo Přezleťáků");
+  assert.equal(logoPost?.primaryImage, "/images/social/logo-predstaveni-prezletaku.svg");
+  assert.equal(logoPost?.status, "Copy");
+  assert.equal(logoPost?.graphic, "Připraveno");
+  assert.equal(logoPost?.copy, "Hotovo");
+  assert.match(logoPost?.socialCopy ?? "", /Představujeme vizuální identitu Přezleťáků/);
+  assert.match(logoPost?.contentSummary ?? "", /podanou ruku, modrou a žlutou/);
+});
+
+test("defines the campaign start post as a ready-to-produce first social item", async () => {
+  const [page, styles] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    access(new URL("post-001-start-kampane.avif", socialDir)),
+  ]);
+  const startPost = initialPosts.find((post) => post.id === 101);
+
+  assert.equal(startPost?.date, "2026-08-17");
+  assert.equal(startPost?.title, "Lidé · Start kampaně · Přezleťáci 2026");
+  assert.equal(startPost?.pillar, "Lidé");
+  assert.equal(startPost?.format, "Post");
+  assert.equal(startPost?.status, "Ke schválení");
+  assert.equal(startPost?.copy, "Hotovo");
+  assert.equal(startPost?.graphic, "Připraveno");
+  assert.equal(startPost?.approval, "Ke schválení");
+  assert.equal(startPost?.subjectType, "team");
+  assert.equal(startPost?.primaryImage, "/images/social/post-001-start-kampane.avif");
+  assert.equal(startPost?.assetStatus, "Grafika připravena: public/images/social/post-001-start-kampane.avif");
+  assert.match(startPost?.socialCopy ?? "", /Jsme sousedé se zkušenostmi/);
+  assert.match(startPost?.socialCopy ?? "", /jedenáct sousedů, kteří společně tvoří Přezleťáky/);
+  assert.equal(startPost?.cta, "Sledujte nás. V příštích dnech představíme tým Přezleťáků 2026.");
+  assert.match(startPost?.contentSummary ?? "", /Přezleťáci 2026 navazují na dlouhodobou práci v obci/);
+  assert.match(startPost?.productionNote ?? "", /Startovací post otevírá kampaň/);
+  assert.deepEqual(
+    initialPosts.filter((post) => post.candidateId).slice(0, 4).map((post) => post.title),
+    [
+      "Lidé · Medailonek · Tomáš Říha",
+      "Lidé · Medailonek · Jan Macourek",
+      "Lidé · Medailonek · Romana Bernardová",
+      "Lidé · Medailonek · Lenka Bulová",
+    ],
+  );
+  assert.match(page, /Hlavní SoMe text/);
+  assert.match(page, /Kopírovat/);
+  assert.match(page, /Subject type/);
+  assert.match(page, /Asset status/);
+  assert.match(styles, /\.post-social-copy-card/);
+  assert.match(styles, /\.post-cta/);
 });
 
 test("all candidate post links resolve to imported posts", async () => {
@@ -234,16 +323,16 @@ test("all candidate post links resolve to imported posts", async () => {
   assert.equal(references.every((id) => ids.has(id)), true);
 });
 
-test("version 9 migration enriches the plan without erasing user changes", () => {
-  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 41);
+test("versioned migration enriches the plan without erasing user changes", () => {
+  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 42);
   const editedLegacy = { ...legacyInitialPosts[1], title: "Uživatelská úprava medailonku" };
   const withEditedLegacy = mergePostsWithPlan([editedLegacy], 3);
-  assert.equal(withEditedLegacy.length, 42);
+  assert.equal(withEditedLegacy.length, 43);
   assert.equal(withEditedLegacy.find((post) => post.id === editedLegacy.id)?.title, editedLegacy.title);
   const editedPlanPost = { ...initialPosts[0], status: "Copy" };
   const customPost = { ...legacyInitialPosts[0], id: 999001, title: "Vlastní uživatelský příspěvek" };
   const migrated = mergePostsWithPlan([editedPlanPost, customPost], 4);
-  assert.equal(migrated.length, 42);
+  assert.equal(migrated.length, 43);
   assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
   assert.equal(migrated.some((post) => post.id === customPost.id), true);
   const oldDefault = { ...initialPosts.find((post) => post.id === 102), title: "Medailonek 1", candidateId: undefined, contentSummary: undefined, productionNote: undefined };
@@ -256,6 +345,31 @@ test("version 9 migration enriches the plan without erasing user changes", () =>
   const migratedProgram = mergePostsWithPlan([oldProgramDefault], 8).find((post) => post.id === 137);
   assert.equal(migratedProgram?.status, "Copy");
   assert.equal(migratedProgram?.copy, "Hotovo");
+  assert.equal(migratedProgram?.graphic, "Připraveno");
+  assert.equal(migratedProgram?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
+  const oldStartDefault = {
+    ...initialPosts.find((post) => post.id === 101),
+    date: "2026-08-01",
+    title: "Lidé · Start kampaně · Přezleťáci se znovu představují",
+    status: "Námět",
+    graphic: "Čeká",
+    copy: "Čeká",
+    approval: "Čeká",
+    subjectType: undefined,
+    primaryImage: undefined,
+    socialCopy: undefined,
+    cta: undefined,
+    assetStatus: undefined,
+  };
+  const migratedStart = mergePostsWithPlan([oldStartDefault], 10).find((post) => post.id === 101);
+  assert.equal(migratedStart?.date, "2026-08-17");
+  assert.equal(migratedStart?.title, "Lidé · Start kampaně · Přezleťáci 2026");
+  assert.equal(migratedStart?.status, "Ke schválení");
+  assert.equal(migratedStart?.copy, "Hotovo");
+  assert.equal(migratedStart?.primaryImage, "/images/social/post-001-start-kampane.avif");
+  assert.match(migratedStart?.socialCopy ?? "", /Brzy vám představíme jedenáct sousedů/);
+  const customStart = { ...oldStartDefault, title: "Můj vlastní start kampaně" };
+  assert.equal(mergePostsWithPlan([customStart], 10).find((post) => post.id === 101)?.title, customStart.title);
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {

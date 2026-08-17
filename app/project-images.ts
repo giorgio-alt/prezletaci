@@ -53,6 +53,9 @@ export function mergeProjectCatalog<T extends {
   slug?: string;
   image?: string;
   imageAlt?: string;
+  photoSource?: string;
+  photoLibraryPath?: string;
+  photoDriveUrl?: string;
 }>(savedProjects: T[], catalogProjects: T[]): T[] {
   const savedById = new Map(savedProjects.map((project) => [project.id, project]));
   const catalogIds = new Set(catalogProjects.map((project) => project.id));
@@ -65,6 +68,9 @@ export function mergeProjectCatalog<T extends {
       slug: saved.slug || catalogProject.slug,
       image: saved.image || catalogProject.image,
       imageAlt: saved.imageAlt || catalogProject.imageAlt,
+      photoSource: saved.photoSource || catalogProject.photoSource,
+      photoLibraryPath: saved.photoLibraryPath || catalogProject.photoLibraryPath,
+      photoDriveUrl: saved.photoDriveUrl || catalogProject.photoDriveUrl,
     };
   });
   return [...merged, ...savedProjects.filter((project) => !catalogIds.has(project.id))];

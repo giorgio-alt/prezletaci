@@ -20,26 +20,59 @@ export type SocialPost = {
   candidateId?: number;
   projectId?: number;
   programSlug?: string;
+  subjectType?: "candidate" | "team" | "project" | "article" | "program" | "general";
+  socialCopy?: string;
+  cta?: string;
+  assetStatus?: string;
   contentSummary?: string;
   productionNote?: string;
 };
+
+const campaignStartSocialCopy = `Jsme sousedé se zkušenostmi z vedení obce, veřejných služeb i každodenního života v Přezleticích.
+
+V příštích týdnech vám chceme postupně ukázat, na čem jsme v naší obci pracovali a co se podařilo dotáhnout.
+
+Podíváme se ale i na věci, které ještě nejsou hotové a proč některé projekty trvají déle.
+
+👉 Také vám přiblížíme naše plány a jednotlivé části programu, které na dosavadní práci navazují.
+
+A jako první začneme tím nejdůležitějším – lidmi, kteří za námi stojí. Brzy vám představíme jedenáct sousedů, kteří společně tvoří Přezleťáky. 🙌`;
+
+const programPlanSocialCopy = `Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na odvedenou práci, pojmenovává rozdělané věci a říká, co chceme v dalších letech konkrétně posunout.
+
+Náš program pro roky 2026–2030 stavíme kolem témat, která mají přímý dopad na každodenní život v obci: doprava, škola, veřejný prostor, zeleň, služby, bezpečnost, kultura, sport, rozumný rozvoj, digitalizace a odpovědné hospodaření.
+
+U každé priority chceme ukázat tři věci: proč je důležitá, jaký je současný stav a co je další proveditelný krok. Program proto nebudeme představovat jedním dlouhým seznamem. Budeme ho postupně vysvětlovat po tématech, aby bylo jasné, co obec může ovlivnit sama, kde potřebuje partnery a na co navazujeme z dosavadní práce.
+
+Začínáme přehledem hlavních oblastí. Detailní stránky a konkrétní kroky budeme postupně doplňovat.`;
+
+const logoShowcaseSocialCopy = `Představujeme vizuální identitu Přezleťáků pro rok 2026.
+
+Stojí na jednoduché myšlence: Přezletice tvoří lidé, kteří se znají, potkávají a dokážou spolupracovat. Proto v identitě pracujeme se symbolem podané ruky, jasnou modrou a výraznou žlutou.
+
+Modrá pro nás znamená klid, důvěru a odpovědnost. Žlutá přidává energii, otevřenost a pohyb. Společně vytvářejí systém, který budeme používat napříč kampaní: u medailonků kandidátů, projektů, programu, článků i vysvětlujících příspěvků.
+
+Nechceme, aby naše komunikace byla jen hezká. Chceme, aby byla srozumitelná. Aby lidé na první pohled poznali, jestli mluvíme o člověku, hotové práci, rozdělaném projektu, plánu nebo vysvětlení složitějšího tématu.
+
+Nová identita je proto hlavně praktický nástroj: pomáhá držet kampaň přehlednou, klidnou a čitelnou.`;
 
 // Zdroj: Prezletaci_2026_Postplan_Kalendar.xlsx (listy August, September, October).
 // Tabulka nedokládá formát ani produkční stav. Proto zůstávají nedoložené položky
 // transparentně ve stavu Čeká/Námět; hotové článkové a programové copy je označeno zvlášť.
 export const initialPosts: SocialPost[] = [
-  { id: 101, date: "2026-08-01", title: "Lidé · Start kampaně · Přezleťáci se znovu představují", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Úvodní představení týmu, kontinuity práce a důvodu, proč Přezleťáci znovu kandidují.", productionNote: "Použít společnou fotografii týmu a krátký úvodní claim; bez odkazu na dosud nevydaný web." },
-  { id: 102, date: "2026-08-04", title: "Lidé · Medailonek · Tomáš Říha", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 1, contentSummary: "Kandidátský medailonek Tomáše Říhy: zkušenost s vedením obce a dlouhodobý rozvoj Přezletic.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
-  { id: 103, date: "2026-08-07", title: "Hotová práce · Výsledky · Co se v Přezleticích podařilo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "První souhrnný výstup o konkrétních výsledcích dosavadní práce v obci.", productionNote: "Vybrat maximálně tři doložitelné výsledky a ke každému použít konkrétní fotografii nebo dokument." },
-  { id: 104, date: "2026-08-11", title: "Lidé · Medailonek · Jan Macourek", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 2, contentSummary: "Kandidátský medailonek Jana Macourka: technická realita projektů, investice a odpovědný rozpočet.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
-  { id: 105, date: "2026-08-14", title: "Hotová práce · Svazková škola · Co se povedlo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Výsledek dosavadní práce na vzniku a fungování svazkové školy a jídelny.", productionNote: "Oddělit již hotovou práci od navazujícího rozšiřování kapacity; použít ověřenou fotografii školy." },
-  { id: 106, date: "2026-08-16", title: "Vysvětlujeme · Škola v datech · Kapacita a další krok", contentType: "evidence", pillar: "Vysvětlování", format: "Post", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 7, contentSummary: "Datové vysvětlení současné kapacity svazkové školy a připravovaného rozšíření.", productionNote: "Použít pouze potvrzená kapacitní data, uvést zdroj a vizuálně oddělit současný stav od plánovaného kroku." },
-  { id: 107, date: "2026-08-18", title: "Lidé · Medailonek · Romana Bernardová", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 3, contentSummary: "Kandidátský medailonek Romany Bernardové: dostupné informace, tištěný zpravodaj a senioři.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidátky." },
+  { id: 101, date: "2026-08-17", title: "Lidé · Start kampaně · Přezleťáci 2026", contentType: "people", pillar: "Lidé", format: "Post", status: "Ke schválení", author: "Obsahový tým", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/post-001-start-kampane.avif", socialCopy: campaignStartSocialCopy, cta: "Sledujte nás. V příštích dnech představíme tým Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/post-001-start-kampane.avif", contentSummary: "Přezleťáci 2026 navazují na dlouhodobou práci v obci. V kampani postupně představíme lidi, kteří za týmem stojí, dokončené projekty, rozdělané věci i plán pro další roky. Začínáme tím nejdůležitějším: jedenácti sousedy, kteří chtějí dál pracovat pro Přezletice.", productionNote: "Startovací post otevírá kampaň a navazuje na sérii kandidátských medailonků. Po něm prioritně publikovat medailonky, články používat jako občasné proložení." },
+  { id: 102, date: "2026-08-18", title: "Lidé · Medailonek · Tomáš Říha", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 1, contentSummary: "Kandidátský medailonek Tomáše Říhy: zkušenost s vedením obce a dlouhodobý rozvoj Přezletic.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
+  { id: 142, date: "2026-08-19", title: "Lidé · Identita · Představujeme logo Přezleťáků", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/logo-predstaveni-prezletaku.svg", draftLink: "content/social/program-a-logo-posty.md", socialCopy: logoShowcaseSocialCopy, cta: "Sledujte nás. V příštích dnech postupně představíme lidi, práci i plán Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/logo-predstaveni-prezletaku.svg", contentSummary: "Samostatný brand post představuje novou vizuální identitu Přezleťáků 2026: podanou ruku, modrou a žlutou jako praktický systém pro přehlednou kampaň.", productionNote: "Použít jako lehké brandové proložení po startu kampaně a před rozjetím hlavní medailonkové linky. Navázat na brand assety v public/images/brand." },
+  { id: 103, date: "2026-08-22", title: "Hotová práce · Výsledky · Co se v Přezleticích podařilo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "První souhrnný výstup o konkrétních výsledcích dosavadní práce v obci.", productionNote: "Vybrat maximálně tři doložitelné výsledky a ke každému použít konkrétní fotografii nebo dokument." },
+  { id: 104, date: "2026-08-20", title: "Lidé · Medailonek · Jan Macourek", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 2, contentSummary: "Kandidátský medailonek Jana Macourka: technická realita projektů, investice a odpovědný rozpočet.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
+  { id: 105, date: "2026-08-24", title: "Hotová práce · Svazková škola · Co se povedlo", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Výsledek dosavadní práce na vzniku a fungování svazkové školy a jídelny.", productionNote: "Oddělit již hotovou práci od navazujícího rozšiřování kapacity; použít ověřenou fotografii školy." },
+  { id: 106, date: "2026-09-06", title: "Vysvětlujeme · Škola v datech · Kapacita a další krok", contentType: "evidence", pillar: "Vysvětlování", format: "Post", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 7, contentSummary: "Datové vysvětlení současné kapacity svazkové školy a připravovaného rozšíření.", productionNote: "Použít pouze potvrzená kapacitní data, uvést zdroj a vizuálně oddělit současný stav od plánovaného kroku." },
+  { id: 107, date: "2026-08-25", title: "Lidé · Medailonek · Romana Bernardová", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 3, contentSummary: "Kandidátský medailonek Romany Bernardové: dostupné informace, tištěný zpravodaj a senioři.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidátky." },
   { id: 108, date: "2026-08-21", title: "Hotová práce · Sport · Místa pro pohyb a setkávání", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Přehled dokončených sportovních a volnočasových míst v obci.", productionNote: "Vybrat konkrétní hotová sportoviště a ke každému přiřadit odpovídající fotografii." },
   { id: 109, date: "2026-08-23", title: "Rozdělané věci · Relaxační centrum u rybníka · Kde právě jsme", contentType: "progress", pillar: "Rozdělané", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 6, contentSummary: "Aktuální stav sportovně-relaxačního centra u rybníka a zbývající etapy.", productionNote: "Použít aktuální projektovou fotografii a jasně vypsat dokončené části a nejbližší další krok." },
-  { id: 110, date: "2026-08-25", title: "Lidé · Medailonek · Lenka Bulová", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 4, contentSummary: "Kandidátský medailonek Lenky Bulové: veřejná zeleň, krajinná architektura a dlouhodobá péče.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidátky." },
-  { id: 111, date: "2026-08-28", title: "Hotová práce · Veřejná zeleň · Upravená místa v obci", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Ukázka dokončených úprav veřejné zeleně a jejich praktického přínosu.", productionNote: "Použít fotografie konkrétních realizovaných míst; nevydávat rozpracovaný park za hotový." },
-  { id: 112, date: "2026-08-30", title: "Rozdělané věci · Park u křižovatky Nohavice · Aktuální stav", contentType: "progress", pillar: "Rozdělané", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 5, contentSummary: "Stav přípravy parku u křižovatky Nohavice od hotové studie k dokumentaci pro povolení.", productionNote: "Použít projektovou kartu, situační výkres nebo současnou fotografii lokality; uvést další doložený krok." },
+  { id: 110, date: "2026-08-27", title: "Lidé · Medailonek · Lenka Bulová", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 4, contentSummary: "Kandidátský medailonek Lenky Bulové: veřejná zeleň, krajinná architektura a dlouhodobá péče.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidátky." },
+  { id: 111, date: "2026-08-29", title: "Hotová práce · Veřejná zeleň · Upravená místa v obci", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Ukázka dokončených úprav veřejné zeleně a jejich praktického přínosu.", productionNote: "Použít fotografie konkrétních realizovaných míst; nevydávat rozpracovaný park za hotový." },
+  { id: 112, date: "2026-08-31", title: "Rozdělané věci · Park u křižovatky Nohavice · Aktuální stav", contentType: "progress", pillar: "Rozdělané", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 5, contentSummary: "Stav přípravy parku u křižovatky Nohavice od hotové studie k dokumentaci pro povolení.", productionNote: "Použít projektovou kartu, situační výkres nebo současnou fotografii lokality; uvést další doložený krok." },
   { id: 113, date: "2026-09-01", title: "Lidé · Medailonek · Jan Káňa", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Produkce", graphic: "Čeká", copy: "Čeká", approval: "Čeká", candidateId: 5, contentSummary: "Kandidátský medailonek Jana Káni: moderní služby, energetika, digitalizace a komunita.", productionNote: "Použít schválený portrét, claim a SoMe medailonek z profilu kandidáta." },
   { id: 114, date: "2026-09-03", title: "Rozdělané věci · Svazková škola · Rozšíření kapacity", contentType: "progress", pillar: "Rozdělané", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 7, contentSummary: "Aktuální příprava dočasné kapacity a navazující druhé budovy svazkové školy.", productionNote: "Použít projektovou fotografii a ověřený harmonogram; oddělit první a druhou fázi." },
   { id: 115, date: "2026-09-05", title: "Vysvětlujeme · Svazková škola · Proč rozšíření kapacity trvá", contentType: "explain", pillar: "Vysvětlování", format: "Post", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Čeká", projectId: 7, contentSummary: "Klidné vysvětlení kroků, kompetencí a překážek při rozšiřování školní kapacity.", productionNote: "Připravit stručnou časovou osu a jasně označit, co rozhoduje obec, svazek a další instituce." },
@@ -64,7 +97,7 @@ export const initialPosts: SocialPost[] = [
   { id: 134, date: "2026-10-05", title: "Lidé · Celý tým · Přezleťáci 2026", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Společné představení kompletní jedenáctičlenné kandidátky v pořadí 1–11.", productionNote: "Použít společnou týmovou fotografii, uvést všech jedenáct jmen ve správném pořadí a jeden společný claim." },
   { id: 135, date: "2026-10-06", title: "Hotová práce · Souhrn výsledků · Na čem můžeme stavět", contentType: "completed", pillar: "Práce", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Závěrečný přehled nejsilnějších doložených výsledků a jejich dopadu na život v obci.", productionNote: "Vybrat jen výsledky s fotografií nebo důkazem a nespojovat hotové věci s plánovanými." },
   { id: 136, date: "2026-10-07", title: "Rozdělané věci · Prioritní projekty · Co chceme dotáhnout", contentType: "progress", pillar: "Rozdělané", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Přehled prioritních rozpracovaných projektů, jejich stavu a nejbližších kroků.", productionNote: "U každé položky zobrazit stav, již dokončený krok a jednu konkrétní navazující akci." },
-  { id: 137, date: "2026-10-08", title: "Plány · Program · Plán pro Přezletice 2026–2030", contentType: "future", pillar: "Plány", format: "Post", status: "Copy", author: "Obsahový tým", graphic: "Čeká", copy: "Hotovo", approval: "Ke schválení", websiteItemId: "page-plans", programSlug: "plan-pro-prezletice-2026-2030", draftLink: "content/program/plan-pro-prezletice-2026-2030.md", contentSummary: "Úvodní představení deseti programových okruhů a způsobu, jak číst plán pro roky 2026–2030.", productionNote: "Použít programový perex, deset tematických okruhů a CTA na budoucí stránku /program." },
+  { id: 137, date: "2026-10-08", title: "Plány · Program · Plán pro Přezletice 2026–2030", contentType: "future", pillar: "Plány", format: "Post", status: "Copy", author: "Obsahový tým", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", websiteItemId: "page-plans", programSlug: "plan-pro-prezletice-2026-2030", subjectType: "program", primaryImage: "/images/social/program-plan-pro-prezletice-2026-2030.svg", draftLink: "content/social/program-a-logo-posty.md", socialCopy: programPlanSocialCopy, cta: "Projděte si, čeho se náš program týká. Jednotlivá témata budeme postupně rozepisovat podrobněji.", assetStatus: "Grafika připravena: public/images/social/program-plan-pro-prezletice-2026-2030.svg", contentSummary: "Úvodní představení deseti programových okruhů a způsobu, jak číst plán pro roky 2026–2030.", productionNote: "Tento post má otevřít programovou linku, ale nemá přebít medailonky. Použít jako proložení mezi kandidátskými profily nebo jako rozcestník na budoucí programovou stránku /program." },
   { id: 138, date: "2026-10-09", title: "Vysvětlujeme · Jak volit · Praktický postup krok za krokem", contentType: "evidence", pillar: "Vysvětlování", format: "Post", status: "Námět", author: "Copy", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Praktický a neutrální návod k volebnímu postupu bez přesvědčovacích tvrzení.", productionNote: "Před publikací ověřit všechny informace proti aktuálním oficiálním pokynům a uvést zdroj." },
   { id: 139, date: "2026-10-10", title: "Lidé · Volby · Přijďte rozhodnout o Přezleticích", contentType: "people", pillar: "Lidé", format: "Post", status: "Námět", author: "Obsahový tým", graphic: "Čeká", copy: "Čeká", approval: "Čeká", contentSummary: "Závěrečná výzva k účasti a poděkování lidem, kteří sledovali kampaň a zapojili se do dialogu.", productionNote: "Použít týmový vizuál a krátké CTA; termín, čas a místo ověřit proti oficiálním údajům." },
   { id: 140, date: "2026-09-18", title: "Hotová práce · Veřejná zeleň · Jak se staráme o Přezletice", contentType: "completed", pillar: "Práce", format: "Carousel", status: "Copy", author: "Copy + Grafika", graphic: "Fotky přiřazeny", copy: "Hotovo", approval: "Ke schválení", articleSlug: "zelen-v-prezleticich", websiteItemId: "article-zelen-v-prezleticich", primaryImage: "/images/projects/zelen-mistni-komunikace.webp", galleryImages: ["/images/projects/zelen-prutahove-komunikace.webp", "/images/projects/zelen-podzemni-kontejnery.webp", "/images/projects/hruskove-aleje-a-dalsi-zelen.webp", "/images/projects/dalsi-lokalni-zelen.webp", "/images/projects/komunitni-centrum-zlatak.webp"], draftLink: "content/articles/zelen-v-prezleticich.md", contentSummary: "Publikovatelný článek a carousel o zeleni jako systému péče o ulice, technická místa a veřejný prostor.", productionNote: "Použít hotový SoMe derivát a přiřazenou galerii; před publikací dokončit faktickou kontrolu článku." },
@@ -80,7 +113,26 @@ const version8DefaultTitles: Record<number, string> = {
   126: "Komunita", 127: "Medailonek 9", 128: "Obecní policie", 129: "Digitalizace", 130: "Medailonek 10",
   131: "Infrastruktura", 132: "Financování", 133: "Medailonek 11", 134: "Celý tým", 135: "Shrnutí výsledků",
   136: "Co dotáhneme", 137: "Program", 138: "Jak volit", 139: "Volby",
-  140: "Jak se staráme o zeleň v Přezleticích", 141: "Nová radnice jako nové centrum obce",
+  140: "Jak se staráme o zeleň v Přezleticích", 141: "Nová radnice jako nové centrum obce", 142: "Představujeme logo Přezleťáků",
+};
+
+const version10DefaultPosts: Record<number, Partial<SocialPost>> = {
+  101: { date: "2026-08-01", title: "Lidé · Start kampaně · Přezleťáci se znovu představují", status: "Námět", graphic: "Čeká", copy: "Čeká", approval: "Čeká" },
+  102: { date: "2026-08-04", title: "Lidé · Medailonek · Tomáš Říha" },
+  103: { date: "2026-08-07", title: "Hotová práce · Výsledky · Co se v Přezleticích podařilo" },
+  104: { date: "2026-08-11", title: "Lidé · Medailonek · Jan Macourek" },
+  105: { date: "2026-08-14", title: "Hotová práce · Svazková škola · Co se povedlo" },
+  106: { date: "2026-08-16", title: "Vysvětlujeme · Škola v datech · Kapacita a další krok" },
+  107: { date: "2026-08-18", title: "Lidé · Medailonek · Romana Bernardová" },
+  110: { date: "2026-08-25", title: "Lidé · Medailonek · Lenka Bulová" },
+  111: { date: "2026-08-28", title: "Hotová práce · Veřejná zeleň · Upravená místa v obci" },
+  112: { date: "2026-08-30", title: "Rozdělané věci · Park u křižovatky Nohavice · Aktuální stav" },
+  137: { date: "2026-10-08", title: "Plány · Program · Plán pro Přezletice 2026–2030", status: "Copy", graphic: "Čeká", copy: "Hotovo", approval: "Ke schválení" },
+};
+
+const isUnchangedFromVersion10Default = (post: SocialPost) => {
+  const previous = version10DefaultPosts[post.id];
+  return Boolean(previous && Object.entries(previous).every(([field, value]) => post[field as keyof SocialPost] === value));
 };
 
 // Výchozí demonstrační položky verze 3. Při migraci se odstraní pouze tehdy,
@@ -118,19 +170,29 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       merged.set(post.id, post);
       continue;
     }
+    const refreshCanonicalUpdate = savedVersion < 12 && isUnchangedFromVersion10Default(post);
     const refreshDefaultTitle = savedVersion < 9 && post.title === version8DefaultTitles[post.id];
     const migrated = {
       ...canonical,
       ...post,
-      title: refreshDefaultTitle ? canonical.title : post.title,
+      date: refreshCanonicalUpdate ? canonical.date : post.date,
+      title: refreshDefaultTitle || refreshCanonicalUpdate ? canonical.title : post.title,
+      status: refreshCanonicalUpdate ? canonical.status : post.status,
+      graphic: refreshCanonicalUpdate ? canonical.graphic : post.graphic,
+      copy: refreshCanonicalUpdate ? canonical.copy : post.copy,
+      approval: refreshCanonicalUpdate ? canonical.approval : post.approval,
       candidateId: post.candidateId ?? canonical.candidateId,
       projectId: post.projectId ?? canonical.projectId,
       programSlug: post.programSlug ?? canonical.programSlug,
+      subjectType: post.subjectType ?? canonical.subjectType,
       articleSlug: post.articleSlug ?? canonical.articleSlug,
       websiteItemId: post.websiteItemId ?? canonical.websiteItemId,
       primaryImage: post.primaryImage ?? canonical.primaryImage,
       galleryImages: post.galleryImages ?? canonical.galleryImages,
       draftLink: post.draftLink ?? canonical.draftLink,
+      socialCopy: post.socialCopy ?? canonical.socialCopy,
+      cta: post.cta ?? canonical.cta,
+      assetStatus: post.assetStatus ?? canonical.assetStatus,
       contentSummary: post.contentSummary ?? canonical.contentSummary,
       productionNote: post.productionNote ?? canonical.productionNote,
     };
