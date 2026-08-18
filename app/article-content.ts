@@ -562,7 +562,7 @@ export const articleContent: ArticleContent[] = [
     ],
     cta: "Sledujte nás. Jednotlivé části programu budeme postupně vysvětlovat v dalších postech a článcích do voleb.",
     markdownPath: "content/articles/volebni-program-prezletice-2026-2030.md",
-    primaryImage: "/images/social/program-plan-pro-prezletice-2026-2030.svg",
+    primaryImage: "/images/team/team-wide-01.webp",
     galleryImages: [
       "/images/brand/social/prezletaci-social-blue.png",
       "/images/brand/social/prezletaci-social-yellow.png",

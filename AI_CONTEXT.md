@@ -171,7 +171,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: volebni-program-prezletice-2026-2030
 - Status: copy ke schválení
 - Markdown: content/articles/volebni-program-prezletice-2026-2030.md
-- Primární obrázek: /images/social/program-plan-pro-prezletice-2026-2030.svg
+- Primární obrázek: /images/team/team-wide-01.webp
 - Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
 - Související projekty: 
 - SoMe posty: 137

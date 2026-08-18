@@ -6,7 +6,7 @@ Status: copy ke schválení
 
 Pilíře: Plány, Lidé, Vysvětlování
 
-Primární obrázek: `/images/social/program-plan-pro-prezletice-2026-2030.svg`
+Primární obrázek: `/images/team/team-wide-01.webp`
 
 Doplňkové obrázky:
 
