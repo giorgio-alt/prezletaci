@@ -166,6 +166,18 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Zdrojové podklady: content/articles/jak-overujeme-tvrzeni.md · content-audit/03_vystupy/02_clanky_a_socialni_derivaty.md
 - Kontrola před publikací: U každého navazujícího fact-check článku doplnit přímé odkazy na veřejné dokumenty. · Nahradit pracovní nebo Google Drive odkazy veřejně dostupnými URL, pokud má být text publikovaný na webu. · Před publikací citlivých témat provést faktickou a právní kontrolu.
 
+### Volební program Přezleťáků: co je pro nás nejdůležitější
+
+- Slug: volebni-program-prezletice-2026-2030
+- Status: copy ke schválení
+- Markdown: content/articles/volebni-program-prezletice-2026-2030.md
+- Primární obrázek: /images/social/program-plan-pro-prezletice-2026-2030.svg
+- Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
+- Související projekty: 
+- SoMe posty: 137
+- Zdrojové podklady: content/program/plan-pro-prezletice-2026-2030.md · content/articles/volebni-program-prezletice-2026-2030.md · Volby 2026 program.docx · Campaign Bible
+- Kontrola před publikací: Schválit finální pořadí programových priorit. · Doplnit veřejné odkazy na budoucí tematické články a projektové karty. · Před publikací ověřit formulace u témat, kde obec není jediným rozhodovatelem.
+
 ## Pravidla práce s fakty
 
 Nevytvářej konkrétní čísla, termíny, citace ani výsledky, pokud nejsou součástí podkladů. Pokud chybí důkaz, označ informaci jako „k ověření“, „čeká na podklady“ nebo „pracovní tvrzení“. Nikdy nevydávej předpoklad za potvrzený fakt.

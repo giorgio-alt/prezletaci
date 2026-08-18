@@ -374,6 +374,16 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - SoMe posty: 146
 - Kontrola: U každého navazujícího fact-check článku doplnit přímé odkazy na veřejné dokumenty. · Nahradit pracovní nebo Google Drive odkazy veřejně dostupnými URL, pokud má být text publikovaný na webu. · Před publikací citlivých témat provést faktickou a právní kontrolu.
 
+### Volební program Přezleťáků: co je pro nás nejdůležitější
+
+- Stav: copy ke schválení
+- Markdown: content/articles/volebni-program-prezletice-2026-2030.md
+- Primární obrázek: /images/social/program-plan-pro-prezletice-2026-2030.svg
+- Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
+- Související projekty: 
+- SoMe posty: 137
+- Kontrola: Schválit finální pořadí programových priorit. · Doplnit veřejné odkazy na budoucí tematické články a projektové karty. · Před publikací ověřit formulace u témat, kde obec není jediným rozhodovatelem.
+
 ---
 
 ## Živé otevřené body
