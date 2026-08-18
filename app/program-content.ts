@@ -23,8 +23,8 @@ export type ProgramContent = {
 export const programContent: ProgramContent = {
   slug: "plan-pro-prezletice-2026-2030",
   title: "Plán pro Přezletice 2026–2030",
-  perex: "Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na odvedenou práci, pojmenovává rozdělané věci a říká, co chceme v dalších letech konkrétně posunout.",
-  mainMessage: "Náš program stojí na jednoduchém principu: mluvit o tom, co má pro obec skutečný dopad. U každé priority chceme ukázat, proč je důležitá, jaký je současný stav, co už se udělalo, jaký je další krok a kde má obec rozhodovací pravomoc.",
+  perex: "Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.",
+  mainMessage: "Náš program nechceme představit jako dlouhý seznam slibů. Chceme ukázat několik hlavních směrů, na kterých podle nás záleží nejvíc: navázat na hotovou práci, otevřeně pojmenovat rozdělané věci a říct, co má přijít dál. Jednotlivým tématům se budeme věnovat podrobněji v dalších příspěvcích a článcích v období do voleb.",
   areas: [
     {
       title: "Doprava a infrastruktura",
@@ -87,17 +87,17 @@ export const programContent: ProgramContent = {
       nextStep: "U velkých priorit ukázat předpokládané etapy, zdroje financování a rozhodnutí, která musí předcházet realizaci.",
     },
   ],
-  socialCopy: "Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na hotovou práci, otevřeně pojmenovává rozdělané věci a říká, co má přijít dál.\n\nNáš program pro roky 2026–2030 proto nečleníme jen podle hesel. U každé priority chceme ukázat, co řešíme, proč je to důležité, kde jsme dnes a jaký je další realistický krok.\n\nOd dopravy a školy přes zeleň, bezpečnost a služby až po odpovědné hospodaření. Jeden společný plán pro obec, ve které se dobře žije dnes i za několik let.",
+  socialCopy: "Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích.\n\nNáš plán pro roky 2026–2030 stojí na několika prioritách: bezpečnější doprava a fungující infrastruktura, dostatečná kapacita škol a školek, péče o veřejný prostor a zeleň, rozumný rozvoj obce, dostupné služby, bezpečnost, kultura, sport, digitalizace a odpovědné hospodaření.\n\nNechceme všechno odbýt jedním dlouhým seznamem. V následujících týdnech se budeme jednotlivým tématům věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.",
   carousel: [
     "Plán pro Přezletice 2026–2030",
-    "Ne seznam slibů. Návaznost na hotovou a rozdělanou práci.",
-    "U každé priority: co řešíme a proč je to důležité.",
-    "Současný stav: co už se udělalo a co ještě chybí.",
-    "Další krok: konkrétně, realisticky a s jasnou odpovědností.",
-    "Deset oblastí, které mají skutečný dopad na život v obci.",
-    "Přečtěte si celý plán na webu.",
+    "Ne jen hesla. Konkrétní témata pro každodenní život.",
+    "Doprava, škola, zeleň a veřejný prostor.",
+    "Rozumný rozvoj, služby, bezpečnost a hospodaření.",
+    "Kultura, sport, komunita a lepší komunikace obce.",
+    "Každé téma postupně rozebereme do hloubky.",
+    "Sledujte další posty do voleb.",
   ],
-  cta: "Přečtěte si celý plán",
+  cta: "Sledujte nás. Jednotlivé části programu budeme postupně vysvětlovat v dalších postech do voleb.",
   markdownPath: "content/program/plan-pro-prezletice-2026-2030.md",
   futureWebPath: "/program",
   sourceLinks: ["Volby 2026 program.docx", "Campaign Bible", "Campaign HQ / Projekty"],
@@ -107,8 +107,9 @@ export const programContent: ProgramContent = {
 export const programContentBySlug = new Map([[programContent.slug, programContent]]);
 
 export function buildProgramMarkdown() {
-  const areas = programContent.areas.map((area) => `## ${area.title}\n\n### Co řešíme\n\n${area.whatWeSolve}\n\n### Proč je to důležité\n\n${area.whyItMatters}\n\n### Co bude další krok\n\n${area.nextStep}`).join("\n\n---\n\n");
-  return `# ${programContent.title}\n\n${programContent.perex}\n\n## Jak náš program číst\n\n${programContent.mainMessage}\n\n---\n\n${areas}\n\n---\n\n## Text pro sociální sítě\n\n${programContent.socialCopy}\n\n## Carousel „Jak číst náš program“\n\n${programContent.carousel.map((slide, index) => `${index + 1}. ${slide}`).join("\n")}\n\n**CTA:** ${programContent.cta}\n\n**Budoucí webová adresa:** ${programContent.futureWebPath}\n`;
+  const areas = programContent.areas.map((area) => `- **${area.title}** — ${area.whatWeSolve} ${area.nextStep}`).join("\n");
+  const detailPlan = programContent.areas.map((area) => `- ${area.title}`).join("\n");
+  return `# ${programContent.title}\n\n${programContent.perex}\n\n## Co je pro nás nejdůležitější\n\n${programContent.mainMessage}\n\n${areas}\n\n## Co bude následovat\n\nTento článek je úvodní rozcestník. Jednotlivým tématům se budeme věnovat do hloubky v následujících postech a článcích v období do voleb. U každého tématu chceme ukázat, co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok.\n\nTémata, která postupně rozepíšeme:\n\n${detailPlan}\n\n---\n\n## Text pro sociální sítě\n\n${programContent.socialCopy}\n\n## Carousel „Jak číst náš program“\n\n${programContent.carousel.map((slide, index) => `${index + 1}. ${slide}`).join("\n")}\n\n**CTA:** ${programContent.cta}\n\n**Budoucí webová adresa:** ${programContent.futureWebPath}\n`;
 }
 
 export const PROGRAM_MARKDOWN = buildProgramMarkdown();

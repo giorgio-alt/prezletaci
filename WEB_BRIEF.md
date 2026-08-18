@@ -291,7 +291,7 @@ _Stav: approved · Aktualizováno: 5. 8. 2026_
 
 ### Plán pro Přezletice 2026–2030
 
-Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na odvedenou práci, pojmenovává rozdělané věci a říká, co chceme v dalších letech konkrétně posunout.
+Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.
 
 - Stav: copy ke schválení
 - Markdown: content/program/plan-pro-prezletice-2026-2030.md

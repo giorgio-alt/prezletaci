@@ -464,7 +464,8 @@ const timelineItems = sprintRoadmap.map((item) => ({ ...item }));
 
 const documents: RepositoryDocument[] = [
   { title: "Prezletaci_2026_Postplan_Kalendar.xlsx", category: "Publikační plán", type: "XLSX", status: "Načteno", updated: "20. 7. 2026", description: "Zdrojový kalendář 39 naplánovaných výstupů pro srpen, září a říjen 2026." },
-  { title: "Volby 2026 program.docx", category: "Program", type: "DOCX", status: "Načteno", updated: "18. 7. 2026", description: "Volební program 2026–2030, více než 50 konkrétních záměrů v devíti oblastech." },
+  { title: "MP - media plán kampaně", category: "Publikační plán", type: "GSheet", status: "Načteno", updated: "18. 8. 2026", description: "Externí pracovní media plán v Google Sheets pro koordinaci publikace a kontrolu návaznosti na SoMe kalendář.", driveUrl: "https://docs.google.com/spreadsheets/d/1b7-vMEjN1yHTnGSJTD8_3zJPQibyD3UNpJvorKRUJKo/edit?gid=1468066247#gid=1468066247" },
+  { title: "Volby 2026 program.docx", category: "Program", type: "DOCX", status: "Načteno", updated: "18. 7. 2026", description: "Volební program 2026–2030, více než 50 konkrétních záměrů uspořádaných do hlavních priorit." },
   { title: "Jan Macoure1.docx", category: "Kandidáti", type: "DOCX", status: "Načteno", updated: "18. 7. 2026", description: "Zdrojový medailonek Jana Macourka." },
   { title: "Campaign Hub export", category: "Reference", type: "ZIP", status: "Načteno", updated: "18. 7. 2026", description: "Vizuální a informační prototyp strategického hubu." },
   { title: "Campaign context", category: "Dokumenty", type: "MD", status: "Načteno", updated: "18. 7. 2026", description: "Kompletní strategický, obsahový, vizuální a technický kontext." },
@@ -484,7 +485,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 17;
+const DATA_VERSION = 19;
 
 const slugify = slugFromTitle;
 
@@ -1472,7 +1473,7 @@ export default function Home() {
 
   const renderDocuments = () => (
     <div className="section-stack">
-      <section className="section-intro compact-intro glass-card"><div><span className="eyebrow">Repository</span><h1>Dokumenty a důkazy</h1><p>Centrální registr známých podkladů i chybějících assetů. Vyhledávání je připravené na desítky dokumentů a stovky fotografií.</p></div><span className="repository-health"><b>5</b> načteno · <b>5</b> čekáme</span></section>
+      <section className="section-intro compact-intro glass-card"><div><span className="eyebrow">Repository</span><h1>Dokumenty a důkazy</h1><p>Centrální registr známých podkladů i chybějících assetů. Vyhledávání je připravené na desítky dokumentů a stovky fotografií.</p></div><span className="repository-health"><b>11</b> načteno · <b>3</b> čekáme</span></section>
       <div className="filter-bar glass-card document-filters"><label className="inline-search"><span>⌕</span><input value={documentQuery} onChange={(event) => setDocumentQuery(event.target.value)} placeholder="Hledat soubor nebo popis…" /></label><div className="category-scroll">{docCategories.map((category) => <button className={documentCategory === category ? "active" : ""} key={category} onClick={() => setDocumentCategory(category)}>{category}</button>)}</div></div>
       <section className="document-grid">
         {filteredDocuments.map((document) => <button className="document-card glass-card" key={document.title} onClick={() => setSelectedDocument(document)}><div className={`file-icon file-${document.type.toLowerCase()}`}>{document.type.slice(0, 3)}</div><div><span className="eyebrow">{document.category}</span><h2>{document.title}</h2><p>{document.description}</p><div className="document-meta"><span className={`status-pill ${document.status === "Načteno" ? "success" : "warning-pill"}`}>{document.status}</span><time>{document.updated}</time></div></div></button>)}
