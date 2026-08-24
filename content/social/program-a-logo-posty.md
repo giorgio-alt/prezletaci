@@ -18,11 +18,11 @@ Stav: copy + grafický návrh připraveny ke kontrole
 
 ### Facebook copy
 
-Přezletice nepotřebují seznam prázdných slibů. Potřebují plán, který navazuje na odvedenou práci, pojmenovává rozdělané věci a říká, co chceme v dalších letech konkrétně posunout.
+Přezletice nepotřebují seznam prázdných slibů. Potřebují plán pro pokračování práce, kterou už v obci děláme, pojmenování rozdělaných věcí a konkrétní posun v dalších letech.
 
 Náš program pro roky 2026–2030 stavíme kolem témat, která mají přímý dopad na každodenní život v obci: doprava, škola, veřejný prostor, zeleň, služby, bezpečnost, kultura, sport, rozumný rozvoj, digitalizace a odpovědné hospodaření.
 
-U každé priority chceme ukázat tři věci: proč je důležitá, jaký je současný stav a co je další proveditelný krok. Program proto nebudeme představovat jedním dlouhým seznamem. Budeme ho postupně vysvětlovat po tématech, aby bylo jasné, co obec může ovlivnit sama, kde potřebuje partnery a na co navazujeme z dosavadní práce.
+U každé priority chceme ukázat tři věci: proč je důležitá, jaký je současný stav a co je další proveditelný krok. Program proto nebudeme představovat jedním dlouhým seznamem. Budeme ho postupně vysvětlovat po tématech, aby bylo jasné, co obec může ovlivnit sama, kde potřebuje partnery a jak budeme pokračovat v práci, kterou už děláme.
 
 Začínáme přehledem hlavních oblastí. Detailní stránky a konkrétní kroky budeme postupně doplňovat.
 
@@ -39,7 +39,7 @@ Chceme ho představit tak, aby bylo jasné:
 
 Týkat se bude dopravy, školy, zeleně, služeb, bezpečnosti, kultury, sportu, rozumného rozvoje, digitalizace i odpovědného hospodaření.
 
-Jednotlivé části programu budeme postupně rozepisovat a vysvětlovat. Vždy konkrétně, lidsky a s vazbou na práci, která už v Přezleticích probíhá.
+Jednotlivé části programu budeme postupně rozepisovat a vysvětlovat. Vždy konkrétně, lidsky a s vazbou na práci, kterou už v Přezleticích děláme.
 
 ### Carousel / grafická varianta
 

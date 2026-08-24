@@ -12,7 +12,7 @@ Stav: publikační pracovní verze. Texty jsou psané v klidném, konkrétním a
 
 Když se mluví o obecní zeleni, často se jako první vybaví trávník. Jenže v uličním prostoru není trávník vždy nejlepší řešení. Malé rozdělené plochy mezi komunikací, parkováním, vjezdy a chodníky se obtížně udržují. V létě rychle vysychají a místo zeleného pásu z nich často vznikne suchá žlutohnědá plocha.
 
-Proto v Přezleticích u části ulic volíme jiný přístup: zapojené keřové výsadby, trvalky, traviny a mulčovací materiál. Nejde o dekoraci. Jde o řešení, které lépe snáší horko, méně zatěžuje údržbu a zároveň dokáže ulici opticky zklidnit.
+Proto v Přezleticích u části ulic volíme jiný přístup: zapojené keřové výsadby, trvalky, traviny a mulčovací materiál. Nejde pouze o dekoraci. Jde o řešení, které lépe snáší horko, méně zatěžuje údržbu a zároveň dokáže ulici opticky zklidnit.
 
 ### Zeleň u průtahových komunikací
 

@@ -31,7 +31,7 @@ export const articleContent: ArticleContent[] = [
         heading: "Proč o zeleni přemýšlíme jako o systému",
         paragraphs: [
           "Když se mluví o obecní zeleni, často se jako první vybaví trávník. Jenže v uličním prostoru není trávník vždy nejlepší řešení. Malé rozdělené plochy mezi komunikací, parkováním, vjezdy a chodníky se obtížně udržují. V létě rychle vysychají a místo zeleného pásu z nich často vznikne suchá žlutohnědá plocha.",
-          "Proto v Přezleticích u části ulic volíme jiný přístup: zapojené keřové výsadby, trvalky, traviny a mulčovací materiál. Nejde o dekoraci. Jde o řešení, které lépe snáší horko, méně zatěžuje údržbu a zároveň dokáže ulici opticky zklidnit.",
+          "Proto v Přezleticích u části ulic volíme jiný přístup: zapojené keřové výsadby, trvalky, traviny a mulčovací materiál. Nejde pouze o dekoraci. Jde o řešení, které lépe snáší horko, méně zatěžuje údržbu a zároveň dokáže ulici opticky zklidnit.",
         ],
       },
       {
@@ -518,7 +518,15 @@ export const articleContent: ArticleContent[] = [
         heading: "Nechceme slibovat všechno všem",
         paragraphs: [
           "Program Přezleťáků nechceme představit jako dlouhý seznam přání, ve kterém se dá odškrtnout úplně všechno. Obec má omezený rozpočet, jasné kompetence a řadu věcí neřídí sama. Právě proto je důležité mluvit konkrétně: co je priorita, co už se řeší, co je rozdělané, kde jsme závislí na dalších institucích a jaký může být další reálný krok.",
-          "Naše východisko je jednoduché. Chceme navázat na práci, která už v Přezleticích probíhá, otevřeně vysvětlovat složitější témata a soustředit se na věci, které mají dopad na každodenní život lidí v obci.",
+          "Naše východisko je jednoduché. Chceme pokračovat v práci, kterou už v Přezleticích děláme, otevřeně vysvětlovat složitější témata a soustředit se na věci, které mají dopad na každodenní život lidí v obci.",
+        ],
+      },
+      {
+        heading: "Jak budeme program vysvětlovat do voleb",
+        paragraphs: [
+          "Tenhle článek je úvodní rozcestník. Nechceme všechno odbýt jedním dlouhým textem, který se dobře odklikne, ale špatně čte. Jednotlivým tématům se proto budeme věnovat postupně v dalších postech a článcích v období do voleb.",
+          "U každého tématu chceme ukázat čtyři věci: co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok. Někde půjde o krátký příspěvek, jinde o carousel, u složitějších témat o delší článek s odkazy na podklady.",
+          "Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věděli, jak o Přezleticích přemýšlíme, kde vidíme priority a podle čeho budeme rozhodovat, když přijde na konkrétní kroky.",
         ],
       },
       {
@@ -539,14 +547,6 @@ export const articleContent: ArticleContent[] = [
           "Kultura a společenské centrum. Přezletice potřebují důstojné zázemí pro setkávání, obecní akce, spolky a komunitní život. U větších projektů ale chceme vždy mluvit také o etapách, financování, budoucím provozu a tom, co je už připravené a co se musí teprve rozhodnout.",
           "Digitalizace a komunikace obce. Informace mají být dostupné srozumitelně a včas. Digitální služby mohou lidem ušetřit cestu na úřad, ale nesmí se zapomenout ani na ty, kteří potřebují informace jinou cestou.",
           "Odpovědné hospodaření. Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.",
-        ],
-      },
-      {
-        heading: "Jak budeme program vysvětlovat do voleb",
-        paragraphs: [
-          "Tenhle článek je úvodní rozcestník. Nechceme všechno odbýt jedním dlouhým textem, který se dobře odklikne, ale špatně čte. Jednotlivým tématům se proto budeme věnovat postupně v dalších postech a článcích v období do voleb.",
-          "U každého tématu chceme ukázat čtyři věci: co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok. Někde půjde o krátký příspěvek, jinde o carousel, u složitějších témat o delší článek s odkazy na podklady.",
-          "Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věděli, jak o Přezleticích přemýšlíme, kde vidíme priority a podle čeho budeme rozhodovat, když přijde na konkrétní kroky.",
         ],
       },
     ],

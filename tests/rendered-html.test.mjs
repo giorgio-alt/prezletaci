@@ -175,7 +175,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 17;/);
+  assert.match(page, /const DATA_VERSION = 19;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -264,12 +264,12 @@ test("imports the complete chronological publication plan with concrete producti
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 14, "09": 22, "10": 10 },
+    { "08": 15, "09": 24, "10": 7 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
   assert.equal(initialPosts.filter((post) => post.date < "2026-08-17").length, 0);
-  assert.equal(initialPosts[0]?.id, 101);
+  assert.equal(initialPosts[0]?.id, 142);
   assert.deepEqual(initialPosts.filter((post) => post.candidateId).map((post) => post.candidateId), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   assert.equal(initialPosts.find((post) => post.id === 137)?.programSlug, programContent.slug);
 });
@@ -284,19 +284,19 @@ test("includes the program, logo and Instagram posts as concrete ready social pa
   const instagramPost = initialPosts.find((post) => post.id === 142);
   const logoPost = initialPosts.find((post) => post.id === 143);
 
-  assert.equal(programPost?.date, "2026-08-30");
-  assert.equal(programPost?.title, "Plány · Program · Plán pro Přezletice 2026–2030");
+  assert.equal(programPost?.date, "2026-08-20");
+  assert.equal(programPost?.title, "Plány · Program · Co je pro nás do voleb nejdůležitější");
   assert.equal(programPost?.subjectType, "program");
   assert.equal(programPost?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
   assert.equal(programPost?.graphic, "Připraveno");
-  assert.match(programPost?.socialCopy ?? "", /Přezletice nepotřebují seznam prázdných slibů/);
-  assert.match(programPost?.instagramCopy ?? "", /Plán pro Přezletice 2026–2030 nechceme psát jako seznam slibů/);
-  assert.deepEqual(programPost?.carouselOutline?.slice(0, 2), ["Plán pro Přezletice 2026–2030", "Ne seznam slibů. Konkrétní témata a další kroky."]);
+  assert.match(programPost?.socialCopy ?? "", /Volby nejsou jen o heslech/);
+  assert.match(programPost?.instagramCopy ?? "", /s vazbou na práci, kterou už v Přezleticích děláme/);
+  assert.deepEqual(programPost?.carouselOutline?.slice(0, 2), ["Plán pro Přezletice 2026–2030", "Ne jen hesla. Konkrétní témata pro každodenní život."]);
   assert.equal(programPost?.hashtags?.includes("#program"), true);
   assert.match(programPost?.altText ?? "", /hlavních programových oblastí/);
   assert.equal(programPost?.futureWebPath, "/program");
-  assert.equal(programPost?.cta, "Projděte si, čeho se náš program týká. Jednotlivá témata budeme postupně rozepisovat podrobněji.");
-  assert.equal(programPost?.draftLink, "content/social/program-a-logo-posty.md");
+  assert.equal(programPost?.cta, "Sledujte nás. Jednotlivé části programu budeme postupně vysvětlovat v dalších postech do voleb.");
+  assert.equal(programPost?.draftLink, "content/program/plan-pro-prezletice-2026-2030.md");
 
   assert.equal(logoPost?.date, "2026-08-18");
   assert.equal(logoPost?.title, "Lidé · Identita · Představujeme logo Přezleťáků");
@@ -307,8 +307,8 @@ test("includes the program, logo and Instagram posts as concrete ready social pa
   assert.equal(logoPost?.hashtags?.includes("#identita"), true);
   assert.match(logoPost?.altText ?? "", /symbolem podané ruky/);
 
-  assert.equal(instagramPost?.date, "2026-08-20");
-  assert.equal(instagramPost?.title, "Lidé · Instagram · Sledujte Přezleťáky i na Instagramu");
+  assert.equal(instagramPost?.date, "2026-08-17");
+  assert.equal(instagramPost?.title, "Lidé · Instagram · Jsme na Instagramu");
   assert.equal(instagramPost?.subjectType, "channel");
   assert.equal(instagramPost?.primaryImage, "/images/social/post-instagram-start.png");
   assert.equal(instagramPost?.status, "Copy");
@@ -320,10 +320,10 @@ test("includes the program, logo and Instagram posts as concrete ready social pa
   assert.deepEqual(instagramPost?.carouselOutline?.slice(0, 2), ["Jsme nově i na Instagramu", "Sledujte nás na @prezletaci.2011"]);
   assert.equal(instagramPost?.futureWebPath, "https://www.instagram.com/prezletaci.2011/");
   assert.match(instagramPost?.contentSummary ?? "", /Přezleťáky lidé nově najdou i na Instagramu/);
-  assert.match(instagramPost?.productionNote ?? "", /po startovacím a brand postu/);
+  assert.match(instagramPost?.productionNote ?? "", /Publikovat jako první výstup 17\. 8\./);
 });
 
-test("defines the campaign start post as a ready-to-produce first social item", async () => {
+test("defines the campaign launch post as a ready-to-produce social item", async () => {
   const [page, styles] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -331,8 +331,8 @@ test("defines the campaign start post as a ready-to-produce first social item", 
   ]);
   const startPost = initialPosts.find((post) => post.id === 101);
 
-  assert.equal(startPost?.date, "2026-08-17");
-  assert.equal(startPost?.title, "Lidé · Start kampaně · Přezleťáci 2026");
+  assert.equal(startPost?.date, "2026-08-19");
+  assert.equal(startPost?.title, "Lidé · Launch · Přezletice jsou náš domov");
   assert.equal(startPost?.pillar, "Lidé");
   assert.equal(startPost?.format, "Post");
   assert.equal(startPost?.status, "Ke schválení");
@@ -345,8 +345,8 @@ test("defines the campaign start post as a ready-to-produce first social item", 
   assert.match(startPost?.socialCopy ?? "", /Jsme sousedé se zkušenostmi/);
   assert.match(startPost?.socialCopy ?? "", /jedenáct sousedů, kteří společně tvoří Přezleťáky/);
   assert.equal(startPost?.cta, "Sledujte nás. V příštích dnech představíme tým Přezleťáků 2026.");
-  assert.match(startPost?.contentSummary ?? "", /Přezleťáci 2026 navazují na dlouhodobou práci v obci/);
-  assert.match(startPost?.productionNote ?? "", /Startovací post otevírá kampaň/);
+  assert.match(startPost?.contentSummary ?? "", /Přezleťáci 2026 pokračují ve své dlouhodobé práci v obci/);
+  assert.match(startPost?.productionNote ?? "", /Oficiální start kampaně/);
   assert.deepEqual(
     initialPosts.filter((post) => post.candidateId).slice(0, 4).map((post) => post.title),
     [
@@ -407,7 +407,7 @@ test("versioned migration enriches the plan without erasing user changes", () =>
   assert.equal(migratedProgram?.copy, "Hotovo");
   assert.equal(migratedProgram?.graphic, "Připraveno");
   assert.equal(migratedProgram?.primaryImage, "/images/social/program-plan-pro-prezletice-2026-2030.svg");
-  assert.equal(migratedProgram?.date, "2026-08-30");
+  assert.equal(migratedProgram?.date, "2026-08-20");
   const oldStartDefault = {
     ...initialPosts.find((post) => post.id === 101),
     date: "2026-08-01",
@@ -423,8 +423,8 @@ test("versioned migration enriches the plan without erasing user changes", () =>
     assetStatus: undefined,
   };
   const migratedStart = mergePostsWithPlan([oldStartDefault], 10).find((post) => post.id === 101);
-  assert.equal(migratedStart?.date, "2026-08-17");
-  assert.equal(migratedStart?.title, "Lidé · Start kampaně · Přezleťáci 2026");
+  assert.equal(migratedStart?.date, "2026-08-19");
+  assert.equal(migratedStart?.title, "Lidé · Launch · Přezletice jsou náš domov");
   assert.equal(migratedStart?.status, "Ke schválení");
   assert.equal(migratedStart?.copy, "Hotovo");
   assert.equal(migratedStart?.primaryImage, "/images/social/post-001-start-kampane.avif");
@@ -443,8 +443,8 @@ test("versioned migration enriches the plan without erasing user changes", () =>
     approval: "Ke schválení",
   };
   const migratedInstagram = mergePostsWithPlan([oldLogoDefault], 12).find((post) => post.id === 142);
-  assert.equal(migratedInstagram?.date, "2026-08-20");
-  assert.equal(migratedInstagram?.title, "Lidé · Instagram · Sledujte Přezleťáky i na Instagramu");
+  assert.equal(migratedInstagram?.date, "2026-08-17");
+  assert.equal(migratedInstagram?.title, "Lidé · Instagram · Jsme na Instagramu");
   assert.equal(migratedInstagram?.primaryImage, "/images/social/post-instagram-start.png");
   assert.match(migratedInstagram?.socialCopy ?? "", /nově najdete i na Instagramu/);
   const customInstagram = { ...oldLogoDefault, title: "Můj vlastní brand post" };
@@ -479,7 +479,7 @@ test("defines a complete structured Web workspace", async () => {
   assert.equal(webBriefSections.length, 17);
   assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
   assert.equal(baseWebsiteContentItems.length >= 9, true);
-  assert.equal(articleContent.length, 7);
+  assert.equal(articleContent.length, 8);
   assert.equal(baseWebsiteContentItems.filter((item) => item.pageType === "Článek").length, articleContent.length);
   assert.equal(articleContent.every((article) => articleContentBySlug.get(article.slug) === article), true);
   assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);

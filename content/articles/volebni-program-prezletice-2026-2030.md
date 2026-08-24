@@ -25,7 +25,15 @@ Volby nejsou jen o velkých heslech. Rozhodují o tom, kdo bude každý týden �
 
 Program Přezleťáků nechceme představit jako dlouhý seznam přání, ve kterém se dá odškrtnout úplně všechno. Obec má omezený rozpočet, jasné kompetence a řadu věcí neřídí sama. Právě proto je důležité mluvit konkrétně: co je priorita, co už se řeší, co je rozdělané, kde jsme závislí na dalších institucích a jaký může být další reálný krok.
 
-Naše východisko je jednoduché. Chceme navázat na práci, která už v Přezleticích probíhá, otevřeně vysvětlovat složitější témata a soustředit se na věci, které mají dopad na každodenní život lidí v obci.
+Naše východisko je jednoduché. Chceme pokračovat v práci, kterou už v Přezleticích děláme, otevřeně vysvětlovat složitější témata a soustředit se na věci, které mají dopad na každodenní život lidí v obci.
+
+### Jak budeme program vysvětlovat do voleb
+
+Tenhle článek je úvodní rozcestník. Nechceme všechno odbýt jedním dlouhým textem, který se dobře odklikne, ale špatně čte. Jednotlivým tématům se proto budeme věnovat postupně v dalších postech a článcích v období do voleb.
+
+U každého tématu chceme ukázat čtyři věci: co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok. Někde půjde o krátký příspěvek, jinde o carousel, u složitějších témat o delší článek s odkazy na podklady.
+
+Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věděli, jak o Přezleticích přemýšlíme, kde vidíme priority a podle čeho budeme rozhodovat, když přijde na konkrétní kroky.
 
 ### Co je pro nás nejdůležitější
 
@@ -50,14 +58,6 @@ Naše východisko je jednoduché. Chceme navázat na práci, která už v Přezl
 - **Digitalizace a komunikace obce.** Informace mají být dostupné srozumitelně a včas. Digitální služby mohou lidem ušetřit cestu na úřad, ale nesmí se zapomenout ani na ty, kteří potřebují informace jinou cestou.
 
 - **Odpovědné hospodaření.** Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.
-
-### Jak budeme program vysvětlovat do voleb
-
-Tenhle článek je úvodní rozcestník. Nechceme všechno odbýt jedním dlouhým textem, který se dobře odklikne, ale špatně čte. Jednotlivým tématům se proto budeme věnovat postupně v dalších postech a článcích v období do voleb.
-
-U každého tématu chceme ukázat čtyři věci: co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok. Někde půjde o krátký příspěvek, jinde o carousel, u složitějších témat o delší článek s odkazy na podklady.
-
-Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věděli, jak o Přezleticích přemýšlíme, kde vidíme priority a podle čeho budeme rozhodovat, když přijde na konkrétní kroky.
 
 ## SoMe verze
 
