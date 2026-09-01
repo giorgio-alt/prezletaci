@@ -304,7 +304,7 @@ export const articleContent: ArticleContent[] = [
       "/images/projects/vydejni-automaty-stravovani.webp",
     ],
     projectIds: [7, 21, 22],
-    socialPostIds: [106, 115],
+    socialPostIds: [106, 115, 148],
     sourceLinks: [
       "content/articles/kapacita-skol-a-skolek.md",
       "content-audit/03_vystupy/02_clanky_a_socialni_derivaty.md",
