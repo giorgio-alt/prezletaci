@@ -71,25 +71,12 @@ type SectionId =
   | "web"
   | "checklist"
   | "timeline"
-  | "expenses"
   | "documents"
   | "settings";
 
 type TaskStatus = "To Do" | "Waiting" | "Doing" | "Done";
 type Priority = "Kritická" | "Vysoká" | "Střední" | "Nízká";
 type ProjectStatus = "Hotové" | "Rozpracované" | "Plánované" | "Doplnit";
-
-type Expense = {
-  id: number;
-  date: string;
-  supplier: string;
-  category: string;
-  description: string;
-  amount: number;
-  payment: string;
-  source: string;
-  receiptId?: string;
-};
 
 type Task = {
   id: number;
@@ -317,7 +304,6 @@ const navItems: { id: SectionId; label: string; icon: string }[] = [
   { id: "web", label: "Web", icon: "↗" },
   { id: "checklist", label: "Checklist", icon: "✓" },
   { id: "timeline", label: "Timeline", icon: "→" },
-  { id: "expenses", label: "Náklady", icon: "Kč" },
   { id: "documents", label: "Dokumenty", icon: "▱" },
   { id: "settings", label: "Nastavení", icon: "⚙" },
 ];
@@ -492,16 +478,6 @@ const documents: RepositoryDocument[] = [
   { title: "Usnesení a smlouvy", category: "Usnesení", type: "Složka", status: "Čekáme", updated: "—", description: "Důkazové dokumenty k projektům a developerským závazkům." },
   { title: "Studie a mapy", category: "Mapy", type: "Složka", status: "Čekáme", updated: "—", description: "Dlouhý park, Nohavice, Sokolovna, doprava a územní plánování." },
 ];
-
-const campaignExpenses: Expense[] = [
-  { id: 1, date: "2026-07-21", supplier: "OBI Česká republika s.r.o.", category: "Materiál / OBI", description: "Chránička kabelová", amount: 499, payment: "VISA", source: "IMG_8836.JPG", receiptId: "05004201604170198118" },
-  { id: 2, date: "2026-07-17", supplier: "OBI Česká republika s.r.o.", category: "Materiál / OBI", description: "Chránička kabelová, textilie tkaná", amount: 678, payment: "VISA", source: "IMG_8836.JPG", receiptId: "05004201604166673889" },
-  { id: 3, date: "2026-08-06", supplier: "OBI Česká republika s.r.o.", category: "Materiál / OBI", description: "Beton Hobby", amount: 1485, payment: "Hotovost", source: "IMG_8836.JPG", receiptId: "05004201610183973925" },
-  { id: 4, date: "2026-08-06", supplier: "OBI Česká republika s.r.o.", category: "Materiál / OBI", description: "Obrubník záhonový", amount: 1577, payment: "Hotovost", source: "IMG_8836.JPG", receiptId: "05004201610183926730" },
-  { id: 5, date: "2026-08-13", supplier: "OBI Česká republika s.r.o.", category: "Materiál / OBI", description: "Písek zásypový, jistič jednopól, chránič p.s jističem", amount: 1574, payment: "Hotovost", source: "IMG_8837.JPG", receiptId: "05004201610190191619" },
-];
-
-const campaignExpensesTotal = campaignExpenses.reduce((sum, expense) => sum + expense.amount, 0);
 
 const monthOptions = [
   { label: "Srpen", month: 7 },
@@ -1516,53 +1492,6 @@ export default function Home() {
     </div>
   );
 
-  const renderExpenses = () => (
-    <div className="section-stack">
-      <section className="section-intro compact-intro glass-card">
-        <div>
-          <span className="eyebrow">Evidence nákladů</span>
-          <h1>Náklady kampaně</h1>
-          <p>Pracovní evidence dokladů nahraných z fotek účtenek. Částky jsou převzaté z řádku „Konečná suma v Kč“.</p>
-        </div>
-        <div className="countdown-mini">
-          <strong>{campaignExpensesTotal.toLocaleString("cs-CZ")} Kč</strong>
-          <span>{campaignExpenses.length} dokladů</span>
-        </div>
-      </section>
-      <section className="web-inventory-list">
-        {campaignExpenses.map((expense) => (
-          <details className="web-inventory-item glass-card" key={expense.id} open>
-            <summary>
-              <div className="inventory-readiness"><strong>{expense.amount.toLocaleString("cs-CZ")}</strong><span>Kč</span></div>
-              <div>
-                <span className="eyebrow">{expense.category} · {expense.date}</span>
-                <h2>{expense.description}</h2>
-                <p>{expense.supplier}</p>
-              </div>
-              <div className="inventory-tags">
-                <span className="status-pill success">Zaevidováno</span>
-                <span className="priority-tag priority-střední">{expense.payment}</span>
-              </div>
-            </summary>
-            <div className="inventory-detail-grid">
-              <dl>
-                <div><dt>Částka</dt><dd>{expense.amount.toLocaleString("cs-CZ")} Kč</dd></div>
-                <div><dt>Dodavatel</dt><dd>{expense.supplier}</dd></div>
-                <div><dt>Zdroj</dt><dd>{expense.source}</dd></div>
-                <div><dt>Bon-ID</dt><dd>{expense.receiptId ?? "Nečitelné"}</dd></div>
-              </dl>
-              <div className="inventory-blockers">
-                <strong>Kontrola</strong>
-                <span className="resolved">✓ Částka opsaná z účtenky</span>
-                <span>! Papírový doklad ponechat pro účetní kontrolu</span>
-              </div>
-            </div>
-          </details>
-        ))}
-      </section>
-    </div>
-  );
-
   const renderSettings = () => (
     <div className="section-stack settings-stack">
       <section className="section-intro compact-intro glass-card"><div><span className="eyebrow">Campaign HQ</span><h1>Nastavení</h1><p>Vzhled, lokální data a přenos pracovní verze mezi zařízeními.</p></div><span className="version-pill">Verze 1.0</span></section>
@@ -1673,7 +1602,6 @@ export default function Home() {
     web: renderWeb,
     checklist: renderChecklist,
     timeline: renderTimeline,
-    expenses: renderExpenses,
     documents: renderDocuments,
     settings: renderSettings,
   };

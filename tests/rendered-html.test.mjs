@@ -91,6 +91,15 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Příspěvky<\/span><strong>48/);
 });
 
+test("does not expose the mistakenly imported campaign expenses", async () => {
+  const response = await render();
+  const html = await response.text();
+  const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+
+  assert.doesNotMatch(html, /Náklady kampaně|Evidence nákladů|Chránička kabelová|Beton Hobby/);
+  assert.doesNotMatch(pageSource, /campaignExpenses|renderExpenses|OBI Česká republika|IMG_883[67]\.JPG/);
+});
+
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
   const [page, candidateFiles, teamFiles] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
