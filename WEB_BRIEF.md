@@ -331,8 +331,8 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Primární obrázek: /images/projects/rozsireni-kapacity-svazkove-skoly.webp
 - Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp · /images/projects/zahrada-ms.webp · /images/projects/vydejni-automaty-stravovani.webp
 - Související projekty: 7, 21, 22
-- SoMe posty: 106, 115
-- Kontrola: Doplnit přesná kapacitní čísla školy, školky a jídelny až po potvrzení zdrojem. · Ověřit aktuální stav rozšíření svazkové školy a odpovědnosti jednotlivých partnerů. · Před publikací zkontrolovat všechny formulace k termínům a financování.
+- SoMe posty: 106, 115, 148
+- Kontrola: Ověřit účetním nebo rozpočtovým dokumentem stav obecního účtu přibližně 800 tis. Kč při převzetí vedení. · Doložit konkrétní dotační titul a historickou spoluúčast 15 % pro svazky oproti 30 % pro samostatné obce. · Ověřit aktuální pravidla státní podpory svazkových škol a přesnou formulaci k legislativnímu slučování škol. · Doložit schválenými účetními výsledky kladné hospodaření jídelny a pravidla použití výsledku. · Ověřit aktuální stav povolení kontejnerové nájemní školy a smluvní podmínky úhrady nájmu developerem. · Potvrdit kapacitu II. etapy 450 žáků, demografickou studii, jednání s MŠMT a stav soutěže projektanta zastavovací studie. · Doložit plán financování II. etapy včetně příspěvků developerů a odpovědnosti jednotlivých partnerů. · Před publikací ověřit ve veřejných dokumentech datum ukončení spádové dohody a oddělení pozemku pro školu. · Před publikací zkontrolovat formulace o povolební kontinuitě tak, aby popisovaly reálné institucionální riziko bez osobních útoků a strašení.
 
 ### Kolik rozvoje Přezletice unesou
 
@@ -344,7 +344,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - SoMe posty: 121, 123
 - Kontrola: Před publikací doplnit konkrétní odkazy na platné územně plánovací dokumenty. · Ověřit aktuální právní stav případných uzávěr, změn územního plánu a developerských smluv. · Nepoužívat neověřená číselná tvrzení o počtech bytů, domů nebo obyvatel.
 
-### Bílá vrátka: pozemek, škola a rozhodnutí v čase
+### Bílá vrátka v kontextu dvou developerských projektů
 
 - Stav: copy ke schválení
 - Markdown: content/articles/bila-vratka-pozemek-skola.md
@@ -352,7 +352,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Doplňkové obrázky: /images/projects/rozsireni-kapacity-svazkove-skoly.webp · /images/projects/elektronicka-uredni-deska.webp
 - Související projekty: 7, 3
 - SoMe posty: 144
-- Kontrola: Doplnit přesnou časovou osu jen z ověřených zápisů, usnesení, smluv a katastrálních podkladů. · Před publikací právně zkontrolovat všechny formulace o odpovědnosti konkrétních osob nebo stran. · Nepoužívat hodnotící tvrzení bez jasného oddělení od faktů.
+- Kontrola: Doplnit veřejný dokument potvrzující oddělení pozemku pro školu v roce 2015; důvěrnou smlouvu nezveřejňovat. · Ověřit přesné názvy a hranice obou developerských projektů v platné územně plánovací dokumentaci. · Před publikací právně zkontrolovat všechny formulace o odpovědnosti konkrétních osob nebo stran. · Ke každému bodu časové osy doplnit veřejně dostupný odkaz na zápis, usnesení nebo listinu.
 
 ### Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala
 
@@ -374,13 +374,43 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - SoMe posty: 146
 - Kontrola: U každého navazujícího fact-check článku doplnit přímé odkazy na veřejné dokumenty. · Nahradit pracovní nebo Google Drive odkazy veřejně dostupnými URL, pokud má být text publikovaný na webu. · Před publikací citlivých témat provést faktickou a právní kontrolu.
 
+### Proč Přezletice potřebují vlastní zpravodaj
+
+- Stav: copy ke schválení
+- Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md
+- Primární obrázek: /images/candidates/romana-bernardova.webp
+- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp · /images/projects/elektronicka-uredni-deska.webp
+- Související projekty: 3, 34
+- SoMe posty: Čeká
+- Kontrola: Schválit, zda má zpravodaj vycházet čtvrtletně, nebo jednou za dva měsíce. · Doplnit odpovědnou redakční roli, způsob distribuce a finanční rámec. · Schválit pravidla pro příspěvky obyvatel, místní inzerci, opravy a zpětnou vazbu.
+
+### Co bude s další developerskou výstavbou v Přezleticích
+
+- Stav: copy ke schválení
+- Markdown: content/articles/co-bude-s-dalsi-developerskou-vystavbou.md
+- Primární obrázek: /images/brand/social/prezletaci-social-blue.png
+- Doplňkové obrázky: /images/projects/rekonstrukce-mistnich-komunikaci.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Související projekty: Čeká
+- SoMe posty: Čeká
+- Kontrola: Ověřit aktuální stav projektů Bílá vrátka, Panská pole a Panská vinice v platných dokumentech. · Doplnit veřejné odkazy na územní plán, stavební uzávěru, zastavovací studie a případné plánovací smlouvy. · Konkrétní odhady počtu obyvatel zveřejnit pouze po kontrole proti platným studiím a aktuálním demografickým údajům. · Před publikací provést právní kontrolu formulací o závazcích investorů a stavu jednotlivých řízení.
+
+### Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor
+
+- Stav: copy ke schválení
+- Markdown: content/articles/verejny-prostor-zelen-a-sportoviste.md
+- Primární obrázek: /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Doplňkové obrázky: /images/projects/zelen-mistni-komunikace.webp · /images/projects/sportovne-relaxacni-centrum-u-rybnika.webp · /images/projects/detska-hriste.webp · /images/projects/workoutove-hriste.webp · /images/projects/petanque-nohavice.webp
+- Související projekty: 6, 19, 20, 23, 25, 26, 31, 32, 33
+- SoMe posty: Čeká
+- Kontrola: Ověřit přesný rozsah obecních pozemků určených pro veřejnou zeleň a sport před případným použitím číselného srovnání. · Doplnit stav a termíny jednotlivých připravovaných projektů pouze z aktuálních projektových podkladů.
+
 ### Volební program Přezleťáků: co je pro nás nejdůležitější
 
 - Stav: copy ke schválení
 - Markdown: content/articles/volebni-program-prezletice-2026-2030.md
 - Primární obrázek: /images/team/team-wide-01.webp
 - Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
-- Související projekty: 
+- Související projekty: Čeká
 - SoMe posty: 137
 - Kontrola: Schválit finální pořadí programových priorit. · Doplnit veřejné odkazy na budoucí tematické články a projektové karty. · Před publikací ověřit formulace u témat, kde obec není jediným rozhodovatelem.
 

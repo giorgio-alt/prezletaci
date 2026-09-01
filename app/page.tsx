@@ -780,6 +780,7 @@ export default function Home() {
     return [
       `# ${article.title}`,
       "",
+      ...(article.byline ? [article.byline, ""] : []),
       article.perex,
       "",
       ...article.body.flatMap((section) => [`## ${section.heading}`, "", ...section.paragraphs, ""]),
@@ -1383,7 +1384,7 @@ export default function Home() {
           return <article className="article-library-card glass-card" key={article.slug}>
             <button className="article-library-card-main" onClick={() => setSelectedArticle(article)}>
               <div className="article-card-image"><Image src={article.primaryImage} alt={`Náhled článku ${article.title}`} fill sizes="(max-width: 760px) 100vw, 360px" unoptimized /></div>
-              <div><span className="eyebrow">{article.pillar} · {article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</span><h3>{article.title}</h3><p>{article.summary}</p></div>
+              <div><span className="eyebrow">{article.pillar} · {article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}</span><h3>{article.title}</h3>{article.byline ? <small>{article.byline}</small> : null}<p>{article.summary}</p></div>
             </button>
             <dl className="article-library-meta"><div><dt>Markdown</dt><dd><a className="inline-link-button" href={articleMarkdownUrl(article)} target="_blank" rel="noreferrer">{article.markdownPath}</a></dd></div><div><dt>Webová URL</dt><dd><a className="inline-link-button" href={articlePublicPath(article)} target="_blank" rel="noreferrer">{articlePublicPath(article)}</a></dd></div><div><dt>Posty</dt><dd>{linkedPosts.length ? linkedPosts.map((post) => `#${post.id}`).join(" · ") : "Čeká"}</dd></div></dl>
             <div className="article-library-actions"><a className="primary-button" href={articlePublicPath(article)} target="_blank" rel="noreferrer">Otevřít na webu</a><button className="secondary-button" onClick={() => setSelectedArticle(article)}>Náhled v HQ</button><button className="secondary-button" onClick={() => copyToClipboard(article.socialCopy, "SoMe text článku")}>Kopírovat SoMe</button><button className="secondary-button" onClick={() => shareArticle(article)}>Sdílet</button><a href={primaryDriveUrl} target="_blank" rel="noreferrer">Zdroj fotky ↗</a></div>

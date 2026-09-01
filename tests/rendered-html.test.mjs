@@ -88,7 +88,7 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
-  assert.match(html, /Příspěvky<\/span><strong>46/);
+  assert.match(html, /Příspěvky<\/span><strong>48/);
 });
 
 test("ships exactly eleven mapped candidate portraits and four team assets", async () => {
@@ -185,7 +185,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 20;/);
+  assert.match(page, /const DATA_VERSION = 21;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -266,7 +266,7 @@ test("defines the six centrally themed ContentCard templates", async () => {
 });
 
 test("imports the complete chronological publication plan with concrete production metadata", async () => {
-  assert.equal(initialPosts.length, 46);
+  assert.equal(initialPosts.length, 48);
   assert.equal(new Set(initialPosts.map((post) => post.id)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => `${post.date}\u0000${post.title}`)).size, initialPosts.length);
   assert.equal(new Set(initialPosts.map((post) => post.date)).size, initialPosts.length);
@@ -274,7 +274,7 @@ test("imports the complete chronological publication plan with concrete producti
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 15, "09": 24, "10": 7 },
+    { "08": 15, "09": 26, "10": 7 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
@@ -394,15 +394,15 @@ test("all candidate post links resolve to imported posts", async () => {
 });
 
 test("versioned migration enriches the plan without erasing user changes", () => {
-  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 46);
+  assert.equal(mergePostsWithPlan(legacyInitialPosts, 3).length, 48);
   const editedLegacy = { ...legacyInitialPosts[1], title: "Uživatelská úprava medailonku" };
   const withEditedLegacy = mergePostsWithPlan([editedLegacy], 3);
-  assert.equal(withEditedLegacy.length, 47);
+  assert.equal(withEditedLegacy.length, 49);
   assert.equal(withEditedLegacy.find((post) => post.id === editedLegacy.id)?.title, editedLegacy.title);
   const editedPlanPost = { ...initialPosts[0], status: "Copy" };
   const customPost = { ...legacyInitialPosts[0], id: 999001, title: "Vlastní uživatelský příspěvek" };
   const migrated = mergePostsWithPlan([editedPlanPost, customPost], 4);
-  assert.equal(migrated.length, 47);
+  assert.equal(migrated.length, 49);
   assert.equal(migrated.find((post) => post.id === editedPlanPost.id)?.status, "Copy");
   assert.equal(migrated.some((post) => post.id === customPost.id), true);
   const oldDefault = { ...initialPosts.find((post) => post.id === 102), title: "Medailonek 1", candidateId: undefined, contentSummary: undefined, productionNote: undefined };
@@ -489,7 +489,7 @@ test("defines a complete structured Web workspace", async () => {
   assert.equal(webBriefSections.length, 17);
   assert.equal(new Set(webBriefSections.map((section) => section.id)).size, webBriefSections.length);
   assert.equal(baseWebsiteContentItems.length >= 9, true);
-  assert.equal(articleContent.length, 8);
+  assert.equal(articleContent.length, 11);
   assert.equal(baseWebsiteContentItems.filter((item) => item.pageType === "Článek").length, articleContent.length);
   assert.equal(articleContent.every((article) => articleContentBySlug.get(article.slug) === article), true);
   assert.equal(webBlockers.some((blocker) => blocker.severity === "Kritická"), true);
@@ -512,7 +512,7 @@ test("defines a complete structured Web workspace", async () => {
 });
 
 test("publishes every article for people and robots from one canonical source", async () => {
-  assert.equal(articleContent.length, 8);
+  assert.equal(articleContent.length, 11);
 
   for (const article of articleContent) {
     const expectedMarkdown = articleToMarkdown(article);
@@ -552,6 +552,67 @@ test("publishes every article for people and robots from one canonical source", 
   assert.equal(migratedLinks.find((post) => post.id === 106)?.articleSlug, "kapacita-skol-a-skolek");
   assert.equal(migratedLinks.find((post) => post.id === 137)?.articleSlug, "volebni-program-prezletice-2026-2030");
   assert.equal(migratedLinks.find((post) => post.id === 137)?.websiteItemId, "article-volebni-program-prezletice-2026-2030");
+});
+
+test("keeps Macourek and Lukeš article feedback in canonical data and social derivatives", () => {
+  const townHall = articleContentBySlug.get("nova-radnice-centrum-obce");
+  const school = articleContentBySlug.get("kapacita-skol-a-skolek");
+  const development = articleContentBySlug.get("rozvoj-obce-a-uzemni-plan");
+  const bilaVratka = articleContentBySlug.get("bila-vratka-pozemek-skola");
+  const programArticle = articleContentBySlug.get("volebni-program-prezletice-2026-2030");
+  const factCheck = articleContentBySlug.get("jak-overujeme-tvrzeni");
+
+  assert.equal(townHall?.body.some((section) => section.heading === "Proč nestačí jen současná budova"), true);
+  assert.equal(school?.body.some((section) => section.heading === "Od jedné třídy ke společnému řešení"), true);
+  assert.equal(school?.sourceLinks.some((link) => link.includes("Historie vzniku prudkého rozvoje obce")), true);
+  assert.equal(development?.body.some((section) => section.heading === "Dvě různé fáze rozvoje"), true);
+  assert.equal(development?.sourceLinks.some((link) => link.includes("VOLBY 2026_stop develop.docx")), true);
+
+  assert.equal(bilaVratka?.title, "Bílá vrátka v kontextu dvou developerských projektů");
+  assert.match(articleToMarkdown(bilaVratka), /dva navazující developerské záměry/i);
+  assert.equal(bilaVratka?.sourceLinks.some((link) => /Smlouva o spolupráci podepsaná/i.test(link)), false);
+
+  assert.match(articleToMarkdown(programArticle), /sociální vazby|sousedské vztahy/i);
+  assert.match(PROGRAM_MARKDOWN, /sociální vazby|sousedské vztahy/i);
+  assert.doesNotMatch(articleToMarkdown(factCheck), /\bSoMe\b/);
+
+  const developmentPost = initialPosts.find((post) => post.id === 121);
+  const bilaVratkaPost = initialPosts.find((post) => post.id === 144);
+  const factCheckPost = initialPosts.find((post) => post.id === 146);
+  assert.match(developmentPost?.contentSummary ?? "", /Břetislava Lukeše/);
+  assert.match(bilaVratkaPost?.title ?? "", /dva projekty/);
+  assert.doesNotMatch((factCheckPost?.carouselOutline ?? []).join(" "), /\bSoMe\b/);
+});
+
+test("publishes the new Lukeš and public-space articles from separate sources", () => {
+  const lukesArticle = articleContentBySlug.get("co-bude-s-dalsi-developerskou-vystavbou");
+  const publicSpace = articleContentBySlug.get("verejny-prostor-zelen-a-sportoviste");
+  const firefighters = articleContentBySlug.get("hasici-v-prezleticich");
+
+  assert.match(lukesArticle?.byline ?? "", /Břetislav Lukeš/);
+  assert.equal(lukesArticle?.candidateId, 8);
+  assert.match(articleToMarkdown(lukesArticle), /Development není jedna nerozlišená plocha/);
+  assert.equal(lukesArticle?.sourceLinks.some((link) => /Lukeš rozvoj obce brzda\.docx/.test(link)), true);
+  assert.equal(publicSpace?.markdownPath, "content/articles/verejny-prostor-zelen-a-sportoviste.md");
+  assert.match(articleToMarkdown(publicSpace), /omezené množství obecních pozemků/i);
+  assert.match(articleToMarkdown(publicSpace), /sportoviště jsou také místem setkávání/i);
+  assert.match(publicSpace?.byline ?? "", /Lenka Brožová/);
+  assert.equal(publicSpace?.candidateId, 9);
+  assert.equal(publicSpace?.sourceLinks.some((link) => /Veřejné plochy, zeleň a sportoviště final\.docx/.test(link)), true);
+  assert.equal(publicSpace?.checks.some((check) => /autorství/i.test(check)), false);
+  assert.match(firefighters?.byline ?? "", /Tomáš Říha/);
+  assert.equal(firefighters?.candidateId, 1);
+  assert.equal(articleContent.filter((article) => article.candidateId).every((article) => article.candidateId >= 1 && article.candidateId <= 11), true);
+});
+
+test("publishes Romana Bernardová's newsletter article from the unique source", () => {
+  const newsletter = articleContentBySlug.get("proc-prezletice-potrebuji-zpravodaj");
+
+  assert.equal(newsletter?.candidateId, 3);
+  assert.match(newsletter?.byline ?? "", /Romana Bernardová/);
+  assert.match(articleToMarkdown(newsletter), /Ne každý sleduje Facebook nebo Instagram/);
+  assert.match(articleToMarkdown(newsletter), /čtvrtletní nebo dvouměsíční/);
+  assert.equal(newsletter?.sourceLinks.filter((link) => /P R O Č Přezletický zpravodaj\.doc/.test(link)).length, 1);
 });
 
 test("defines a valid extensible Relationship Engine", async () => {

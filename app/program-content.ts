@@ -24,7 +24,7 @@ export const programContent: ProgramContent = {
   slug: "plan-pro-prezletice-2026-2030",
   title: "Plán pro Přezletice 2026–2030",
   perex: "Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.",
-  mainMessage: "Náš program nechceme představit jako dlouhý seznam slibů. Chceme ukázat několik hlavních směrů, na kterých podle nás záleží nejvíc: navázat na hotovou práci, otevřeně pojmenovat rozdělané věci a říct, co má přijít dál. Jednotlivým tématům se budeme věnovat podrobněji v dalších příspěvcích a článcích v období do voleb.",
+  mainMessage: "Náš program nechceme představit jako dlouhý seznam slibů. Chceme ukázat několik hlavních směrů, na kterých podle nás záleží nejvíc: pokračovat v práci, kterou už v Přezleticích děláme, otevřeně pojmenovat rozdělané věci a říct, co má přijít dál. Jednotlivým tématům se budeme věnovat podrobněji v dalších příspěvcích a článcích v období do voleb.",
   areas: [
     {
       title: "Doprava a infrastruktura",
@@ -46,9 +46,9 @@ export const programContent: ProgramContent = {
     },
     {
       title: "Sport, volný čas a komunitní život",
-      whatWeSolve: "Dostupná místa a příležitosti pro pohyb, spolky, sousedské akce a setkávání generací.",
-      whyItMatters: "Obec není jen soubor domů; vztahy vznikají tam, kde lidé mohou něco dělat společně.",
-      nextStep: "Dokončit rozpracovaná sportovní místa a zlepšit podmínky pro pravidelné komunitní aktivity.",
+      whatWeSolve: "Dostupná místa a příležitosti pro pohyb, spolky, sousedské akce, setkávání generací a budování vztahů mezi starousedlíky a novými obyvateli.",
+      whyItMatters: "Obec není jen soubor domů; důvěra a sociální vazby vznikají tam, kde se lidé mohou pravidelně potkávat a něco dělat společně.",
+      nextStep: "Dokončit rozpracovaná sportovní místa a zlepšit podmínky pro pravidelné komunitní a mezigenerační aktivity.",
     },
     {
       title: "Bezpečnost a prevence",
@@ -87,13 +87,13 @@ export const programContent: ProgramContent = {
       nextStep: "U velkých priorit ukázat předpokládané etapy, zdroje financování a rozhodnutí, která musí předcházet realizaci.",
     },
   ],
-  socialCopy: "Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích.\n\nNáš plán pro roky 2026–2030 stojí na několika prioritách: bezpečnější doprava a fungující infrastruktura, dostatečná kapacita škol a školek, péče o veřejný prostor a zeleň, rozumný rozvoj obce, dostupné služby, bezpečnost, kultura, sport, digitalizace a odpovědné hospodaření.\n\nNechceme všechno odbýt jedním dlouhým seznamem. V následujících týdnech se budeme jednotlivým tématům věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.",
+  socialCopy: "Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích.\n\nNáš plán pro roky 2026–2030 stojí na několika prioritách: bezpečnější doprava a fungující infrastruktura, dostatečná kapacita škol a školek, péče o veřejný prostor a zeleň, rozumný rozvoj obce, dostupné služby, bezpečnost, kultura, sport, sousedské vztahy, digitalizace a odpovědné hospodaření.\n\nNechceme všechno odbýt jedním dlouhým seznamem. V následujících týdnech se budeme jednotlivým tématům věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.",
   carousel: [
     "Plán pro Přezletice 2026–2030",
     "Ne jen hesla. Konkrétní témata pro každodenní život.",
     "Doprava, škola, zeleň a veřejný prostor.",
     "Rozumný rozvoj, služby, bezpečnost a hospodaření.",
-    "Kultura, sport, komunita a lepší komunikace obce.",
+    "Kultura, sport, sousedské vztahy a lepší komunikace obce.",
     "Každé téma postupně rozebereme do hloubky.",
     "Sledujte další posty do voleb.",
   ],

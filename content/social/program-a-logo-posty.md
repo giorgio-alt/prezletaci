@@ -20,7 +20,7 @@ Stav: copy + grafický návrh připraveny ke kontrole
 
 Přezletice nepotřebují seznam prázdných slibů. Potřebují plán pro pokračování práce, kterou už v obci děláme, pojmenování rozdělaných věcí a konkrétní posun v dalších letech.
 
-Náš program pro roky 2026–2030 stavíme kolem témat, která mají přímý dopad na každodenní život v obci: doprava, škola, veřejný prostor, zeleň, služby, bezpečnost, kultura, sport, rozumný rozvoj, digitalizace a odpovědné hospodaření.
+Náš program pro roky 2026–2030 stavíme kolem témat, která mají přímý dopad na každodenní život v obci: doprava, škola, veřejný prostor, zeleň, služby, bezpečnost, kultura, sport, sousedské vztahy, rozumný rozvoj, digitalizace a odpovědné hospodaření.
 
 U každé priority chceme ukázat tři věci: proč je důležitá, jaký je současný stav a co je další proveditelný krok. Program proto nebudeme představovat jedním dlouhým seznamem. Budeme ho postupně vysvětlovat po tématech, aby bylo jasné, co obec může ovlivnit sama, kde potřebuje partnery a jak budeme pokračovat v práci, kterou už děláme.
 
@@ -37,7 +37,7 @@ Chceme ho představit tak, aby bylo jasné:
 - co už se udělalo,
 - jaký je další konkrétní krok.
 
-Týkat se bude dopravy, školy, zeleně, služeb, bezpečnosti, kultury, sportu, rozumného rozvoje, digitalizace i odpovědného hospodaření.
+Týkat se bude dopravy, školy, zeleně, služeb, bezpečnosti, kultury, sportu, sousedských a mezigeneračních vztahů, rozumného rozvoje, digitalizace i odpovědného hospodaření.
 
 Jednotlivé části programu budeme postupně rozepisovat a vysvětlovat. Vždy konkrétně, lidsky a s vazbou na práci, kterou už v Přezleticích děláme.
 
@@ -46,7 +46,7 @@ Jednotlivé části programu budeme postupně rozepisovat a vysvětlovat. Vždy 
 1. Plán pro Přezletice 2026–2030
 2. Ne seznam slibů. Konkrétní témata a další kroky.
 3. Doprava, škola, zeleň, služby, bezpečnost.
-4. Rozumný rozvoj, kultura, sport, digitalizace.
+4. Rozumný rozvoj, kultura, sport a sousedské vztahy.
 5. U každé priority: proč, kde jsme, co bude dál.
 6. Program budeme postupně představovat po tématech.
 

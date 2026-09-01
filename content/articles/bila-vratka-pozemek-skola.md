@@ -1,4 +1,4 @@
-# Bílá vrátka: pozemek, škola a rozhodnutí v čase
+# Bílá vrátka v kontextu dvou developerských projektů
 
 **Stav:** Copy ke schválení
 
@@ -6,59 +6,61 @@
 
 ## Perex
 
-U citlivých obecních témat pomáhá jedna věc: dát vedle sebe čas, dokumenty a rozhodnutí. Ne proto, aby se hledal viník za každou cenu, ale aby lidé rozuměli, co se stalo, kdy se to stalo a jaké možnosti obec v dané chvíli měla.
+Bílá vrátka se nedají vysvětlit jako jeden izolovaný projekt ani jednou smlouvou. Na západní straně Přezletic se vedle sebe připravovaly dva developerské záměry a současně se řešil pozemek pro školu, podmínky územního plánu a veřejná infrastruktura. Proto dává smysl poskládat události do časové osy a přesně rozlišit, co dokládají veřejné zápisy a co ještě vyžaduje kontrolu.
 
 ## Článek
 
-### Proč se k tématu vracíme
+### Nejde jen o jednu lokalitu
 
-Bílá vrátka patří mezi témata, která v Přezleticích vyvolávají otázky i emoce. Je to pochopitelné. Dotýká se pozemků, školy, rozvoje obce a rozhodnutí, která mají dopady na mnoho let.
+V běžné debatě se pod názvem Bílá vrátka často směšuje širší rozvojové území. Podklady ale zachycují dva navazující developerské záměry na západní a jihozápadní straně obce. U jednoho se v zápisech používá označení lokalita A, Bílá vrátka – Ke Ctěnicím. Druhý záměr v témže západním území připravovala společnost OBADI.
 
-Právě proto nechceme téma zjednodušovat do jedné věty. Chceme ho popsat tak, aby bylo jasné, které informace jsou doložené dokumenty, které jsou interpretací a co je potřeba ještě ověřit.
+Oba projekty mají vlastní majetkové a smluvní souvislosti, ale pro obec se jejich dopady potkávají: u školy, dopravní a technické infrastruktury i veřejných ploch. Popsat celé téma jen jako spor o Bílá vrátka by proto zakrylo podstatnou část historie.
 
-### Časová osa místo nálepek
+### Rok 2011: pozemky a územní plán
 
-Nejužitečnější forma je časová osa. Ta by měla ukázat klíčové kroky: jaký pozemek byl ve hře, jaké rozhodnutí se projednávalo, kdo měl jakou kompetenci, co bylo v dokumentech a jaký byl další dopad na školu nebo rozvoj obce.
+Zápis zastupitelstva z 27. července 2011 uvádí, že obec měla podle původních dohod získat jasně určenou část pozemků ještě před schválením územního plánu. Protože podepsané kupní smlouvy nebyly v té době předložené, zastupitelstvo stanovilo termín a připravovalo i možnost nezahrnout lokalitu A, Bílá vrátka – Ke Ctěnicím, do zastavitelných ploch.
 
-Časová osa pomáhá oddělit fakta od dojmů. Pokud se v kampani objeví silné tvrzení, musí být možné se podívat na dokument a ověřit, z čeho vychází.
+V září 2011 zastupitelstvo pověřilo starostku podpisem kupních smluv. Prosincový zápis následně zaznamenal, že obec získala spoluvlastnický podíl odpovídající sedmi hektarům a že fyzické rozdělení pozemků mělo následovat až po zpracování studie. To je důležitý rozdíl: obec získala významný majetkový podíl, ale pozemek pro konkrétní veřejnou stavbu ještě nebyl samostatně oddělený.
 
-### Co je potřeba oddělit
+### Škola změnila význam celého rozhodnutí
 
-U podobných témat je důležité oddělit tři vrstvy. První jsou doložená fakta: usnesení, smlouvy, zápisy, katastrální informace nebo projektové dokumenty. Druhá je kontext: jaké možnosti obec v dané době měla. Třetí je politické hodnocení: co podle nás bylo nebo nebylo dobré rozhodnutí.
+Potřeba školního pozemku se stala naléhavější poté, co podle historického podkladu v roce 2013 skončila spádová dohoda s Vinoří. V červenci 2014 ještě zastupitelstvo připravovalo žádost o dotaci na jednu třídu mateřské školy a jednu třídu malé základní školy. Samo přitom uvedlo, že nejde o definitivní řešení a že obec bude muset dál reagovat na demografický vývoj.
 
-Tyto vrstvy se nesmí míchat. Když něco hodnotíme, musíme říct, že hodnotíme. Když uvádíme fakt, musí být dohledatelný.
+Po vzniku svazku obcí v roce 2015 začala příprava školy ve větším měřítku. Macourkův podklad popisuje, že jednání se spoluvlastníky a developerem následně vedla k oddělení pozemku pro školu. Před veřejným vydáním je potřeba tento krok doložit veřejně dostupnou listinou; důvěrná smlouva nesmí být zveřejněna ani odkazována jako veřejný podklad.
 
-### Jak s dokumenty pracovat
+### Druhý projekt a společné dopady
 
-V Campaign HQ by u tohoto tématu měl být uložen článek, zkrácená SoMe verze, carousel a sada odkazů na podklady. Pokud bude chybět přímý veřejný odkaz, je lepší položku označit jako čekající na doplnění než ji vydávat jako hotovou.
+Zápis z července 2014 zároveň zachycuje převod dalších pozemků od společnosti OBADI v západní části obce. Zápis výslovně rozlišuje tyto pozemky od pozemků přímo v lokalitě Bílá vrátka, přestože leží ve stejném širším území.
 
-Citlivost tématu neznamená, že se mu máme vyhnout. Znamená to, že musíme být přesní, klidní a pečliví.
+Právě proto se musí další vysvětlení věnovat oběma developerským projektům společně tam, kde mají společný dopad, a odděleně tam, kde jde o jiné vlastníky, smlouvy nebo povinnosti. Jen tak lze férově popsat, kdo měl co zajistit a jak se jednotlivá rozhodnutí promítla do školy a infrastruktury.
 
-### Co bude další krok
+### Co je doložené a co ještě ověřujeme
 
-Dalším krokem je doplnit přesnou časovou osu a odkazy na dokumenty, které jednotlivé body dokládají. Až potom má smysl článek publikovat jako vysvětlení pro veřejnost.
+Veřejné zápisy dokládají debatu o jasně vymezené části pozemků, následné nabytí spoluvlastnického podílu, přípravu malé školní kapacity i převod dalších pozemků od druhého developera. Historický podklad doplňuje souvislost se vznikem svazku obcí a oddělením školního pozemku.
 
-Cíl není vyhrát slovní přestřelku. Cíl je dát lidem přehled, aby si mohli udělat názor na základě informací, ne dojmů.
+Před publikací zbývá spojit každý bod časové osy s veřejným dokumentem a právně zkontrolovat formulace o vlastnictví a smluvních povinnostech. Cíl není vyhrát slovní přestřelku. Cíl je dát lidem přehled o dvou projektech a jejich společných dopadech, aby si mohli udělat názor na základě informací, ne dojmů.
 
-## SoMe verze
+## Text pro sociální sítě
 
-U Bílých vrátek nechceme pracovat s nálepkami ani zkratkami. Jde o citlivé téma pozemků, školy a rozhodnutí v čase. Proto připravujeme časovou osu: co je doložené dokumentem, co je kontext a co je politické hodnocení. Teprve když jsou tyto vrstvy oddělené, může být debata férová.
+Bílá vrátka nejsou celý příběh. Na západní straně Přezletic se připravovaly dva navazující developerské projekty a současně se řešil pozemek pro školu. Veřejné zápisy ukazují debatu o vymezení pozemků, nabytí spoluvlastnického podílu i další kroky kolem školní kapacity. Připravili jsme proto časovou osu, která odděluje oba projekty a propojuje jejich společné dopady na školu a infrastrukturu.
 
 ## Instagram carousel
 
-1. Bílá vrátka: citlivé téma, klidný postup.
-2. Nejdřív časová osa.
-3. Oddělit fakta, kontext a hodnocení.
-4. Každé silné tvrzení musí mít zdroj.
-5. Když něco nevíme, označíme to jako neověřené.
-6. Cíl: přehled místo slovní přestřelky.
+1. Bílá vrátka nejsou celý příběh.
+2. V západním území se připravovaly dva developerské projekty.
+3. Rok 2011: podíl na pozemcích ještě nebyl samostatným školním pozemkem.
+4. Rok 2014: obec řešila malou školní kapacitu i další pozemky v území.
+5. Rok 2015: svazek obcí a příprava školy změnily měřítko řešení.
+6. Společné dopady: škola, doprava, sítě a veřejný prostor.
+7. Každý bod časové osy musí mít veřejný zdroj.
 
 ## CTA
 
-Podívejte se, jak chceme citlivá obecní témata vysvětlovat věcně a s odkazy na dokumenty.
+Projděte si časovou osu dvou developerských projektů a jejich souvislost se školou.
 
 ## Kontrola před publikací
 
-- Doplnit přesnou časovou osu jen z ověřených zápisů, usnesení, smluv a katastrálních podkladů.
+- Doplnit veřejný dokument potvrzující oddělení pozemku pro školu v roce 2015; důvěrnou smlouvu nezveřejňovat.
+- Ověřit přesné názvy a hranice obou developerských projektů v platné územně plánovací dokumentaci.
 - Před publikací právně zkontrolovat všechny formulace o odpovědnosti konkrétních osob nebo stran.
-- Nepoužívat hodnotící tvrzení bez jasného oddělení od faktů.
+- Ke každému bodu časové osy doplnit veřejně dostupný odkaz na zápis, usnesení nebo listinu.

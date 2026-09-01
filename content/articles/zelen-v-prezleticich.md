@@ -54,7 +54,7 @@ Zeleň v Přezleticích chceme dál řešit jako systém, ne jako nahodilé dosa
 
 Dobře udržovaná zeleň není jen hezčí obec. Je to stín v létě, méně prachu, příjemnější ulice, lepší hospodaření s vodou a veřejný prostor, ve kterém se lidem lépe žije.
 
-## SoMe verze
+## Text pro sociální sítě
 
 Zeleň v obci není jen otázka výsadby. Je to práce s místem, vodou, stínem i dlouhodobou údržbou. Proto v Přezleticích řešíme zeleň postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra. Někde dává smysl strom, jinde trvalky a keře, jinde hlavně dobrý plán péče. Důležité je, aby zeleň nebyla dekorace, ale funkční součást obce.
 

@@ -4,6 +4,8 @@
 
 **Komunikační pilíř:** Vysvětlování + Plány + Dokumenty a důkazy
 
+**Autorský podklad:** Tomáš Říha · redakčně zpracováno v kampaňovém stylu
+
 ## Perex
 
 Téma hasičů se snadno vypráví jako příběh o tom, kdo komu ublížil. Jenže pokud se má obec rozhodovat odpovědně, potřebuje nejdřív rozlišit základní věci: spolek, jednotku požární ochrany, vybavení, lidi, povinnosti a financování.
@@ -34,7 +36,7 @@ Nejrozumnější postup je ověřit historické podklady, zjistit aktuální zá
 
 Pokud má být téma hasičů součástí programu, mělo by být formulované odpovědně: ne jako nostalgický slib, ale jako prověřený záměr s jasnými podmínkami.
 
-## SoMe verze
+## Text pro sociální sítě
 
 Hasiči jsou citlivé téma. Proto je potřeba mluvit přesně: hasičský spolek a jednotka požární ochrany nejsou totéž. Pokud se má uvažovat o obnově, nestačí slib. Je potřeba vědět, jaké jsou povinnosti, vybavení, lidé, zázemí, provozní náklady a návaznost na systém požární ochrany. Nejprve fakta, potom rozhodnutí.
 

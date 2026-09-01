@@ -53,6 +53,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div>
             <span className="eyebrow">{article.pillar}</span>
             <h1>{article.title}</h1>
+            {article.byline ? <small>{article.byline}</small> : null}
             <p>{article.perex}</p>
           </div>
           <div className="public-article-cover">

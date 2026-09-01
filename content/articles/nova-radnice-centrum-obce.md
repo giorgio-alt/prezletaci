@@ -22,6 +22,12 @@ Hlavní myšlenka návrhu je jednoduchá: radnice nemá být uzavřená kancelá
 
 Koncept počítá s tím, že v centru budou společně fungovat tři objekty: nová budova radnice, původní obecní úřad a budoucí společenské centrum v prostoru bývalé sokolovny. Smyslem není stavět všechno znovu a co největší. Naopak: návrh pracuje s tím, co už obec má, a rozděluje funkce tak, aby se nové objemy minimalizovaly a stávající budovy dávaly dál smysl.
 
+### Proč nestačí jen současná budova
+
+Námitka, že by obci měla stačit současná radnice, je pochopitelná. Architektonický koncept ale starou budovu neodepisuje. Počítá s ní jako s jednou ze tří částí obecního centra a navrhuje, aby dál sloužila například archivu nebo přechodným kancelářím.
+
+Samotná současná budova však neumí spojit všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho jen o kapacitu a funkce, které dnes chybějí.
+
 ### Propojit Horní a Dolní náves
 
 Důležitou součástí návrhu je nový veřejný prostor nazvaný Na Rynku. Ten má vzniknout mezi ulicemi Veleňská a V Uličce a propojit Horní a Dolní náves přirozenější pěší trasou.
@@ -62,18 +68,18 @@ Nová radnice je příležitost vytvořit centrum obce, které nebude jen admini
 
 Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služby, otevřít úřad lidem a vytvořit místo, kam se dá přirozeně přijít. Právě tak chceme o nové radnici uvažovat: jako o praktickém kroku pro fungující obec a živější centrum Přezletic.
 
-## SoMe verze
+## Text pro sociální sítě
 
-Nová radnice nemá být jen další budova s kancelářemi. Architektonický koncept z května 2024 ji chápe jako příležitost znovu oživit centrum Přezletic: propojit Horní a Dolní náves, vytvořit prostor Na Rynku a lépe navázat nový úřad, původní radnici a budoucí společenské centrum. Důležité pro nás je mluvit o projektu otevřeně: co studie navrhuje, co dává smysl a co je potřeba dál ověřit.
+Proč nestačí současná radnice? Architektonický koncept starou budovu neodepisuje — počítá s ní jako s jednou ze tří částí obecního centra. Samotná ale nedokáže spojit přehledný úřad, knihovnu, veřejná jednání, společenské aktivity a vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Jde o využití toho, co obec má, a doplnění funkcí, které dnes chybějí.
 
 ## Instagram carousel
 
-1. Radnice není jen kancelář.
-2. Může znovu oživit centrum obce.
-3. Návrh propojuje Horní a Dolní náves.
-4. Prostor Na Rynku má být místem pro akce i běžné setkávání.
-5. Nová budova má fungovat s původním úřadem a budoucím společenským centrem.
-6. Tři principy návrhu: otevřenost, řád, efektivita.
+1. Proč nestačí současná radnice?
+2. Stará budova zůstává součástí obecního centra.
+3. Sama ale neobsáhne všechny služby rostoucí obce.
+4. Nový koncept spojuje úřad, knihovnu a veřejný prostor.
+5. Tři budovy mají fungovat jako jeden celek.
+6. Ne stavět všechno znovu, ale smysluplně rozdělit funkce.
 7. Studie je začátek debaty, ne konečný rozpočet.
 
 ## CTA

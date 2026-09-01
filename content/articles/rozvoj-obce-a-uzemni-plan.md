@@ -28,6 +28,18 @@ Zároveň je důležité říct i druhou část: obec nemůže libovolně zastav
 
 Dobře nastavený územní plán umí růst obce zpomalit, zpřehlednit a podmínit dopravou, zelení nebo občanskou vybaveností. Špatně nebo pozdě řešený plán naopak nechává obci menší prostor k vyjednávání.
 
+### Dvě různé fáze rozvoje
+
+Podklad Břetislava Lukeše upozorňuje, že dnešní rozvoj není jedna nerozlišená plocha. Na západní straně obce jsou projekty Bílá vrátka, Panská pole a Panská vinice v pokročilé přípravě a obec u nich dlouhodobě řeší zastavovací studie, podmínky výstavby i veřejnou infrastrukturu. Zbývající zastavitelné části obce jsou v jiné fázi a pravidla pro ně se teprve musí posoudit v širších souvislostech.
+
+Tohle rozlišení je důležité. U rozpracovaných lokalit je úkolem obce hlídat dodržení dohodnutých podmínek a návaznost na školu, dopravu, sítě a veřejný prostor. U dalších ploch je naopak potřeba nejdřív rozhodnout, zda je obec vůbec potřebuje a jaké limity musí platit, aby další výstavba nezhoršila problémy, které už dnes řešíme.
+
+### Nejdřív využít a dokončit to, co je připravené
+
+Lukešův podklad staví další postup na jednoduché prioritě: energii obce soustředit na dokončení rozpracovaných území a na služby, které budou obyvatelé potřebovat. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i propojení nové a historické části obce.
+
+Teprve s tímto přehledem lze odpovědně říct, kolik dalšího rozvoje Přezletice unesou. Orientační kapacitní odhady z pracovního podkladu musí před zveřejněním projít kontrolou proti platnému územnímu plánu, schváleným studiím a aktuálním údajům o obyvatelích. Princip je ale jasný už teď: další růst nemá být automatický, ale odvozený od kapacity obce a od kvality života.
+
 ### Proč nestačí heslo proti developerům
 
 V kampani se dá snadno říct, že obec musí být proti developerům. Jenže takové heslo samo o sobě nic neřeší. Důležité je mít konkrétní pravidla, dokumenty, vyjednávací pozici a schopnost rozlišit mezi rozumným rozvojem a tlakem, který obecní infrastruktura neunese.
@@ -40,23 +52,23 @@ Chceme držet tempo rozvoje obce tak, aby odpovídalo infrastruktuře a kvalitě
 
 Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby zůstal obyvatelný, férový a dlouhodobě udržitelný.
 
-## SoMe verze
+## Text pro sociální sítě
 
-Kolik rozvoje Přezletice unesou? To není otázka proti nebo pro nové domy. Je to otázka dopravy, školy, vody, kanalizace, zeleně, služeb a pravidel. Obec má nástroje, ale musí je používat včas: územní plán, podmínky pro území, jednání s investory a férové vysvětlování dopadů. Chceme rozvoj řídit tak, aby obec zůstala dobře obyvatelná.
+Kolik rozvoje Přezletice unesou? Rozpracované projekty na západní straně obce a dosud nepřipravené zastavitelné plochy nejsou totéž. U prvních je potřeba hlídat dohodnuté podmínky, infrastrukturu a veřejné služby. U dalších se musíme nejdřív ptát, zda je obec vůbec potřebuje a jaké limity musí platit. Další růst nemá být automatický, ale odvozený od kapacity obce a kvality života.
 
 ## Instagram carousel
 
-1. Rozvoj není jen počet domů.
-2. Každý projekt má dopad na dopravu, školu i služby.
-3. Obec má nástroje, ale ne neomezenou moc.
-4. Územní plán je brzda i kompas.
-5. Hesla proti developerům nestačí.
-6. Důležitá jsou pravidla, dokumenty a včasné kroky.
-7. Cíl: rozumný rozvoj, který obec unese.
+1. Rozvoj není jedna nerozlišená plocha.
+2. Západní projekty jsou v pokročilé přípravě.
+3. U nich je potřeba hlídat podmínky a infrastrukturu.
+4. Další zastavitelné plochy jsou v jiné fázi.
+5. Nejdřív musíme vědět, zda je obec potřebuje.
+6. Tempo růstu musí odpovídat škole, dopravě, sítím a službám.
+7. Cíl: dokončit připravené a nepřidávat automaticky další rozvoj.
 
 ## CTA
 
-Přečtěte si, co obec může ovlivnit a proč je územní plán pro Přezletice zásadní.
+Přečtěte si, proč rozlišujeme rozpracované projekty a další zastavitelné plochy.
 
 ## Kontrola před publikací
 

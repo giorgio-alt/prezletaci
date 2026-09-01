@@ -66,7 +66,7 @@ Nejde o osobní vlastnictví projektu ani o tvrzení, že školu může dokonči
 
 Proto chceme o škole mluvit jako o společné odpovědnosti: chránit funkční vztahy ve svazku, předávat úplné informace, držet připravené projekty a nenechat dlouhodobou kapacitu škol záviset na povolebních sporech.
 
-## SoMe verze
+## Text pro sociální sítě
 
 Když Přezletice, Jenštejn a Podolanka v roce 2013 přišly o spádovou školu ve Vinoři, nestačilo přidat jednu třídu. Bylo potřeba zajistit pozemek, spojit síly obcí, připravit financování a vybudovat školu i jídelnu, která dnes slouží dětem i dalším obyvatelům. Teď navazuje dočasná nájemní kapacita a příprava druhé etapy pro 450 žáků. Její dokončení bude záviset na projektu, dotaci, příspěvcích developerů a pokračující spolupráci obcí ve svazku.
 

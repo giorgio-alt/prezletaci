@@ -32,7 +32,7 @@ Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a
 
 Veřejný prostor a zeleň. Ulice, parky, stromy a místa pro setkávání nejsou ozdoba navíc. Rozhodují o tom, jak se v obci chodí, odpočívá, potkává a jak dobře veřejný prostor funguje v horku, dešti i při běžné údržbě.
 
-Sport, volný čas a komunita. Obec není jen soubor domů. Potřebuje místa a příležitosti, kde se lidé potkávají: sportoviště, spolky, sousedské akce, prostor pro děti, seniory i celé rodiny.
+Sport, volný čas, komunita a sociální vazby. Obec není jen soubor domů. Potřebuje místa a příležitosti, kde se lidé potkávají: sportoviště, spolky, sousedské akce, prostor pro děti, seniory i celé rodiny. Stejně důležité je podporovat vztahy mezi starousedlíky a novými obyvateli, mezi generacemi i mezi sousedy, kteří by se jinak míjeli.
 
 Bezpečnost a prevence. Bezpečná obec nevzniká jen jedním opatřením. Je to kombinace prevence, dobrého veřejného prostoru, spolupráce s bezpečnostními složkami a srozumitelného vysvětlení, co obec může a nemůže zajistit.
 
@@ -48,9 +48,9 @@ Digitalizace a komunikace obce. Informace mají být dostupné srozumitelně a v
 
 Odpovědné hospodaření. Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.
 
-## SoMe verze
+## Text pro sociální sítě
 
-Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích. Náš program stojí na několika prioritách: doprava a infrastruktura, školství, zeleň, veřejný prostor, služby, bezpečnost, rozumný rozvoj, kultura, sport, digitalizace a odpovědné hospodaření. Jednotlivým tématům se budeme v dalších týdnech věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.
+Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích. Náš program stojí na několika prioritách: doprava a infrastruktura, školství, zeleň, veřejný prostor, služby, bezpečnost, rozumný rozvoj, kultura, sport, sousedské vztahy, digitalizace a odpovědné hospodaření. Jednotlivým tématům se budeme v dalších týdnech věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.
 
 ## Instagram carousel
 
@@ -58,7 +58,7 @@ Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrét
 2. Začínáme tím, co lidé řeší každý den.
 3. Doprava, škola, zeleň a veřejný prostor.
 4. Služby, bezpečnost a rozumný rozvoj.
-5. Kultura, sport, komunikace a odpovědné hospodaření.
+5. Kultura, sport, sousedské vztahy a komunikace.
 6. Každé téma postupně rozebereme do hloubky.
 7. Konkrétně: co je hotové, co je rozdělané a co bude další krok.
 

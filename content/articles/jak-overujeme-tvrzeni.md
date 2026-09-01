@@ -36,11 +36,11 @@ Tahle poctivost není slabost. Naopak. Dává komunikaci důvěryhodnost a lidem
 
 ### Jak budeme zdroje zveřejňovat
 
-U delších článků chceme mít odkazy na podklady přímo ve webové sekci. U SoMe postů bude hlavní text kratší, ale měl by vést na článek, kde jsou zdroje a širší vysvětlení.
+U delších článků chceme mít odkazy na podklady přímo ve webové sekci. U příspěvků na sociálních sítích bude hlavní text kratší, ale měl by vést na článek, kde jsou zdroje a širší vysvětlení.
 
-Cílem je, aby social media nebyla jen sada sloganů. Má to být rozcestník k ověřitelným informacím, které si může přečíst každý, kdo chce jít hlouběji.
+Cílem je, aby příspěvky na sociálních sítích nebyly jen sada sloganů. Mají být rozcestníkem k ověřitelným informacím, které si může přečíst každý, kdo chce jít hlouběji.
 
-## SoMe verze
+## Text pro sociální sítě
 
 V kampani nechceme stavět komunikaci na nálepkách. U citlivých témat budeme pracovat jednoduše: tvrzení, zdroj, kontext a jasné označení, co je fakt a co je hodnocení. Když něco ještě nemáme ověřené, řekneme to. Férová debata začíná tím, že lidé vidí, z čeho vycházíme.
 
@@ -51,7 +51,7 @@ V kampani nechceme stavět komunikaci na nálepkách. U citlivých témat budeme
 3. Fakt musí být ověřitelný.
 4. Hodnocení musí být označené jako hodnocení.
 5. Neověřené věci neschováváme.
-6. SoMe má vést na delší článek se zdroji.
+6. Příspěvek na sociálních sítích má vést na delší článek se zdroji.
 
 ## CTA
 
