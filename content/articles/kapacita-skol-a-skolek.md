@@ -1,26 +1,16 @@
 # Jak vznikala kapacita škol a školek
 
-Slug: `kapacita-skol-a-skolek`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Hotová práce, Rozdělané věci, Vysvětlování
-
-Primární obrázek: `/images/projects/rozsireni-kapacity-svazkove-skoly.webp`
-
-Doplňkové obrázky:
-
-- `/images/projects/druhy-pavilon-ms.webp`
-- `/images/projects/zahrada-ms.webp`
-- `/images/projects/vydejni-automaty-stravovani.webp`
-
-Související projekty: 7, 21, 22
+**Komunikační pilíř:** Hotová práce + Rozdělané věci + Vysvětlování
 
 ## Perex
 
-Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem.
+Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem. Proto má smysl ukazovat nejen výsledek, ale i cestu, která k němu vede.
 
 ## Článek
+
+### Výchozí problém
 
 Přezletice jsou rostoucí obec. S novou výstavbou a mladými rodinami přirozeně roste tlak na kapacity školky, školy, jídelny i návazných služeb. Obec v takové situaci nemůže reagovat jen improvizací. Potřebuje hledat řešení, které vydrží déle než jedno volební období.
 
@@ -48,7 +38,7 @@ Právě proto nechceme v komunikaci slibovat rychlá řešení bez kontextu. Lep
 
 Naším cílem je držet školní a předškolní kapacitu jako jednu z priorit obce. To znamená pokračovat ve spolupráci se svazkem, hlídat projektovou přípravu, pracovat s aktuálními daty o počtu dětí a včas vysvětlovat, proč jednotlivé kroky trvají.
 
-Školy a školky nejsou jen budovy. Jsou to služby, které rozhodují o každodenním životě rodin.
+Školy a školky nejsou jen budovy. Jsou to služby, které rozhodují o každodenním životě rodin. Proto k nim chceme přistupovat prakticky, bez zjednodušování a s důrazem na dlouhodobou odpovědnost.
 
 ## SoMe verze
 
@@ -62,6 +52,10 @@ Kapacita škol a školek nevzniká jedním rozhodnutím. Je za ní projektová p
 4. Hotová etapa neznamená, že problém zmizí navždy.
 5. Rozšíření ovlivňuje projekt, povolení, peníze i provoz.
 6. Budeme ukazovat stav, kompetence a další krok.
+
+## CTA
+
+Přečtěte si, proč školní kapacita vyžaduje dlouhodobou práci a co chceme dotahovat dál.
 
 ## Kontrola před publikací
 

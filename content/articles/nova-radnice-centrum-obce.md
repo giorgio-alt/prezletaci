@@ -1,33 +1,16 @@
 # Nová radnice jako nové centrum obce
 
-Slug: `nova-radnice-centrum-obce`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Plány, Vysvětlujeme, Dokumenty a důkazy
-
-Primární obrázek: `/images/projects/rekonstrukce-sokolovny.webp`
-
-Doplňkové obrázky:
-
-- `/images/projects/komunitni-centrum-zlatak.webp`
-- `/images/projects/elektronicka-uredni-deska.webp`
-- `/images/projects/kaplicka-a-zvon.webp`
-- `/images/brand/social/prezletaci-social-yellow.png`
-
-Související projekty: 16, 34, 35, 3
-
-Zdrojové podklady:
-
-- `content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md`
-- `content-audit/02_extrakce/TK2603-0192_Studie_radnice.pdf.txt`
-- `TK2603-0192/Studie radnice.pdf`
+**Komunikační pilíř:** Plány + Vysvětlujeme + Dokumenty a důkazy
 
 ## Perex
 
 Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
 
 ## Článek
+
+### Proč nejde jen o kanceláře
 
 Když obec připravuje novou radnici, může se snadno stát, že se debata zúží na kanceláře, metry čtvereční a cenu stavby. To všechno je samozřejmě důležité. Ale u Přezletic je podstatná ještě jedna věc: nová radnice může pomoci vrátit život do středu obce.
 
@@ -47,7 +30,7 @@ Dnes je pohyb mezi těmito částmi centra omezený a ne vždy důstojný nebo p
 
 To je pro obec důležité nejen ve všední den, ale i při akcích. Prostor Na Rynku může do budoucna převzít část veřejného života, který dnes musí hledat náhradní místa: trhy, posvícenská setkání, rozsvícení vánočního stromku, výstavy nebo obyčejné sousedské potkávání.
 
-### Tři principy návrhu: otevřenost, řád a efektivita
+### Tři principy návrhu
 
 Architektonický koncept stojí na třech slovech: otevřenost, řád a efektivita.
 
@@ -100,7 +83,5 @@ Přečtěte si, co koncept nové radnice navrhuje a proč nejde jen o novou budo
 ## Kontrola před publikací
 
 - Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024.
-- Potvrdit vlastnictví a plánovaný postup u objektů, kterých se týká demolice nebo rekonstrukce.
 - Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání.
-- U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie, nikoli aktuální rozpočet.
-- Doplnit vizuál: výřez studie, schéma Horní náves → Na Rynku → Dolní náves, případně vizualizaci parteru.
+- U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.

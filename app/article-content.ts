@@ -18,6 +18,44 @@ export type ArticleContent = {
   checks: string[];
 };
 
+export function articleToMarkdown(article: ArticleContent) {
+  return [
+    `# ${article.title}`,
+    "",
+    `**Stav:** ${article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}`,
+    "",
+    `**Komunikační pilíř:** ${article.pillar}`,
+    "",
+    "## Perex",
+    "",
+    article.perex,
+    "",
+    "## Článek",
+    "",
+    ...article.body.flatMap((section) => [
+      `### ${section.heading}`,
+      "",
+      ...section.paragraphs.flatMap((paragraph) => [paragraph, ""]),
+    ]),
+    "## SoMe verze",
+    "",
+    article.socialCopy,
+    "",
+    "## Instagram carousel",
+    "",
+    ...article.carousel.map((slide, index) => `${index + 1}. ${slide}`),
+    "",
+    "## CTA",
+    "",
+    article.cta,
+    "",
+    "## Kontrola před publikací",
+    "",
+    ...article.checks.map((check) => `- ${check}`),
+    "",
+  ].join("\n");
+}
+
 export const articleContent: ArticleContent[] = [
   {
     slug: "zelen-v-prezleticich",

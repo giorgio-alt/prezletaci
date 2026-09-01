@@ -1,19 +1,8 @@
 # Volební program Přezleťáků: co je pro nás nejdůležitější
 
-Slug: `volebni-program-prezletice-2026-2030`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Plány, Lidé, Vysvětlování
-
-Primární obrázek: `/images/team/team-wide-01.webp`
-
-Doplňkové obrázky:
-
-- `/images/brand/social/prezletaci-social-blue.png`
-- `/images/brand/social/prezletaci-social-yellow.png`
-
-Související SoMe posty: 137
+**Komunikační pilíř:** Plány + Lidé + Vysvětlování
 
 ## Perex
 
@@ -37,35 +26,31 @@ Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věd
 
 ### Co je pro nás nejdůležitější
 
-- **Doprava a infrastruktura.** Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. U každé větší priority chceme ukazovat současný stav, odpovědnost a nejbližší proveditelný krok.
+Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. U každé větší priority chceme ukazovat současný stav, odpovědnost a nejbližší proveditelný krok.
 
-- **Školství a kapacity.** Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. Nestačí říct, že kapacitu chceme. Je potřeba vysvětlovat, jak spolu souvisí pozemky, projekty, financování, svazek obcí, povolení a provoz.
+Školství a kapacity. Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. Nestačí říct, že kapacitu chceme. Je potřeba vysvětlovat, jak spolu souvisí pozemky, projekty, financování, svazek obcí, povolení a provoz.
 
-- **Veřejný prostor a zeleň.** Ulice, parky, stromy a místa pro setkávání nejsou ozdoba navíc. Rozhodují o tom, jak se v obci chodí, odpočívá, potkává a jak dobře veřejný prostor funguje v horku, dešti i při běžné údržbě.
+Veřejný prostor a zeleň. Ulice, parky, stromy a místa pro setkávání nejsou ozdoba navíc. Rozhodují o tom, jak se v obci chodí, odpočívá, potkává a jak dobře veřejný prostor funguje v horku, dešti i při běžné údržbě.
 
-- **Sport, volný čas a komunita.** Obec není jen soubor domů. Potřebuje místa a příležitosti, kde se lidé potkávají: sportoviště, spolky, sousedské akce, prostor pro děti, seniory i celé rodiny.
+Sport, volný čas a komunita. Obec není jen soubor domů. Potřebuje místa a příležitosti, kde se lidé potkávají: sportoviště, spolky, sousedské akce, prostor pro děti, seniory i celé rodiny.
 
-- **Bezpečnost a prevence.** Bezpečná obec nevzniká jen jedním opatřením. Je to kombinace prevence, dobrého veřejného prostoru, spolupráce s bezpečnostními složkami a srozumitelného vysvětlení, co obec může a nemůže zajistit.
+Bezpečnost a prevence. Bezpečná obec nevzniká jen jedním opatřením. Je to kombinace prevence, dobrého veřejného prostoru, spolupráce s bezpečnostními složkami a srozumitelného vysvětlení, co obec může a nemůže zajistit.
 
 ### Služby, rozvoj a odpovědné hospodaření
 
-- **Dostupné služby v obci.** Každá služba, kterou lidé nemusí složitě hledat jinde, šetří čas a energii. U služeb ale musí být jasné, co je reálně v možnostech obce, kde je potřeba partner a jaký model dává dlouhodobě smysl.
+Dostupné služby v obci. Každá služba, kterou lidé nemusí složitě hledat jinde, šetří čas a energii. U služeb ale musí být jasné, co je reálně v možnostech obce, kde je potřeba partner a jaký model dává dlouhodobě smysl.
 
-- **Rozumný rozvoj a územní plánování.** Přezletice rostou a s růstem přichází tlak na dopravu, školu, sítě, zeleň i veřejný prostor. Nejde jen o otázku, jestli nové domy ano nebo ne. Důležité je, jaká pravidla obec nastaví, co může vyjednat a jak otevřeně bude lidem vysvětlovat dopady jednotlivých záměrů.
+Rozumný rozvoj a územní plánování. Přezletice rostou a s růstem přichází tlak na dopravu, školu, sítě, zeleň i veřejný prostor. Nejde jen o otázku, jestli nové domy ano nebo ne. Důležité je, jaká pravidla obec nastaví, co může vyjednat a jak otevřeně bude lidem vysvětlovat dopady jednotlivých záměrů.
 
-- **Kultura a společenské centrum.** Přezletice potřebují důstojné zázemí pro setkávání, obecní akce, spolky a komunitní život. U větších projektů ale chceme vždy mluvit také o etapách, financování, budoucím provozu a tom, co je už připravené a co se musí teprve rozhodnout.
+Kultura a společenské centrum. Přezletice potřebují důstojné zázemí pro setkávání, obecní akce, spolky a komunitní život. U větších projektů ale chceme vždy mluvit také o etapách, financování, budoucím provozu a tom, co je už připravené a co se musí teprve rozhodnout.
 
-- **Digitalizace a komunikace obce.** Informace mají být dostupné srozumitelně a včas. Digitální služby mohou lidem ušetřit cestu na úřad, ale nesmí se zapomenout ani na ty, kteří potřebují informace jinou cestou.
+Digitalizace a komunikace obce. Informace mají být dostupné srozumitelně a včas. Digitální služby mohou lidem ušetřit cestu na úřad, ale nesmí se zapomenout ani na ty, kteří potřebují informace jinou cestou.
 
-- **Odpovědné hospodaření.** Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.
+Odpovědné hospodaření. Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.
 
 ## SoMe verze
 
-Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích.
-
-Náš program stojí na několika prioritách: doprava a infrastruktura, školství, zeleň, veřejný prostor, služby, bezpečnost, rozumný rozvoj, kultura, sport, digitalizace a odpovědné hospodaření.
-
-Jednotlivým tématům se budeme v dalších týdnech věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.
+Volby nejsou jen o heslech. Jsou o tom, kdo bude každý týden řešit konkrétní věci, které ovlivňují život v Přezleticích. Náš program stojí na několika prioritách: doprava a infrastruktura, školství, zeleň, veřejný prostor, služby, bezpečnost, rozumný rozvoj, kultura, sport, digitalizace a odpovědné hospodaření. Jednotlivým tématům se budeme v dalších týdnech věnovat do hloubky — v postech, článcích a konkrétních příkladech z obce.
 
 ## Instagram carousel
 

@@ -1,25 +1,16 @@
 # Jak ověřujeme tvrzení o historii obce
 
-Slug: `jak-overujeme-tvrzeni`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Vysvětlování, Dokumenty a důkazy
-
-Primární obrázek: `/images/projects/elektronicka-uredni-deska.webp`
-
-Doplňkové obrázky:
-
-- `/images/brand/social/prezletaci-social-blue.png`
-- `/images/brand/social/prezletaci-social-yellow.png`
-
-Související projekty: 3
+**Komunikační pilíř:** Vysvětlování + Dokumenty a důkazy
 
 ## Perex
 
 V komunální kampani se často vrací staré příběhy. Některé jsou přesné, některé zjednodušené a některé se postupem času změnily v dojem. My chceme s historií obce pracovat jinak: klidně, věcně a s jasným rozlišením toho, co víme, co si myslíme a co ještě ověřujeme.
 
 ## Článek
+
+### Tvrzení samo o sobě nestačí
 
 Když někdo řekne, že se něco stalo špatně, nestačí to převzít jako fakt. Stejně tak nestačí říct, že je všechno v pořádku. U každého důležitého tvrzení se ptáme: odkud informace pochází, co přesně dokládá a jaký je širší kontext.
 
@@ -61,6 +52,10 @@ V kampani nechceme stavět komunikaci na nálepkách. U citlivých témat budeme
 4. Hodnocení musí být označené jako hodnocení.
 5. Neověřené věci neschováváme.
 6. SoMe má vést na delší článek se zdroji.
+
+## CTA
+
+Přečtěte si, jak budeme v kampani pracovat s fakty, historií a citlivými tématy.
 
 ## Kontrola před publikací
 

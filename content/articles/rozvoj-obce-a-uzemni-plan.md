@@ -1,26 +1,16 @@
 # Kolik rozvoje Přezletice unesou
 
-Slug: `rozvoj-obce-a-uzemni-plan`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Plány, Vysvětlování, Dokumenty a důkazy
-
-Primární obrázek: `/images/projects/rekonstrukce-mistnich-komunikaci.webp`
-
-Doplňkové obrázky:
-
-- `/images/projects/rekonstrukce-prutahovych-komunikaci.webp`
-- `/images/projects/zelen-mistni-komunikace.webp`
-- `/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp`
-
-Související projekty: 8, 9, 20, 33
+**Komunikační pilíř:** Plány + Vysvětlování + Dokumenty a důkazy
 
 ## Perex
 
 Rozvoj obce není jen otázka toho, jestli někde vzniknou nové domy. Je to otázka dopravy, školy, vody, kanalizace, veřejného prostoru, služeb i sousedských vztahů. Proto je fér mluvit o developmentu věcně: co obec může ovlivnit, kde má limity a proč je územní plán jeden z nejdůležitějších nástrojů.
 
 ## Článek
+
+### Rozvoj není jen počet domů
 
 Když se v obci mluví o nové výstavbě, debata se často rychle rozdělí na jednoduché ano nebo ne. Jenže skutečná otázka je složitější: jaký rozvoj obec unese, za jakých podmínek a s jakými dopady na každodenní život lidí.
 
@@ -64,8 +54,12 @@ Kolik rozvoje Přezletice unesou? To není otázka proti nebo pro nové domy. Je
 6. Důležitá jsou pravidla, dokumenty a včasné kroky.
 7. Cíl: rozumný rozvoj, který obec unese.
 
+## CTA
+
+Přečtěte si, co obec může ovlivnit a proč je územní plán pro Přezletice zásadní.
+
 ## Kontrola před publikací
 
-- Doplnit konkrétní odkazy na platné územně plánovací dokumenty.
+- Před publikací doplnit konkrétní odkazy na platné územně plánovací dokumenty.
 - Ověřit aktuální právní stav případných uzávěr, změn územního plánu a developerských smluv.
 - Nepoužívat neověřená číselná tvrzení o počtech bytů, domů nebo obyvatel.

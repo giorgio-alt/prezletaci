@@ -1,25 +1,16 @@
 # Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala
 
-Slug: `hasici-v-prezleticich`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Vysvětlování, Plány, Dokumenty a důkazy
-
-Primární obrázek: `/images/brand/social/prezletaci-social-yellow.png`
-
-Doplňkové obrázky:
-
-- `/images/projects/obecni-policie.webp`
-- `/images/projects/komunitni-centrum-zlatak.webp`
-
-Související projekty: 29, 34
+**Komunikační pilíř:** Vysvětlování + Plány + Dokumenty a důkazy
 
 ## Perex
 
 Téma hasičů se snadno vypráví jako příběh o tom, kdo komu ublížil. Jenže pokud se má obec rozhodovat odpovědně, potřebuje nejdřív rozlišit základní věci: spolek, jednotku požární ochrany, vybavení, lidi, povinnosti a financování.
 
 ## Článek
+
+### Spolek a jednotka nejsou totéž
 
 V debatě o hasičích se často míchají dvě roviny. Jedna je dobrovolný hasičský spolek jako komunitní organizace. Druhá je jednotka požární ochrany, která má jasné požadavky, povinnosti, vybavení a návaznost na systém požární ochrany.
 
@@ -55,6 +46,10 @@ Hasiči jsou citlivé téma. Proto je potřeba mluvit přesně: hasičský spole
 4. Historii popisovat podle dokumentů.
 5. Silná tvrzení ověřit před publikací.
 6. Program má slíbit jen to, co je prověřené.
+
+## CTA
+
+Přečtěte si, jak chceme k tématu hasičů přistoupit věcně a odpovědně.
 
 ## Kontrola před publikací
 

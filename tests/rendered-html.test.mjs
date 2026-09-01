@@ -31,6 +31,7 @@ import {
 import {
   articleContent,
   articleContentBySlug,
+  articleToMarkdown,
 } from "../app/article-content.ts";
 import {
   mergeProjectCatalog,
@@ -58,13 +59,22 @@ const teamDir = new URL("../public/images/team/", import.meta.url);
 const projectDir = new URL("../public/images/projects/", import.meta.url);
 const socialDir = new URL("../public/images/social/", import.meta.url);
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
   return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    new Request(new URL(pathname, "http://localhost/"), { headers: { accept: pathname.endsWith(".md") ? "text/markdown" : "text/html" } }),
+    { ASSETS: { fetch: async (request) => {
+      const assetPath = new URL(request.url).pathname.replace(/^\/+/, "");
+      try {
+        const body = await readFile(new URL(`../public/${assetPath}`, import.meta.url));
+        const contentType = assetPath.endsWith(".md") ? "text/markdown; charset=utf-8" : "application/octet-stream";
+        return new Response(body, { status: 200, headers: { "content-type": contentType } });
+      } catch {
+        return new Response("Not found", { status: 404 });
+      }
+    } } },
     { waitUntil() {}, passThroughOnException() {} },
   );
 }
@@ -175,7 +185,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 19;/);
+  assert.match(page, /const DATA_VERSION = 20;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -499,6 +509,49 @@ test("defines a complete structured Web workspace", async () => {
   assert.match(styles, /\.web-inventory-filters/);
   assert.match(styles, /\.article-library-grid/);
   assert.match(styles, /\.markdown-modal/);
+});
+
+test("publishes every article for people and robots from one canonical source", async () => {
+  assert.equal(articleContent.length, 8);
+
+  for (const article of articleContent) {
+    const expectedMarkdown = articleToMarkdown(article);
+    const [sourceMarkdown, humanResponse, markdownResponse] = await Promise.all([
+      readFile(new URL(`../${article.markdownPath}`, import.meta.url), "utf8"),
+      render(`/clanky/${article.slug}`),
+      render(`/${article.markdownPath}`),
+    ]);
+
+    assert.equal(sourceMarkdown, expectedMarkdown, `${article.slug}: zdrojový Markdown se liší od Campaign HQ`);
+    assert.match(expectedMarkdown, new RegExp(`### ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    assert.match(expectedMarkdown, /## CTA\n\n\S/);
+
+    assert.equal(humanResponse.status, 200, `${article.slug}: lidská URL není dostupná`);
+    assert.match(humanResponse.headers.get("content-type") ?? "", /^text\/html\b/i);
+    const humanHtml = await humanResponse.text();
+    assert.match(humanHtml, new RegExp(article.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(humanHtml, new RegExp(article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(humanHtml, new RegExp(`/${article.markdownPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+
+    assert.equal(markdownResponse.status, 200, `${article.slug}: Markdown URL není dostupná`);
+    assert.match(markdownResponse.headers.get("content-type") ?? "", /^text\/markdown\b/i);
+    assert.equal(await markdownResponse.text(), expectedMarkdown);
+  }
+
+  const schoolPost = initialPosts.find((post) => post.id === 106);
+  const programPost = initialPosts.find((post) => post.id === 137);
+  assert.equal(schoolPost?.articleSlug, "kapacita-skol-a-skolek");
+  assert.equal(programPost?.articleSlug, "volebni-program-prezletice-2026-2030");
+  assert.equal(programPost?.programSlug, "plan-pro-prezletice-2026-2030");
+  assert.equal(articleContentBySlug.get(schoolPost?.articleSlug ?? "")?.socialPostIds.includes(106), true);
+  assert.equal(articleContentBySlug.get(programPost?.articleSlug ?? "")?.socialPostIds.includes(137), true);
+
+  const savedSchoolPost = { ...schoolPost, articleSlug: undefined, websiteItemId: undefined, subjectType: undefined };
+  const savedProgramPost = { ...programPost, articleSlug: undefined, websiteItemId: "page-plans" };
+  const migratedLinks = mergePostsWithPlan([savedSchoolPost, savedProgramPost], 19);
+  assert.equal(migratedLinks.find((post) => post.id === 106)?.articleSlug, "kapacita-skol-a-skolek");
+  assert.equal(migratedLinks.find((post) => post.id === 137)?.articleSlug, "volebni-program-prezletice-2026-2030");
+  assert.equal(migratedLinks.find((post) => post.id === 137)?.websiteItemId, "article-volebni-program-prezletice-2026-2030");
 });
 
 test("defines a valid extensible Relationship Engine", async () => {

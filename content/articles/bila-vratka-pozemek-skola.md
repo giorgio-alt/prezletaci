@@ -1,25 +1,16 @@
 # Bílá vrátka: pozemek, škola a rozhodnutí v čase
 
-Slug: `bila-vratka-pozemek-skola`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Vysvětlování, Dokumenty a důkazy
-
-Primární obrázek: `/images/brand/social/prezletaci-social-blue.png`
-
-Doplňkové obrázky:
-
-- `/images/projects/rozsireni-kapacity-svazkove-skoly.webp`
-- `/images/projects/elektronicka-uredni-deska.webp`
-
-Související projekty: 7, 3
+**Komunikační pilíř:** Vysvětlování + Dokumenty a důkazy
 
 ## Perex
 
 U citlivých obecních témat pomáhá jedna věc: dát vedle sebe čas, dokumenty a rozhodnutí. Ne proto, aby se hledal viník za každou cenu, ale aby lidé rozuměli, co se stalo, kdy se to stalo a jaké možnosti obec v dané chvíli měla.
 
 ## Článek
+
+### Proč se k tématu vracíme
 
 Bílá vrátka patří mezi témata, která v Přezleticích vyvolávají otázky i emoce. Je to pochopitelné. Dotýká se pozemků, školy, rozvoje obce a rozhodnutí, která mají dopady na mnoho let.
 
@@ -61,6 +52,10 @@ U Bílých vrátek nechceme pracovat s nálepkami ani zkratkami. Jde o citlivé 
 4. Každé silné tvrzení musí mít zdroj.
 5. Když něco nevíme, označíme to jako neověřené.
 6. Cíl: přehled místo slovní přestřelky.
+
+## CTA
+
+Podívejte se, jak chceme citlivá obecní témata vysvětlovat věcně a s odkazy na dokumenty.
 
 ## Kontrola před publikací
 

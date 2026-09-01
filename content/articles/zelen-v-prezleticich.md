@@ -1,34 +1,16 @@
 # Jak se staráme o zeleň v Přezleticích
 
-Slug: `zelen-v-prezleticich`
+**Stav:** Copy ke schválení
 
-Status: copy ke schválení
-
-Pilíře: Hotová práce, Rozdělané věci, Plány, Dokumenty a důkazy
-
-Primární obrázek: `/images/projects/zelen-mistni-komunikace.webp`
-
-Doplňkové obrázky:
-
-- `/images/projects/zelen-prutahove-komunikace.webp`
-- `/images/projects/zelen-podzemni-kontejnery.webp`
-- `/images/projects/hruskove-aleje-a-dalsi-zelen.webp`
-- `/images/projects/dalsi-lokalni-zelen.webp`
-- `/images/projects/komunitni-centrum-zlatak.webp`
-
-Související projekty: 19, 20, 23, 24, 25, 34
-
-Zdrojové podklady:
-
-- `content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md`
-- `content-audit/02_extrakce/TK2603-0192_zelen.docx.txt`
-- `TK2603-0192/zelen.docx`
+**Komunikační pilíř:** Hotová práce + Rozdělané věci + Plány
 
 ## Perex
 
 Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. V Přezleticích proto zeleň řešíme postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra.
 
 ## Článek
+
+### Proč o zeleni přemýšlíme jako o systému
 
 Když se mluví o obecní zeleni, často se jako první vybaví trávník. Jenže v uličním prostoru není trávník vždy nejlepší řešení. Malé rozdělené plochy mezi komunikací, parkováním, vjezdy a chodníky se obtížně udržují. V létě rychle vysychají a místo zeleného pásu z nich často vznikne suchá žlutohnědá plocha.
 
@@ -95,5 +77,3 @@ Podívejte se, kde už zeleň v Přezleticích funguje a co připravujeme dál.
 - Ověřit přesné označení etap u průtahových komunikací.
 - Ověřit formulaci „šest let“ u trvalkovo-travinných záhonů.
 - Potvrdit aktuální stav pasportu zeleně a plánu péče.
-- Doplnit konkrétní projektové fotografie podle Campaign HQ.
-- Potvrdit formulaci o náhradní výsadbě stromů v třetí etapě.
