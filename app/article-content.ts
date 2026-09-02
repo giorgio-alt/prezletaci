@@ -62,11 +62,11 @@ export function articleToMarkdown(article: ArticleContent) {
 export const articleContent: ArticleContent[] = [
   {
     slug: "zelen-v-prezleticich",
-    title: "Jak se staráme o zeleň v Přezleticích",
+    title: "Co pro nás znamená péče o zeleň v Přezleticích",
     status: "copy-ke-schvaleni",
     pillar: "Hotová práce + Rozdělané věci + Plány",
-    summary: "Publikovatelný článek o zeleni jako systému: průtahové komunikace, místní ulice, podzemní kontejnery, komunitní centrum a dlouhodobá péče.",
-    perex: "Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. V Přezleticích proto zeleň řešíme postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra.",
+    summary: "Publikovatelný článek o tom, co pro nás znamená péče o zeleň: stromy a aleje, průtahové komunikace, místní ulice, podzemní kontejnery, komunitní centrum a dlouhodobá údržba.",
+    perex: "Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. Pro nás proto péče o zeleň znamená postupnou práci se stromy a alejemi, průtahovými komunikacemi, rekonstruovanými ulicemi, okolím podzemních kontejnerů i komunitního centra.",
     body: [
       {
         heading: "Proč o zeleni přemýšlíme jako o systému",
@@ -81,6 +81,13 @@ export const articleContent: ArticleContent[] = [
           "Podél frekventovaných tahů má zeleň ještě jednu důležitou roli. Pomáhá tlumit prašnost, zlepšuje mikroklima a vytváří izolační prvek mezi dopravou a místy, kde lidé bydlí nebo se pohybují.",
           "U průtahových komunikací proto obec pracuje se systematickou výsadbou a obnovou vegetace. Cílem je využít i menší plochy, které nejsou vhodné pro běžný trávník, ale mohou dobře fungovat jako souvislá výsadba keřů a trvalek.",
           "Ne vždy se dá vysadit všechno, co by vypadalo dobře na papíře. V první etapě se například nepodařilo vysadit stromy podle původní projektové dokumentace kvůli inženýrským sítím. To je přesně typ omezení, který u veřejného prostoru není vidět na první pohled, ale rozhoduje o výsledku. Kde stromy ustoupily nutným stavebním pracím, počítá se s náhradní výsadbou v navazující etapě.",
+        ],
+      },
+      {
+        heading: "Stromy a aleje pomáhají zvládat horké dny",
+        paragraphs: [
+          "Důležitou součástí zeleně jsou také aleje. Hruškové aleje a další stromové výsadby dávají ulicím a cestám přirozenou strukturu, poskytují stín a propojují jednotlivé části obce. Jejich přínos přitom není okamžitý: stromy potřebují čas, prostor a pravidelnou péči, aby mohly dlouhodobě fungovat.",
+          "S přibývajícími horkými dny je stín ve veřejném prostoru stále důležitější. Ne všude ale lze strom bezpečně vysadit — rozhodují inženýrské sítě, rozhledové poměry, dostupný prostor i následná údržba. Proto chceme aleje a další výsadby plánovat tam, kde mají šanci prospívat a kde budou mít pro obec skutečný význam.",
         ],
       },
       {
@@ -115,9 +122,9 @@ export const articleContent: ArticleContent[] = [
         ],
       },
     ],
-    socialCopy: "Zeleň v obci není jen otázka výsadby. Je to práce s místem, vodou, stínem i dlouhodobou údržbou. Proto v Přezleticích řešíme zeleň postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra. Někde dává smysl strom, jinde trvalky a keře, jinde hlavně dobrý plán péče. Důležité je, aby zeleň nebyla dekorace, ale funkční součást obce.",
-    carousel: ["Zeleň není dekorace.", "U průtahů pomáhá s prachem a mikroklimatem.", "V malých uličních plochách často trávník nedává smysl.", "Trvalky a keře lépe snášejí horko a složitou údržbu.", "Technická místa, třeba kontejnery, mohou vypadat lépe.", "Nejdůležitější práce začíná po výsadbě: péče, kontrola, plán.", "Chceme zeleň řešit jako systém, ne nahodile."],
-    cta: "Podívejte se, kde už zeleň v Přezleticích funguje a co připravujeme dál.",
+    socialCopy: "Co pro nás znamená péče o zeleň v Přezleticích? Není to jen otázka výsadby. Je to práce s místem, vodou, stínem i dlouhodobou údržbou. Patří sem stromy a aleje, zeleň u průtahových komunikací, výsadby v rekonstruovaných ulicích i okolí podzemních kontejnerů a komunitního centra. Někde dává smysl strom, jinde trvalky a keře, jinde hlavně dobrý plán péče. Důležité je, aby zeleň nebyla pouze dekorací, ale funkční součástí obce, která pomáhá i během horkých dnů.",
+    carousel: ["Co pro nás znamená péče o zeleň?", "Stromy a aleje přinášejí stín a propojují obec.", "U průtahů zeleň pomáhá s prachem a mikroklimatem.", "V malých uličních plochách často trávník nedává smysl.", "Trvalky a keře lépe snášejí horko a složitou údržbu.", "Technická místa, třeba kontejnery, mohou vypadat lépe.", "Nejdůležitější práce začíná po výsadbě: péče, kontrola a plán."],
+    cta: "Přečtěte si, co pro nás péče o zeleň znamená a co připravujeme dál.",
     markdownPath: "content/articles/zelen-v-prezleticich.md",
     primaryImage: "/images/projects/zelen-mistni-komunikace.webp",
     galleryImages: [

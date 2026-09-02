@@ -82,7 +82,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 
 ## Připravené články pro web
 
-### Jak se staráme o zeleň v Přezleticích
+### Co pro nás znamená péče o zeleň v Přezleticích
 
 - Slug: zelen-v-prezleticich
 - Status: copy ke schválení

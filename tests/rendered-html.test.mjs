@@ -194,7 +194,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 21;/);
+  assert.match(page, /const DATA_VERSION = 22;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -469,6 +469,16 @@ test("versioned migration enriches the plan without erasing user changes", () =>
   const customInstagram = { ...oldLogoDefault, title: "Můj vlastní brand post" };
   assert.equal(mergePostsWithPlan([customInstagram], 12).find((post) => post.id === 142)?.title, customInstagram.title);
   assert.equal(mergePostsWithPlan([oldLogoDefault], 12).some((post) => post.id === 143), true);
+  const oldGreeneryPost = {
+    ...initialPosts.find((post) => post.id === 140),
+    title: "Hotová práce · Veřejná zeleň · Jak se staráme o Přezletice",
+    socialCopy: "Původní klientská verze textu o zeleni",
+    status: "Publikováno",
+  };
+  const migratedGreenery = mergePostsWithPlan([oldGreeneryPost], 21).find((post) => post.id === 140);
+  assert.equal(migratedGreenery?.title, "Hotová práce · Veřejná zeleň · Co pro nás znamená péče o zeleň");
+  assert.match(migratedGreenery?.socialCopy ?? "", /stromy a aleje/i);
+  assert.equal(migratedGreenery?.status, "Publikováno");
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {
@@ -570,6 +580,7 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   const bilaVratka = articleContentBySlug.get("bila-vratka-pozemek-skola");
   const programArticle = articleContentBySlug.get("volebni-program-prezletice-2026-2030");
   const factCheck = articleContentBySlug.get("jak-overujeme-tvrzeni");
+  const greenery = articleContentBySlug.get("zelen-v-prezleticich");
 
   assert.equal(townHall?.body.some((section) => section.heading === "Proč nestačí jen současná budova"), true);
   assert.equal(school?.body.some((section) => section.heading === "Od jedné třídy ke společnému řešení"), true);
@@ -584,6 +595,9 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   assert.match(articleToMarkdown(programArticle), /sociální vazby|sousedské vztahy/i);
   assert.match(PROGRAM_MARKDOWN, /sociální vazby|sousedské vztahy/i);
   assert.doesNotMatch(articleToMarkdown(factCheck), /\bSoMe\b/);
+  assert.equal(greenery?.title, "Co pro nás znamená péče o zeleň v Přezleticích");
+  assert.match(articleToMarkdown(greenery), /Hruškové aleje/);
+  assert.match(articleToMarkdown(greenery), /horkými dny|horké dny/i);
 
   const developmentPost = initialPosts.find((post) => post.id === 121);
   const bilaVratkaPost = initialPosts.find((post) => post.id === 144);

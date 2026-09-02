@@ -304,7 +304,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 
 ## Připravené webové články
 
-### Jak se staráme o zeleň v Přezleticích
+### Co pro nás znamená péče o zeleň v Přezleticích
 
 - Stav: copy ke schválení
 - Markdown: content/articles/zelen-v-prezleticich.md
