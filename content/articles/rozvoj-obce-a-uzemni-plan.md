@@ -2,6 +2,10 @@
 
 Rozvoj obce není jen otázka toho, jestli někde vzniknou nové domy. Je to otázka dopravy, školy, vody, kanalizace, veřejného prostoru, služeb i sousedských vztahů. Proto je fér mluvit o developmentu věcně: co obec může ovlivnit, kde má limity a proč je územní plán jeden z nejdůležitějších nástrojů.
 
+![Hlavní výkres územního plánu Přezletic z dubna 2001](/images/articles/uzemni-plan-2001.webp)
+
+_Územní plán Přezletic z roku 2001 zachycoval tehdejší rozsah zastavitelných ploch._
+
 ## Rozvoj není jen počet domů
 
 Když se v obci mluví o nové výstavbě, debata se často rychle rozdělí na jednoduché ano nebo ne. Jenže skutečná otázka je složitější: jaký rozvoj obec unese, za jakých podmínek a s jakými dopady na každodenní život lidí.
@@ -43,3 +47,15 @@ Naším cílem není vést debatu přes nálepky. Chceme vysvětlovat, kde jsou 
 Chceme držet tempo rozvoje obce tak, aby odpovídalo infrastruktuře a kvalitě života. To znamená průběžně pracovat s územním plánem, zveřejňovat srozumitelné informace, posilovat vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.
 
 Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby zůstal obyvatelný, férový a dlouhodobě udržitelný.
+
+## Fotografie a obrazové podklady
+
+![Výkres etapizace a podmíněnosti změn využití územního plánu Přezletic z roku 2011](/images/articles/uzemni-plan-etapizace-2011.webp)
+
+_Výkres etapizace územního plánu účinného od listopadu 2011._
+
+![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/rekonstrukce-prutahovych-komunikaci.webp)
+
+![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/zelen-mistni-komunikace.webp)
+
+![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)

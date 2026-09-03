@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { articleContent, articleContentBySlug } from "../../article-content";
+import { articleContent, articleContentBySlug, getArticleImageDescription } from "../../article-content";
 
 type ArticlePageProps = {
   params: Promise<{ slug: string }>;
@@ -41,6 +41,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = articleContentBySlug.get(slug);
   if (!article) notFound();
+  const cover = getArticleImageDescription(article, article.primaryImage);
 
   return (
     <main className="public-article-page">
@@ -57,9 +58,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <h1>{article.title}</h1>
             <p>{article.perex}</p>
           </div>
-          <div className="public-article-cover">
-            <Image src={article.primaryImage} alt={`Úvodní fotografie článku ${article.title}`} fill priority sizes="(max-width: 900px) 100vw, 42vw" unoptimized />
-          </div>
+          <figure className="public-article-cover-frame">
+            <div className="public-article-cover">
+              <Image src={article.primaryImage} alt={cover.alt} fill priority sizes="(max-width: 900px) 100vw, 42vw" unoptimized />
+            </div>
+            {cover.caption && <figcaption>{cover.caption}</figcaption>}
+          </figure>
         </header>
 
         <div className="public-article-body">
@@ -70,6 +74,30 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </section>
           ))}
         </div>
+
+        {article.galleryImages.length > 0 && (
+          <section className="public-article-gallery" aria-labelledby="article-gallery-heading">
+            <h2 id="article-gallery-heading">Fotografie a obrazové podklady</h2>
+            <div>
+              {article.galleryImages.map((image) => {
+                const description = getArticleImageDescription(article, image);
+                return (
+                  <figure key={image}>
+                    <div><Image src={image} alt={description.alt} fill sizes="(max-width: 700px) 100vw, 520px" unoptimized /></div>
+                    {description.caption && <figcaption>{description.caption}</figcaption>}
+                  </figure>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {article.publicSources?.length ? (
+          <section className="public-article-sources" aria-labelledby="article-sources-heading">
+            <h2 id="article-sources-heading">Veřejné zdroje</h2>
+            <ul>{article.publicSources.map((source) => <li key={source.href}><a href={source.href} target="_blank" rel="noreferrer">{source.label} ↗</a></li>)}</ul>
+          </section>
+        ) : null}
 
         <footer className="public-article-cta">
           <span>Další krok</span>

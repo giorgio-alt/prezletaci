@@ -107,9 +107,9 @@ export const programContent: ProgramContent = {
 export const programContentBySlug = new Map([[programContent.slug, programContent]]);
 
 export function buildProgramMarkdown() {
-  const areas = programContent.areas.map((area) => `- **${area.title}** — ${area.whatWeSolve} ${area.nextStep}`).join("\n");
+  const areas = programContent.areas.map((area) => `- **${area.title}** — ${area.whatWeSolve} ${area.whyItMatters} ${area.nextStep}`).join("\n");
   const detailPlan = programContent.areas.map((area) => `- ${area.title}`).join("\n");
-  return `# ${programContent.title}\n\n${programContent.perex}\n\n## Co je pro nás nejdůležitější\n\n${programContent.mainMessage}\n\n${areas}\n\n## Co bude následovat\n\nTento článek je úvodní rozcestník. Jednotlivým tématům se budeme věnovat do hloubky v následujících postech a článcích v období do voleb. U každého tématu chceme ukázat, co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok.\n\nTémata, která postupně rozepíšeme:\n\n${detailPlan}\n\n---\n\n## Text pro sociální sítě\n\n${programContent.socialCopy}\n\n## Carousel „Jak číst náš program“\n\n${programContent.carousel.map((slide, index) => `${index + 1}. ${slide}`).join("\n")}\n\n**CTA:** ${programContent.cta}\n\n**Budoucí webová adresa:** ${programContent.futureWebPath}\n`;
+  return `# ${programContent.title}\n\n${programContent.perex}\n\n## Co je pro nás nejdůležitější\n\n${programContent.mainMessage}\n\n${areas}\n\n## Jak budeme pokračovat\n\nTento článek je úvodní rozcestník. Jednotlivým tématům se budeme věnovat do hloubky. U každého chceme ukázat, co už je hotové, co je rozdělané, co obec může reálně ovlivnit a jaký je další konkrétní krok.\n\nTémata, která postupně rozepíšeme:\n\n${detailPlan}\n`;
 }
 
 export const PROGRAM_MARKDOWN = buildProgramMarkdown();

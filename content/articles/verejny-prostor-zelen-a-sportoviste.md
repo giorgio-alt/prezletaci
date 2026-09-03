@@ -2,6 +2,8 @@
 
 Veřejný prostor není prázdné místo mezi domy. Je to prostor pro stromy, pohyb, odpočinek i setkávání. Přezletice mají obecních pozemků omezené množství, a proto je potřeba každý z nich využívat promyšleně a hledat řešení, která propojí více potřeb najednou.
 
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)
+
 ## Veřejné plochy ovlivňují každodenní život
 
 Kvalitu obce neurčují jen domy a komunikace. Stejně důležité je, kolik prostoru zbývá pro stromy, hřiště, cesty, odpočinek a obyčejné sousedské setkávání. Právě veřejné plochy rozhodují o tom, jestli se dá obcí pohodlně projít, kde si mohou hrát děti a zda mají lidé důvod zůstávat venku i mimo cestu z bodu A do bodu B.
@@ -37,3 +39,15 @@ Při plánování proto nestačí vyřešit samotné sportovní vybavení. Důle
 Další veřejné plochy chceme připravovat koncepčně, ve spolupráci s odborníky a s jasným popisem toho, komu mají sloužit. Tam, kde nová výstavba zvyšuje nároky na obec, musí být součástí jednání také odpovídající veřejná infrastruktura a kvalitní prostor pro zeleň, sport a setkávání.
 
 Cílem není zaplnit každé volné místo. Cílem je využít omezené obecní pozemky tak, aby jednotlivé projekty dávaly dohromady srozumitelný celek a zlepšovaly každodenní život v Přezleticích.
+
+## Fotografie a obrazové podklady
+
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/zelen-mistni-komunikace.webp)
+
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/sportovne-relaxacni-centrum-u-rybnika.webp)
+
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/detska-hriste.webp)
+
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/workoutove-hriste.webp)
+
+![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/petanque-nohavice.webp)

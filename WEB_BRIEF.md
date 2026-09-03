@@ -315,8 +315,8 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 ### Nová radnice jako nové centrum obce
 
 - Markdown: content/articles/nova-radnice-centrum-obce.md
-- Primární obrázek: /images/projects/rekonstrukce-sokolovny.webp
-- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp · /images/projects/elektronicka-uredni-deska.webp · /images/projects/kaplicka-a-zvon.webp · /images/brand/social/prezletaci-social-yellow.png
+- Primární obrázek: /images/articles/nova-radnice-studie-exterier.webp
+- Doplňkové obrázky: /images/articles/nova-radnice-studie-situace.webp · /images/articles/nova-radnice-studie-pruchod.webp · /images/articles/nova-radnice-studie-rynek.webp
 - Související projekty: 16, 34, 35, 3
 - SoMe posty: 141
 
@@ -324,31 +324,31 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 
 - Markdown: content/articles/kapacita-skol-a-skolek.md
 - Primární obrázek: /images/projects/rozsireni-kapacity-svazkove-skoly.webp
-- Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp · /images/projects/zahrada-ms.webp · /images/projects/vydejni-automaty-stravovani.webp
+- Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp · /images/projects/zahrada-ms.webp · /images/projects/vydejni-automaty-stravovani.webp · /images/articles/bila-vratka-podminenost-skoly.webp
 - Související projekty: 7, 21, 22
 - SoMe posty: 106, 115, 148
 
 ### Kolik rozvoje Přezletice unesou
 
 - Markdown: content/articles/rozvoj-obce-a-uzemni-plan.md
-- Primární obrázek: /images/projects/rekonstrukce-mistnich-komunikaci.webp
-- Doplňkové obrázky: /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/zelen-mistni-komunikace.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Primární obrázek: /images/articles/uzemni-plan-2001.webp
+- Doplňkové obrázky: /images/articles/uzemni-plan-etapizace-2011.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/zelen-mistni-komunikace.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
 - Související projekty: 8, 9, 20, 33
 - SoMe posty: 121, 123
 
 ### Bílá vrátka v kontextu dvou developerských projektů
 
 - Markdown: content/articles/bila-vratka-pozemek-skola.md
-- Primární obrázek: /images/brand/social/prezletaci-social-blue.png
-- Doplňkové obrázky: /images/projects/rozsireni-kapacity-svazkove-skoly.webp · /images/projects/elektronicka-uredni-deska.webp
+- Primární obrázek: /images/articles/uzemni-plan-etapizace-2011.webp
+- Doplňkové obrázky: /images/articles/uzemni-plan-2001.webp · /images/articles/bila-vratka-podminenost-skoly.webp · /images/projects/rozsireni-kapacity-svazkove-skoly.webp · /images/projects/elektronicka-uredni-deska.webp
 - Související projekty: 7, 3
 - SoMe posty: 144
 
 ### Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala
 
 - Markdown: content/articles/hasici-v-prezleticich.md
-- Primární obrázek: /images/brand/social/prezletaci-social-yellow.png
-- Doplňkové obrázky: /images/projects/obecni-policie.webp · /images/projects/komunitni-centrum-zlatak.webp
+- Primární obrázek: /images/projects/obecni-policie.webp
+- Doplňkové obrázky: Žádné
 - Související projekty: 29, 34
 - SoMe posty: 145
 
@@ -363,16 +363,16 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 ### Proč Přezletice potřebují vlastní zpravodaj
 
 - Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md
-- Primární obrázek: /images/candidates/romana-bernardova.webp
-- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp · /images/projects/elektronicka-uredni-deska.webp
+- Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
+- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp
 - Související projekty: 3, 34
 - SoMe posty: Čeká
 
 ### Co bude s další developerskou výstavbou v Přezleticích
 
 - Markdown: content/articles/co-bude-s-dalsi-developerskou-vystavbou.md
-- Primární obrázek: /images/brand/social/prezletaci-social-blue.png
-- Doplňkové obrázky: /images/projects/rekonstrukce-mistnich-komunikaci.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Primární obrázek: /images/articles/uzemni-plan-etapizace-2011.webp
+- Doplňkové obrázky: /images/articles/uzemni-plan-2001.webp · /images/projects/rekonstrukce-mistnich-komunikaci.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
 - Související projekty: Čeká
 - SoMe posty: Čeká
 

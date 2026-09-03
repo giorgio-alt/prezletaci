@@ -2,7 +2,7 @@ export type ArticleContent = {
   slug: string;
   title: string;
   candidateId?: number;
-  status: "copy-ke-schvaleni";
+  status: "ready";
   pillar: string;
   summary: string;
   perex: string;
@@ -13,22 +13,59 @@ export type ArticleContent = {
   markdownPath: string;
   primaryImage: string;
   galleryImages: string[];
+  imageDescriptions?: Record<string, { alt: string; caption?: string }>;
+  publicSources?: { label: string; href: string }[];
   projectIds: number[];
   socialPostIds: number[];
   sourceLinks: string[];
 };
 
+export function getArticleImageDescription(article: ArticleContent, image: string) {
+  return article.imageDescriptions?.[image] ?? {
+    alt: `Fotografie k článku ${article.title}`,
+  };
+}
+
 export function articleToMarkdown(article: ArticleContent) {
+  const primaryImage = getArticleImageDescription(article, article.primaryImage);
+  const gallery = article.galleryImages.length
+    ? [
+        "## Fotografie a obrazové podklady",
+        "",
+        ...article.galleryImages.flatMap((image) => {
+          const description = getArticleImageDescription(article, image);
+          return [
+            `![${description.alt}](${image})`,
+            ...(description.caption ? ["", `_${description.caption}_`] : []),
+            "",
+          ];
+        }),
+      ]
+    : [];
+  const sources = article.publicSources?.length
+    ? [
+        "## Veřejné zdroje",
+        "",
+        ...article.publicSources.map((source) => `- [${source.label}](${source.href})`),
+        "",
+      ]
+    : [];
+
   return [
     `# ${article.title}`,
     "",
     article.perex,
+    "",
+    `![${primaryImage.alt}](${article.primaryImage})`,
+    ...(primaryImage.caption ? ["", `_${primaryImage.caption}_`] : []),
     "",
     ...article.body.flatMap((section) => [
       `## ${section.heading}`,
       "",
       ...section.paragraphs.flatMap((paragraph) => [paragraph, ""]),
     ]),
+    ...gallery,
+    ...sources,
   ].join("\n");
 }
 
@@ -36,7 +73,7 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "zelen-v-prezleticich",
     title: "Co pro nás znamená péče o zeleň v Přezleticích",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Hotová práce + Rozdělané věci + Plány",
     summary: "Péče o zeleň jako dlouhodobá práce se stromy a alejemi, ulicemi, okolím podzemních kontejnerů, komunitním centrem i následnou údržbou.",
     perex: "Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. Pro nás proto péče o zeleň znamená postupnou práci se stromy a alejemi, průtahovými komunikacemi, rekonstruovanými ulicemi, okolím podzemních kontejnerů i komunitního centra.",
@@ -82,7 +119,7 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Péče nekončí výsadbou",
         paragraphs: [
-          "Nejdůležitější část práce se zelení začíná až po výsadbě. Strom nebo záhon nestačí založit. Musí mít následnou péči, jasný režim údržby a průběžnou kontrolu.",
+          "Nejdůležitější část práce se zelení začíná až po výsadbě. Strom nebo záhon nestačí založit. Musí mít následnou péči, jasný režim údržby a pravidelné hodnocení stavu.",
           "Moderní obecní zeleň proto potřebuje dobrý přehled o tom, co kde roste, v jakém je to stavu a jakou péči to vyžaduje. K tomu slouží pasport zeleně a navazující plán péče. Ty pomáhají rozhodovat, kde je nutná pravidelná údržba, kde má smysl méně časté sečení kvůli zadržování vláhy a biodiverzitě, a kde je třeba odborný zásah kvůli bezpečnosti stromů.",
           "Zároveň platí jednoduché pravidlo: stávající zdravé stromy mají hodnotu. Kácení má být až poslední možností tam, kde je důvodem bezpečnost, nutná stavba nebo jiná věcná překážka. Pokud ke kácení dojít musí, má následovat odpovídající náhradní výsadba.",
         ],
@@ -96,7 +133,7 @@ export const articleContent: ArticleContent[] = [
       },
     ],
     socialCopy: "Co pro nás znamená péče o zeleň v Přezleticích? Není to jen otázka výsadby. Je to práce s místem, vodou, stínem i dlouhodobou údržbou. Patří sem stromy a aleje, zeleň u průtahových komunikací, výsadby v rekonstruovaných ulicích i okolí podzemních kontejnerů a komunitního centra. Někde dává smysl strom, jinde trvalky a keře, jinde hlavně dobrý plán péče. Důležité je, aby zeleň nebyla pouze dekorací, ale funkční součástí obce, která pomáhá i během horkých dnů.",
-    carousel: ["Co pro nás znamená péče o zeleň?", "Stromy a aleje přinášejí stín a propojují obec.", "U průtahů zeleň pomáhá s prachem a mikroklimatem.", "V malých uličních plochách často trávník nedává smysl.", "Trvalky a keře lépe snášejí horko a složitou údržbu.", "Technická místa, třeba kontejnery, mohou vypadat lépe.", "Nejdůležitější práce začíná po výsadbě: péče, kontrola a plán."],
+    carousel: ["Co pro nás znamená péče o zeleň?", "Stromy a aleje přinášejí stín a propojují obec.", "U průtahů zeleň pomáhá s prachem a mikroklimatem.", "V malých uličních plochách často trávník nedává smysl.", "Trvalky a keře lépe snášejí horko a složitou údržbu.", "Technická místa, třeba kontejnery, mohou vypadat lépe.", "Nejdůležitější práce začíná po výsadbě: péče, přehled a plán."],
     cta: "Přečtěte si, co pro nás péče o zeleň znamená a co připravujeme dál.",
     markdownPath: "content/articles/zelen-v-prezleticich.md",
     primaryImage: "/images/projects/zelen-mistni-komunikace.webp",
@@ -118,10 +155,10 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "nova-radnice-centrum-obce",
     title: "Nová radnice jako nové centrum obce",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Plány + Vysvětlujeme + Dokumenty a důkazy",
-    summary: "Architektonický koncept nové radnice jako propojení Horní návsi, prostoru Na Rynku, Dolní návsi a budoucího společenského centra.",
-    perex: "Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.",
+    summary: "Aktualizovaný architektonický návrh nové radnice jako propojení Horní návsi, prostoru Na Rynku, Dolní návsi a budoucího společenského centra.",
+    perex: "Nová radnice nemá být jen další obecní budova. Architektonický návrh aktualizovaný v únoru 2025 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.",
     body: [
       {
         heading: "Proč nejde jen o kanceláře",
@@ -172,7 +209,7 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co studie říká a co ještě není finální",
         paragraphs: [
-          "Architektonický koncept z května 2024 pracuje s hrubou podlažní plochou nové budovy přibližně 985 m² a navrhuje 18 parkovacích stání. Obsahuje také historický hrubý odhad stavebních nákladů ve výši 44,35 milionu Kč, včetně venkovních úprav, ale bez nákladů na demolice.",
+          "Aktualizovaný návrh z února 2025 pracuje s hrubou podlažní plochou nové budovy přibližně 1 001 m² a navrhuje 17 parkovacích stání. Obsahuje také hrubý odhad stavebních nákladů ve výši 47,219 milionu Kč včetně venkovních úprav, ale bez demolic a úprav stávající budovy pro obecní policii.",
           "Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.",
           "Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.",
         ],
@@ -189,25 +226,42 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Proč nestačí současná radnice?", "Stará budova zůstává součástí obecního centra.", "Sama ale neobsáhne všechny služby rostoucí obce.", "Nový koncept spojuje úřad, knihovnu a veřejný prostor.", "Tři budovy mají fungovat jako jeden celek.", "Ne stavět všechno znovu, ale smysluplně rozdělit funkce.", "Studie je začátek debaty, ne konečný rozpočet."],
     cta: "Přečtěte si, co koncept nové radnice navrhuje a proč nejde jen o novou budovu.",
     markdownPath: "content/articles/nova-radnice-centrum-obce.md",
-    primaryImage: "/images/projects/rekonstrukce-sokolovny.webp",
+    primaryImage: "/images/articles/nova-radnice-studie-exterier.webp",
     galleryImages: [
-      "/images/projects/komunitni-centrum-zlatak.webp",
-      "/images/projects/elektronicka-uredni-deska.webp",
-      "/images/projects/kaplicka-a-zvon.webp",
-      "/images/brand/social/prezletaci-social-yellow.png",
+      "/images/articles/nova-radnice-studie-situace.webp",
+      "/images/articles/nova-radnice-studie-pruchod.webp",
+      "/images/articles/nova-radnice-studie-rynek.webp",
     ],
+    imageDescriptions: {
+      "/images/articles/nova-radnice-studie-exterier.webp": {
+        alt: "Vizualizace navrhované budovy obecního úřadu v Přezleticích z pohledu Horní návsi",
+        caption: "Pohled na novou budovu obecního úřadu podle studie aktualizované v únoru 2025.",
+      },
+      "/images/articles/nova-radnice-studie-situace.webp": {
+        alt: "Situační výkres nové radnice a prostoru Na Rynku mezi Veleňskou a ulicí V Uličce",
+        caption: "Situační návrh propojení nové radnice, stávajícího úřadu a prostoru Na Rynku.",
+      },
+      "/images/articles/nova-radnice-studie-pruchod.webp": {
+        alt: "Vizualizace průhledu z nové radnice do prostoru Na Rynku",
+        caption: "Průhled z interiéru radnice směrem do nového veřejného prostoru.",
+      },
+      "/images/articles/nova-radnice-studie-rynek.webp": {
+        alt: "Vizualizace pěšího propojení a prostoru Na Rynku u nové radnice",
+        caption: "Navrhovaný prostor Na Rynku má propojit obě návsi a nabídnout místo pro setkávání.",
+      },
+    },
     projectIds: [16, 34, 35, 3],
     socialPostIds: [141],
     sourceLinks: [
       "content/articles/nova-radnice-centrum-obce.md",
       "content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md",
-      "TK2603-0192/Studie radnice.pdf",
+      "OU Studie R5.pdf",
     ],
   },
   {
     slug: "kapacita-skol-a-skolek",
     title: "Jak vznikala kapacita škol a školek",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Hotová práce + Rozdělané věci + Vysvětlování",
     summary: "Školní a předškolní kapacita nevzniká jedním rozhodnutím, ale kombinací spolupráce, projektů, financování a navazujících kroků.",
     perex: "Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem. Proto má smysl ukazovat nejen výsledek, ale i cestu, která k němu vede.",
@@ -282,7 +336,14 @@ export const articleContent: ArticleContent[] = [
       "/images/projects/druhy-pavilon-ms.webp",
       "/images/projects/zahrada-ms.webp",
       "/images/projects/vydejni-automaty-stravovani.webp",
+      "/images/articles/bila-vratka-podminenost-skoly.webp",
     ],
+    imageDescriptions: {
+      "/images/articles/bila-vratka-podminenost-skoly.webp": {
+        alt: "Text územního plánu stanovující podmínky výstavby školy, školky a retenčních ploch v lokalitě Bílá vrátka",
+        caption: "Územní plán spojil výstavbu bydlení v části lokality A1 s přípravou školy, školky a retenčních ploch.",
+      },
+    },
     projectIds: [7, 21, 22],
     socialPostIds: [106, 115, 148],
     sourceLinks: [
@@ -298,7 +359,7 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "rozvoj-obce-a-uzemni-plan",
     title: "Kolik rozvoje Přezletice unesou",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Plány + Vysvětlování + Dokumenty a důkazy",
     summary: "Rozumný rozvoj obce, limity územního plánování a to, co obec může a nemůže ovlivnit při nové výstavbě.",
     perex: "Rozvoj obce není jen otázka toho, jestli někde vzniknou nové domy. Je to otázka dopravy, školy, vody, kanalizace, veřejného prostoru, služeb i sousedských vztahů. Proto je fér mluvit o developmentu věcně: co obec může ovlivnit, kde má limity a proč je územní plán jeden z nejdůležitějších nástrojů.",
@@ -357,12 +418,23 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Rozvoj není jedna nerozlišená plocha.", "Západní projekty jsou v pokročilé přípravě.", "U nich je potřeba hlídat podmínky a infrastrukturu.", "Další zastavitelné plochy jsou v jiné fázi.", "Nejdřív musíme vědět, zda je obec potřebuje.", "Tempo růstu musí odpovídat škole, dopravě, sítím a službám.", "Cíl: dokončit připravené a nepřidávat automaticky další rozvoj."],
     cta: "Přečtěte si, proč rozlišujeme rozpracované projekty a další zastavitelné plochy.",
     markdownPath: "content/articles/rozvoj-obce-a-uzemni-plan.md",
-    primaryImage: "/images/projects/rekonstrukce-mistnich-komunikaci.webp",
+    primaryImage: "/images/articles/uzemni-plan-2001.webp",
     galleryImages: [
+      "/images/articles/uzemni-plan-etapizace-2011.webp",
       "/images/projects/rekonstrukce-prutahovych-komunikaci.webp",
       "/images/projects/zelen-mistni-komunikace.webp",
       "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp",
     ],
+    imageDescriptions: {
+      "/images/articles/uzemni-plan-2001.webp": {
+        alt: "Hlavní výkres územního plánu Přezletic z dubna 2001",
+        caption: "Územní plán Přezletic z roku 2001 zachycoval tehdejší rozsah zastavitelných ploch.",
+      },
+      "/images/articles/uzemni-plan-etapizace-2011.webp": {
+        alt: "Výkres etapizace a podmíněnosti změn využití územního plánu Přezletic z roku 2011",
+        caption: "Výkres etapizace územního plánu účinného od listopadu 2011.",
+      },
+    },
     projectIds: [8, 9, 20, 33],
     socialPostIds: [121, 123],
     sourceLinks: [
@@ -376,7 +448,7 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "bila-vratka-pozemek-skola",
     title: "Bílá vrátka v kontextu dvou developerských projektů",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Vysvětlování + Dokumenty a důkazy",
     summary: "Doložená časová osa k Bílým vrátkům, navazujícímu developerskému území, pozemkům pro školu a rozhodnutím obce.",
     perex: "Bílá vrátka se nedají vysvětlit jako jeden izolovaný projekt ani jednou smlouvou. Na západní straně Přezletic se vedle sebe připravovaly dva developerské záměry a současně se řešil pozemek pro školu, podmínky územního plánu a veřejná infrastruktura. Proto dává smysl poskládat události do časové osy a přesně rozlišit, co dokládají veřejné zápisy a jak do sebe jednotlivé kroky zapadají.",
@@ -393,6 +465,7 @@ export const articleContent: ArticleContent[] = [
         paragraphs: [
           "Zápis zastupitelstva z 27. července 2011 uvádí, že obec měla podle původních dohod získat jasně určenou část pozemků ještě před schválením územního plánu. Protože podepsané kupní smlouvy nebyly v té době předložené, zastupitelstvo stanovilo termín a připravovalo i možnost nezahrnout lokalitu A, Bílá vrátka – Ke Ctěnicím, do zastavitelných ploch.",
           "V září 2011 zastupitelstvo pověřilo starostku podpisem kupních smluv. Prosincový zápis následně zaznamenal, že obec získala spoluvlastnický podíl odpovídající sedmi hektarům a že fyzické rozdělení pozemků mělo následovat až po zpracování studie. To je důležitý rozdíl: obec získala významný majetkový podíl, ale pozemek pro konkrétní veřejnou stavbu ještě nebyl samostatně oddělený.",
+          "Územní plán účinný od listopadu 2011 zároveň stanovil pro část lokality A1 konkrétní návaznost: bydlení zde bylo podmíněno předchozím umístěním, povolením a zahájením stavby základní školy, povolením mateřské školy nejméně o dvou odděleních a vybudováním retenčních ploch.",
         ],
       },
       {
@@ -421,10 +494,30 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Bílá vrátka nejsou celý příběh.", "V západním území se připravovaly dva developerské projekty.", "Rok 2011: podíl na pozemcích ještě nebyl samostatným školním pozemkem.", "Rok 2014: obec řešila malou školní kapacitu i další pozemky v území.", "Rok 2015: svazek obcí a příprava školy změnily měřítko řešení.", "Společné dopady: škola, doprava, sítě a veřejný prostor.", "Veřejné dokumenty pomáhají jednotlivé kroky zasadit do souvislostí."],
     cta: "Projděte si časovou osu dvou developerských projektů a jejich souvislost se školou.",
     markdownPath: "content/articles/bila-vratka-pozemek-skola.md",
-    primaryImage: "/images/brand/social/prezletaci-social-blue.png",
+    primaryImage: "/images/articles/uzemni-plan-etapizace-2011.webp",
     galleryImages: [
+      "/images/articles/uzemni-plan-2001.webp",
+      "/images/articles/bila-vratka-podminenost-skoly.webp",
       "/images/projects/rozsireni-kapacity-svazkove-skoly.webp",
       "/images/projects/elektronicka-uredni-deska.webp",
+    ],
+    imageDescriptions: {
+      "/images/articles/uzemni-plan-etapizace-2011.webp": {
+        alt: "Výkres etapizace územního plánu Přezletic s vyznačenými lokalitami A až H",
+        caption: "Výkres rozlišuje jednotlivé lokality a zobrazuje podmíněnost části A1 v Bílých vrátkách.",
+      },
+      "/images/articles/uzemni-plan-2001.webp": {
+        alt: "Hlavní výkres územního plánu Přezletic z dubna 2001",
+        caption: "Podoba územního plánu z roku 2001 před pozdějším rozšířením zastavitelných ploch.",
+      },
+      "/images/articles/bila-vratka-podminenost-skoly.webp": {
+        alt: "Text podmínek územního plánu pro školu, školku a retenční plochy v lokalitě Bílá vrátka",
+        caption: "Podmínky pro povolení bydlení v části A1 podle územního plánu.",
+      },
+    },
+    publicSources: [
+      { label: "Územní plán a stavební podklady obce Přezletice", href: "https://prezletice.cz/mapove-podklady" },
+      { label: "Zápisy ze zasedání zastupitelstva obce", href: "https://prezletice.cz/minutes/" },
     ],
     projectIds: [7, 3],
     socialPostIds: [144],
@@ -443,48 +536,64 @@ export const articleContent: ArticleContent[] = [
     slug: "hasici-v-prezleticich",
     title: "Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala",
     candidateId: 1,
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Vysvětlování + Plány + Dokumenty a důkazy",
-    summary: "Věcné rozlišení hasičského spolku, jednotky požární ochrany, jejich historie a podmínek případné obnovy.",
-    perex: "Téma hasičů se snadno vypráví jako příběh o tom, kdo komu ublížil. Jenže pokud se má obec rozhodovat odpovědně, potřebuje nejdřív rozlišit základní věci: spolek, jednotku požární ochrany, vybavení, lidi, povinnosti a financování.",
+    summary: "Co zastupitelstvo rozhodlo o jednotce dobrovolných hasičů v roce 2012, jak je zajištěna požární ochrana a co by vyžadovala obnova.",
+    perex: "Přezletice měly vlastní hasičský spolek i obecní jednotku požární ochrany. Zastupitelstvo v květnu 2012 rozhodlo o zrušení jednotky, zatímco samostatný spolek měl tehdy pokračovat. Dnes v obci vlastní jednotka nepůsobí. Pokud ji chceme obnovit, je fér říct nejen proč, ale také co všechno takový krok vyžaduje.",
     body: [
       {
-        heading: "Spolek a jednotka nejsou totéž",
+        heading: "Spolek a obecní jednotka nejsou totéž",
         paragraphs: [
-          "V debatě o hasičích se často míchají dvě roviny. Jedna je dobrovolný hasičský spolek jako komunitní organizace. Druhá je jednotka požární ochrany, která má jasné požadavky, povinnosti, vybavení a návaznost na systém požární ochrany.",
-          "Obě roviny mohou být pro obec důležité, ale nejsou zaměnitelné. Pokud se mluví o obnově hasičů, musí být jasné, o které z nich je řeč.",
+          "Dobrovolný hasičský spolek je komunitní organizace, která může pořádat akce, pracovat s dětmi a udržovat hasičskou tradici. Jednotka sboru dobrovolných hasičů obce je naproti tomu součástí systému požární ochrany. Odpovídá za ni obec a její členové, technika i připravenost musí splňovat stanovené podmínky.",
+          "Obě části se mohou přirozeně doplňovat, ale jedna automaticky nenahrazuje druhou. Obnova komunitního spolku a zřízení akceschopné obecní jednotky jsou dva samostatné kroky.",
         ],
       },
       {
-        heading: "Co je potřeba k funkční jednotce",
+        heading: "Co se stalo v roce 2012",
         paragraphs: [
-          "Funkční jednotka nestojí jen na dobré vůli. Potřebuje lidi, výcvik, vybavení, zázemí, průběžné financování, administrativu a soulad s pravidly integrovaného záchranného systému.",
-          "To neznamená, že obnova není možná. Znamená to, že se nedá slíbit jednou větou. Musí být jasné, jaký typ jednotky by obec zvažovala, kolik by stál provoz, kdo by ji personálně zajistil a jaké povinnosti by z toho pro obec plynuly.",
+          "Zápis ze zasedání zastupitelstva ze dne 25. května 2012 zachycuje tři navazující rozhodnutí. Zastupitelé projednali petici proti rušení hasičů, schválili smlouvu o zajištění požární bezpečnosti s obcí Podolanka a následně souhlasili se zrušením přezletické obecní jednotky.",
+          "Zápis zároveň výslovně uvádí, že se tehdy nerušil samotný hasičský spolek. Obec deklarovala ochotu jednat o jeho dalším fungování a spolupráci. Původní spolek však později také ukončil činnost.",
         ],
       },
       {
-        heading: "Jak mluvit o minulosti",
+        heading: "Jak je zajištěna požární ochrana",
         paragraphs: [
-          "Historie hasičů v Přezleticích si zaslouží věcný popis. Pokud existují zápisy, usnesení, účetní nebo majetkové dokumenty, mají být základem vysvětlení. Pokud jsou některé části jen vzpomínkou nebo interpretací, musí být tak označené.",
-          "Cílem není otevírat staré spory pro samotný konflikt. Cílem je pochopit, co se stalo, jaké byly okolnosti a co z toho plyne pro případnou budoucí obnovu.",
+          "Požární řád obce z roku 2014 uvádí, že Přezletice nemají vlastní jednotku sboru dobrovolných hasičů a úkoly požární ochrany pro obec zajišťuje na základě smlouvy jednotka obce Podolanka. Při mimořádných událostech se podle poplachového plánu zapojují také další profesionální a dobrovolné jednotky.",
+          "To znamená, že zrušením vlastní jednotky požární ochrana obce nezanikla. Přezletice ale přišly o vlastní místní tým, který by byl připraven pomáhat nejen u požárů, ale také při dalších mimořádných událostech.",
         ],
       },
       {
-        heading: "Co by měl být další krok",
+        heading: "Co by obnova jednotky vyžadovala",
         paragraphs: [
-          "Nejrozumnější postup je zmapovat historický vývoj, zjistit aktuální zákonné a organizační podmínky, probrat možnosti s odborníky a teprve potom říct, jaká varianta dává pro Přezletice smysl.",
-          "Pokud má být téma hasičů součástí programu, mělo by být formulované odpovědně: ne jako nostalgický slib, ale jako prověřený záměr s jasnými podmínkami.",
+          "U běžné jednotky kategorie JPO V stanoví pravidla základní početní stav devíti členů. Nestačí je pouze získat: jednotka potřebuje velitele, strojníky a hasiče s odpovídající odbornou přípravou, pravidelným výcvikem a schopností vyjet v předepsaném počtu.",
+          "Obec musí zároveň zajistit vhodné zázemí, požární techniku, ochranné prostředky, spojení, údržbu, pojištění a trvalé financování. Konkrétní podobu jednotky je nutné nastavit s Hasičským záchranným sborem podle plošného pokrytí a skutečných potřeb Přezletic.",
+        ],
+      },
+      {
+        heading: "Jak chceme postupovat",
+        paragraphs: [
+          "Chceme obnovu dobrovolných hasičů podpořit jako skutečný dlouhodobý projekt. Prvním krokem je dát dohromady skupinu zájemců a společně s Hasičským záchranným sborem určit reálnou podobu jednotky. Na to musí navázat plán zázemí, vybavení, školení a víceletého financování.",
+          "Vedle zásahové připravenosti má smysl znovu budovat také komunitní rozměr hasičského spolku. Dobrovolní hasiči mohou spojovat generace, pracovat s dětmi, pomáhat při obecních akcích a navázat na tradici, která byla dlouhá léta součástí života Přezletic.",
         ],
       },
     ],
-    socialCopy: "Hasiči jsou citlivé téma. Proto je potřeba mluvit přesně: hasičský spolek a jednotka požární ochrany nejsou totéž. Pokud se má uvažovat o obnově, nestačí slib. Je potřeba vědět, jaké jsou povinnosti, vybavení, lidé, zázemí, provozní náklady a návaznost na systém požární ochrany. Nejprve fakta, potom rozhodnutí.",
-    carousel: ["Hasiči: nejdřív rozlišit pojmy.", "Spolek není totéž co jednotka požární ochrany.", "Funkční jednotka potřebuje lidi, výcvik, vybavení a zázemí.", "Historie patří do souvislostí, ne do zkratek.", "Obnova vyžaduje jasné podmínky.", "Program má slíbit jen to, co je reálné."],
-    cta: "Přečtěte si, jak chceme k tématu hasičů přistoupit věcně a odpovědně.",
+    socialCopy: "Přezletice měly vlastní hasičský spolek i obecní jednotku. Zastupitelstvo v roce 2012 rozhodlo o zrušení jednotky a požární bezpečnost následně zajistilo smluvně s Podolankou. Chceme dobrovolné hasiče obnovit, ale jako skutečný dlouhodobý projekt: s lidmi, výcvikem, zázemím, vybavením a stabilním financováním. Vedle zásahové pomoci chceme vrátit obci také komunitu, která spojuje generace a navazuje na místní tradici.",
+    carousel: ["Přezletice měly spolek i obecní jednotku.", "Zastupitelstvo v roce 2012 zrušilo jednotku, ne tehdejší spolek.", "Požární ochranu následně zajišťuje smluvně Podolanka.", "Obnova potřebuje nejméně devět vyškolených členů.", "Nutné je zázemí, technika, vybavení a stabilní rozpočet.", "Chceme obnovit zásahovou pomoc i komunitní tradici."],
+    cta: "Přečtěte si, co se s přezletickými hasiči stalo a jak může jejich obnova reálně proběhnout.",
     markdownPath: "content/articles/hasici-v-prezleticich.md",
-    primaryImage: "/images/brand/social/prezletaci-social-yellow.png",
-    galleryImages: [
-      "/images/projects/obecni-policie.webp",
-      "/images/projects/komunitni-centrum-zlatak.webp",
+    primaryImage: "/images/projects/obecni-policie.webp",
+    galleryImages: [],
+    imageDescriptions: {
+      "/images/projects/obecni-policie.webp": {
+        alt: "Budova obecní policie v Přezleticích",
+        caption: "Obnova vlastní jednotky vyžaduje vedle lidí a vybavení také odpovídající zázemí.",
+      },
+    },
+    publicSources: [
+      { label: "Zápis zastupitelstva z 25. května 2012", href: "https://prezletice.cz/uploads/minutes/lx6m_zapis-4-12.pdf" },
+      { label: "Požární řád obce Přezletice", href: "https://prezletice.cz/uploads/publicNotices/x50q_ozv-1-14.pdf" },
+      { label: "Informace HZS k jednotkám požární ochrany", href: "https://hzscr.gov.cz/clanek/menu-jednotky-pozarni-ochrany-jednotky-pozarni-ochrany-jednotky-po.aspx" },
+      { label: "Metodika HZS pro zřizování obecních jednotek", href: "https://hzscr.gov.cz/metodika-pro-zrizovani-jednotek-sboru-dobrovolnych-hasicu-obci" },
     ],
     projectIds: [29, 34],
     socialPostIds: [145],
@@ -497,7 +606,7 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "jak-overujeme-tvrzeni",
     title: "Jak ověřujeme tvrzení o historii obce",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Vysvětlování + Dokumenty a důkazy",
     summary: "Jak rozlišujeme tvrzení, zdroje, kontext, míru jistoty a politické hodnocení při debatě o historii obce.",
     perex: "V komunální kampani se často vrací staré příběhy. Některé jsou přesné, některé zjednodušené a některé se postupem času změnily v dojem. My chceme s historií obce pracovat jinak: klidně, věcně a s jasným rozlišením toho, co víme, co si myslíme a co ještě ověřujeme.",
@@ -558,7 +667,7 @@ export const articleContent: ArticleContent[] = [
     slug: "proc-prezletice-potrebuji-zpravodaj",
     title: "Proč Přezletice potřebují vlastní zpravodaj",
     candidateId: 3,
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Plány + Lidé + Vysvětlování",
     summary: "Tištěný obecní zpravodaj může zpřístupnit informace také lidem bez sociálních sítí, chytrého telefonu nebo počítače.",
     perex: "Ne každý sleduje Facebook nebo Instagram a ne každý používá chytrý telefon či počítač. Přesto mají mít všichni obyvatelé Přezletic přístup k důležitým informacím o dění v obci. Právě proto dává smysl znovu otevřít debatu o pravidelném tištěném zpravodaji.",
@@ -599,9 +708,9 @@ export const articleContent: ArticleContent[] = [
         ],
       },
       {
-        heading: "Co musí následovat",
+        heading: "Jak může zpravodaj fungovat",
         paragraphs: [
-          "Než začne zpravodaj pravidelně vycházet, je potřeba dohodnout jeho podobu, periodicitu, způsob distribuce, redakční odpovědnost a pravidla pro přijímání příspěvků. Stejně důležité bude nastavit kontrolu faktů a prostor pro opravy či zpětnou vazbu.",
+          "Zpravodaj může vycházet pravidelně, mít jasnou podobu, předvídatelnou distribuci a otevřená pravidla pro příspěvky obyvatel a spolků. Důležitá je také srozumitelně uvedená odpovědnost za obsah, možnost zpětné vazby a opravy nepřesností.",
           "Cíl je jednoduchý: vytvořit důvěryhodný a praktický zdroj informací pro obyvatele, kteří chtějí vědět, co se v Přezleticích děje — bez ohledu na to, jaké technologie používají.",
         ],
       },
@@ -616,13 +725,22 @@ export const articleContent: ArticleContent[] = [
       "Prostor také pro obyvatele a spolky.",
       "Ne propagační leták. Užitečný zdroj pro Přezletice.",
     ],
-    cta: "Přečtěte si návrh Romany Bernardové a řekněte nám, co by měl přezletický zpravodaj obsahovat.",
+    cta: "Přečtěte si, co může přezletický zpravodaj přinést, a řekněte nám, co by měl obsahovat.",
     markdownPath: "content/articles/proc-prezletice-potrebuji-zpravodaj.md",
-    primaryImage: "/images/candidates/romana-bernardova.webp",
+    primaryImage: "/images/projects/elektronicka-uredni-deska.webp",
     galleryImages: [
       "/images/projects/komunitni-centrum-zlatak.webp",
-      "/images/projects/elektronicka-uredni-deska.webp",
     ],
+    imageDescriptions: {
+      "/images/projects/elektronicka-uredni-deska.webp": {
+        alt: "Elektronická úřední deska v Přezleticích",
+        caption: "Tištěný zpravodaj může doplnit digitální informační kanály obce.",
+      },
+      "/images/projects/komunitni-centrum-zlatak.webp": {
+        alt: "Komunitní centrum Zlaták v Přezleticích",
+        caption: "Zpravodaj může přinášet informace o obecních i sousedských akcích.",
+      },
+    },
     projectIds: [3, 34],
     socialPostIds: [],
     sourceLinks: [
@@ -635,7 +753,7 @@ export const articleContent: ArticleContent[] = [
     slug: "co-bude-s-dalsi-developerskou-vystavbou",
     title: "Co bude s další developerskou výstavbou v Přezleticích",
     candidateId: 8,
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Vysvětlování + Plány + Dokumenty a důkazy",
     summary: "Rozpracované západní projekty, další zastavitelné plochy a priority, na které má obec soustředit svou energii.",
     perex: "Debata o další výstavbě v Přezleticích často zní jako jednoduchá volba mezi růstem a úplným zastavením. Ve skutečnosti je potřeba oddělit projekty, které už prošly dlouhou přípravou, od území, kde se o budoucích pravidlech teprve rozhoduje.",
@@ -678,7 +796,7 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Energii soustředit na dokončení a kvalitu",
         paragraphs: [
-          "Podle Břetislava Lukeše má obec v další etapě soustředit energii především na dokončení rozpracovaných území a na využití jejich potenciálu. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i kvalitní propojení nové a historické části obce.",
+          "V další etapě má obec soustředit energii především na dokončení rozpracovaných území a na využití jejich potenciálu. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i kvalitní propojení nové a historické části obce.",
           "Nejde tedy jen o otázku, kde se ještě může stavět. Důležitější je, zda Přezletice dokážou dotáhnout připravené projekty tak, aby přinesly služby a prostředí, které budou dlouhodobě fungovat pro současné i budoucí obyvatele.",
         ],
       },
@@ -693,14 +811,25 @@ export const articleContent: ArticleContent[] = [
       "Nejdřív dokončit připravené a posílit služby obce.",
       "Každé číselné tvrzení musí potvrdit platné dokumenty.",
     ],
-    cta: "Přečtěte si pohled Břetislava Lukeše na to, co dokončit a jak posuzovat další výstavbu.",
+    cta: "Přečtěte si, co je potřeba dokončit a jak odpovědně posuzovat další výstavbu.",
     markdownPath: "content/articles/co-bude-s-dalsi-developerskou-vystavbou.md",
-    primaryImage: "/images/brand/social/prezletaci-social-blue.png",
+    primaryImage: "/images/articles/uzemni-plan-etapizace-2011.webp",
     galleryImages: [
+      "/images/articles/uzemni-plan-2001.webp",
       "/images/projects/rekonstrukce-mistnich-komunikaci.webp",
       "/images/projects/rekonstrukce-prutahovych-komunikaci.webp",
       "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp",
     ],
+    imageDescriptions: {
+      "/images/articles/uzemni-plan-etapizace-2011.webp": {
+        alt: "Výkres etapizace územního plánu Přezletic s rozvojovými lokalitami A až H",
+        caption: "Územní plán z roku 2011 rozlišuje jednotlivé rozvojové lokality a jejich podmínky.",
+      },
+      "/images/articles/uzemni-plan-2001.webp": {
+        alt: "Hlavní výkres územního plánu Přezletic z dubna 2001",
+        caption: "Původní územní plán z roku 2001 pro srovnání s pozdějším rozsahem rozvojových ploch.",
+      },
+    },
     projectIds: [],
     socialPostIds: [],
     sourceLinks: [
@@ -713,7 +842,7 @@ export const articleContent: ArticleContent[] = [
     slug: "verejny-prostor-zelen-a-sportoviste",
     title: "Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor",
     candidateId: 9,
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Hotová práce + Rozdělané věci + Plány",
     summary: "Proč jsou obecní pozemky pro veřejný prostor cenné, jak Přezletice pracují s omezeným místem a proč musí zeleň a sportoviště vznikat podle společné koncepce.",
     perex: "Veřejný prostor není prázdné místo mezi domy. Je to prostor pro stromy, pohyb, odpočinek i setkávání. Přezletice mají obecních pozemků omezené množství, a proto je potřeba každý z nich využívat promyšleně a hledat řešení, která propojí více potřeb najednou.",
@@ -791,7 +920,7 @@ export const articleContent: ArticleContent[] = [
   {
     slug: "volebni-program-prezletice-2026-2030",
     title: "Volební program Přezleťáků: co je pro nás nejdůležitější",
-    status: "copy-ke-schvaleni",
+    status: "ready",
     pillar: "Plány + Lidé + Vysvětlování",
     summary: "Priority programu Přezleťáků 2026–2030 a jejich propojení s navazujícími tematickými texty.",
     perex: "Volby nejsou jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.",

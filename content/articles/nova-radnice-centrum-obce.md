@@ -1,6 +1,10 @@
 # Nová radnice jako nové centrum obce
 
-Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
+Nová radnice nemá být jen další obecní budova. Architektonický návrh aktualizovaný v únoru 2025 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
+
+![Vizualizace navrhované budovy obecního úřadu v Přezleticích z pohledu Horní návsi](/images/articles/nova-radnice-studie-exterier.webp)
+
+_Pohled na novou budovu obecního úřadu podle studie aktualizované v únoru 2025._
 
 ## Proč nejde jen o kanceláře
 
@@ -48,7 +52,7 @@ Tento přístup je důležitý: obec neroste jen počtem obyvatel, ale i nároky
 
 ## Co studie říká a co ještě není finální
 
-Architektonický koncept z května 2024 pracuje s hrubou podlažní plochou nové budovy přibližně 985 m² a navrhuje 18 parkovacích stání. Obsahuje také historický hrubý odhad stavebních nákladů ve výši 44,35 milionu Kč, včetně venkovních úprav, ale bez nákladů na demolice.
+Aktualizovaný návrh z února 2025 pracuje s hrubou podlažní plochou nové budovy přibližně 1 001 m² a navrhuje 17 parkovacích stání. Obsahuje také hrubý odhad stavebních nákladů ve výši 47,219 milionu Kč včetně venkovních úprav, ale bez demolic a úprav stávající budovy pro obecní policii.
 
 Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
 
@@ -59,3 +63,17 @@ Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat
 Nová radnice je příležitost vytvořit centrum obce, které nebude jen administrativní. Může propojit úřad, knihovnu, veřejné akce, společenské centrum a každodenní pohyb lidí mezi oběma návesními prostory.
 
 Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služby, otevřít úřad lidem a vytvořit místo, kam se dá přirozeně přijít. Právě tak chceme o nové radnici uvažovat: jako o praktickém kroku pro fungující obec a živější centrum Přezletic.
+
+## Fotografie a obrazové podklady
+
+![Situační výkres nové radnice a prostoru Na Rynku mezi Veleňskou a ulicí V Uličce](/images/articles/nova-radnice-studie-situace.webp)
+
+_Situační návrh propojení nové radnice, stávajícího úřadu a prostoru Na Rynku._
+
+![Vizualizace průhledu z nové radnice do prostoru Na Rynku](/images/articles/nova-radnice-studie-pruchod.webp)
+
+_Průhled z interiéru radnice směrem do nového veřejného prostoru._
+
+![Vizualizace pěšího propojení a prostoru Na Rynku u nové radnice](/images/articles/nova-radnice-studie-rynek.webp)
+
+_Navrhovaný prostor Na Rynku má propojit obě návsi a nabídnout místo pro setkávání._

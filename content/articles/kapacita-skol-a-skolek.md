@@ -2,6 +2,8 @@
 
 Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem. Proto má smysl ukazovat nejen výsledek, ale i cestu, která k němu vede.
 
+![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/rozsireni-kapacity-svazkove-skoly.webp)
+
 ## Výchozí problém
 
 Přezletice jsou rostoucí obec. S novou výstavbou a mladými rodinami přirozeně roste tlak na kapacity školky, školy, jídelny i návazných služeb. Zlomovým okamžikem přitom nebyl jen růst počtu dětí. V průběhu roku 2013 vypověděla Vinoř smlouvu o spádovosti pro děti z Přezletic, Jenštejna a Podolanky. Obce tím přišly o dosavadní dlouhodobou jistotu a musely začít připravovat vlastní řešení.
@@ -57,3 +59,15 @@ Svazek může fungovat jen tehdy, když spolu jeho obce dlouhodobě komunikují 
 Nejde o osobní vlastnictví projektu ani o tvrzení, že školu může dokončit jediný člověk. Jde o kontinuitu rozhodování. Pokud by se spolupráce obcí rozpadla, mohlo by se zkomplikovat financování druhé etapy, vyčlenění potřebných pozemků i samotná vůle projekt dokončit. Dopad by nesly především rodiny, které by musely hledat místa pro děti v širším okolí.
 
 Proto chceme o škole mluvit jako o společné odpovědnosti: chránit funkční vztahy ve svazku, předávat úplné informace, držet připravené projekty a nenechat dlouhodobou kapacitu škol záviset na povolebních sporech.
+
+## Fotografie a obrazové podklady
+
+![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/druhy-pavilon-ms.webp)
+
+![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/zahrada-ms.webp)
+
+![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/vydejni-automaty-stravovani.webp)
+
+![Text územního plánu stanovující podmínky výstavby školy, školky a retenčních ploch v lokalitě Bílá vrátka](/images/articles/bila-vratka-podminenost-skoly.webp)
+
+_Územní plán spojil výstavbu bydlení v části lokality A1 s přípravou školy, školky a retenčních ploch._

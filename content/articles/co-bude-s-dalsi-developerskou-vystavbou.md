@@ -2,6 +2,10 @@
 
 Debata o další výstavbě v Přezleticích často zní jako jednoduchá volba mezi růstem a úplným zastavením. Ve skutečnosti je potřeba oddělit projekty, které už prošly dlouhou přípravou, od území, kde se o budoucích pravidlech teprve rozhoduje.
 
+![Výkres etapizace územního plánu Přezletic s rozvojovými lokalitami A až H](/images/articles/uzemni-plan-etapizace-2011.webp)
+
+_Územní plán z roku 2011 rozlišuje jednotlivé rozvojové lokality a jejich podmínky._
+
 ## Development není jedna nerozlišená plocha
 
 Na západní straně obce jsou lokality, které se připravují řadu let. Vedle nich zůstávají další zastavitelné plochy, u nichž příprava není ve stejné fázi. Tyto dvě situace proto nelze posuzovat stejným způsobem ani spojovat do jednoho obecného hesla.
@@ -34,6 +38,18 @@ Smyslem změn územního plánu má být jasně popsat, jakou podobu má obec v 
 
 ## Energii soustředit na dokončení a kvalitu
 
-Podle Břetislava Lukeše má obec v další etapě soustředit energii především na dokončení rozpracovaných území a na využití jejich potenciálu. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i kvalitní propojení nové a historické části obce.
+V další etapě má obec soustředit energii především na dokončení rozpracovaných území a na využití jejich potenciálu. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i kvalitní propojení nové a historické části obce.
 
 Nejde tedy jen o otázku, kde se ještě může stavět. Důležitější je, zda Přezletice dokážou dotáhnout připravené projekty tak, aby přinesly služby a prostředí, které budou dlouhodobě fungovat pro současné i budoucí obyvatele.
+
+## Fotografie a obrazové podklady
+
+![Hlavní výkres územního plánu Přezletic z dubna 2001](/images/articles/uzemni-plan-2001.webp)
+
+_Původní územní plán z roku 2001 pro srovnání s pozdějším rozsahem rozvojových ploch._
+
+![Fotografie k článku Co bude s další developerskou výstavbou v Přezleticích](/images/projects/rekonstrukce-mistnich-komunikaci.webp)
+
+![Fotografie k článku Co bude s další developerskou výstavbou v Přezleticích](/images/projects/rekonstrukce-prutahovych-komunikaci.webp)
+
+![Fotografie k článku Co bude s další developerskou výstavbou v Přezleticích](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)

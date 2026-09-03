@@ -535,6 +535,7 @@ test("publishes every article for people and robots from one canonical source", 
 
   for (const article of articleContent) {
     const expectedMarkdown = articleToMarkdown(article);
+    const imagePaths = [article.primaryImage, ...article.galleryImages];
     const [sourceMarkdown, humanResponse, markdownResponse] = await Promise.all([
       readFile(new URL(`../${article.markdownPath}`, import.meta.url), "utf8"),
       render(`/clanky/${article.slug}`),
@@ -542,6 +543,8 @@ test("publishes every article for people and robots from one canonical source", 
     ]);
 
     assert.equal(sourceMarkdown, expectedMarkdown, `${article.slug}: zdrojový Markdown se liší od Campaign HQ`);
+    assert.equal(article.status, "ready");
+    await Promise.all(imagePaths.map((image) => access(new URL(`../public${image}`, import.meta.url))));
     assert.match(expectedMarkdown, new RegExp(`## ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(expectedMarkdown, /Copy ke schválení|Komunikační pilíř|Autorský podklad|Kontrola před publikací|Text pro sociální sítě|Instagram carousel|## CTA/i);
 
@@ -550,6 +553,9 @@ test("publishes every article for people and robots from one canonical source", 
     const humanHtml = await humanResponse.text();
     assert.match(humanHtml, new RegExp(article.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.match(humanHtml, new RegExp(article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.match(humanHtml, new RegExp(article.primaryImage.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    if (article.galleryImages.length) assert.match(humanHtml, /Fotografie a obrazové podklady/);
+    if (article.publicSources?.length) assert.match(humanHtml, /Veřejné zdroje/);
     assert.doesNotMatch(humanHtml, /Campaign HQ|redakčně zpracováno|Copy ke schválení|Kontrola před publikací/i);
 
     assert.equal(markdownResponse.status, 200, `${article.slug}: Markdown URL není dostupná`);
@@ -594,6 +600,7 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
 
   assert.match(articleToMarkdown(programArticle), /sociální vazby|sousedské vztahy/i);
   assert.match(PROGRAM_MARKDOWN, /sociální vazby|sousedské vztahy/i);
+  assert.doesNotMatch(PROGRAM_MARKDOWN, /Text pro sociální sítě|Carousel|Budoucí webová adresa|kontrola/i);
   assert.doesNotMatch(articleToMarkdown(factCheck), /\bSoMe\b/);
   assert.equal(greenery?.title, "Co pro nás znamená péče o zeleň v Přezleticích");
   assert.match(articleToMarkdown(greenery), /Hruškové aleje/);
@@ -621,6 +628,8 @@ test("publishes the new Lukeš and public-space articles from separate sources",
   assert.equal(publicSpace?.candidateId, 9);
   assert.equal(publicSpace?.sourceLinks.some((link) => /Veřejné plochy, zeleň a sportoviště final\.docx/.test(link)), true);
   assert.equal(firefighters?.candidateId, 1);
+  assert.match(articleToMarkdown(firefighters), /JPO V|devět členů/i);
+  assert.doesNotMatch(articleToMarkdown(firefighters), /šestitýden/i);
   assert.equal(articleContent.filter((article) => article.candidateId).every((article) => article.candidateId >= 1 && article.candidateId <= 11), true);
 });
 

@@ -490,6 +490,11 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
 .article-source-list span { color:var(--muted); background:var(--surface-soft); }
 .article-library-modal { width:min(980px,100%); }
 .article-modal-media { position:relative; min-height:340px; margin:16px 0; overflow:hidden; border-radius:22px; background:var(--surface-soft); }
+.article-modal-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:0 0 22px; }
+.article-modal-gallery figure { margin:0; }
+.article-modal-gallery figure > div { position:relative; min-height:210px; overflow:hidden; border-radius:16px; background:var(--surface-soft); }
+.article-modal-gallery img { object-fit:contain; }
+.article-modal-gallery figcaption { margin-top:7px; color:var(--muted); font-size:8px; line-height:1.45; }
 
 .markdown-export-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--web-gap); }
 .markdown-export-card { display:grid; grid-template-columns:54px minmax(0,1fr); gap:13px; min-height:190px; padding:19px; border-radius:22px; }
@@ -1000,11 +1005,23 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
 .public-article-header h1 { max-width:780px; margin:10px 0 18px; font-size:clamp(38px,6vw,72px); line-height:.98; letter-spacing:-.055em; }
 .public-article-header p { max-width:720px; margin:0; color:#465267; font-size:clamp(17px,2vw,21px); line-height:1.65; }
 .public-article-cover { position:relative; min-height:360px; overflow:hidden; border-radius:26px; background:#dbe6f6; box-shadow:0 18px 45px rgba(19,53,96,.15); }
-.public-article-cover img { object-fit:cover; }
+.public-article-cover img { object-fit:contain; }
+.public-article-cover-frame { margin:0; }
+.public-article-cover-frame figcaption { margin:12px 4px 0; color:#647084; font-size:13px; line-height:1.45; }
 .public-article-body { width:min(760px,calc(100% - 48px)); margin:0 auto; padding:60px 0 28px; }
 .public-article-body section { margin:0 0 46px; }
 .public-article-body h2 { margin:0 0 18px; color:#123f7f; font-size:clamp(27px,3.4vw,38px); line-height:1.1; letter-spacing:-.035em; }
 .public-article-body p { margin:0 0 18px; color:#303c50; font-size:18px; line-height:1.75; }
+.public-article-gallery,.public-article-sources { width:min(960px,calc(100% - 48px)); margin:0 auto; padding:18px 0 54px; }
+.public-article-gallery h2,.public-article-sources h2 { margin:0 0 22px; color:#123f7f; font-size:clamp(25px,3vw,34px); letter-spacing:-.035em; }
+.public-article-gallery > div { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+.public-article-gallery figure { margin:0; }
+.public-article-gallery figure > div { position:relative; min-height:320px; overflow:hidden; border:1px solid rgba(20,55,98,.1); border-radius:20px; background:#eef3fa; }
+.public-article-gallery img { object-fit:contain; }
+.public-article-gallery figcaption { margin:10px 4px 0; color:#5a6678; font-size:14px; line-height:1.5; }
+.public-article-sources { width:min(760px,calc(100% - 48px)); }
+.public-article-sources ul { display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+.public-article-sources a { display:block; padding:14px 16px; border:1px solid rgba(20,55,98,.12); border-radius:14px; color:#16417f; background:#f5f8fc; font-weight:700; text-decoration:none; }
 .public-article-cta { display:grid; gap:12px; padding:36px clamp(24px,6vw,72px); background:#123f7f; color:white; }
 .public-article-cta > span { color:#ffd735; font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
 .public-article-cta > strong { max-width:760px; font-size:clamp(22px,3vw,32px); line-height:1.3; }
@@ -1019,4 +1036,6 @@ kbd { padding: 3px 5px; border: 1px solid var(--hairline); border-radius: 5px; c
   .public-article-cover { min-height:260px; }
   .public-article-body { width:calc(100% - 40px); padding-top:42px; }
   .public-article-body p { font-size:17px; }
+  .public-article-gallery > div,.article-modal-gallery { grid-template-columns:1fr; }
+  .public-article-gallery figure > div { min-height:260px; }
 }

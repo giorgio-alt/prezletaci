@@ -2,6 +2,8 @@
 
 Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. Pro nás proto péče o zeleň znamená postupnou práci se stromy a alejemi, průtahovými komunikacemi, rekonstruovanými ulicemi, okolím podzemních kontejnerů i komunitního centra.
 
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-mistni-komunikace.webp)
+
 ## Proč o zeleni přemýšlíme jako o systému
 
 Když se mluví o obecní zeleni, často se jako první vybaví trávník. Jenže v uličním prostoru není trávník vždy nejlepší řešení. Malé rozdělené plochy mezi komunikací, parkováním, vjezdy a chodníky se obtížně udržují. V létě rychle vysychají a místo zeleného pásu z nich často vznikne suchá žlutohnědá plocha.
@@ -40,7 +42,7 @@ Podobně funguje zeleň před komunitním centrem. Není to jen předprostor bud
 
 ## Péče nekončí výsadbou
 
-Nejdůležitější část práce se zelení začíná až po výsadbě. Strom nebo záhon nestačí založit. Musí mít následnou péči, jasný režim údržby a průběžnou kontrolu.
+Nejdůležitější část práce se zelení začíná až po výsadbě. Strom nebo záhon nestačí založit. Musí mít následnou péči, jasný režim údržby a pravidelné hodnocení stavu.
 
 Moderní obecní zeleň proto potřebuje dobrý přehled o tom, co kde roste, v jakém je to stavu a jakou péči to vyžaduje. K tomu slouží pasport zeleně a navazující plán péče. Ty pomáhají rozhodovat, kde je nutná pravidelná údržba, kde má smysl méně časté sečení kvůli zadržování vláhy a biodiverzitě, a kde je třeba odborný zásah kvůli bezpečnosti stromů.
 
@@ -51,3 +53,15 @@ Zároveň platí jednoduché pravidlo: stávající zdravé stromy mají hodnotu
 Zeleň v Přezleticích chceme dál řešit jako systém, ne jako nahodilé dosazování prázdných míst. To znamená dokončit přehled o stavu zeleně, nastavit plán následné péče, pokračovat v ozelenění jednotlivých částí obce a hlídat, aby zeleň byla pevnou součástí nových projektů.
 
 Dobře udržovaná zeleň není jen hezčí obec. Je to stín v létě, méně prachu, příjemnější ulice, lepší hospodaření s vodou a veřejný prostor, ve kterém se lidem lépe žije.
+
+## Fotografie a obrazové podklady
+
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-prutahove-komunikace.webp)
+
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-podzemni-kontejnery.webp)
+
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/hruskove-aleje-a-dalsi-zelen.webp)
+
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/dalsi-lokalni-zelen.webp)
+
+![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/komunitni-centrum-zlatak.webp)
