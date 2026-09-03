@@ -1,4 +1,4 @@
-import { getProjectPhotoDriveUrlForSource } from "./photo-drive.ts";
+import { articleImageDriveFoldersByPath, getProjectPhotoDriveUrlForSource } from "./photo-drive.ts";
 
 export type ProjectImageRecord = {
   projectId: number;
@@ -56,6 +56,8 @@ export const projectImageByImagePath = new Map(
 
 export const getProjectPhotoDriveUrlForImage = (imagePath?: string) => {
   if (!imagePath) return undefined;
+  const articleImageFolder = articleImageDriveFoldersByPath[imagePath];
+  if (articleImageFolder) return articleImageFolder;
   const record = projectImageByImagePath.get(imagePath);
   return record ? getProjectPhotoDriveUrlForSource(record.source) : undefined;
 };

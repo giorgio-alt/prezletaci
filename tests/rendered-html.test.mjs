@@ -607,9 +607,12 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   assert.match(articleToMarkdown(greenery), /horkými dny|horké dny/i);
 
   const developmentPost = initialPosts.find((post) => post.id === 121);
+  const townHallPost = initialPosts.find((post) => post.id === 141);
   const bilaVratkaPost = initialPosts.find((post) => post.id === 144);
   const factCheckPost = initialPosts.find((post) => post.id === 146);
   assert.match(developmentPost?.contentSummary ?? "", /Břetislava Lukeše/);
+  assert.equal(townHallPost?.primaryImage, "/images/articles/nova-radnice-studie-exterier.webp");
+  assert.match(getProjectPhotoDriveUrlForImage(townHallPost?.primaryImage) ?? "", /1ERoc2xuo2ceU0xKyAmocrYEizrep2FYP/);
   assert.match(bilaVratkaPost?.title ?? "", /dva projekty/);
   assert.doesNotMatch((factCheckPost?.carouselOutline ?? []).join(" "), /\bSoMe\b/);
 });

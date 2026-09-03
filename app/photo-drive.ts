@@ -50,6 +50,13 @@ export const projectPhotoDriveFoldersBySourceFolder: Record<string, string> = {
   "elektronicka-uredni-deska": "https://drive.google.com/drive/folders/1RELu_OITXif1yKc74jZu3uTotviRtN8u",
 };
 
+export const articleImageDriveFoldersByPath: Record<string, string> = {
+  "/images/articles/nova-radnice-studie-exterier.webp": "https://drive.google.com/drive/folders/1ERoc2xuo2ceU0xKyAmocrYEizrep2FYP",
+  "/images/articles/nova-radnice-studie-situace.webp": "https://drive.google.com/drive/folders/1ERoc2xuo2ceU0xKyAmocrYEizrep2FYP",
+  "/images/articles/nova-radnice-studie-pruchod.webp": "https://drive.google.com/drive/folders/1ERoc2xuo2ceU0xKyAmocrYEizrep2FYP",
+  "/images/articles/nova-radnice-studie-rynek.webp": "https://drive.google.com/drive/folders/1ERoc2xuo2ceU0xKyAmocrYEizrep2FYP",
+};
+
 export const candidatePortraitDriveUrls: Record<number, string> = {
   1: "https://drive.google.com/file/d/1Bb8BzDrsynfEBhn8774M_jIjBYevv2Yn/view?usp=drivesdk",
   2: "https://drive.google.com/file/d/1TLMdhOKADuRcsNvVtZgYY8-aQ8P8qimS/view?usp=drivesdk",
