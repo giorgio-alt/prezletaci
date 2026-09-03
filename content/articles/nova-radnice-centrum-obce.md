@@ -1,34 +1,26 @@
 # Nová radnice jako nové centrum obce
 
-**Stav:** Copy ke schválení
-
-**Komunikační pilíř:** Plány + Vysvětlujeme + Dokumenty a důkazy
-
-## Perex
-
 Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
 
-## Článek
-
-### Proč nejde jen o kanceláře
+## Proč nejde jen o kanceláře
 
 Když obec připravuje novou radnici, může se snadno stát, že se debata zúží na kanceláře, metry čtvereční a cenu stavby. To všechno je samozřejmě důležité. Ale u Přezletic je podstatná ještě jedna věc: nová radnice může pomoci vrátit život do středu obce.
 
 Historické jádro Přezletic stojí mezi dvěma veřejnými prostory: Horní a Dolní návsí. Dolní náves si dodnes drží svůj charakter. Horní náves, která dříve ležela na jedné z hlavních tras procházejících obcí, část svého významu ztratila. Architektonický koncept nové radnice proto neřeší jen samotnou budovu, ale širší vztah míst, kterými lidé procházejí a kde se mohou potkávat.
 
-### Nejen úřad, ale místo pro lidi
+## Nejen úřad, ale místo pro lidi
 
 Hlavní myšlenka návrhu je jednoduchá: radnice nemá být uzavřená kancelářská budova. Má být součástí veřejného prostoru. Má pomoci vytvořit důstojné, živé a přívětivé centrum pro obec, která roste a potřebuje tomu přizpůsobit i své služby.
 
 Koncept počítá s tím, že v centru budou společně fungovat tři objekty: nová budova radnice, původní obecní úřad a budoucí společenské centrum v prostoru bývalé sokolovny. Smyslem není stavět všechno znovu a co největší. Naopak: návrh pracuje s tím, co už obec má, a rozděluje funkce tak, aby se nové objemy minimalizovaly a stávající budovy dávaly dál smysl.
 
-### Proč nestačí jen současná budova
+## Proč nestačí jen současná budova
 
 Námitka, že by obci měla stačit současná radnice, je pochopitelná. Architektonický koncept ale starou budovu neodepisuje. Počítá s ní jako s jednou ze tří částí obecního centra a navrhuje, aby dál sloužila například archivu nebo přechodným kancelářím.
 
 Samotná současná budova však neumí spojit všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho jen o kapacitu a funkce, které dnes chybějí.
 
-### Propojit Horní a Dolní náves
+## Propojit Horní a Dolní náves
 
 Důležitou součástí návrhu je nový veřejný prostor nazvaný Na Rynku. Ten má vzniknout mezi ulicemi Veleňská a V Uličce a propojit Horní a Dolní náves přirozenější pěší trasou.
 
@@ -36,7 +28,7 @@ Dnes je pohyb mezi těmito částmi centra omezený a ne vždy důstojný nebo p
 
 To je pro obec důležité nejen ve všední den, ale i při akcích. Prostor Na Rynku může do budoucna převzít část veřejného života, který dnes musí hledat náhradní místa: trhy, posvícenská setkání, rozsvícení vánočního stromku, výstavy nebo obyčejné sousedské potkávání.
 
-### Tři principy návrhu
+## Tři principy návrhu
 
 Architektonický koncept stojí na třech slovech: otevřenost, řád a efektivita.
 
@@ -46,7 +38,7 @@ Otevřenost znamená, že budova nemá mít jednu přední a jednu zadní stranu
 
 Efektivita má praktický význam. Jednoduchý tvar budovy může snížit provozní náklady, lépe pracovat s energiemi a umožnit variabilitu do budoucna. Koncept také počítá s tím, že některé části mohou být dokončovány podle aktuální potřeby obce, aniž by to omezilo provoz úřadu.
 
-### Etapizace a využití stávajících budov
+## Etapizace a využití stávajících budov
 
 Projekt je navržen tak, aby obec nemusela všechno řešit jedním obřím krokem. U nové budovy radnice studie doporučuje postavit základní objem jako celek, protože pozdější stavební zásahy by ji mohly zbytečně prodražovat. V první fázi by se ale využila jen část budovy a zbývající prostory by mohly být dokončovány postupně.
 
@@ -54,40 +46,16 @@ Původní obecní úřad má zároveň dál plnit svou roli. Některé funkce, n
 
 Tento přístup je důležitý: obec neroste jen počtem obyvatel, ale i nároky na služby. Nová radnice proto nemá být jednorázové gesto. Má být základ pro postupný, rozumný rozvoj obecního centra.
 
-### Co studie říká a co ještě není finální
+## Co studie říká a co ještě není finální
 
 Architektonický koncept z května 2024 pracuje s hrubou podlažní plochou nové budovy přibližně 985 m² a navrhuje 18 parkovacích stání. Obsahuje také historický hrubý odhad stavebních nákladů ve výši 44,35 milionu Kč, včetně venkovních úprav, ale bez nákladů na demolice.
 
-Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude muset ověřit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
+Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
 
-Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co je potřeba ještě ověřit.
+Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.
 
-### Co je další krok
+## Co je další krok
 
 Nová radnice je příležitost vytvořit centrum obce, které nebude jen administrativní. Může propojit úřad, knihovnu, veřejné akce, společenské centrum a každodenní pohyb lidí mezi oběma návesními prostory.
 
 Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služby, otevřít úřad lidem a vytvořit místo, kam se dá přirozeně přijít. Právě tak chceme o nové radnici uvažovat: jako o praktickém kroku pro fungující obec a živější centrum Přezletic.
-
-## Text pro sociální sítě
-
-Proč nestačí současná radnice? Architektonický koncept starou budovu neodepisuje — počítá s ní jako s jednou ze tří částí obecního centra. Samotná ale nedokáže spojit přehledný úřad, knihovnu, veřejná jednání, společenské aktivity a vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Jde o využití toho, co obec má, a doplnění funkcí, které dnes chybějí.
-
-## Instagram carousel
-
-1. Proč nestačí současná radnice?
-2. Stará budova zůstává součástí obecního centra.
-3. Sama ale neobsáhne všechny služby rostoucí obce.
-4. Nový koncept spojuje úřad, knihovnu a veřejný prostor.
-5. Tři budovy mají fungovat jako jeden celek.
-6. Ne stavět všechno znovu, ale smysluplně rozdělit funkce.
-7. Studie je začátek debaty, ne konečný rozpočet.
-
-## CTA
-
-Přečtěte si, co koncept nové radnice navrhuje a proč nejde jen o novou budovu.
-
-## Kontrola před publikací
-
-- Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024.
-- Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání.
-- U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.

@@ -1,14 +1,6 @@
-# Hotové články: zeleň a nová radnice
+# Jak se staráme o zeleň v Přezleticích
 
-Datum zpracování: 2026-08-13
-
-Stav: publikační pracovní verze. Texty jsou psané v klidném, konkrétním a neútočném stylu kampaně. Před zveřejněním doporučuji ověřit položky uvedené u každého článku v části „Kontrola před publikací“.
-
-## Článek 1: Jak se staráme o zeleň v Přezleticích
-
-**Pilíře:** Hotová práce, Rozdělané věci, Plány, Dokumenty a důkazy
-
-**Perex:** Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. V Přezleticích proto zeleň řešíme postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra.
+Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. V Přezleticích proto zeleň řešíme postupně: u průtahových komunikací, v rekonstruovaných ulicích, u podzemních kontejnerů i u komunitního centra.
 
 Když se mluví o obecní zeleni, často se jako první vybaví trávník. Jenže v uličním prostoru není trávník vždy nejlepší řešení. Malé rozdělené plochy mezi komunikací, parkováním, vjezdy a chodníky se obtížně udržují. V létě rychle vysychají a místo zeleného pásu z nich často vznikne suchá žlutohnědá plocha.
 
@@ -68,19 +60,9 @@ Dobře udržovaná zeleň není jen hezčí obec. Je to stín v létě, méně p
 
 **CTA:** Podívejte se, kde už zeleň v Přezleticích funguje a co připravujeme dál.
 
-### Kontrola před publikací
+## Nová radnice jako nové centrum obce
 
-- Ověřit přesné označení etap u průtahových komunikací.
-- Ověřit formulaci „šest let“ u trvalkovo-travinných záhonů.
-- Potvrdit aktuální stav pasportu zeleně a plánu péče.
-- Doplnit konkrétní projektové fotografie podle Campaign HQ.
-- Potvrdit formulaci o náhradní výsadbě stromů v třetí etapě.
-
-## Článek 2: Nová radnice jako nové centrum obce
-
-**Pilíře:** Plány, Vysvětlujeme, Dokumenty a důkazy
-
-**Perex:** Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
+Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.
 
 Když obec připravuje novou radnici, může se snadno stát, že se debata zúží na kanceláře, metry čtvereční a cenu stavby. To všechno je samozřejmě důležité. Ale u Přezletic je podstatná ještě jedna věc: nová radnice může pomoci vrátit život do středu obce.
 
@@ -122,9 +104,9 @@ Tento přístup je důležitý: obec neroste jen počtem obyvatel, ale i nároky
 
 Architektonický koncept z května 2024 pracuje s hrubou podlažní plochou nové budovy přibližně 985 m² a navrhuje 18 parkovacích stání. Obsahuje také historický hrubý odhad stavebních nákladů ve výši 44,35 milionu Kč, včetně venkovních úprav, ale bez nákladů na demolice.
 
-Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude muset ověřit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
+Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
 
-Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co je potřeba ještě ověřit.
+Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.
 
 ### Co je další krok
 
@@ -134,7 +116,7 @@ Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služb
 
 ### SoMe verze
 
-**Facebook / LinkedIn:** Nová radnice nemá být jen další budova s kancelářemi. Architektonický koncept z května 2024 ji chápe jako příležitost znovu oživit centrum Přezletic: propojit Horní a Dolní náves, vytvořit prostor Na Rynku a lépe navázat nový úřad, původní radnici a budoucí společenské centrum. Důležité pro nás je mluvit o projektu otevřeně: co studie navrhuje, co dává smysl a co je potřeba dál ověřit.
+**Facebook / LinkedIn:** Nová radnice nemá být jen další budova s kancelářemi. Architektonický koncept z května 2024 ji chápe jako příležitost znovu oživit centrum Přezletic: propojit Horní a Dolní náves, vytvořit prostor Na Rynku a lépe navázat nový úřad, původní radnici a budoucí společenské centrum. Důležité pro nás je mluvit o projektu otevřeně: co studie navrhuje, co dává smysl a co zatím zůstává otevřené.
 
 **Instagram carousel:**
 
@@ -147,11 +129,3 @@ Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služb
 7. Studie je začátek debaty, ne konečný rozpočet.
 
 **CTA:** Přečtěte si, co koncept nové radnice navrhuje a proč nejde jen o novou budovu.
-
-### Kontrola před publikací
-
-- Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024.
-- Potvrdit vlastnictví a plánovaný postup u objektů, kterých se týká demolice nebo rekonstrukce.
-- Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání.
-- U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie, nikoli aktuální rozpočet.
-- Doplnit vizuál: výřez studie, schéma Horní náves → Na Rynku → Dolní náves, případně vizualizaci parteru.

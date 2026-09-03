@@ -28,6 +28,12 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
       locale: "cs_CZ",
       images: [{ url: article.primaryImage }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.perex,
+      images: [article.primaryImage],
+    },
   };
 }
 
@@ -36,24 +42,19 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const article = articleContentBySlug.get(slug);
   if (!article) notFound();
 
-  const markdownUrl = `/${article.markdownPath}`;
-
   return (
     <main className="public-article-page">
       <nav className="public-article-nav" aria-label="Navigace článku">
         <Link href="/" className="public-article-brand">
           <Image src="/images/brand/prezletaci-symbol-blue.png" alt="" width={40} height={40} unoptimized />
-          <span><strong>Přezleťáci</strong><small>Campaign HQ · 2026</small></span>
+          <span><strong>Přezleťáci</strong><small>Přezletice · 2026</small></span>
         </Link>
-        <a href={markdownUrl} type="text/markdown">Číst jako Markdown</a>
       </nav>
 
       <article className="public-article-shell">
         <header className="public-article-header">
           <div>
-            <span className="eyebrow">{article.pillar}</span>
             <h1>{article.title}</h1>
-            {article.byline ? <small>{article.byline}</small> : null}
             <p>{article.perex}</p>
           </div>
           <div className="public-article-cover">
@@ -74,8 +75,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <span>Další krok</span>
           <strong>{article.cta}</strong>
           <div>
-            <a href={markdownUrl} type="text/markdown">Markdown pro další zpracování</a>
-            <Link href="/">Zpět do Campaign HQ</Link>
+            <Link href="/">Zpět na hlavní stránku</Link>
           </div>
         </footer>
       </article>

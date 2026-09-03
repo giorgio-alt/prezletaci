@@ -542,15 +542,15 @@ test("publishes every article for people and robots from one canonical source", 
     ]);
 
     assert.equal(sourceMarkdown, expectedMarkdown, `${article.slug}: zdrojový Markdown se liší od Campaign HQ`);
-    assert.match(expectedMarkdown, new RegExp(`### ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
-    assert.match(expectedMarkdown, /## CTA\n\n\S/);
+    assert.match(expectedMarkdown, new RegExp(`## ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    assert.doesNotMatch(expectedMarkdown, /Copy ke schválení|Komunikační pilíř|Autorský podklad|Kontrola před publikací|Text pro sociální sítě|Instagram carousel|## CTA/i);
 
     assert.equal(humanResponse.status, 200, `${article.slug}: lidská URL není dostupná`);
     assert.match(humanResponse.headers.get("content-type") ?? "", /^text\/html\b/i);
     const humanHtml = await humanResponse.text();
     assert.match(humanHtml, new RegExp(article.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
     assert.match(humanHtml, new RegExp(article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
-    assert.match(humanHtml, new RegExp(`/${article.markdownPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+    assert.doesNotMatch(humanHtml, /Campaign HQ|redakčně zpracováno|Copy ke schválení|Kontrola před publikací/i);
 
     assert.equal(markdownResponse.status, 200, `${article.slug}: Markdown URL není dostupná`);
     assert.match(markdownResponse.headers.get("content-type") ?? "", /^text\/markdown\b/i);
@@ -612,18 +612,14 @@ test("publishes the new Lukeš and public-space articles from separate sources",
   const publicSpace = articleContentBySlug.get("verejny-prostor-zelen-a-sportoviste");
   const firefighters = articleContentBySlug.get("hasici-v-prezleticich");
 
-  assert.match(lukesArticle?.byline ?? "", /Břetislav Lukeš/);
   assert.equal(lukesArticle?.candidateId, 8);
   assert.match(articleToMarkdown(lukesArticle), /Development není jedna nerozlišená plocha/);
   assert.equal(lukesArticle?.sourceLinks.some((link) => /Lukeš rozvoj obce brzda\.docx/.test(link)), true);
   assert.equal(publicSpace?.markdownPath, "content/articles/verejny-prostor-zelen-a-sportoviste.md");
-  assert.match(articleToMarkdown(publicSpace), /omezené množství obecních pozemků/i);
+  assert.match(articleToMarkdown(publicSpace), /obecních pozemků omezené množství|omezené obecní pozemky/i);
   assert.match(articleToMarkdown(publicSpace), /sportoviště jsou také místem setkávání/i);
-  assert.match(publicSpace?.byline ?? "", /Lenka Brožová/);
   assert.equal(publicSpace?.candidateId, 9);
   assert.equal(publicSpace?.sourceLinks.some((link) => /Veřejné plochy, zeleň a sportoviště final\.docx/.test(link)), true);
-  assert.equal(publicSpace?.checks.some((check) => /autorství/i.test(check)), false);
-  assert.match(firefighters?.byline ?? "", /Tomáš Říha/);
   assert.equal(firefighters?.candidateId, 1);
   assert.equal(articleContent.filter((article) => article.candidateId).every((article) => article.candidateId >= 1 && article.candidateId <= 11), true);
 });
@@ -632,7 +628,6 @@ test("publishes Romana Bernardová's newsletter article from the unique source",
   const newsletter = articleContentBySlug.get("proc-prezletice-potrebuji-zpravodaj");
 
   assert.equal(newsletter?.candidateId, 3);
-  assert.match(newsletter?.byline ?? "", /Romana Bernardová/);
   assert.match(articleToMarkdown(newsletter), /Ne každý sleduje Facebook nebo Instagram/);
   assert.match(articleToMarkdown(newsletter), /čtvrtletní nebo dvouměsíční/);
   assert.equal(newsletter?.sourceLinks.filter((link) => /P R O Č Přezletický zpravodaj\.doc/.test(link)).length, 1);

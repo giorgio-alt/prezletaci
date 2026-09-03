@@ -1,7 +1,6 @@
 export type ArticleContent = {
   slug: string;
   title: string;
-  byline?: string;
   candidateId?: number;
   status: "copy-ke-schvaleni";
   pillar: string;
@@ -17,45 +16,19 @@ export type ArticleContent = {
   projectIds: number[];
   socialPostIds: number[];
   sourceLinks: string[];
-  checks: string[];
 };
 
 export function articleToMarkdown(article: ArticleContent) {
   return [
     `# ${article.title}`,
     "",
-    `**Stav:** ${article.status === "copy-ke-schvaleni" ? "Copy ke schválení" : article.status}`,
-    "",
-    `**Komunikační pilíř:** ${article.pillar}`,
-    "",
-    ...(article.byline ? [`**Autorský podklad:** ${article.byline}`, ""] : []),
-    "## Perex",
-    "",
     article.perex,
     "",
-    "## Článek",
-    "",
     ...article.body.flatMap((section) => [
-      `### ${section.heading}`,
+      `## ${section.heading}`,
       "",
       ...section.paragraphs.flatMap((paragraph) => [paragraph, ""]),
     ]),
-    "## Text pro sociální sítě",
-    "",
-    article.socialCopy,
-    "",
-    "## Instagram carousel",
-    "",
-    ...article.carousel.map((slide, index) => `${index + 1}. ${slide}`),
-    "",
-    "## CTA",
-    "",
-    article.cta,
-    "",
-    "## Kontrola před publikací",
-    "",
-    ...article.checks.map((check) => `- ${check}`),
-    "",
   ].join("\n");
 }
 
@@ -65,7 +38,7 @@ export const articleContent: ArticleContent[] = [
     title: "Co pro nás znamená péče o zeleň v Přezleticích",
     status: "copy-ke-schvaleni",
     pillar: "Hotová práce + Rozdělané věci + Plány",
-    summary: "Publikovatelný článek o tom, co pro nás znamená péče o zeleň: stromy a aleje, průtahové komunikace, místní ulice, podzemní kontejnery, komunitní centrum a dlouhodobá údržba.",
+    summary: "Péče o zeleň jako dlouhodobá práce se stromy a alejemi, ulicemi, okolím podzemních kontejnerů, komunitním centrem i následnou údržbou.",
     perex: "Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. Pro nás proto péče o zeleň znamená postupnou práci se stromy a alejemi, průtahovými komunikacemi, rekonstruovanými ulicemi, okolím podzemních kontejnerů i komunitního centra.",
     body: [
       {
@@ -141,18 +114,13 @@ export const articleContent: ArticleContent[] = [
       "content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md",
       "TK2603-0192/zelen.docx",
     ],
-    checks: [
-      "Ověřit přesné označení etap u průtahových komunikací.",
-      "Ověřit formulaci „šest let“ u trvalkovo-travinných záhonů.",
-      "Potvrdit aktuální stav pasportu zeleně a plánu péče.",
-    ],
   },
   {
     slug: "nova-radnice-centrum-obce",
     title: "Nová radnice jako nové centrum obce",
     status: "copy-ke-schvaleni",
     pillar: "Plány + Vysvětlujeme + Dokumenty a důkazy",
-    summary: "Publikovatelný článek o architektonickém konceptu nové radnice jako propojení Horní návsi, prostoru Na Rynku, Dolní návsi a budoucího společenského centra.",
+    summary: "Architektonický koncept nové radnice jako propojení Horní návsi, prostoru Na Rynku, Dolní návsi a budoucího společenského centra.",
     perex: "Nová radnice nemá být jen další obecní budova. Architektonický koncept z května 2024 ji popisuje jako příležitost znovu oživit centrum Přezletic, propojit Horní a Dolní náves a vytvořit místo, které bude sloužit úřadu, veřejným akcím i každodennímu setkávání lidí.",
     body: [
       {
@@ -205,8 +173,8 @@ export const articleContent: ArticleContent[] = [
         heading: "Co studie říká a co ještě není finální",
         paragraphs: [
           "Architektonický koncept z května 2024 pracuje s hrubou podlažní plochou nové budovy přibližně 985 m² a navrhuje 18 parkovacích stání. Obsahuje také historický hrubý odhad stavebních nákladů ve výši 44,35 milionu Kč, včetně venkovních úprav, ale bez nákladů na demolice.",
-          "Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude muset ověřit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.",
-          "Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co je potřeba ještě ověřit.",
+          "Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.",
+          "Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.",
         ],
       },
       {
@@ -235,18 +203,13 @@ export const articleContent: ArticleContent[] = [
       "content-audit/03_vystupy/05_hotove_clanky_zelen_radnice.md",
       "TK2603-0192/Studie radnice.pdf",
     ],
-    checks: [
-      "Ověřit aktuální stav projektu a návazné kroky po architektonickém konceptu z 05/2024.",
-      "Potvrdit, zda stále platí pracovní hodnoty 985 m² a 18 parkovacích stání.",
-      "U částky 44,35 mil. Kč vždy uvádět, že jde o historický hrubý odhad ze studie.",
-    ],
   },
   {
     slug: "kapacita-skol-a-skolek",
     title: "Jak vznikala kapacita škol a školek",
     status: "copy-ke-schvaleni",
     pillar: "Hotová práce + Rozdělané věci + Vysvětlování",
-    summary: "Publikovatelný článek o tom, proč školní a předškolní kapacita nevzniká jedním rozhodnutím, ale kombinací spolupráce, projektů, financování a navazujících kroků.",
+    summary: "Školní a předškolní kapacita nevzniká jedním rozhodnutím, ale kombinací spolupráce, projektů, financování a navazujících kroků.",
     perex: "Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem. Proto má smysl ukazovat nejen výsledek, ale i cestu, která k němu vede.",
     body: [
       {
@@ -259,15 +222,15 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Problém nevznikl přes noc",
         paragraphs: [
-          "Historické podklady ukazují, že se obec s nedostatkem kapacit vyrovnávala postupně. Ještě v červenci 2011 zajišťovala mateřskou školu v pronajatých prostorách ve Vinoři. V roce 2013 podle podkladu Jana Macourka skončila spádová dohoda s Vinoří pro Přezletice, Jenštejn i Podolanku. Tím se potřeba vlastního dlouhodobého řešení stala ještě naléhavější.",
+          "Obec se s nedostatkem kapacit vyrovnávala postupně. Ještě v červenci 2011 zajišťovala mateřskou školu v pronajatých prostorách ve Vinoři. V roce 2013 skončila spádová dohoda s Vinoří pro Přezletice, Jenštejn i Podolanku. Tím se potřeba vlastního dlouhodobého řešení stala ještě naléhavější.",
           "Zápis zastupitelstva z 30. července 2014 zachycuje tehdejší plán požádat o dotaci na jednu další třídu mateřské školy a jednu třídu malé základní školy. Zastupitelstvo tehdy samo uvedlo, že jde o řešení odpovídající aktuálním potřebám, nikoli o definitivní odpověď na další demografický vývoj.",
         ],
       },
       {
         heading: "Od jedné třídy ke společnému řešení",
         paragraphs: [
-          "V březnu 2015 vznikl svazek obcí Přezletice, Podolanka a Jenštejn. Tím se změnilo měřítko řešení: místo jedné provizorní třídy začala příprava školy pro širší spádové území. Současně bylo nutné vyřešit pozemek, protože obec podle historických podkladů vlastnila v lokalitě Bílých vrátek spoluvlastnický podíl, nikoli samostatně oddělený pozemek připravený pro stavbu školy.",
-          "Podle Macourkova podkladu vedla jednání v roce 2015 k oddělení pozemku pro školu a k nastavení základních podmínek spolupráce v území. Právě tato posloupnost vysvětluje, proč se školní kapacita nedá popsat jednou stavbou ani jedním rozhodnutím: nejdřív bylo potřeba zajistit pozemek, spolupráci obcí a projektový rámec, teprve potom bylo možné připravovat a stavět.",
+          "V březnu 2015 vznikl svazek obcí Přezletice, Podolanka a Jenštejn. Tím se změnilo měřítko řešení: místo jedné provizorní třídy začala příprava školy pro širší spádové území. Současně bylo nutné vyřešit pozemek, protože obec v lokalitě Bílých vrátek vlastnila spoluvlastnický podíl, nikoli samostatně oddělený pozemek připravený pro stavbu školy.",
+          "Jednání v roce 2015 vedla k oddělení pozemku pro školu a k nastavení základních podmínek spolupráce v území. Právě tato posloupnost vysvětluje, proč se školní kapacita nedá popsat jednou stavbou ani jedním rozhodnutím: nejdřív bylo potřeba zajistit pozemek, spolupráci obcí a projektový rámec, teprve potom bylo možné připravovat a stavět.",
         ],
       },
       {
@@ -275,14 +238,14 @@ export const articleContent: ArticleContent[] = [
         paragraphs: [
           "U základní školy dává v našem území smysl spolupráce více obcí. Svazkové řešení není zkratka, ale způsob, jak se dostat k větší kapacitě a rozdělit odpovědnost i finanční zátěž mezi obce, kterých se problém týká. Jedna škola zároveň znamená jedno vedení a společný personální i provozní rámec namísto několika malých samostatných organizací.",
           "V době založení svazku podle tehdejšího vedení nebyl otevřený vhodný dotační titul a Přezletice měly po převzetí vedení k dispozici přibližně 800 tisíc korun, prakticky jen na běžný provoz. Samostatně by obec projekt tohoto rozsahu financovat nedokázala. Spojení obcí umožnilo náklady rozložit a vytvořit partnera, který mohl připravit větší projekt.",
-          "Když byl následně vypsán dotační titul, svazkové projekty měly podle pracovních podkladů zvýhodněnou spoluúčast: 15 procent oproti 30 procentům u samostatných obcí. Také současná státní politika podporuje společné zajišťování školských služeb a sdílení řízení. Přesná historická i aktuální pravidla podpory ale musí být před zveřejněním doložena konkrétním dotačním rozhodnutím a platnými předpisy.",
+          "Když byl následně vypsán dotační titul, svazkové projekty měly zvýhodněnou spoluúčast: 15 procent oproti 30 procentům u samostatných obcí. Také současná státní politika podporuje společné zajišťování školských služeb a sdílení řízení. Konkrétní podmínky podpory se ale v čase mění a každý další krok se musí řídit platnými pravidly.",
         ],
       },
       {
         heading: "Co se podařilo a co navazuje",
         paragraphs: [
           "V Přezleticích už je za námi kus práce: školka, svazková škola, školní jídelna i výdejní systém. Jídelna neslouží jen žákům školy. Připravuje stravu také pro školku, zásobuje výdejní automaty pro obyvatele a zajišťuje občerstvení při obecních kulturních a společenských akcích.",
-          "Jídelna funguje jako samostatná příspěvková organizace. Podle aktuálních informací svazku vytváří kladný hospodářský výsledek, který pomáhá s dalším rozvojem a provozem školského areálu. Před veřejným vydáním článku bude potřeba tuto formulaci opřít o schválené účetní výsledky a přesně popsat, jak může být výsledek použit.",
+          "Jídelna funguje jako samostatná příspěvková organizace. Její hospodaření je součástí celkového provozu a dalšího rozvoje školského areálu.",
           "Hotová první etapa ale neznamená, že je problém vyřešen navždy. Potřeby se mění s počtem obyvatel, věkovou strukturou i rozvojem okolních obcí. Proto je důležité kapacitu nejen vybudovat, ale průběžně sledovat a připravovat další kroky včas.",
         ],
       },
@@ -296,8 +259,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co bude další krok",
         paragraphs: [
-          "Svazek v současnosti zajišťuje povolení dočasné kontejnerové nájemní školy, která má překlenout období do dokončení druhé etapy. Podle nastavených podmínek se má developer v případě, že řádná školní budova nebude v dohodnutém termínu hotová, podílet na financování nájmu. Přesné znění závazku a rozhodné termíny musí být před publikací ověřeny ve smluvních dokumentech.",
-          "Současně se připravuje projekt druhé etapy školy s plánovanou kapacitou 450 žáků. Je hotová demografická studie, probíhají jednání s MŠMT o možnostech zařazení do dotační podpory, soutěží se projektant zastavovací studie a skládá se finanční rámec včetně příspěvků developerů. U každého z těchto kroků chceme v Campaign HQ průběžně uvádět stav, odpovědnost a nejbližší ověřitelný milník.",
+          "Svazek v současnosti zajišťuje povolení dočasné kontejnerové nájemní školy, která má překlenout období do dokončení druhé etapy. Podle nastavených podmínek se má developer v případě, že řádná školní budova nebude v dohodnutém termínu hotová, podílet na financování nájmu. Rozsah této povinnosti a rozhodné termíny vycházejí ze smluvních podmínek.",
+          "Současně se připravuje projekt druhé etapy školy s plánovanou kapacitou 450 žáků. Je hotová demografická studie, probíhají jednání s MŠMT o možnostech zařazení do dotační podpory, soutěží se projektant zastavovací studie a skládá se finanční rámec včetně příspěvků developerů. O vývoji jednotlivých kroků chceme průběžně informovat a uvádět jejich aktuální stav, odpovědnost a nejbližší milník.",
           "Školy a školky nejsou jen budovy. Jsou to služby, které rozhodují o každodenním životě rodin. Proto k nim chceme přistupovat prakticky, bez zjednodušování a s důrazem na dlouhodobou odpovědnost.",
         ],
       },
@@ -331,24 +294,13 @@ export const articleContent: ArticleContent[] = [
       "TK2603-0395/Podmíněnost UP.pdf",
       "https://hacer.itispartner.cz/document.php?hashp=PvJ0b4595KwzIrGNW28q1gdDGe1vYhI2",
     ],
-    checks: [
-      "Ověřit účetním nebo rozpočtovým dokumentem stav obecního účtu přibližně 800 tis. Kč při převzetí vedení.",
-      "Doložit konkrétní dotační titul a historickou spoluúčast 15 % pro svazky oproti 30 % pro samostatné obce.",
-      "Ověřit aktuální pravidla státní podpory svazkových škol a přesnou formulaci k legislativnímu slučování škol.",
-      "Doložit schválenými účetními výsledky kladné hospodaření jídelny a pravidla použití výsledku.",
-      "Ověřit aktuální stav povolení kontejnerové nájemní školy a smluvní podmínky úhrady nájmu developerem.",
-      "Potvrdit kapacitu II. etapy 450 žáků, demografickou studii, jednání s MŠMT a stav soutěže projektanta zastavovací studie.",
-      "Doložit plán financování II. etapy včetně příspěvků developerů a odpovědnosti jednotlivých partnerů.",
-      "Před publikací ověřit ve veřejných dokumentech datum ukončení spádové dohody a oddělení pozemku pro školu.",
-      "Před publikací zkontrolovat formulace o povolební kontinuitě tak, aby popisovaly reálné institucionální riziko bez osobních útoků a strašení.",
-    ],
   },
   {
     slug: "rozvoj-obce-a-uzemni-plan",
     title: "Kolik rozvoje Přezletice unesou",
     status: "copy-ke-schvaleni",
     pillar: "Plány + Vysvětlování + Dokumenty a důkazy",
-    summary: "Publikovatelný článek o rozumném rozvoji obce, limitech územního plánování a tom, co obec může a nemůže ovlivnit při nové výstavbě.",
+    summary: "Rozumný rozvoj obce, limity územního plánování a to, co obec může a nemůže ovlivnit při nové výstavbě.",
     perex: "Rozvoj obce není jen otázka toho, jestli někde vzniknou nové domy. Je to otázka dopravy, školy, vody, kanalizace, veřejného prostoru, služeb i sousedských vztahů. Proto je fér mluvit o developmentu věcně: co obec může ovlivnit, kde má limity a proč je územní plán jeden z nejdůležitějších nástrojů.",
     body: [
       {
@@ -375,15 +327,15 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Dvě různé fáze rozvoje",
         paragraphs: [
-          "Podklad Břetislava Lukeše upozorňuje, že dnešní rozvoj není jedna nerozlišená plocha. Na západní straně obce jsou projekty Bílá vrátka, Panská pole a Panská vinice v pokročilé přípravě a obec u nich dlouhodobě řeší zastavovací studie, podmínky výstavby i veřejnou infrastrukturu. Zbývající zastavitelné části obce jsou v jiné fázi a pravidla pro ně se teprve musí posoudit v širších souvislostech.",
+          "Dnešní rozvoj není jedna nerozlišená plocha. Na západní straně obce jsou projekty Bílá vrátka, Panská pole a Panská vinice v pokročilé přípravě a obec u nich dlouhodobě řeší zastavovací studie, podmínky výstavby i veřejnou infrastrukturu. Zbývající zastavitelné části obce jsou v jiné fázi a pravidla pro ně se teprve musí posoudit v širších souvislostech.",
           "Tohle rozlišení je důležité. U rozpracovaných lokalit je úkolem obce hlídat dodržení dohodnutých podmínek a návaznost na školu, dopravu, sítě a veřejný prostor. U dalších ploch je naopak potřeba nejdřív rozhodnout, zda je obec vůbec potřebuje a jaké limity musí platit, aby další výstavba nezhoršila problémy, které už dnes řešíme.",
         ],
       },
       {
         heading: "Nejdřív využít a dokončit to, co je připravené",
         paragraphs: [
-          "Lukešův podklad staví další postup na jednoduché prioritě: energii obce soustředit na dokončení rozpracovaných území a na služby, které budou obyvatelé potřebovat. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i propojení nové a historické části obce.",
-          "Teprve s tímto přehledem lze odpovědně říct, kolik dalšího rozvoje Přezletice unesou. Orientační kapacitní odhady z pracovního podkladu musí před zveřejněním projít kontrolou proti platnému územnímu plánu, schváleným studiím a aktuálním údajům o obyvatelích. Princip je ale jasný už teď: další růst nemá být automatický, ale odvozený od kapacity obce a od kvality života.",
+          "Další postup by měl stát na jednoduché prioritě: energii obce soustředit na dokončení rozpracovaných území a na služby, které budou obyvatelé potřebovat. Patří sem vzdělávání, zdravotní a sociální služby, rekreační a sportovní plochy i propojení nové a historické části obce.",
+          "Teprve s tímto přehledem lze odpovědně říct, kolik dalšího rozvoje Přezletice unesou. Rozhodování musí vycházet z platného územního plánu, schválených studií a aktuálních údajů o obyvatelích. Princip je ale jasný už teď: další růst nemá být automatický, ale odvozený od kapacity obce a od kvality života.",
         ],
       },
       {
@@ -420,24 +372,19 @@ export const articleContent: ArticleContent[] = [
       "TK2603-0392/VOLBY 2026 Lukeš rozvoj obce brzda.docx",
       "TK2603-0395/Podmíněnost UP.pdf",
     ],
-    checks: [
-      "Před publikací doplnit konkrétní odkazy na platné územně plánovací dokumenty.",
-      "Ověřit aktuální právní stav případných uzávěr, změn územního plánu a developerských smluv.",
-      "Nepoužívat neověřená číselná tvrzení o počtech bytů, domů nebo obyvatel.",
-    ],
   },
   {
     slug: "bila-vratka-pozemek-skola",
     title: "Bílá vrátka v kontextu dvou developerských projektů",
     status: "copy-ke-schvaleni",
     pillar: "Vysvětlování + Dokumenty a důkazy",
-    summary: "Publikovatelný článek ve formě doložené časové osy k Bílým vrátkům, navazujícímu developerskému území, pozemkům pro školu a rozhodnutím obce.",
-    perex: "Bílá vrátka se nedají vysvětlit jako jeden izolovaný projekt ani jednou smlouvou. Na západní straně Přezletic se vedle sebe připravovaly dva developerské záměry a současně se řešil pozemek pro školu, podmínky územního plánu a veřejná infrastruktura. Proto dává smysl poskládat události do časové osy a přesně rozlišit, co dokládají veřejné zápisy a co ještě vyžaduje kontrolu.",
+    summary: "Doložená časová osa k Bílým vrátkům, navazujícímu developerskému území, pozemkům pro školu a rozhodnutím obce.",
+    perex: "Bílá vrátka se nedají vysvětlit jako jeden izolovaný projekt ani jednou smlouvou. Na západní straně Přezletic se vedle sebe připravovaly dva developerské záměry a současně se řešil pozemek pro školu, podmínky územního plánu a veřejná infrastruktura. Proto dává smysl poskládat události do časové osy a přesně rozlišit, co dokládají veřejné zápisy a jak do sebe jednotlivé kroky zapadají.",
     body: [
       {
         heading: "Nejde jen o jednu lokalitu",
         paragraphs: [
-          "V běžné debatě se pod názvem Bílá vrátka často směšuje širší rozvojové území. Podklady ale zachycují dva navazující developerské záměry na západní a jihozápadní straně obce. U jednoho se v zápisech používá označení lokalita A, Bílá vrátka – Ke Ctěnicím. Druhý záměr v témže západním území připravovala společnost OBADI.",
+          "V běžné debatě se pod názvem Bílá vrátka často směšuje širší rozvojové území. Na západní a jihozápadní straně obce se ale připravovaly dva navazující developerské záměry. U jednoho se v zápisech používá označení lokalita A, Bílá vrátka – Ke Ctěnicím. Druhý záměr v témže západním území připravovala společnost OBADI.",
           "Oba projekty mají vlastní majetkové a smluvní souvislosti, ale pro obec se jejich dopady potkávají: u školy, dopravní a technické infrastruktury i veřejných ploch. Popsat celé téma jen jako spor o Bílá vrátka by proto zakrylo podstatnou část historie.",
         ],
       },
@@ -451,8 +398,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Škola změnila význam celého rozhodnutí",
         paragraphs: [
-          "Potřeba školního pozemku se stala naléhavější poté, co podle historického podkladu v roce 2013 skončila spádová dohoda s Vinoří. V červenci 2014 ještě zastupitelstvo připravovalo žádost o dotaci na jednu třídu mateřské školy a jednu třídu malé základní školy. Samo přitom uvedlo, že nejde o definitivní řešení a že obec bude muset dál reagovat na demografický vývoj.",
-          "Po vzniku svazku obcí v roce 2015 začala příprava školy ve větším měřítku. Macourkův podklad popisuje, že jednání se spoluvlastníky a developerem následně vedla k oddělení pozemku pro školu. Před veřejným vydáním je potřeba tento krok doložit veřejně dostupnou listinou; důvěrná smlouva nesmí být zveřejněna ani odkazována jako veřejný podklad.",
+          "Potřeba školního pozemku se stala naléhavější poté, co v roce 2013 skončila spádová dohoda s Vinoří. V červenci 2014 ještě zastupitelstvo připravovalo žádost o dotaci na jednu třídu mateřské školy a jednu třídu malé základní školy. Samo přitom uvedlo, že nejde o definitivní řešení a že obec bude muset dál reagovat na demografický vývoj.",
+          "Po vzniku svazku obcí v roce 2015 začala příprava školy ve větším měřítku. Následovala jednání se spoluvlastníky a developerem o oddělení pozemku pro školu a o podmínkách spolupráce v území.",
         ],
       },
       {
@@ -463,15 +410,15 @@ export const articleContent: ArticleContent[] = [
         ],
       },
       {
-        heading: "Co je doložené a co ještě ověřujeme",
+        heading: "Co ukazuje časová osa",
         paragraphs: [
-          "Veřejné zápisy dokládají debatu o jasně vymezené části pozemků, následné nabytí spoluvlastnického podílu, přípravu malé školní kapacity i převod dalších pozemků od druhého developera. Historický podklad doplňuje souvislost se vznikem svazku obcí a oddělením školního pozemku.",
-          "Před publikací zbývá spojit každý bod časové osy s veřejným dokumentem a právně zkontrolovat formulace o vlastnictví a smluvních povinnostech. Cíl není vyhrát slovní přestřelku. Cíl je dát lidem přehled o dvou projektech a jejich společných dopadech, aby si mohli udělat názor na základě informací, ne dojmů.",
+          "Veřejné zápisy zachycují debatu o jasně vymezené části pozemků, následné nabytí spoluvlastnického podílu, přípravu malé školní kapacity i převod dalších pozemků od druhého developera. Další vývoj souvisel se vznikem svazku obcí a s přípravou samostatného školního pozemku.",
+          "Cílem časové osy není vyhrát slovní přestřelku. Má dát lidem přehled o dvou projektech a jejich společných dopadech, aby si mohli udělat názor na základě informací, ne dojmů.",
         ],
       },
     ],
     socialCopy: "Bílá vrátka nejsou celý příběh. Na západní straně Přezletic se připravovaly dva navazující developerské projekty a současně se řešil pozemek pro školu. Veřejné zápisy ukazují debatu o vymezení pozemků, nabytí spoluvlastnického podílu i další kroky kolem školní kapacity. Připravili jsme proto časovou osu, která odděluje oba projekty a propojuje jejich společné dopady na školu a infrastrukturu.",
-    carousel: ["Bílá vrátka nejsou celý příběh.", "V západním území se připravovaly dva developerské projekty.", "Rok 2011: podíl na pozemcích ještě nebyl samostatným školním pozemkem.", "Rok 2014: obec řešila malou školní kapacitu i další pozemky v území.", "Rok 2015: svazek obcí a příprava školy změnily měřítko řešení.", "Společné dopady: škola, doprava, sítě a veřejný prostor.", "Každý bod časové osy musí mít veřejný zdroj."],
+    carousel: ["Bílá vrátka nejsou celý příběh.", "V západním území se připravovaly dva developerské projekty.", "Rok 2011: podíl na pozemcích ještě nebyl samostatným školním pozemkem.", "Rok 2014: obec řešila malou školní kapacitu i další pozemky v území.", "Rok 2015: svazek obcí a příprava školy změnily měřítko řešení.", "Společné dopady: škola, doprava, sítě a veřejný prostor.", "Veřejné dokumenty pomáhají jednotlivé kroky zasadit do souvislostí."],
     cta: "Projděte si časovou osu dvou developerských projektů a jejich souvislost se školou.",
     markdownPath: "content/articles/bila-vratka-pozemek-skola.md",
     primaryImage: "/images/brand/social/prezletaci-social-blue.png",
@@ -491,21 +438,14 @@ export const articleContent: ArticleContent[] = [
       "TK2603-0395/dx2b_zapis-6-2014-2.pdf",
       "TK2603-0395/Podmíněnost UP.pdf",
     ],
-    checks: [
-      "Doplnit veřejný dokument potvrzující oddělení pozemku pro školu v roce 2015; důvěrnou smlouvu nezveřejňovat.",
-      "Ověřit přesné názvy a hranice obou developerských projektů v platné územně plánovací dokumentaci.",
-      "Před publikací právně zkontrolovat všechny formulace o odpovědnosti konkrétních osob nebo stran.",
-      "Ke každému bodu časové osy doplnit veřejně dostupný odkaz na zápis, usnesení nebo listinu.",
-    ],
   },
   {
     slug: "hasici-v-prezleticich",
     title: "Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala",
-    byline: "Tomáš Říha · redakčně zpracováno v kampaňovém stylu",
     candidateId: 1,
     status: "copy-ke-schvaleni",
     pillar: "Vysvětlování + Plány + Dokumenty a důkazy",
-    summary: "Publikovatelný článek k tématu hasičů, který věcně rozlišuje spolek, jednotku, historii a podmínky případné obnovy.",
+    summary: "Věcné rozlišení hasičského spolku, jednotky požární ochrany, jejich historie a podmínek případné obnovy.",
     perex: "Téma hasičů se snadno vypráví jako příběh o tom, kdo komu ublížil. Jenže pokud se má obec rozhodovat odpovědně, potřebuje nejdřív rozlišit základní věci: spolek, jednotku požární ochrany, vybavení, lidi, povinnosti a financování.",
     body: [
       {
@@ -532,13 +472,13 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co by měl být další krok",
         paragraphs: [
-          "Nejrozumnější postup je ověřit historické podklady, zjistit aktuální zákonné a organizační podmínky, probrat možnosti s odborníky a teprve potom říct, jaká varianta dává pro Přezletice smysl.",
+          "Nejrozumnější postup je zmapovat historický vývoj, zjistit aktuální zákonné a organizační podmínky, probrat možnosti s odborníky a teprve potom říct, jaká varianta dává pro Přezletice smysl.",
           "Pokud má být téma hasičů součástí programu, mělo by být formulované odpovědně: ne jako nostalgický slib, ale jako prověřený záměr s jasnými podmínkami.",
         ],
       },
     ],
     socialCopy: "Hasiči jsou citlivé téma. Proto je potřeba mluvit přesně: hasičský spolek a jednotka požární ochrany nejsou totéž. Pokud se má uvažovat o obnově, nestačí slib. Je potřeba vědět, jaké jsou povinnosti, vybavení, lidé, zázemí, provozní náklady a návaznost na systém požární ochrany. Nejprve fakta, potom rozhodnutí.",
-    carousel: ["Hasiči: nejdřív rozlišit pojmy.", "Spolek není totéž co jednotka požární ochrany.", "Funkční jednotka potřebuje lidi, výcvik, vybavení a zázemí.", "Historii popisovat podle dokumentů.", "Silná tvrzení ověřit před publikací.", "Program má slíbit jen to, co je prověřené."],
+    carousel: ["Hasiči: nejdřív rozlišit pojmy.", "Spolek není totéž co jednotka požární ochrany.", "Funkční jednotka potřebuje lidi, výcvik, vybavení a zázemí.", "Historie patří do souvislostí, ne do zkratek.", "Obnova vyžaduje jasné podmínky.", "Program má slíbit jen to, co je reálné."],
     cta: "Přečtěte si, jak chceme k tématu hasičů přistoupit věcně a odpovědně.",
     markdownPath: "content/articles/hasici-v-prezleticich.md",
     primaryImage: "/images/brand/social/prezletaci-social-yellow.png",
@@ -553,18 +493,13 @@ export const articleContent: ArticleContent[] = [
       "content-audit/03_vystupy/02_clanky_a_socialni_derivaty.md",
       "TK2603-0395/Hasiči - Jak jsme o ně přišli.docx",
     ],
-    checks: [
-      "Ověřit historická tvrzení v zápisech, usneseních a registru spolků.",
-      "Před publikací ověřit podmínky případné jednotky požární ochrany s HZS nebo relevantním odborným zdrojem.",
-      "Nepřipisovat konkrétním lidem či stranám motivy bez doložitelných dokumentů.",
-    ],
   },
   {
     slug: "jak-overujeme-tvrzeni",
     title: "Jak ověřujeme tvrzení o historii obce",
     status: "copy-ke-schvaleni",
     pillar: "Vysvětlování + Dokumenty a důkazy",
-    summary: "Publikovatelný článek o metodě fact-checkingu v kampani: tvrzení, zdroj, kontext, míra jistoty a odkazy na podklady.",
+    summary: "Jak rozlišujeme tvrzení, zdroje, kontext, míru jistoty a politické hodnocení při debatě o historii obce.",
     perex: "V komunální kampani se často vrací staré příběhy. Některé jsou přesné, některé zjednodušené a některé se postupem času změnily v dojem. My chceme s historií obce pracovat jinak: klidně, věcně a s jasným rozlišením toho, co víme, co si myslíme a co ještě ověřujeme.",
     body: [
       {
@@ -578,7 +513,7 @@ export const articleContent: ArticleContent[] = [
         heading: "Naše metoda",
         paragraphs: [
           "U každého citlivého tématu chceme držet jednoduchý postup: nejdřív formulovat tvrzení, potom najít dokument nebo zdroj, doplnit časový kontext a nakonec jasně označit, jestli jde o fakt, interpretaci nebo otázku k ověření.",
-          "Kde máme veřejný odkaz, má být u článku dostupný. Kde veřejný odkaz zatím není, má být v Campaign HQ interní poznámka, jaký dokument je potřeba doplnit.",
+          "Kde existuje veřejný odkaz, chceme ho u článku zpřístupnit. Pokud veřejný dokument chybí, nebudeme tvrzení vydávat za doložené.",
         ],
       },
       {
@@ -618,20 +553,14 @@ export const articleContent: ArticleContent[] = [
       "content/articles/jak-overujeme-tvrzeni.md",
       "content-audit/03_vystupy/02_clanky_a_socialni_derivaty.md",
     ],
-    checks: [
-      "U každého navazujícího fact-check článku doplnit přímé odkazy na veřejné dokumenty.",
-      "Nahradit pracovní nebo Google Drive odkazy veřejně dostupnými URL, pokud má být text publikovaný na webu.",
-      "Před publikací citlivých témat provést faktickou a právní kontrolu.",
-    ],
   },
   {
     slug: "proc-prezletice-potrebuji-zpravodaj",
     title: "Proč Přezletice potřebují vlastní zpravodaj",
-    byline: "Romana Bernardová · redakčně zpracováno v kampaňovém stylu",
     candidateId: 3,
     status: "copy-ke-schvaleni",
     pillar: "Plány + Lidé + Vysvětlování",
-    summary: "Samostatný článek Romany Bernardové o tištěném obecním zpravodaji, který zpřístupní informace také lidem bez sociálních sítí, chytrého telefonu nebo počítače.",
+    summary: "Tištěný obecní zpravodaj může zpřístupnit informace také lidem bez sociálních sítí, chytrého telefonu nebo počítače.",
     perex: "Ne každý sleduje Facebook nebo Instagram a ne každý používá chytrý telefon či počítač. Přesto mají mít všichni obyvatelé Přezletic přístup k důležitým informacím o dění v obci. Právě proto dává smysl znovu otevřít debatu o pravidelném tištěném zpravodaji.",
     body: [
       {
@@ -658,14 +587,14 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Prostor také pro obyvatele",
         paragraphs: [
-          "Romana Bernardová ve svém podkladu navrhuje, aby zpravodaj vznikal také s pomocí samotných obyvatel. Může dávat prostor pozvánkám, zkušenostem, fotografiím nebo tématům, která přinášejí spolky, sousedé a lidé aktivní v obci.",
+          "Zpravodaj může vznikat také s pomocí samotných obyvatel. Může dávat prostor pozvánkám, zkušenostem, fotografiím nebo tématům, která přinášejí spolky, sousedé a lidé aktivní v obci.",
           "Takový přístup může pomoci zachytit dění, které se do běžných úředních oznámení nevejde, a současně posílit vztah lidí k místu, kde žijí.",
         ],
       },
       {
         heading: "Jak často by měl vycházet",
         paragraphs: [
-          "O konkrétní periodicitě je potřeba ještě rozhodnout. Původní podklad otevírá dvě možnosti: čtvrtletní nebo dvouměsíční vydávání. Výsledná frekvence musí odpovídat množství užitečného obsahu, času potřebnému na kvalitní přípravu i nákladům na výrobu a distribuci.",
+          "O konkrétní periodicitě je potřeba ještě rozhodnout. Nabízejí se dvě možnosti: čtvrtletní nebo dvouměsíční vydávání. Výsledná frekvence musí odpovídat množství užitečného obsahu, času potřebnému na kvalitní přípravu i nákladům na výrobu a distribuci.",
           "Nejdůležitější není vydávat co nejčastěji. Důležitější je, aby každé číslo přineslo ověřené, srozumitelné a praktické informace a dostalo se skutečně ke všem domácnostem, pro které je určené.",
         ],
       },
@@ -701,20 +630,14 @@ export const articleContent: ArticleContent[] = [
       "Adresář souborů PJ2603/P R O Č Přezletický zpravodaj.doc",
       "Jednotliví kandidáti/Romana Bernardová.docx",
     ],
-    checks: [
-      "Schválit, zda má zpravodaj vycházet čtvrtletně, nebo jednou za dva měsíce.",
-      "Doplnit odpovědnou redakční roli, způsob distribuce a finanční rámec.",
-      "Schválit pravidla pro příspěvky obyvatel, místní inzerci, opravy a zpětnou vazbu.",
-    ],
   },
   {
     slug: "co-bude-s-dalsi-developerskou-vystavbou",
     title: "Co bude s další developerskou výstavbou v Přezleticích",
-    byline: "Břetislav Lukeš · redakčně zpracováno v kampaňovém stylu",
     candidateId: 8,
     status: "copy-ke-schvaleni",
     pillar: "Vysvětlování + Plány + Dokumenty a důkazy",
-    summary: "Samostatný vysvětlující článek podle podkladu Břetislava Lukeše, který rozlišuje rozpracované západní projekty od dalších zastavitelných ploch a popisuje, kam má obec soustředit další energii.",
+    summary: "Rozpracované západní projekty, další zastavitelné plochy a priority, na které má obec soustředit svou energii.",
     perex: "Debata o další výstavbě v Přezleticích často zní jako jednoduchá volba mezi růstem a úplným zastavením. Ve skutečnosti je potřeba oddělit projekty, které už prošly dlouhou přípravou, od území, kde se o budoucích pravidlech teprve rozhoduje.",
     body: [
       {
@@ -727,7 +650,7 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co už je na západě obce rozpracované",
         paragraphs: [
-          "Autorský podklad zmiňuje projekty Bílá vrátka, Panská pole a Panská vinice jako území v pokročilé projektové přípravě. Obec u nich dlouhodobě řeší zastavovací studie, podmínky výstavby, kapacitu území a povinnosti investorů vůči veřejné infrastruktuře.",
+          "Projekty Bílá vrátka, Panská pole a Panská vinice jsou v pokročilé projektové přípravě. Obec u nich dlouhodobě řeší zastavovací studie, podmínky výstavby, kapacitu území a povinnosti investorů vůči veřejné infrastruktuře.",
           "To neznamená, že je každý detail definitivně uzavřený. Znamená to, že další práce má navazovat na konkrétní dokumenty a dohody, nikoli začínat znovu pouze na základě předvolebního hesla.",
         ],
       },
@@ -735,14 +658,14 @@ export const articleContent: ArticleContent[] = [
         heading: "Nová část obce musí přinést také služby",
         paragraphs: [
           "Nová výstavba má dopad na školu, dopravu, vodu, kanalizaci i každodenní služby. Proto nestačí sledovat pouze počet domů. Podstatné je, zda s novou částí obce vznikne také odpovídající veřejný prostor, rekreační a sportovní zázemí, občanská vybavenost a propojení se stávajícími Přezleticemi.",
-          "Lukešův podklad pracuje s představou historické a novodobé části obce, které nemají stát proti sobě. Mají se doplňovat a potkávat v místech, jež slouží celé obci — například u školy, služeb a veřejných prostranství.",
+          "Historická a novodobá část obce nemají stát proti sobě. Mají se doplňovat a potkávat v místech, jež slouží celé obci — například u školy, služeb a veřejných prostranství.",
         ],
       },
       {
         heading: "Další růst nemá být automatický",
         paragraphs: [
           "Jakmile se započítají rozpracované projekty a jejich nároky, je namístě velmi opatrně posuzovat otevírání dalších ploch. Každý další záměr musí být poměřován kapacitou školy, dopravy, sítí, služeb a veřejného prostoru.",
-          "Pracovní podklad obsahuje také konkrétní odhady budoucího počtu obyvatel. Ty před zveřejněním nepřebíráme jako hotový fakt. Musí být porovnány s platným územním plánem, schválenými studiemi a aktuálními demografickými údaji.",
+          "Budoucí počet obyvatel nelze postavit na jediném orientačním odhadu. Je nutné vycházet z platného územního plánu, schválených studií a aktuálních demografických údajů.",
         ],
       },
       {
@@ -760,7 +683,7 @@ export const articleContent: ArticleContent[] = [
         ],
       },
     ],
-    socialCopy: "Další developerská výstavba není jedna jednoduchá otázka. Projekty Bílá vrátka, Panská pole a Panská vinice jsou podle autorského podkladu v jiné fázi než zbývající zastavitelné plochy. U rozpracovaných lokalit musí obec hlídat pravidla, infrastrukturu a závazky. U dalších se má nejdřív ptát, zda je vůbec potřebuje. Prioritou má být dokončit připravené projekty a soustředit energii na školu, služby, veřejný prostor, sport a propojení celé obce.",
+    socialCopy: "Další developerská výstavba není jedna jednoduchá otázka. Projekty Bílá vrátka, Panská pole a Panská vinice jsou v jiné fázi než zbývající zastavitelné plochy. U rozpracovaných lokalit musí obec hlídat pravidla, infrastrukturu a závazky. U dalších se má nejdřív ptát, zda je vůbec potřebuje. Prioritou má být dokončit připravené projekty a soustředit energii na školu, služby, veřejný prostor, sport a propojení celé obce.",
     carousel: [
       "Development není jedna nerozlišená plocha.",
       "Západní projekty už prošly dlouhou přípravou.",
@@ -785,21 +708,14 @@ export const articleContent: ArticleContent[] = [
       "TK2603-0392/VOLBY 2026 Lukeš rozvoj obce brzda.docx",
       "TK2603-0394/VOLBY 2026_stop develop.docx",
     ],
-    checks: [
-      "Ověřit aktuální stav projektů Bílá vrátka, Panská pole a Panská vinice v platných dokumentech.",
-      "Doplnit veřejné odkazy na územní plán, stavební uzávěru, zastavovací studie a případné plánovací smlouvy.",
-      "Konkrétní odhady počtu obyvatel zveřejnit pouze po kontrole proti platným studiím a aktuálním demografickým údajům.",
-      "Před publikací provést právní kontrolu formulací o závazcích investorů a stavu jednotlivých řízení.",
-    ],
   },
   {
     slug: "verejny-prostor-zelen-a-sportoviste",
     title: "Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor",
-    byline: "Lenka Brožová · redakčně zpracováno v kampaňovém stylu",
     candidateId: 9,
     status: "copy-ke-schvaleni",
     pillar: "Hotová práce + Rozdělané věci + Plány",
-    summary: "Nový článek o tom, proč jsou obecní pozemky pro veřejný prostor cenné, jak Přezletice pracují s omezeným místem a proč musí zeleň a sportoviště vznikat podle společné koncepce.",
+    summary: "Proč jsou obecní pozemky pro veřejný prostor cenné, jak Přezletice pracují s omezeným místem a proč musí zeleň a sportoviště vznikat podle společné koncepce.",
     perex: "Veřejný prostor není prázdné místo mezi domy. Je to prostor pro stromy, pohyb, odpočinek i setkávání. Přezletice mají obecních pozemků omezené množství, a proto je potřeba každý z nich využívat promyšleně a hledat řešení, která propojí více potřeb najednou.",
     body: [
       {
@@ -871,17 +787,13 @@ export const articleContent: ArticleContent[] = [
       "content/articles/verejny-prostor-zelen-a-sportoviste.md",
       "TK2603-0394/článek - Veřejné plochy, zeleň a sportoviště final.docx",
     ],
-    checks: [
-      "Ověřit přesný rozsah obecních pozemků určených pro veřejnou zeleň a sport před případným použitím číselného srovnání.",
-      "Doplnit stav a termíny jednotlivých připravovaných projektů pouze z aktuálních projektových podkladů.",
-    ],
   },
   {
     slug: "volebni-program-prezletice-2026-2030",
     title: "Volební program Přezleťáků: co je pro nás nejdůležitější",
     status: "copy-ke-schvaleni",
     pillar: "Plány + Lidé + Vysvětlování",
-    summary: "Hlavní volební článek k programu Přezleťáků 2026–2030: shrnuje priority v bodech a nastavuje linku navazujících tematických postů do voleb.",
+    summary: "Priority programu Přezleťáků 2026–2030 a jejich propojení s navazujícími tematickými texty.",
     perex: "Volby nejsou jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.",
     body: [
       {
@@ -944,11 +856,6 @@ export const articleContent: ArticleContent[] = [
       "content/articles/volebni-program-prezletice-2026-2030.md",
       "Volby 2026 program.docx",
       "Campaign Bible",
-    ],
-    checks: [
-      "Schválit finální pořadí programových priorit.",
-      "Doplnit veřejné odkazy na budoucí tematické články a projektové karty.",
-      "Před publikací ověřit formulace u témat, kde obec není jediným rozhodovatelem.",
     ],
   },
 ];
