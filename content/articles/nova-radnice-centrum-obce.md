@@ -22,7 +22,17 @@ Koncept počítá s tím, že v centru budou společně fungovat tři objekty: n
 
 Námitka, že by obci měla stačit současná radnice, je pochopitelná. Architektonický koncept ale starou budovu neodepisuje. Počítá s ní jako s jednou ze tří částí obecního centra a navrhuje, aby dál sloužila například archivu nebo přechodným kancelářím.
 
-Samotná současná budova však neumí spojit všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho jen o kapacitu a funkce, které dnes chybějí.
+Nedostatek prostoru není jen budoucí problém. Už dnes je počet zaměstnanců obecního úřadu vzhledem k objemu práce pod potřebnou úrovní a pro další pracovní místo ve stávající budově není prostor.
+
+Podle očekávaného vývoje mají Přezletice v dohledné době dosáhnout přibližně 3 000 obyvatel. S růstem obce přibývají povinnosti a specializované agendy. Aby bylo pro občany i zaměstnance jasné, kdo co vyřizuje a za co odpovídá, bude potřeba úřad personálně posílit a jeho práci rozdělit do jednotlivých odborů s jasnými kompetencemi.
+
+Samotná současná budova proto nemůže obsáhnout všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho o kapacitu a funkce, které už dnes chybějí.
+
+## Kdo novou radnici zaplatí
+
+Výstavba nové radnice nemá být hrazena z obecního rozpočtu. Podle dohodnutých závazků ji mají financovat a postavit developeři.
+
+Role obce přitom není pasivní. Obec určila požadovanou podobu budovy a navazujícího veřejného prostoru. V další přípravě bude dohlížet na to, aby provedení odpovídalo schválenému návrhu, dohodnutým podmínkám a požadované kvalitě.
 
 ## Propojit Horní a Dolní náves
 
@@ -54,7 +64,7 @@ Tento přístup je důležitý: obec neroste jen počtem obyvatel, ale i nároky
 
 Aktualizovaný návrh z února 2025 pracuje s hrubou podlažní plochou nové budovy přibližně 1 001 m² a navrhuje 17 parkovacích stání. Obsahuje také hrubý odhad stavebních nákladů ve výši 47,219 milionu Kč včetně venkovních úprav, ale bez demolic a úprav stávající budovy pro obecní policii.
 
-Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.
+Je důležité říct fér věc: tato částka není aktuální rozpočet stavby ani suma, kterou má zaplatit obec. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků. Financování a realizaci mají podle dohodnutých závazků zajistit developeři.
 
 Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.
 

@@ -589,6 +589,12 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   const greenery = articleContentBySlug.get("zelen-v-prezleticich");
 
   assert.equal(townHall?.body.some((section) => section.heading === "Proč nestačí jen současná budova"), true);
+  assert.equal(townHall?.body.some((section) => section.heading === "Kdo novou radnici zaplatí"), true);
+  assert.match(articleToMarkdown(townHall), /3 000 obyvatel/);
+  assert.match(articleToMarkdown(townHall), /odborů s jasnými kompetencemi/);
+  assert.match(articleToMarkdown(townHall), /financovat a postavit developeři/);
+  assert.match(articleToMarkdown(townHall), /není aktuální rozpočet stavby ani suma, kterou má zaplatit obec/);
+  assert.doesNotMatch(articleToMarkdown(townHall), /3 000 zaměstnanců/);
   assert.equal(school?.body.some((section) => section.heading === "Od jedné třídy ke společnému řešení"), true);
   assert.equal(school?.sourceLinks.some((link) => link.includes("Historie vzniku prudkého rozvoje obce")), true);
   assert.equal(development?.body.some((section) => section.heading === "Dvě různé fáze rozvoje"), true);

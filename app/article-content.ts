@@ -178,7 +178,16 @@ export const articleContent: ArticleContent[] = [
         heading: "Proč nestačí jen současná budova",
         paragraphs: [
           "Námitka, že by obci měla stačit současná radnice, je pochopitelná. Architektonický koncept ale starou budovu neodepisuje. Počítá s ní jako s jednou ze tří částí obecního centra a navrhuje, aby dál sloužila například archivu nebo přechodným kancelářím.",
-          "Samotná současná budova však neumí spojit všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho jen o kapacitu a funkce, které dnes chybějí.",
+          "Nedostatek prostoru není jen budoucí problém. Už dnes je počet zaměstnanců obecního úřadu vzhledem k objemu práce pod potřebnou úrovní a pro další pracovní místo ve stávající budově není prostor.",
+          "Podle očekávaného vývoje mají Přezletice v dohledné době dosáhnout přibližně 3 000 obyvatel. S růstem obce přibývají povinnosti a specializované agendy. Aby bylo pro občany i zaměstnance jasné, kdo co vyřizuje a za co odpovídá, bude potřeba úřad personálně posílit a jeho práci rozdělit do jednotlivých odborů s jasnými kompetencemi.",
+          "Samotná současná budova proto nemůže obsáhnout všechny funkce, které má rostoucí obec zajišťovat: přehledný a otevřený úřad, knihovnu, veřejná jednání, společenské aktivity i bezprostřední vazbu na veřejný prostor. Nejde o volbu mezi starou a novou radnicí. Smyslem je využít stávající úřad a doplnit ho o kapacitu a funkce, které už dnes chybějí.",
+        ],
+      },
+      {
+        heading: "Kdo novou radnici zaplatí",
+        paragraphs: [
+          "Výstavba nové radnice nemá být hrazena z obecního rozpočtu. Podle dohodnutých závazků ji mají financovat a postavit developeři.",
+          "Role obce přitom není pasivní. Obec určila požadovanou podobu budovy a navazujícího veřejného prostoru. V další přípravě bude dohlížet na to, aby provedení odpovídalo schválenému návrhu, dohodnutým podmínkám a požadované kvalitě.",
         ],
       },
       {
@@ -210,7 +219,7 @@ export const articleContent: ArticleContent[] = [
         heading: "Co studie říká a co ještě není finální",
         paragraphs: [
           "Aktualizovaný návrh z února 2025 pracuje s hrubou podlažní plochou nové budovy přibližně 1 001 m² a navrhuje 17 parkovacích stání. Obsahuje také hrubý odhad stavebních nákladů ve výši 47,219 milionu Kč včetně venkovních úprav, ale bez demolic a úprav stávající budovy pro obecní policii.",
-          "Je důležité říct fér věc: tato částka není aktuální rozpočet stavby. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků.",
+          "Je důležité říct fér věc: tato částka není aktuální rozpočet stavby ani suma, kterou má zaplatit obec. Je to odhad ze studie, který se bude měnit podle další projektové přípravy, stavebního trhu, technického řešení a návazných kroků. Financování a realizaci mají podle dohodnutých závazků zajistit developeři.",
           "Právě proto má smysl o projektu mluvit otevřeně a průběžně. Ne slibovat hotovou stavbu bez kontextu, ale ukazovat, jaký problém obec řeší, jaký návrh je na stole, co dává smysl a co zatím zůstává otevřené.",
         ],
       },
@@ -222,8 +231,8 @@ export const articleContent: ArticleContent[] = [
         ],
       },
     ],
-    socialCopy: "Proč nestačí současná radnice? Architektonický koncept starou budovu neodepisuje — počítá s ní jako s jednou ze tří částí obecního centra. Samotná ale nedokáže spojit přehledný úřad, knihovnu, veřejná jednání, společenské aktivity a vazbu na veřejný prostor. Nejde tedy o volbu mezi starou a novou radnicí. Jde o využití toho, co obec má, a doplnění funkcí, které dnes chybějí.",
-    carousel: ["Proč nestačí současná radnice?", "Stará budova zůstává součástí obecního centra.", "Sama ale neobsáhne všechny služby rostoucí obce.", "Nový koncept spojuje úřad, knihovnu a veřejný prostor.", "Tři budovy mají fungovat jako jeden celek.", "Ne stavět všechno znovu, ale smysluplně rozdělit funkce.", "Studie je začátek debaty, ne konečný rozpočet."],
+    socialCopy: "Proč nestačí současná radnice? Už dnes je počet zaměstnanců úřadu vzhledem k objemu práce pod potřebnou úrovní a další pracovní místo se do budovy nevejde. Přezletice se přitom v dohledné době mají přiblížit 3 000 obyvatelům. S růstem obce přibývají povinnosti a agendy, které bude potřeba rozdělit do odborů s jasnými kompetencemi. Stávající budova zůstane součástí obecního centra. Novou radnici mají podle dohodnutých závazků financovat a postavit developeři, nikoli obecní rozpočet. Obec určila její podobu a bude dohlížet na soulad a kvalitu provedení.",
+    carousel: ["Proč nestačí současná radnice?", "Už dnes chybí prostor pro další zaměstnance.", "S růstem obce k 3 000 obyvatelům přibývají povinnosti a agendy.", "Úřad bude potřebovat odbory s jasnými kompetencemi.", "Stávající budova zůstane součástí obecního centra.", "Novou radnici mají financovat a postavit developeři.", "Obec určila podobu a bude dohlížet na soulad a kvalitu."],
     cta: "Přečtěte si, co koncept nové radnice navrhuje a proč nejde jen o novou budovu.",
     markdownPath: "content/articles/nova-radnice-centrum-obce.md",
     primaryImage: "/images/articles/nova-radnice-studie-exterier.webp",
