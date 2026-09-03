@@ -623,11 +623,15 @@ test("publishes the new Lukeš and public-space articles from separate sources",
   const firefighters = articleContentBySlug.get("hasici-v-prezleticich");
 
   assert.equal(lukesArticle?.candidateId, 8);
-  assert.match(articleToMarkdown(lukesArticle), /Development není jedna nerozlišená plocha/);
+  assert.match(articleToMarkdown(lukesArticle), /Nové domy mění každodenní život/);
+  assert.match(articleToMarkdown(lukesArticle), /Co může obec skutečně ovlivnit/);
+  assert.match(articleToMarkdown(lukesArticle), /Další krok: dokončit připravené a hlídat kvalitu/);
   assert.equal(lukesArticle?.sourceLinks.some((link) => /Lukeš rozvoj obce brzda\.docx/.test(link)), true);
   assert.equal(publicSpace?.markdownPath, "content/articles/verejny-prostor-zelen-a-sportoviste.md");
   assert.match(articleToMarkdown(publicSpace), /obecních pozemků omezené množství|omezené obecní pozemky/i);
   assert.match(articleToMarkdown(publicSpace), /sportoviště jsou také místem setkávání/i);
+  assert.match(articleToMarkdown(publicSpace), /Veřejný prostor začíná cestou z domu/);
+  assert.match(articleToMarkdown(publicSpace), /Další krok: společná koncepce pro zeleň, sport a setkávání/);
   assert.equal(publicSpace?.candidateId, 9);
   assert.equal(publicSpace?.sourceLinks.some((link) => /Veřejné plochy, zeleň a sportoviště final\.docx/.test(link)), true);
   assert.equal(firefighters?.candidateId, 1);

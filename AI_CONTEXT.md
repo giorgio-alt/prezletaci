@@ -154,7 +154,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Související projekty: 3, 34
 - SoMe posty: Čeká
 
-### Co bude s další developerskou výstavbou v Přezleticích
+### Co bude s další výstavbou v Přezleticích
 
 - Slug: co-bude-s-dalsi-developerskou-vystavbou
 - Markdown: content/articles/co-bude-s-dalsi-developerskou-vystavbou.md

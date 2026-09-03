@@ -368,7 +368,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Související projekty: 3, 34
 - SoMe posty: Čeká
 
-### Co bude s další developerskou výstavbou v Přezleticích
+### Co bude s další výstavbou v Přezleticích
 
 - Markdown: content/articles/co-bude-s-dalsi-developerskou-vystavbou.md
 - Primární obrázek: /images/articles/uzemni-plan-etapizace-2011.webp
