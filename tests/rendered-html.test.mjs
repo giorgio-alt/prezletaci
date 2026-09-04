@@ -40,6 +40,11 @@ import {
   selectFirstSupportedImage,
 } from "../app/project-images.ts";
 import {
+  projectsMissingMedia,
+  publicProjectContent,
+  publicProjectStatusCounts,
+} from "../app/project-content.ts";
+import {
   activeProjectStatus,
   campaignReadiness,
   candidateProductionChecklist,
@@ -144,7 +149,7 @@ test("does not publish source JPGs or macOS metadata", async () => {
   await access(root);
 });
 
-test("imports one optimized photograph for every non-empty project folder", async () => {
+test("imports optimized photographs and approved project visualizations", async () => {
   const [page, styles, projectFiles] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -152,7 +157,8 @@ test("imports one optimized photograph for every non-empty project folder", asyn
   ]);
   const slugs = projectImageManifest.map((record) => record.slug);
   const projectIds = projectImageManifest.map((record) => record.projectId);
-  const expectedFiles = projectImageManifest.map((record) => record.image.split("/").at(-1)).sort();
+  const supplementalFiles = ["dlouhy-park-pod-skolou.webp", "sportoviste-u-skoly.webp"];
+  const expectedFiles = [...projectImageManifest.map((record) => record.image.split("/").at(-1)), ...supplementalFiles].sort();
 
   assert.equal(projectImageManifest.length, 26);
   assert.equal(new Set(slugs).size, projectImageManifest.length);
@@ -169,12 +175,47 @@ test("imports one optimized photograph for every non-empty project folder", asyn
   }
   assert.match(page, /project\.image \? <div className="project-image">/);
   assert.match(page, /className="project-detail-image"/);
-  assert.match(page, /Fotografie k doplnění/);
+  assert.doesNotMatch(page, /Fotografie k doplnění|Možný útok|Komunikační noha|Lokální stopa/);
   assert.match(styles, /\.project-image img \{ object-fit:cover/);
   assert.match(styles, /\.project-detail-image img \{ object-fit:cover/);
   assert.equal(projectImageManifest.find((record) => record.projectId === 1)?.slug, "tri-celky-podzemnich-kontejneru");
   assert.equal(projectImageManifest.find((record) => record.projectId === 3)?.slug, "elektronicka-uredni-deska");
   assert.equal(projectImageManifest.find((record) => record.projectId === 16)?.slug, "rekonstrukce-sokolovny");
+});
+
+test("publishes all 38 factual projects without production notes", async () => {
+  assert.equal(publicProjectContent.length, 38);
+  assert.deepEqual(publicProjectStatusCounts, { Hotové: 15, Rozpracované: 17, Plánované: 6 });
+  assert.deepEqual(projectsMissingMedia.map((project) => project.id), [2, 9, 10, 12, 13, 14, 15, 17]);
+  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "available").length, 29);
+  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "external-source").length, 1);
+  assert.equal(publicProjectContent.every((project) => project.title && project.summary && project.details.length), true);
+
+  for (const project of publicProjectContent.filter((item) => item.image)) {
+    await access(new URL(`../public${project.image}`, import.meta.url));
+  }
+
+  const publicPayload = JSON.stringify(publicProjectContent);
+  assert.doesNotMatch(publicPayload, /produkční|možný útok|komunikační noha|lokální stopa|k ověření|doplnit sem/i);
+
+  const overviewResponse = await render("/projekty");
+  assert.equal(overviewResponse.status, 200);
+  const overview = await overviewResponse.text();
+  assert.match(overview, /38 projektů/);
+  assert.match(overview, /Dlouhý park pod školou/);
+  assert.doesNotMatch(overview, /produkční|možný útok|lokální stopa|garant/i);
+
+  const detailResponse = await render("/projekty/sportovne-relaxacni-centrum-u-rybnika");
+  assert.equal(detailResponse.status, 200);
+  const detail = await detailResponse.text();
+  assert.match(detail, /Velké multifunkční hřiště/);
+  assert.match(detail, /Jednotlivé kroky/);
+
+  const apiResponse = await render("/api/projects");
+  assert.equal(apiResponse.status, 200);
+  const apiPayload = await apiResponse.json();
+  assert.equal(apiPayload.count, 38);
+  assert.equal(apiPayload.projects.length, 38);
 });
 
 test("project migration preserves edits and adds catalog media", async () => {
@@ -194,8 +235,8 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 24;/);
-  assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
+  assert.match(page, /const DATA_VERSION = 25;/);
+  assert.match(page, /refreshProjectPublicFields\(mergeProjectCatalog\(data\.projects, initialProjects\)\)/);
 });
 
 test("exposes external Google Drive photo sources throughout Campaign HQ", async () => {
@@ -213,7 +254,7 @@ test("exposes external Google Drive photo sources throughout Campaign HQ", async
   assert.match(page, /Otevřít fotku k produkci na Disku/);
   assert.match(page, /Otevřít konkrétní zdroj fotky\/složku/);
   assert.match(page, /Otevřít vybraný portrét na Disku/);
-  assert.match(page, /Otevřít fotky projektu na Disku/);
+  assert.match(page, /Otevřít přehled projektů/);
   assert.match(page, /Zdroj fotky na Disku/);
   assert.match(page, /photoLibraryPath: getProjectPhotoLibraryPath/);
   assert.match(page, /getProjectPhotoDriveUrlForImage/);

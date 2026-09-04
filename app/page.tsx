@@ -27,8 +27,8 @@ import {
   getProjectPhotoDriveUrlForImage,
   mergeProjectCatalog,
   projectImageByProjectId,
-  projectImageManifest,
 } from "./project-images";
+import { publicProjectContent, type PublicProjectMediaStatus, type PublicProjectMilestone, type PublicProjectStatus } from "./project-content";
 import {
   activeProjectStatus,
   campaignReadiness,
@@ -76,7 +76,7 @@ type SectionId =
 
 type TaskStatus = "To Do" | "Waiting" | "Doing" | "Done";
 type Priority = "Kritická" | "Vysoká" | "Střední" | "Nízká";
-type ProjectStatus = "Hotové" | "Rozpracované" | "Plánované" | "Doplnit";
+type ProjectStatus = PublicProjectStatus;
 
 type Task = {
   id: number;
@@ -107,6 +107,11 @@ type Project = {
   argument: string;
   next: string;
   history: string;
+  details: string[];
+  milestones?: PublicProjectMilestone[];
+  imageKind?: "fotografie" | "vizualizace";
+  mediaStatus: PublicProjectMediaStatus;
+  publicSources: { label: string; href: string }[];
 };
 
 type Candidate = {
@@ -339,41 +344,58 @@ const coreProjects: Omit<Project, "slug" | "image" | "imageAlt">[] = [
   { id: 18, title: "Nový obecní úřad", status: "Plánované", area: "Digitalizace", owner: "Obec + developer", summary: "Důstojné prostory pro rozdělení úřadu na jednotlivé agendy; stavbu má financovat developer.", evidence: "Smluvní závazek a prostorový program", risk: "Vnímání jako nákladná budova místo služby občanům.", argument: "Nové prostory reagují na personální a agendový růst obce.", next: "Ukázat kapacitní potřebu a zdroj financování.", history: "Záměr je smluvně spojen s developerskou výstavbou." },
 ];
 
-const initialProjects: Project[] = [
-  ...coreProjects.map((project) => {
-    const media = projectImageByProjectId.get(project.id);
-    return {
-      ...project,
-      slug: media?.slug ?? slugFromTitle(project.title),
-      image: media?.image,
-      imageAlt: media?.imageAlt,
-      photoSource: media?.source,
-      photoLibraryPath: getProjectPhotoLibraryPath(media?.source),
-      photoDriveUrl: media ? getProjectPhotoDriveUrlForSource(media.source) : PHOTO_AUDIT_DRIVE_URL,
-    };
-  }),
-  ...projectImageManifest
-    .filter((record) => record.projectId > 18)
-    .map((record): Project => ({
-      id: record.projectId,
-      slug: record.slug,
-      image: record.image,
-      imageAlt: record.imageAlt,
-      photoSource: record.source,
-      photoLibraryPath: getProjectPhotoLibraryPath(record.source),
-      photoDriveUrl: getProjectPhotoDriveUrlForSource(record.source),
-      title: record.title,
-      status: "Doplnit",
-      area: record.area,
-      owner: "Doplnit",
-      summary: "Projekt je doložen fotografií. Věcný popis čeká na doplnění.",
-      evidence: "Fotografie",
-      risk: "Doplnit",
-      argument: "Doplnit",
-      next: "Doplnit stav, garanta a ověřený popis projektu.",
-      history: "Doplnit",
-    })),
-];
+const legacyCoreProjectById = new Map(coreProjects.map((project) => [project.id, project]));
+
+const initialProjects: Project[] = publicProjectContent.map((project) => {
+  const legacy = legacyCoreProjectById.get(project.id);
+  const localMedia = projectImageByProjectId.get(project.id);
+  return {
+    id: project.id,
+    slug: project.slug,
+    image: project.image,
+    imageAlt: project.imageAlt,
+    imageKind: project.imageKind,
+    mediaStatus: project.mediaStatus,
+    photoSource: localMedia?.source,
+    photoLibraryPath: getProjectPhotoLibraryPath(localMedia?.source),
+    photoDriveUrl: localMedia ? getProjectPhotoDriveUrlForSource(localMedia.source) : project.sourceUrls?.[0]?.href ?? PHOTO_AUDIT_DRIVE_URL,
+    title: project.title,
+    status: project.status,
+    area: project.area,
+    owner: legacy?.owner ?? "Obec a partneři",
+    summary: project.summary,
+    details: project.details,
+    milestones: project.milestones,
+    publicSources: project.sourceUrls ?? [],
+    evidence: project.sourceUrls?.map((source) => source.label).join(", ") || (project.image ? "Fotografie projektu" : "Aktuální stav projektu"),
+    risk: "",
+    argument: project.summary,
+    next: project.details.at(-1) ?? project.summary,
+    history: project.details.join(" "),
+  };
+});
+
+const authoritativeProjectById = new Map(initialProjects.map((project) => [project.id, project]));
+
+const refreshProjectPublicFields = (projects: Project[]) => projects.map((project) => {
+  const authoritative = authoritativeProjectById.get(project.id);
+  if (!authoritative) return project;
+  return {
+    ...project,
+    slug: authoritative.slug,
+    title: authoritative.title,
+    status: authoritative.status,
+    area: authoritative.area,
+    summary: authoritative.summary,
+    details: authoritative.details,
+    milestones: authoritative.milestones,
+    image: authoritative.image,
+    imageAlt: authoritative.imageAlt,
+    imageKind: authoritative.imageKind,
+    mediaStatus: authoritative.mediaStatus,
+    publicSources: authoritative.publicSources,
+  };
+});
 
 const candidateBaseAssets = { photos: true, medallion: false, bio: false, quote: false, video: false, faq: false };
 const candidateContentById = new Map(candidateContentUpdates.map((content) => [content.id, content]));
@@ -485,7 +507,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 24;
+const DATA_VERSION = 25;
 
 const slugify = slugFromTitle;
 
@@ -571,7 +593,7 @@ export default function Home() {
         if (typeof data.dataVersion === "number" && data.dataVersion >= 2 && data.dataVersion <= DATA_VERSION) {
           const migratedPosts = Array.isArray(data.posts) ? mergePostsWithPlan(data.posts, data.dataVersion) : initialPosts;
           if (Array.isArray(data.tasks)) setTasks(mergeSprintTasks(data.tasks, initialTasks, data.dataVersion) as Task[]);
-          if (Array.isArray(data.projects)) setProjects(mergeProjectCatalog(data.projects, initialProjects));
+          if (Array.isArray(data.projects)) setProjects(refreshProjectPublicFields(mergeProjectCatalog(data.projects, initialProjects)));
           if (Array.isArray(data.candidates)) setCandidates(mergeCandidatesWithPlan(data.candidates, migratedPosts));
           setPosts(migratedPosts);
         }
@@ -673,7 +695,8 @@ export default function Home() {
       setTasks((items) => [...items, { id, title: createForm.title, status: "To Do", priority: "Střední", owner: createForm.meta || "PM", deadline: createForm.detail || "Bez termínu", note: "Nově přidaný lokální úkol." }]);
     }
     if (createType === "project") {
-      setProjects((items) => [...items, { id, slug: `${slugFromTitle(createForm.title)}-${id}`, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Doplnit garanta", summary: createForm.detail || "Nový projekt čeká na doplnění briefu.", evidence: "Doplnit", risk: "Vyhodnotit", argument: "Připravit", next: "Doplnit vlastníka a první krok.", history: "Projekt založen v Campaign HQ." }]);
+      const summary = createForm.detail || "Nový projekt byl zařazen do přehledu.";
+      setProjects((items) => [...items, { id, slug: `${slugFromTitle(createForm.title)}-${id}`, title: createForm.title, status: "Plánované", area: createForm.meta || "Nezařazeno", owner: "Obec a partneři", summary, details: [summary], mediaStatus: "missing", publicSources: [], evidence: "Aktuální stav projektu", risk: "", argument: summary, next: summary, history: summary }]);
     }
     if (createType === "candidate") {
       const candidate: Candidate = { id, order: candidates.length + 1, name: createForm.title, image: "", office: createForm.detail, professions: [createForm.meta || "Profese k doplnění"], bio: "Nový kandidát čeká na doplnění medailonku.", initials: createForm.title.split(" ").filter((part) => !part.endsWith(".")).map((part) => part[0]).join("").slice(0, 2).toUpperCase(), topics: ["Doplnit komunikační témata"], photoRanges: [], assets: { photos: false, medallion: false, bio: false, quote: false, video: false, faq: false }, plannedPostIds: [], projectIds: [], documents: [] };
@@ -835,7 +858,7 @@ export default function Home() {
       { label: "Výsledek", available: project.status === "Hotové" },
       { label: "Aktuální stav", available: Boolean(project.status) },
       { label: "Časová osa", available: project.history.includes("→") },
-      { label: "Fotografie", available: false },
+      { label: "Fotografie", available: Boolean(project.image) },
       { label: "Fotografie před a po", available: false },
       { label: "Čísla", available: false },
       { label: "Dokumenty", available: hasEvidence },
@@ -1188,23 +1211,23 @@ export default function Home() {
   const renderProjects = () => (
     <div className="section-stack">
       <section className="section-intro compact-intro glass-card">
-        <div><span className="eyebrow">Důkazová databáze</span><h1>Projekty</h1><p>Známé záměry z programu převedené do pracovních karet s riziky, argumentací, důkazy a dalším krokem.</p></div>
+        <div><span className="eyebrow">Faktický přehled</span><h1>Projekty</h1><p>Aktuální stav 38 hotových, rozpracovaných a plánovaných projektů v Přezleticích.</p></div>
         <button className="primary-button" onClick={() => openCreate("project")}>＋ Přidat projekt</button>
       </section>
-      <section className="photo-drive-panel glass-card"><div><span className="eyebrow">Externí fotky</span><h2>Projektové fotografie na Google Disku</h2><p>Každá karta s fotkou nese lokální cestu k přiřazenému zdroji a odkaz na auditní/projektovou složku na Disku.</p></div><PhotoDriveLinks compact /></section>
+      <section className="photo-drive-panel glass-card"><div><span className="eyebrow">Veřejný web</span><h2>Přehled a data jsou připravené k publikaci</h2><p>Veřejné stránky používají jen faktický popis, stav projektu a schválené obrazové podklady.</p></div><div className="external-link-stack"><a href="/projekty" target="_blank" rel="noreferrer">Otevřít přehled projektů ↗</a><a href="/api/projects" target="_blank" rel="noreferrer">Otevřít datový výstup ↗</a></div></section>
       <div className="filter-bar glass-card">
         <div className="segmented-control">
-          {(["Vše", "Hotové", "Rozpracované", "Plánované", "Doplnit"] as const).map((status) => <button className={projectStatus === status ? "active" : ""} key={status} onClick={() => setProjectStatus(status)}>{status}<span>{status === "Vše" ? projects.length : projects.filter((project) => project.status === status).length}</span></button>)}
+          {(["Vše", "Hotové", "Rozpracované", "Plánované"] as const).map((status) => <button className={projectStatus === status ? "active" : ""} key={status} onClick={() => setProjectStatus(status)}>{status}<span>{status === "Vše" ? projects.length : projects.filter((project) => project.status === status).length}</span></button>)}
         </div>
-        <label className="inline-search"><span>⌕</span><input value={projectQuery} onChange={(event) => setProjectQuery(event.target.value)} placeholder="Hledat projekt, oblast nebo garanta…" /></label>
+        <label className="inline-search"><span>⌕</span><input value={projectQuery} onChange={(event) => setProjectQuery(event.target.value)} placeholder="Hledat projekt nebo oblast…" /></label>
       </div>
       <section className="project-grid">
         {filteredProjects.map((project) => (
           <button className="project-card glass-card" key={project.id} onClick={() => setSelectedProject(project)}>
             <div className="project-top"><span className={`status-pill project-${slugify(project.status)}`}>{project.status}</span><span className="project-id">P-{String(project.id).padStart(2, "0")}</span></div>
-            {project.image ? <div className="project-image"><Image src={project.image} alt={project.imageAlt || `Fotografie projektu ${project.title}`} fill sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw" unoptimized /></div> : <div className="project-image-placeholder"><span>{project.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>}
-            <div className="project-copy"><span className="eyebrow">{project.area}</span><h2>{project.title}</h2><p>{project.summary}</p>{project.photoLibraryPath && <small className="asset-source">Foto: {project.photoLibraryPath}</small>}</div>
-            <div className="project-footer"><span><small>Garant</small><strong>{project.owner}</strong></span><span><small>Důkaz</small><strong>{project.evidence === "Doplnit" ? "Chybí" : "Evidován"}</strong></span><b>→</b></div>
+            {project.image ? <div className="project-image"><Image src={project.image} alt={project.imageAlt || `Obrazový podklad projektu ${project.title}`} fill sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw" unoptimized />{project.imageKind === "vizualizace" && <small className="project-image-label">Vizualizace</small>}</div> : <div className="project-image-placeholder"><span>{project.area.slice(0, 1)}</span></div>}
+            <div className="project-copy"><span className="eyebrow">{project.area}</span><h2>{project.title}</h2><p>{project.summary}</p></div>
+            <div className="project-footer"><span><small>Stav</small><strong>{project.status}</strong></span><span><small>Obrazový podklad</small><strong>{project.mediaStatus === "available" ? "Ano" : project.mediaStatus === "external-source" ? "Externí zdroj" : "Ne"}</strong></span><b>→</b></div>
           </button>
         ))}
       </section>
@@ -1622,7 +1645,7 @@ export default function Home() {
 
       {renderCandidateDetail()}
 
-      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area} · Garant: {selectedProject.owner}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div>{selectedProject.image ? <div className="project-detail-image"><Image src={selectedProject.image} alt={selectedProject.imageAlt || `Fotografie projektu ${selectedProject.title}`} fill sizes="(max-width: 760px) 100vw, 720px" unoptimized /></div> : <div className="project-image-placeholder project-detail-placeholder"><span>{selectedProject.area.slice(0, 1)}</span><small>Fotografie k doplnění</small></div>}<div className="photo-source-actions"><a href={selectedProject.photoDriveUrl ?? photoAuditDriveFolders.workingSort} target="_blank" rel="noreferrer">Otevřít fotky projektu na Disku ↗</a><small>Lokální stopa: {selectedProject.photoLibraryPath || selectedProject.photoSource || "fotografie zatím není přiřazená"}</small></div><div className="detail-section"><span className="eyebrow">Komunikační noha</span><p>{selectedProject.summary}</p></div><div className="project-detail-grid"><article><span className="eyebrow">Historie</span><p>{selectedProject.history}</p></article><article><span className="eyebrow danger">Možný útok</span><p>{selectedProject.risk}</p></article><article><span className="eyebrow">Argumentace</span><p>{selectedProject.argument}</p></article><article><span className="eyebrow">Důkazy</span><p>{selectedProject.evidence}</p></article></div><RelationshipPanel entityId={`project:${selectedProject.id}`} entities={knowledgeEntities} onOpen={openKnowledgeEntity} /><div className="next-step"><span>Další krok</span><strong>{selectedProject.next}</strong></div></section></div>}
+      {selectedProject && <div className="modal-backdrop" onMouseDown={() => setSelectedProject(null)}><section className="detail-modal project-detail" onMouseDown={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setSelectedProject(null)}>×</button><div className="project-detail-head"><div><span className={`status-pill project-${slugify(selectedProject.status)}`}>{selectedProject.status}</span><h2>{selectedProject.title}</h2><p>{selectedProject.area}</p></div><div className="detail-project-code">P-{String(selectedProject.id).padStart(2, "0")}</div></div>{selectedProject.image ? <div className="project-detail-image"><Image src={selectedProject.image} alt={selectedProject.imageAlt || `Obrazový podklad projektu ${selectedProject.title}`} fill sizes="(max-width: 760px) 100vw, 720px" unoptimized />{selectedProject.imageKind === "vizualizace" && <small className="project-image-label">Vizualizace</small>}</div> : <div className="project-image-placeholder project-detail-placeholder"><span>{selectedProject.area.slice(0, 1)}</span></div>}<div className="detail-section"><span className="eyebrow">Aktuální stav</span><p><strong>{selectedProject.summary}</strong></p>{selectedProject.details.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>{selectedProject.milestones?.length ? <div className="project-detail-grid">{selectedProject.milestones.map((milestone) => <article key={milestone.label}><span className="eyebrow">{milestone.state}</span><p>{milestone.label}</p></article>)}</div> : null}{selectedProject.publicSources.length ? <div className="photo-source-actions">{selectedProject.publicSources.map((source) => <a href={source.href} target="_blank" rel="noreferrer" key={source.href}>{source.label} ↗</a>)}</div> : null}<div className="next-step"><span>Veřejná stránka</span><strong><a href={`/projekty/${selectedProject.slug}`} target="_blank" rel="noreferrer">Otevřít detail projektu ↗</a></strong></div></section></div>}
 
       {renderPostDetail()}
 
