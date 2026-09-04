@@ -53,9 +53,3 @@ Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Ot
 ![Výkres etapizace a podmíněnosti změn využití územního plánu Přezletic z roku 2011](/images/articles/uzemni-plan-etapizace-2011.webp)
 
 _Výkres etapizace územního plánu účinného od listopadu 2011._
-
-![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/rekonstrukce-prutahovych-komunikaci.webp)
-
-![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/zelen-mistni-komunikace.webp)
-
-![Fotografie k článku Kolik rozvoje Přezletice unesou](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)

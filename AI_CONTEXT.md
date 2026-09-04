@@ -87,7 +87,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: zelen-v-prezleticich
 - Markdown: content/articles/zelen-v-prezleticich.md
 - Primární obrázek: /images/projects/zelen-mistni-komunikace.webp
-- Doplňkové obrázky: /images/projects/zelen-prutahove-komunikace.webp · /images/projects/zelen-podzemni-kontejnery.webp · /images/projects/hruskove-aleje-a-dalsi-zelen.webp · /images/projects/dalsi-lokalni-zelen.webp · /images/projects/komunitni-centrum-zlatak.webp
+- Doplňkové obrázky: /images/projects/zelen-prutahove-komunikace.webp
 - Související projekty: 19, 20, 23, 24, 25, 34
 - SoMe posty: 140
 
@@ -96,7 +96,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: nova-radnice-centrum-obce
 - Markdown: content/articles/nova-radnice-centrum-obce.md
 - Primární obrázek: /images/articles/nova-radnice-studie-exterier.webp
-- Doplňkové obrázky: /images/articles/nova-radnice-studie-situace.webp · /images/articles/nova-radnice-studie-pruchod.webp · /images/articles/nova-radnice-studie-rynek.webp
+- Doplňkové obrázky: /images/articles/nova-radnice-studie-situace.webp
 - Související projekty: 16, 34, 35, 3
 - SoMe posty: 141
 
@@ -105,7 +105,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: kapacita-skol-a-skolek
 - Markdown: content/articles/kapacita-skol-a-skolek.md
 - Primární obrázek: /images/projects/rozsireni-kapacity-svazkove-skoly.webp
-- Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp · /images/projects/zahrada-ms.webp · /images/projects/vydejni-automaty-stravovani.webp · /images/articles/bila-vratka-podminenost-skoly.webp
+- Doplňkové obrázky: /images/projects/druhy-pavilon-ms.webp
 - Související projekty: 7, 21, 22
 - SoMe posty: 106, 115, 148
 
@@ -114,7 +114,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: rozvoj-obce-a-uzemni-plan
 - Markdown: content/articles/rozvoj-obce-a-uzemni-plan.md
 - Primární obrázek: /images/articles/uzemni-plan-2001.webp
-- Doplňkové obrázky: /images/articles/uzemni-plan-etapizace-2011.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/zelen-mistni-komunikace.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Doplňkové obrázky: /images/articles/uzemni-plan-etapizace-2011.webp
 - Související projekty: 8, 9, 20, 33
 - SoMe posty: 121, 123
 
@@ -123,7 +123,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: bila-vratka-pozemek-skola
 - Markdown: content/articles/bila-vratka-pozemek-skola.md
 - Primární obrázek: /images/articles/uzemni-plan-etapizace-2011.webp
-- Doplňkové obrázky: /images/articles/uzemni-plan-2001.webp · /images/articles/bila-vratka-podminenost-skoly.webp · /images/projects/rozsireni-kapacity-svazkove-skoly.webp · /images/projects/elektronicka-uredni-deska.webp
+- Doplňkové obrázky: /images/articles/bila-vratka-podminenost-skoly.webp
 - Související projekty: 7, 3
 - SoMe posty: 144
 
@@ -131,7 +131,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 
 - Slug: hasici-v-prezleticich
 - Markdown: content/articles/hasici-v-prezleticich.md
-- Primární obrázek: /images/projects/obecni-policie.webp
+- Primární obrázek: /images/brand/social/prezletaci-social-yellow.png
 - Doplňkové obrázky: Žádné
 - Související projekty: 29, 34
 - SoMe posty: 145
@@ -141,7 +141,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: jak-overujeme-tvrzeni
 - Markdown: content/articles/jak-overujeme-tvrzeni.md
 - Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
-- Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
+- Doplňkové obrázky: Žádné
 - Související projekty: 3
 - SoMe posty: 146
 
@@ -159,7 +159,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: co-bude-s-dalsi-developerskou-vystavbou
 - Markdown: content/articles/co-bude-s-dalsi-developerskou-vystavbou.md
 - Primární obrázek: /images/articles/uzemni-plan-etapizace-2011.webp
-- Doplňkové obrázky: /images/articles/uzemni-plan-2001.webp · /images/projects/rekonstrukce-mistnich-komunikaci.webp · /images/projects/rekonstrukce-prutahovych-komunikaci.webp · /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
+- Doplňkové obrázky: /images/articles/uzemni-plan-2001.webp
 - Související projekty: Čeká
 - SoMe posty: Čeká
 
@@ -168,7 +168,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: verejny-prostor-zelen-a-sportoviste
 - Markdown: content/articles/verejny-prostor-zelen-a-sportoviste.md
 - Primární obrázek: /images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp
-- Doplňkové obrázky: /images/projects/zelen-mistni-komunikace.webp · /images/projects/sportovne-relaxacni-centrum-u-rybnika.webp · /images/projects/detska-hriste.webp · /images/projects/workoutove-hriste.webp · /images/projects/petanque-nohavice.webp
+- Doplňkové obrázky: /images/projects/sportovne-relaxacni-centrum-u-rybnika.webp
 - Související projekty: 6, 19, 20, 23, 25, 26, 31, 32, 33
 - SoMe posty: Čeká
 
@@ -177,7 +177,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Slug: volebni-program-prezletice-2026-2030
 - Markdown: content/articles/volebni-program-prezletice-2026-2030.md
 - Primární obrázek: /images/team/team-wide-01.webp
-- Doplňkové obrázky: /images/brand/social/prezletaci-social-blue.png · /images/brand/social/prezletaci-social-yellow.png
+- Doplňkové obrázky: Žádné
 - Související projekty: Čeká
 - SoMe posty: 137
 

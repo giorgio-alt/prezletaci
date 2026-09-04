@@ -194,7 +194,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 22;/);
+  assert.match(page, /const DATA_VERSION = 24;/);
   assert.match(page, /mergeProjectCatalog\(data\.projects, initialProjects\)/);
 });
 
@@ -287,6 +287,7 @@ test("imports the complete chronological publication plan with concrete producti
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
+  assert.equal(initialPosts.every((post) => [post.primaryImage, ...(post.galleryImages ?? [])].filter(Boolean).length <= 2), true);
   assert.equal(initialPosts.filter((post) => post.date < "2026-08-17").length, 0);
   assert.equal(initialPosts[0]?.id, 142);
   assert.deepEqual(initialPosts.filter((post) => post.candidateId).map((post) => post.candidateId), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
@@ -340,6 +341,39 @@ test("includes the program, logo and Instagram posts as concrete ready social pa
   assert.equal(instagramPost?.futureWebPath, "https://www.instagram.com/prezletaci.2011/");
   assert.match(instagramPost?.contentSummary ?? "", /Přezleťáky lidé nově najdou i na Instagramu/);
   assert.match(instagramPost?.productionNote ?? "", /Publikovat jako první výstup 17\. 8\./);
+});
+
+test("includes today's new website announcement with supplied artwork and channel copy", async () => {
+  await access(new URL("post-novy-web.png", socialDir));
+  const websitePost = initialPosts.find((post) => post.id === 103);
+
+  assert.equal(websitePost?.date, "2026-09-04");
+  assert.equal(websitePost?.title, "Lidé · Web · Máme nový web");
+  assert.equal(websitePost?.subjectType, "channel");
+  assert.equal(websitePost?.primaryImage, "/images/social/post-novy-web.png");
+  assert.equal(websitePost?.status, "Ke schválení");
+  assert.equal(websitePost?.graphic, "Připraveno");
+  assert.equal(websitePost?.copy, "Hotovo");
+  assert.match(websitePost?.facebookCopy ?? "", /Máme nový web/);
+  assert.match(websitePost?.facebookCopy ?? "", /https:\/\/prezletaci2011\.cz/);
+  assert.match(websitePost?.instagramCopy ?? "", /teď přehledně na jednom místě/);
+  assert.equal(websitePost?.futureWebPath, "https://prezletaci2011.cz");
+  assert.match(websitePost?.altText ?? "", /notebookem s náhledem webu/);
+
+  const previousSavedVersion = {
+    ...websitePost,
+    title: "Hotová práce · Výsledky · Co se v Přezleticích podařilo",
+    contentType: "completed",
+    pillar: "Práce",
+    status: "Námět",
+    graphic: "Čeká",
+    copy: "Čeká",
+    primaryImage: undefined,
+  };
+  const migratedWebsitePost = mergePostsWithPlan([previousSavedVersion], 22).find((post) => post.id === 103);
+  assert.equal(migratedWebsitePost?.title, websitePost?.title);
+  assert.equal(migratedWebsitePost?.primaryImage, websitePost?.primaryImage);
+  assert.equal(migratedWebsitePost?.socialCopy, websitePost?.socialCopy);
 });
 
 test("defines the campaign launch post as a ready-to-produce social item", async () => {
@@ -544,6 +578,8 @@ test("publishes every article for people and robots from one canonical source", 
 
     assert.equal(sourceMarkdown, expectedMarkdown, `${article.slug}: zdrojový Markdown se liší od Campaign HQ`);
     assert.equal(article.status, "ready");
+    assert.equal(imagePaths.length <= 2, true, `${article.slug}: článek obsahuje více než dva obrazové podklady`);
+    assert.equal(imagePaths.every((image) => Boolean(article.imageDescriptions?.[image])), true, `${article.slug}: obrázek nemá konkrétní popis relevance`);
     await Promise.all(imagePaths.map((image) => access(new URL(`../public${image}`, import.meta.url))));
     assert.match(expectedMarkdown, new RegExp(`## ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(expectedMarkdown, /Copy ke schválení|Komunikační pilíř|Autorský podklad|Kontrola před publikací|Text pro sociální sítě|Instagram carousel|## CTA/i);
@@ -603,6 +639,12 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   assert.equal(bilaVratka?.title, "Bílá vrátka v kontextu dvou developerských projektů");
   assert.match(articleToMarkdown(bilaVratka), /dva navazující developerské záměry/i);
   assert.equal(bilaVratka?.sourceLinks.some((link) => /Smlouva o spolupráci podepsaná/i.test(link)), false);
+  assert.deepEqual([bilaVratka?.primaryImage, ...(bilaVratka?.galleryImages ?? [])], [
+    "/images/articles/uzemni-plan-etapizace-2011.webp",
+    "/images/articles/bila-vratka-podminenost-skoly.webp",
+  ]);
+  assert.equal(articleContentBySlug.get("hasici-v-prezleticich")?.primaryImage, "/images/brand/social/prezletaci-social-yellow.png");
+  assert.equal(articleToMarkdown(articleContentBySlug.get("hasici-v-prezleticich")).includes("obecni-policie.webp"), false);
 
   assert.match(articleToMarkdown(programArticle), /sociální vazby|sousedské vztahy/i);
   assert.match(PROGRAM_MARKDOWN, /sociální vazby|sousedské vztahy/i);

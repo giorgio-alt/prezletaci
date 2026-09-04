@@ -2,7 +2,9 @@
 
 V komunální kampani se často vrací staré příběhy. Některé jsou přesné, některé zjednodušené a některé se postupem času změnily v dojem. My chceme s historií obce pracovat jinak: klidně, věcně a s jasným rozlišením toho, co víme, co si myslíme a co ještě ověřujeme.
 
-![Fotografie k článku Jak ověřujeme tvrzení o historii obce](/images/projects/elektronicka-uredni-deska.webp)
+![Elektronická úřední deska před obecním úřadem v Přezleticích](/images/projects/elektronicka-uredni-deska.webp)
+
+_Veřejně dostupné dokumenty jsou jedním ze zdrojů pro ověřování tvrzení o historii obce._
 
 ## Tvrzení samo o sobě nestačí
 
@@ -33,9 +35,3 @@ Tahle poctivost není slabost. Naopak. Dává komunikaci důvěryhodnost a lidem
 U delších článků chceme mít odkazy na podklady přímo ve webové sekci. U příspěvků na sociálních sítích bude hlavní text kratší, ale měl by vést na článek, kde jsou zdroje a širší vysvětlení.
 
 Cílem je, aby příspěvky na sociálních sítích nebyly jen sada sloganů. Mají být rozcestníkem k ověřitelným informacím, které si může přečíst každý, kdo chce jít hlouběji.
-
-## Fotografie a obrazové podklady
-
-![Fotografie k článku Jak ověřujeme tvrzení o historii obce](/images/brand/social/prezletaci-social-blue.png)
-
-![Fotografie k článku Jak ověřujeme tvrzení o historii obce](/images/brand/social/prezletaci-social-yellow.png)

@@ -2,7 +2,9 @@
 
 Kapacita škol a školek je jedno z témat, které se lidí dotýká nejvíc. Zvenku může působit jednoduše: dětí přibývá, tak postavme další třídu. Ve skutečnosti jde o dlouhou práci s pozemky, projektem, financováním, svazkem obcí, stavebními kroky a provozem. Proto má smysl ukazovat nejen výsledek, ale i cestu, která k němu vede.
 
-![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/rozsireni-kapacity-svazkove-skoly.webp)
+![Svazková škola a jídelna Panská pole](/images/projects/rozsireni-kapacity-svazkove-skoly.webp)
+
+_Společná škola Přezletic, Jenštejna a Podolanky vznikla jako dlouhodobé kapacitní řešení pro tři obce._
 
 ## Výchozí problém
 
@@ -62,12 +64,6 @@ Proto chceme o škole mluvit jako o společné odpovědnosti: chránit funkční
 
 ## Fotografie a obrazové podklady
 
-![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/druhy-pavilon-ms.webp)
+![Druhý pavilon mateřské školy v Přezleticích](/images/projects/druhy-pavilon-ms.webp)
 
-![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/zahrada-ms.webp)
-
-![Fotografie k článku Jak vznikala kapacita škol a školek](/images/projects/vydejni-automaty-stravovani.webp)
-
-![Text územního plánu stanovující podmínky výstavby školy, školky a retenčních ploch v lokalitě Bílá vrátka](/images/articles/bila-vratka-podminenost-skoly.webp)
-
-_Územní plán spojil výstavbu bydlení v části lokality A1 s přípravou školy, školky a retenčních ploch._
+_Rozšiřování kapacity se týká vedle základní školy také předškolního vzdělávání._

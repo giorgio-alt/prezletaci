@@ -2,7 +2,9 @@
 
 Zeleň v obci není jen otázka toho, kde se něco zasadí. Je to dlouhodobá práce s místem, vodou, stínem, údržbou i tím, jak lidé ulicemi každý den procházejí. Pro nás proto péče o zeleň znamená postupnou práci se stromy a alejemi, průtahovými komunikacemi, rekonstruovanými ulicemi, okolím podzemních kontejnerů i komunitního centra.
 
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-mistni-komunikace.webp)
+![Zeleň podél místní komunikace v Přezleticích](/images/projects/zelen-mistni-komunikace.webp)
+
+_Výsadby u místních komunikací spojují příjemnější ulici s praktičtější údržbou._
 
 ## Proč o zeleni přemýšlíme jako o systému
 
@@ -56,12 +58,6 @@ Dobře udržovaná zeleň není jen hezčí obec. Je to stín v létě, méně p
 
 ## Fotografie a obrazové podklady
 
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-prutahove-komunikace.webp)
+![Zeleň podél průtahové komunikace v Přezleticích](/images/projects/zelen-prutahove-komunikace.webp)
 
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/zelen-podzemni-kontejnery.webp)
-
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/hruskove-aleje-a-dalsi-zelen.webp)
-
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/dalsi-lokalni-zelen.webp)
-
-![Fotografie k článku Co pro nás znamená péče o zeleň v Přezleticích](/images/projects/komunitni-centrum-zlatak.webp)
+_Zeleň u frekventovaných tahů pomáhá s prašností, stínem a mikroklimatem._

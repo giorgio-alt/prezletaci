@@ -139,11 +139,17 @@ export const articleContent: ArticleContent[] = [
     primaryImage: "/images/projects/zelen-mistni-komunikace.webp",
     galleryImages: [
       "/images/projects/zelen-prutahove-komunikace.webp",
-      "/images/projects/zelen-podzemni-kontejnery.webp",
-      "/images/projects/hruskove-aleje-a-dalsi-zelen.webp",
-      "/images/projects/dalsi-lokalni-zelen.webp",
-      "/images/projects/komunitni-centrum-zlatak.webp",
     ],
+    imageDescriptions: {
+      "/images/projects/zelen-mistni-komunikace.webp": {
+        alt: "Zeleň podél místní komunikace v Přezleticích",
+        caption: "Výsadby u místních komunikací spojují příjemnější ulici s praktičtější údržbou.",
+      },
+      "/images/projects/zelen-prutahove-komunikace.webp": {
+        alt: "Zeleň podél průtahové komunikace v Přezleticích",
+        caption: "Zeleň u frekventovaných tahů pomáhá s prašností, stínem a mikroklimatem.",
+      },
+    },
     projectIds: [19, 20, 23, 24, 25, 34],
     socialPostIds: [140],
     sourceLinks: [
@@ -238,8 +244,6 @@ export const articleContent: ArticleContent[] = [
     primaryImage: "/images/articles/nova-radnice-studie-exterier.webp",
     galleryImages: [
       "/images/articles/nova-radnice-studie-situace.webp",
-      "/images/articles/nova-radnice-studie-pruchod.webp",
-      "/images/articles/nova-radnice-studie-rynek.webp",
     ],
     imageDescriptions: {
       "/images/articles/nova-radnice-studie-exterier.webp": {
@@ -249,14 +253,6 @@ export const articleContent: ArticleContent[] = [
       "/images/articles/nova-radnice-studie-situace.webp": {
         alt: "Situační výkres nové radnice a prostoru Na Rynku mezi Veleňskou a ulicí V Uličce",
         caption: "Situační návrh propojení nové radnice, stávajícího úřadu a prostoru Na Rynku.",
-      },
-      "/images/articles/nova-radnice-studie-pruchod.webp": {
-        alt: "Vizualizace průhledu z nové radnice do prostoru Na Rynku",
-        caption: "Průhled z interiéru radnice směrem do nového veřejného prostoru.",
-      },
-      "/images/articles/nova-radnice-studie-rynek.webp": {
-        alt: "Vizualizace pěšího propojení a prostoru Na Rynku u nové radnice",
-        caption: "Navrhovaný prostor Na Rynku má propojit obě návsi a nabídnout místo pro setkávání.",
       },
     },
     projectIds: [16, 34, 35, 3],
@@ -343,14 +339,15 @@ export const articleContent: ArticleContent[] = [
     primaryImage: "/images/projects/rozsireni-kapacity-svazkove-skoly.webp",
     galleryImages: [
       "/images/projects/druhy-pavilon-ms.webp",
-      "/images/projects/zahrada-ms.webp",
-      "/images/projects/vydejni-automaty-stravovani.webp",
-      "/images/articles/bila-vratka-podminenost-skoly.webp",
     ],
     imageDescriptions: {
-      "/images/articles/bila-vratka-podminenost-skoly.webp": {
-        alt: "Text územního plánu stanovující podmínky výstavby školy, školky a retenčních ploch v lokalitě Bílá vrátka",
-        caption: "Územní plán spojil výstavbu bydlení v části lokality A1 s přípravou školy, školky a retenčních ploch.",
+      "/images/projects/rozsireni-kapacity-svazkove-skoly.webp": {
+        alt: "Svazková škola a jídelna Panská pole",
+        caption: "Společná škola Přezletic, Jenštejna a Podolanky vznikla jako dlouhodobé kapacitní řešení pro tři obce.",
+      },
+      "/images/projects/druhy-pavilon-ms.webp": {
+        alt: "Druhý pavilon mateřské školy v Přezleticích",
+        caption: "Rozšiřování kapacity se týká vedle základní školy také předškolního vzdělávání.",
       },
     },
     projectIds: [7, 21, 22],
@@ -430,9 +427,6 @@ export const articleContent: ArticleContent[] = [
     primaryImage: "/images/articles/uzemni-plan-2001.webp",
     galleryImages: [
       "/images/articles/uzemni-plan-etapizace-2011.webp",
-      "/images/projects/rekonstrukce-prutahovych-komunikaci.webp",
-      "/images/projects/zelen-mistni-komunikace.webp",
-      "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp",
     ],
     imageDescriptions: {
       "/images/articles/uzemni-plan-2001.webp": {
@@ -505,19 +499,12 @@ export const articleContent: ArticleContent[] = [
     markdownPath: "content/articles/bila-vratka-pozemek-skola.md",
     primaryImage: "/images/articles/uzemni-plan-etapizace-2011.webp",
     galleryImages: [
-      "/images/articles/uzemni-plan-2001.webp",
       "/images/articles/bila-vratka-podminenost-skoly.webp",
-      "/images/projects/rozsireni-kapacity-svazkove-skoly.webp",
-      "/images/projects/elektronicka-uredni-deska.webp",
     ],
     imageDescriptions: {
       "/images/articles/uzemni-plan-etapizace-2011.webp": {
         alt: "Výkres etapizace územního plánu Přezletic s vyznačenými lokalitami A až H",
         caption: "Výkres rozlišuje jednotlivé lokality a zobrazuje podmíněnost části A1 v Bílých vrátkách.",
-      },
-      "/images/articles/uzemni-plan-2001.webp": {
-        alt: "Hlavní výkres územního plánu Přezletic z dubna 2001",
-        caption: "Podoba územního plánu z roku 2001 před pozdějším rozšířením zastavitelných ploch.",
       },
       "/images/articles/bila-vratka-podminenost-skoly.webp": {
         alt: "Text podmínek územního plánu pro školu, školku a retenční plochy v lokalitě Bílá vrátka",
@@ -590,12 +577,11 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Přezletice měly spolek i obecní jednotku.", "Zastupitelstvo v roce 2012 zrušilo jednotku, ne tehdejší spolek.", "Požární ochranu následně zajišťuje smluvně Podolanka.", "Obnova potřebuje nejméně devět vyškolených členů.", "Nutné je zázemí, technika, vybavení a stabilní rozpočet.", "Chceme obnovit zásahovou pomoc i komunitní tradici."],
     cta: "Přečtěte si, co se s přezletickými hasiči stalo a jak může jejich obnova reálně proběhnout.",
     markdownPath: "content/articles/hasici-v-prezleticich.md",
-    primaryImage: "/images/projects/obecni-policie.webp",
+    primaryImage: "/images/brand/social/prezletaci-social-yellow.png",
     galleryImages: [],
     imageDescriptions: {
-      "/images/projects/obecni-policie.webp": {
-        alt: "Budova obecní policie v Přezleticích",
-        caption: "Obnova vlastní jednotky vyžaduje vedle lidí a vybavení také odpovídající zázemí.",
+      "/images/brand/social/prezletaci-social-yellow.png": {
+        alt: "Žlutá grafika Přezleťáků k vysvětlujícímu článku o hasičích",
       },
     },
     publicSources: [
@@ -661,10 +647,13 @@ export const articleContent: ArticleContent[] = [
     cta: "Přečtěte si, jak budeme v kampani pracovat s fakty, historií a citlivými tématy.",
     markdownPath: "content/articles/jak-overujeme-tvrzeni.md",
     primaryImage: "/images/projects/elektronicka-uredni-deska.webp",
-    galleryImages: [
-      "/images/brand/social/prezletaci-social-blue.png",
-      "/images/brand/social/prezletaci-social-yellow.png",
-    ],
+    galleryImages: [],
+    imageDescriptions: {
+      "/images/projects/elektronicka-uredni-deska.webp": {
+        alt: "Elektronická úřední deska před obecním úřadem v Přezleticích",
+        caption: "Veřejně dostupné dokumenty jsou jedním ze zdrojů pro ověřování tvrzení o historii obce.",
+      },
+    },
     projectIds: [3],
     socialPostIds: [146],
     sourceLinks: [
@@ -825,9 +814,6 @@ export const articleContent: ArticleContent[] = [
     primaryImage: "/images/articles/uzemni-plan-etapizace-2011.webp",
     galleryImages: [
       "/images/articles/uzemni-plan-2001.webp",
-      "/images/projects/rekonstrukce-mistnich-komunikaci.webp",
-      "/images/projects/rekonstrukce-prutahovych-komunikaci.webp",
-      "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp",
     ],
     imageDescriptions: {
       "/images/articles/uzemni-plan-etapizace-2011.webp": {
@@ -913,12 +899,18 @@ export const articleContent: ArticleContent[] = [
     markdownPath: "content/articles/verejny-prostor-zelen-a-sportoviste.md",
     primaryImage: "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp",
     galleryImages: [
-      "/images/projects/zelen-mistni-komunikace.webp",
       "/images/projects/sportovne-relaxacni-centrum-u-rybnika.webp",
-      "/images/projects/detska-hriste.webp",
-      "/images/projects/workoutove-hriste.webp",
-      "/images/projects/petanque-nohavice.webp",
     ],
+    imageDescriptions: {
+      "/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp": {
+        alt: "Lávka a veřejné plochy na Zlatém kopci",
+        caption: "Propojení cest, zeleně a míst k zastavení ukazuje, jak může veřejný prostor plnit více funkcí najednou.",
+      },
+      "/images/projects/sportovne-relaxacni-centrum-u-rybnika.webp": {
+        alt: "Multifunkční hřiště u rybníka v Přezleticích",
+        caption: "Sportovní plocha je zároveň místem pro pohyb, odpočinek a sousedské setkávání.",
+      },
+    },
     projectIds: [6, 19, 20, 23, 25, 26, 31, 32, 33],
     socialPostIds: [],
     sourceLinks: [
@@ -983,10 +975,13 @@ export const articleContent: ArticleContent[] = [
     cta: "Sledujte nás. Jednotlivé části programu budeme postupně vysvětlovat v dalších postech a článcích do voleb.",
     markdownPath: "content/articles/volebni-program-prezletice-2026-2030.md",
     primaryImage: "/images/team/team-wide-01.webp",
-    galleryImages: [
-      "/images/brand/social/prezletaci-social-blue.png",
-      "/images/brand/social/prezletaci-social-yellow.png",
-    ],
+    galleryImages: [],
+    imageDescriptions: {
+      "/images/team/team-wide-01.webp": {
+        alt: "Společná fotografie týmu Přezleťáků 2026",
+        caption: "Program představuje společné priority jedenácti kandidátů Přezleťáků.",
+      },
+    },
     projectIds: [],
     socialPostIds: [137],
     sourceLinks: [

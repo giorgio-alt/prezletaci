@@ -2,7 +2,9 @@
 
 Když jdete s dítětem na hřiště, hledáte v létě stín nebo si chcete na chvíli sednout a potkat sousedy, poznáte, jak důležitý je dobrý veřejný prostor. Přezletice mají obecních pozemků omezené množství. O to pečlivěji musíme promýšlet, jak každý z nich využít.
 
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)
+![Lávka a veřejné plochy na Zlatém kopci](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)
+
+_Propojení cest, zeleně a míst k zastavení ukazuje, jak může veřejný prostor plnit více funkcí najednou._
 
 ## Veřejný prostor začíná cestou z domu
 
@@ -42,12 +44,6 @@ Kde nová výstavba zvýší nároky na obec, musí se jednat také o odpovídaj
 
 ## Fotografie a obrazové podklady
 
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/zelen-mistni-komunikace.webp)
+![Multifunkční hřiště u rybníka v Přezleticích](/images/projects/sportovne-relaxacni-centrum-u-rybnika.webp)
 
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/sportovne-relaxacni-centrum-u-rybnika.webp)
-
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/detska-hriste.webp)
-
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/workoutove-hriste.webp)
-
-![Fotografie k článku Veřejný prostor, zeleň a sportoviště: jak využít každý dostupný prostor](/images/projects/petanque-nohavice.webp)
+_Sportovní plocha je zároveň místem pro pohyb, odpočinek a sousedské setkávání._

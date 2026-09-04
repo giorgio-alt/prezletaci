@@ -2,7 +2,9 @@
 
 Volby nejsou jen o velkých heslech. Rozhodují o tom, kdo bude každý týden řešit dopravu, školu, zeleň, služby, bezpečnost, rozpočet a další konkrétní věci, které ovlivňují každodenní život v Přezleticích.
 
-![Fotografie k článku Volební program Přezleťáků: co je pro nás nejdůležitější](/images/team/team-wide-01.webp)
+![Společná fotografie týmu Přezleťáků 2026](/images/team/team-wide-01.webp)
+
+_Program představuje společné priority jedenácti kandidátů Přezleťáků._
 
 ## Nechceme slibovat všechno všem
 
@@ -41,9 +43,3 @@ Kultura a společenské centrum. Přezletice potřebují důstojné zázemí pro
 Digitalizace a komunikace obce. Informace mají být dostupné srozumitelně a včas. Digitální služby mohou lidem ušetřit cestu na úřad, ale nesmí se zapomenout ani na ty, kteří potřebují informace jinou cestou.
 
 Odpovědné hospodaření. Každý plán musí mít reálný finanční základ. U velkých priorit chceme ukazovat pořadí kroků, možné zdroje financování, návaznost na dotace a rozhodnutí, která musí předcházet realizaci.
-
-## Fotografie a obrazové podklady
-
-![Fotografie k článku Volební program Přezleťáků: co je pro nás nejdůležitější](/images/brand/social/prezletaci-social-blue.png)
-
-![Fotografie k článku Volební program Přezleťáků: co je pro nás nejdůležitější](/images/brand/social/prezletaci-social-yellow.png)

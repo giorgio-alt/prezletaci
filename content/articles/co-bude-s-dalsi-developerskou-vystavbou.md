@@ -47,9 +47,3 @@ Teprve s těmito podklady má smysl rozhodovat o dalších plochách. Naším m�
 ![Hlavní výkres územního plánu Přezletic z dubna 2001](/images/articles/uzemni-plan-2001.webp)
 
 _Původní územní plán z roku 2001 pro srovnání s pozdějším rozsahem rozvojových ploch._
-
-![Fotografie k článku Co bude s další výstavbou v Přezleticích](/images/projects/rekonstrukce-mistnich-komunikaci.webp)
-
-![Fotografie k článku Co bude s další výstavbou v Přezleticích](/images/projects/rekonstrukce-prutahovych-komunikaci.webp)
-
-![Fotografie k článku Co bude s další výstavbou v Přezleticích](/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp)

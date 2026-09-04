@@ -40,17 +40,9 @@ Cílem časové osy není vyhrát slovní přestřelku. Má dát lidem přehled 
 
 ## Fotografie a obrazové podklady
 
-![Hlavní výkres územního plánu Přezletic z dubna 2001](/images/articles/uzemni-plan-2001.webp)
-
-_Podoba územního plánu z roku 2001 před pozdějším rozšířením zastavitelných ploch._
-
 ![Text podmínek územního plánu pro školu, školku a retenční plochy v lokalitě Bílá vrátka](/images/articles/bila-vratka-podminenost-skoly.webp)
 
 _Podmínky pro povolení bydlení v části A1 podle územního plánu._
-
-![Fotografie k článku Bílá vrátka v kontextu dvou developerských projektů](/images/projects/rozsireni-kapacity-svazkove-skoly.webp)
-
-![Fotografie k článku Bílá vrátka v kontextu dvou developerských projektů](/images/projects/elektronicka-uredni-deska.webp)
 
 ## Veřejné zdroje
 

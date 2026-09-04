@@ -79,11 +79,3 @@ Dobrá obecní budova nemá být symbolem sama pro sebe. Má zjednodušit služb
 ![Situační výkres nové radnice a prostoru Na Rynku mezi Veleňskou a ulicí V Uličce](/images/articles/nova-radnice-studie-situace.webp)
 
 _Situační návrh propojení nové radnice, stávajícího úřadu a prostoru Na Rynku._
-
-![Vizualizace průhledu z nové radnice do prostoru Na Rynku](/images/articles/nova-radnice-studie-pruchod.webp)
-
-_Průhled z interiéru radnice směrem do nového veřejného prostoru._
-
-![Vizualizace pěšího propojení a prostoru Na Rynku u nové radnice](/images/articles/nova-radnice-studie-rynek.webp)
-
-_Navrhovaný prostor Na Rynku má propojit obě návsi a nabídnout místo pro setkávání._
