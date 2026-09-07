@@ -236,7 +236,12 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
   assert.match(page, /const DATA_VERSION = 25;/);
-  assert.match(page, /refreshProjectPublicFields\(mergeProjectCatalog\(data\.projects, initialProjects\)\)/);
+  assert.equal(
+    page.match(/refreshProjectPublicFields\(mergeProjectCatalog\(data\.projects, initialProjects\)\)/g)?.length,
+    2,
+    "kanonická projektová data se musí obnovit při načtení lokálního stavu i při importu zálohy",
+  );
+  assert.doesNotMatch(page, /legacyCoreProject|coreProjects|realizace je zajištěna za přispění developera/);
 });
 
 test("exposes external Google Drive photo sources throughout Campaign HQ", async () => {
