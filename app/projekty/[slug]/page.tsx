@@ -60,7 +60,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {project.image ? (
             <figure className="public-project-detail-image">
               <div><Image src={project.image} alt={project.imageAlt ?? ""} fill priority sizes="(max-width: 900px) 100vw, 44vw" unoptimized /></div>
-              {project.imageKind === "vizualizace" && <figcaption>Vizualizace zamýšlené podoby</figcaption>}
+              {project.imageKind && project.imageKind !== "fotografie" && <figcaption>{project.imageKind === "ilustrace" ? "Ilustrační zobrazení tématu" : "Vizualizace zamýšlené podoby"}</figcaption>}
             </figure>
           ) : <div className="public-project-detail-mark" aria-hidden="true"><span>{project.area.slice(0, 1)}</span></div>}
         </header>

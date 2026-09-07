@@ -19,7 +19,7 @@ export type PublicProjectRecord = {
   milestones?: PublicProjectMilestone[];
   image?: string;
   imageAlt?: string;
-  imageKind?: "fotografie" | "vizualizace";
+  imageKind?: "fotografie" | "vizualizace" | "ilustrace";
   mediaStatus: PublicProjectMediaStatus;
   sourceUrls?: { label: string; href: string }[];
 };
@@ -68,8 +68,17 @@ const projectFacts: Omit<PublicProjectRecord, "image" | "imageAlt" | "imageKind"
 ];
 
 const imageOverrides = new Map<number, Pick<PublicProjectRecord, "image" | "imageAlt" | "imageKind">>([
+  [2, { image: "/images/projects/digitalizace-plateb-a-agend-ilustrace.webp", imageAlt: "Ilustrace digitálních plateb a obecních agend", imageKind: "ilustrace" }],
   [4, { image: "/images/projects/dlouhy-park-pod-skolou.webp", imageAlt: "Vizualizace Dlouhého parku pod školou", imageKind: "vizualizace" }],
   [8, { image: "/images/projects/sportoviste-u-skoly.webp", imageAlt: "Vizualizace sportoviště u školy", imageKind: "vizualizace" }],
+  [9, { image: "/images/projects/opticka-sit-cetin-ilustrace.webp", imageAlt: "Ilustrace optické sítě propojující obec", imageKind: "ilustrace" }],
+  [10, { image: "/images/projects/vos-kastanova-ilustrace.webp", imageAlt: "Ilustrace koordinované pokládky veřejného osvětlení v Kaštanové", imageKind: "ilustrace" }],
+  [11, { image: "/images/projects/sokp-520-v-tunelove-variante-ilustrace.webp", imageAlt: "Ilustrace silničního tunelu pod krajinou", imageKind: "ilustrace" }],
+  [12, { image: "/images/projects/kolejove-spojeni-praha-brandys-ilustrace.webp", imageAlt: "Ilustrace kolejového spojení mezi obcemi", imageKind: "ilustrace" }],
+  [13, { image: "/images/projects/eko-dvur-ilustrace.webp", imageAlt: "Ilustrace sběrného a třídicího EKO dvora", imageKind: "ilustrace" }],
+  [14, { image: "/images/projects/novy-vodojem-ilustrace.webp", imageAlt: "Ilustrace obecního vodojemu a vodovodní sítě", imageKind: "ilustrace" }],
+  [15, { image: "/images/projects/rozsireni-kapacity-cov-ilustrace.webp", imageAlt: "Ilustrace rozšíření kapacity čistírny odpadních vod", imageKind: "ilustrace" }],
+  [17, { image: "/images/projects/materska-skola-nad-skolou-ilustrace.webp", imageAlt: "Ilustrace plánované mateřské školy nad školou", imageKind: "ilustrace" }],
   [18, { image: "/images/articles/nova-radnice-studie-exterier.webp", imageAlt: "Vizualizace nového obecního úřadu v Přezleticích", imageKind: "vizualizace" }],
 ]);
 

@@ -157,7 +157,19 @@ test("imports optimized photographs and approved project visualizations", async 
   ]);
   const slugs = projectImageManifest.map((record) => record.slug);
   const projectIds = projectImageManifest.map((record) => record.projectId);
-  const supplementalFiles = ["dlouhy-park-pod-skolou.webp", "sportoviste-u-skoly.webp"];
+  const supplementalFiles = [
+    "digitalizace-plateb-a-agend-ilustrace.webp",
+    "dlouhy-park-pod-skolou.webp",
+    "eko-dvur-ilustrace.webp",
+    "kolejove-spojeni-praha-brandys-ilustrace.webp",
+    "materska-skola-nad-skolou-ilustrace.webp",
+    "novy-vodojem-ilustrace.webp",
+    "opticka-sit-cetin-ilustrace.webp",
+    "rozsireni-kapacity-cov-ilustrace.webp",
+    "sokp-520-v-tunelove-variante-ilustrace.webp",
+    "sportoviste-u-skoly.webp",
+    "vos-kastanova-ilustrace.webp",
+  ];
   const expectedFiles = [...projectImageManifest.map((record) => record.image.split("/").at(-1)), ...supplementalFiles].sort();
 
   assert.equal(projectImageManifest.length, 26);
@@ -186,9 +198,10 @@ test("imports optimized photographs and approved project visualizations", async 
 test("publishes all 38 factual projects without production notes", async () => {
   assert.equal(publicProjectContent.length, 38);
   assert.deepEqual(publicProjectStatusCounts, { Hotové: 15, Rozpracované: 17, Plánované: 6 });
-  assert.deepEqual(projectsMissingMedia.map((project) => project.id), [2, 9, 10, 12, 13, 14, 15, 17]);
-  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "available").length, 29);
-  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "external-source").length, 1);
+  assert.deepEqual(projectsMissingMedia.map((project) => project.id), []);
+  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "available").length, 38);
+  assert.equal(publicProjectContent.filter((project) => project.mediaStatus === "external-source").length, 0);
+  assert.deepEqual(publicProjectContent.filter((project) => project.imageKind === "ilustrace").map((project) => project.id), [2, 9, 10, 11, 12, 13, 14, 15, 17]);
   assert.equal(publicProjectContent.every((project) => project.title && project.summary && project.details.length), true);
 
   for (const project of publicProjectContent.filter((item) => item.image)) {
@@ -202,6 +215,7 @@ test("publishes all 38 factual projects without production notes", async () => {
   assert.equal(overviewResponse.status, 200);
   const overview = await overviewResponse.text();
   assert.match(overview, /38 projektů/);
+  assert.match(overview, /Ilustrace/);
   assert.match(overview, /Dlouhý park pod školou/);
   assert.doesNotMatch(overview, /produkční|možný útok|lokální stopa|garant/i);
 

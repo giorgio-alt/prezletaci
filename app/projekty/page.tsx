@@ -70,7 +70,7 @@ export default function ProjectsPage() {
                   {project.image ? (
                     <figure>
                       <Image src={project.image} alt={project.imageAlt ?? ""} fill sizes="(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 33vw" unoptimized />
-                      {project.imageKind === "vizualizace" && <figcaption>Vizualizace</figcaption>}
+                      {project.imageKind && project.imageKind !== "fotografie" && <figcaption>{project.imageKind === "ilustrace" ? "Ilustrace" : "Vizualizace"}</figcaption>}
                     </figure>
                   ) : (
                     <div className="public-project-abstract" aria-hidden="true"><span>{project.area.slice(0, 1)}</span></div>
