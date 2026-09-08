@@ -145,7 +145,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 - Související projekty: 3
 - SoMe posty: 146
 
-### Proč Přezletice potřebují vlastní zpravodaj
+### Má smysl znovu vydávat přezletický zpravodaj?
 
 - Slug: proc-prezletice-potrebuji-zpravodaj
 - Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md

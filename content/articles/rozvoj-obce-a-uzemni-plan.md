@@ -14,9 +14,9 @@ Každý nový projekt znamená nejen nové obyvatele, ale také větší nároky
 
 ## Co může obec ovlivnit
 
-Obec má několik nástrojů. Může pracovat s územním plánem, stanovovat podmínky pro konkrétní území, jednat s investory o veřejné infrastruktuře, využívat smlouvy a hlídat návaznost projektů na kapacity obce.
+Obec má několik nástrojů. Hlavním nástrojem je územní plán, který má stanovovat podmínky pro konkrétní využití území. Dále jsou nutná jednání s investory o rozvoji návazné veřejné infrastruktury, správné nastavení smluv a v neposlední řadě kontrola návazností projektů na kapacity obce.
 
-Zároveň je důležité říct i druhou část: obec nemůže libovolně zastavit všechno, co se někomu nelíbí. Rozhoduje v právním rámci, podle platných dokumentů a postupů. Právě proto je důležité mít pravidla připravená včas.
+Zároveň je důležité říct i druhou část: obec nemůže libovolně zastavit všechny projekty, které se někomu nelíbí. Rozhoduje v právním rámci, podle platných dokumentů a postupů. Právě proto je důležité mít pravidla připravená včas.
 
 ## Územní plán jako brzda i kompas
 
@@ -44,9 +44,9 @@ Naším cílem není vést debatu přes nálepky. Chceme vysvětlovat, kde jsou 
 
 ## Co budeme dělat dál
 
-Chceme držet tempo rozvoje obce tak, aby odpovídalo infrastruktuře a kvalitě života. To znamená průběžně pracovat s územním plánem, zveřejňovat srozumitelné informace, posilovat vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.
+Chceme držet tempo rozvoje obce tak, aby odpovídalo potřebám infrastruktury a kvalitě života. To znamená nastavit nové podmínky v územním plánu, jednat s občany a zveřejňovat srozumitelné informace, převzít vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.
 
-Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby zůstal obyvatelný, férový a dlouhodobě udržitelný.
+Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby byl férový a dlouhodobě udržitelný a aby obec zůstala obyvatelná.
 
 ## Fotografie a obrazové podklady
 

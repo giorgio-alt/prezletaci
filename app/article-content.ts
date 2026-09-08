@@ -380,8 +380,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co může obec ovlivnit",
         paragraphs: [
-          "Obec má několik nástrojů. Může pracovat s územním plánem, stanovovat podmínky pro konkrétní území, jednat s investory o veřejné infrastruktuře, využívat smlouvy a hlídat návaznost projektů na kapacity obce.",
-          "Zároveň je důležité říct i druhou část: obec nemůže libovolně zastavit všechno, co se někomu nelíbí. Rozhoduje v právním rámci, podle platných dokumentů a postupů. Právě proto je důležité mít pravidla připravená včas.",
+          "Obec má několik nástrojů. Hlavním nástrojem je územní plán, který má stanovovat podmínky pro konkrétní využití území. Dále jsou nutná jednání s investory o rozvoji návazné veřejné infrastruktury, správné nastavení smluv a v neposlední řadě kontrola návazností projektů na kapacity obce.",
+          "Zároveň je důležité říct i druhou část: obec nemůže libovolně zastavit všechny projekty, které se někomu nelíbí. Rozhoduje v právním rámci, podle platných dokumentů a postupů. Právě proto je důležité mít pravidla připravená včas.",
         ],
       },
       {
@@ -415,8 +415,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co budeme dělat dál",
         paragraphs: [
-          "Chceme držet tempo rozvoje obce tak, aby odpovídalo infrastruktuře a kvalitě života. To znamená průběžně pracovat s územním plánem, zveřejňovat srozumitelné informace, posilovat vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.",
-          "Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby zůstal obyvatelný, férový a dlouhodobě udržitelný.",
+          "Chceme držet tempo rozvoje obce tak, aby odpovídalo potřebám infrastruktury a kvalitě života. To znamená nastavit nové podmínky v územním plánu, jednat s občany a zveřejňovat srozumitelné informace, převzít vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.",
+          "Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby byl férový a dlouhodobě udržitelný a aby obec zůstala obyvatelná.",
         ],
       },
     ],
@@ -663,67 +663,60 @@ export const articleContent: ArticleContent[] = [
   },
   {
     slug: "proc-prezletice-potrebuji-zpravodaj",
-    title: "Proč Přezletice potřebují vlastní zpravodaj",
+    title: "Má smysl znovu vydávat přezletický zpravodaj?",
     candidateId: 3,
     status: "ready",
     pillar: "Plány + Lidé + Vysvětlování",
-    summary: "Tištěný obecní zpravodaj může zpřístupnit informace také lidem bez sociálních sítí, chytrého telefonu nebo počítače.",
-    perex: "Ne každý sleduje Facebook nebo Instagram a ne každý používá chytrý telefon či počítač. Přesto mají mít všichni obyvatelé Přezletic přístup k důležitým informacím o dění v obci. Právě proto dává smysl znovu otevřít debatu o pravidelném tištěném zpravodaji.",
+    summary: "Realistická úvaha o možném obnovení přezletického zpravodaje: zkušenost z minulosti, náročnost a náklady i možnost širšího redakčního týmu v rostoucí obci.",
+    perex: "Přezletice už svůj zpravodaj v minulosti vydávaly. Později jeho vydávání skončilo — také proto, že připravovat pravidelný a kvalitní obecní časopis znamená mnoho práce, jasnou odpovědnost a nemalé náklady. Obec se ale mezitím výrazně rozrostla. Proto podle nás stojí za to znovu otevřít otázku, zda by dnes zpravodaj mohl vznikat s širším redakčním týmem a realisticky nastavenými podmínkami.",
     body: [
       {
-        heading: "Informace musí být dostupné všem",
+        heading: "Zpravodaj tu už jednou byl",
         paragraphs: [
-          "Velká část obecní komunikace se dnes odehrává online. Je to rychlé a praktické, ale ne pro každého. Mezi námi žijí lidé, zejména senioři, kteří sociální sítě nepoužívají, nemají moderní telefon nebo si informace na internetu běžně nehledají.",
-          "Život v obci přitom zajímá všechny generace. Důležité zprávy by proto neměly být dostupné jen těm, kteří jsou každý den online. Tištěný zpravodaj může digitální komunikaci doplnit a pomoci, aby nikdo nezůstával stranou.",
+          "Myšlenka obecního zpravodaje není v Přezleticích nová. Obec ho v minulosti vydávala, ale později od něj ustoupila. Tuto zkušenost nechceme přehlížet ani vydávat obnovení časopisu za jednoduchý úkol.",
+          "Pravidelný zpravodaj potřebuje témata, redakční práci, kontrolu textů, výrobu i distribuci. Musí mít jasná pravidla a někoho, kdo za jeho obsah dlouhodobě odpovídá. To všechno zabírá čas a stojí peníze.",
         ],
       },
       {
-        heading: "O čem by zpravodaj informoval",
+        heading: "Obec je dnes výrazně větší",
         paragraphs: [
-          "Zpravodaj může na jednom místě přinášet přehled toho, co se v Přezleticích děje: informace o obecních a sousedských akcích, komunitním centru, rozvoji obce i důležitých rozhodnutích zastupitelstva.",
-          "Neměl by jen opakovat krátká oznámení ze sociálních sítí. Jeho přínosem má být klidnější a srozumitelnější vysvětlení témat, ke kterým lidé potřebují více souvislostí.",
+          "Od doby, kdy zpravodaj přestal vycházet, Přezletice výrazně narostly. Přibylo obyvatel, témat i lidí, kteří se zapojují do života obce. S tím roste také potřeba vysvětlovat důležitá rozhodnutí v souvislostech a dostávat informace k lidem různými cestami.",
+          "Ne každý sleduje Facebook nebo Instagram a ne každý používá chytrý telefon či počítač. Tištěný zpravodaj by proto mohl doplnit web a sociální sítě, nikoli je nahrazovat.",
         ],
       },
       {
-        heading: "Praktický servis pro každodenní život",
+        heading: "Podnět přinesli nováčci v našem týmu",
         paragraphs: [
-          "Vedle zpráv z obce může časopis nabídnout také praktický servis: užitečné rady, informace pro občany, místní inzerci nebo reportáže z akcí. Právě kombinace úředních, komunitních a praktických témat může ze zpravodaje udělat médium, které má smysl pravidelně otevřít.",
-          "Důležité je, aby obsah nebyl jednostranný a aby bylo jasné, kdo za jeho přípravu odpovídá. Zpravodaj má sloužit obyvatelům, ne být pouze propagačním letákem.",
+          "K debatě o zpravodaji se vracíme i díky nováčkům v našem týmu. Přinesli otázku, zda už dnes není v obci dost lidí, zkušeností a témat na to, aby časopis nemusel stát na práci jednoho člověka nebo malé skupiny.",
+          "Právě širší redakční tým by mohl rozdělit práci, přinést různé pohledy a hlídat pravidelnost i kvalitu. Nejdřív je ale potřeba ověřit, zda se takový tým skutečně podaří sestavit a zda bude mít jasně nastavenou odpovědnost.",
         ],
       },
       {
-        heading: "Prostor také pro obyvatele",
+        heading: "Co by mohl zpravodaj přinášet",
         paragraphs: [
-          "Zpravodaj může vznikat také s pomocí samotných obyvatel. Může dávat prostor pozvánkám, zkušenostem, fotografiím nebo tématům, která přinášejí spolky, sousedé a lidé aktivní v obci.",
-          "Takový přístup může pomoci zachytit dění, které se do běžných úředních oznámení nevejde, a současně posílit vztah lidí k místu, kde žijí.",
+          "Pokud by se podařilo vytvořit funkční redakční zázemí, mohl by zpravodaj přinášet přehled dění v obci, vysvětlení důležitých rozhodnutí, informace o akcích, praktický servis i prostor pro spolky a samotné obyvatele.",
+          "Neměl by jen opakovat krátká oznámení ze sociálních sítí a neměl by být propagačním letákem vedení obce. Smysl by měl jako důvěryhodný a užitečný zdroj pro různé generace obyvatel.",
         ],
       },
       {
-        heading: "Jak často by měl vycházet",
+        heading: "Nejdřív podmínky, potom rozhodnutí",
         paragraphs: [
-          "O konkrétní periodicitě je potřeba ještě rozhodnout. Nabízejí se dvě možnosti: čtvrtletní nebo dvouměsíční vydávání. Výsledná frekvence musí odpovídat množství užitečného obsahu, času potřebnému na kvalitní přípravu i nákladům na výrobu a distribuci.",
-          "Nejdůležitější není vydávat co nejčastěji. Důležitější je, aby každé číslo přineslo ověřené, srozumitelné a praktické informace a dostalo se skutečně ke všem domácnostem, pro které je určené.",
-        ],
-      },
-      {
-        heading: "Jak může zpravodaj fungovat",
-        paragraphs: [
-          "Zpravodaj může vycházet pravidelně, mít jasnou podobu, předvídatelnou distribuci a otevřená pravidla pro příspěvky obyvatel a spolků. Důležitá je také srozumitelně uvedená odpovědnost za obsah, možnost zpětné vazby a opravy nepřesností.",
-          "Cíl je jednoduchý: vytvořit důvěryhodný a praktický zdroj informací pro obyvatele, kteří chtějí vědět, co se v Přezleticích děje — bez ohledu na to, jaké technologie používají.",
+          "Obnovení zpravodaje proto nechceme představovat jako hotový a snadný slib. Nejprve je potřeba určit, kdo bude časopis připravovat, jaká budou pravidla, kolik času práce vyžaduje a jaké budou náklady na výrobu a distribuci.",
+          "Teprve podle reálných kapacit lze rozhodnout o podobě a četnosti vydávání. Pokud se podaří vytvořit stabilní redakční tým a udržitelný model, může mít návrat přezletického zpravodaje smysl. Pokud ne, je poctivější hledat jiný způsob, jak informace dostat ke všem obyvatelům.",
         ],
       },
     ],
-    socialCopy: "Ne každý sleduje Facebook nebo Instagram. Ne každý používá chytrý telefon či počítač. Přesto mají mít všichni obyvatelé Přezletic přístup k důležitým informacím o dění v obci. Proto chceme otevřít debatu o pravidelném tištěném zpravodaji: s přehledem obecních témat, praktickým servisem, reportážemi z akcí a prostorem pro samotné obyvatele. Ne jako propagační leták, ale jako užitečný a důvěryhodný zdroj pro všechny generace.",
+    socialCopy: "Přezletice už svůj zpravodaj v minulosti vydávaly. Víme proto, že nejde jen o napsání několika článků: pravidelný a kvalitní časopis vyžaduje mnoho práce, jasná pravidla, odpovědnost i peníze na výrobu a distribuci. Obec ale od té doby výrazně narostla a nováčci v našem týmu otevřeli otázku, zda by dnes zpravodaj nemohl vznikat s širším redakčním týmem. Nechceme slibovat jednoduché řešení. Chceme nejprve ověřit lidi, kapacity a náklady — a potom společně rozhodnout, zda má návrat přezletického zpravodaje smysl.",
     carousel: [
-      "Ne každý je každý den online.",
-      "Informace o obci ale potřebují všechny generace.",
-      "Tištěný zpravodaj může doplnit web a sociální sítě.",
-      "Dění v obci, akce, rozvoj a zprávy ze zastupitelstva.",
-      "Praktické rady, místní servis a reportáže.",
-      "Prostor také pro obyvatele a spolky.",
-      "Ne propagační leták. Užitečný zdroj pro Přezletice.",
+      "Přezletice už svůj zpravodaj v minulosti měly.",
+      "Jeho příprava byla náročná a nákladná.",
+      "Obec se mezitím výrazně rozrostla.",
+      "Myšlenku znovu otevřeli nováčci v našem týmu.",
+      "Řešením by mohl být širší redakční tým.",
+      "Nejdřív ale musíme ověřit lidi, pravidla a náklady.",
+      "Teprve potom lze odpovědně rozhodnout, zda zpravodaj obnovit.",
     ],
-    cta: "Přečtěte si, co může přezletický zpravodaj přinést, a řekněte nám, co by měl obsahovat.",
+    cta: "Přečtěte si, za jakých podmínek by mělo smysl přezletický zpravodaj obnovit, a řekněte nám svůj názor.",
     markdownPath: "content/articles/proc-prezletice-potrebuji-zpravodaj.md",
     primaryImage: "/images/projects/elektronicka-uredni-deska.webp",
     galleryImages: [

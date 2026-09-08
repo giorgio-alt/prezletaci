@@ -695,6 +695,9 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   assert.equal(school?.sourceLinks.some((link) => link.includes("Historie vzniku prudkého rozvoje obce")), true);
   assert.equal(development?.body.some((section) => section.heading === "Dvě různé fáze rozvoje"), true);
   assert.equal(development?.sourceLinks.some((link) => link.includes("VOLBY 2026_stop develop.docx")), true);
+  assert.match(articleToMarkdown(development), /Hlavním nástrojem je územní plán/);
+  assert.match(articleToMarkdown(development), /jednat s občany a zveřejňovat srozumitelné informace/);
+  assert.match(articleToMarkdown(development), /aby obec zůstala obyvatelná/);
 
   assert.equal(bilaVratka?.title, "Bílá vrátka v kontextu dvou developerských projektů");
   assert.match(articleToMarkdown(bilaVratka), /dva navazující developerské záměry/i);
@@ -752,8 +755,12 @@ test("publishes Romana Bernardová's newsletter article from the unique source",
   const newsletter = articleContentBySlug.get("proc-prezletice-potrebuji-zpravodaj");
 
   assert.equal(newsletter?.candidateId, 3);
-  assert.match(articleToMarkdown(newsletter), /Ne každý sleduje Facebook nebo Instagram/);
-  assert.match(articleToMarkdown(newsletter), /čtvrtletní nebo dvouměsíční/);
+  assert.equal(newsletter?.title, "Má smysl znovu vydávat přezletický zpravodaj?");
+  assert.match(articleToMarkdown(newsletter), /v minulosti vydávala/);
+  assert.match(articleToMarkdown(newsletter), /výrazně narostly/);
+  assert.match(articleToMarkdown(newsletter), /nováčkům v našem týmu/);
+  assert.match(articleToMarkdown(newsletter), /širší redakční tým/);
+  assert.match(articleToMarkdown(newsletter), /náklady na výrobu a distribuci/);
   assert.equal(newsletter?.sourceLinks.filter((link) => /P R O Č Přezletický zpravodaj\.doc/.test(link)).length, 1);
 });
 

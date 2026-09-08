@@ -360,7 +360,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Související projekty: 3
 - SoMe posty: 146
 
-### Proč Přezletice potřebují vlastní zpravodaj
+### Má smysl znovu vydávat přezletický zpravodaj?
 
 - Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md
 - Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
