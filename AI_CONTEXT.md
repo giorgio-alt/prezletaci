@@ -131,7 +131,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 
 - Slug: hasici-v-prezleticich
 - Markdown: content/articles/hasici-v-prezleticich.md
-- Primární obrázek: /images/articles/hasici-v-prezleticich-ilustrace.webp
+- Primární obrázek: /images/articles/hasici-v-prezleticich-ilustrace-v2.webp
 - Doplňkové obrázky: Žádné
 - Související projekty: 29, 34
 - SoMe posty: 145

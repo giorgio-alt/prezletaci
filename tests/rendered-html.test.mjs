@@ -706,7 +706,7 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
     "/images/articles/uzemni-plan-etapizace-2011.webp",
     "/images/articles/bila-vratka-podminenost-skoly.webp",
   ]);
-  assert.equal(articleContentBySlug.get("hasici-v-prezleticich")?.primaryImage, "/images/articles/hasici-v-prezleticich-ilustrace.webp");
+  assert.equal(articleContentBySlug.get("hasici-v-prezleticich")?.primaryImage, "/images/articles/hasici-v-prezleticich-ilustrace-v2.webp");
   assert.equal(articleToMarkdown(articleContentBySlug.get("hasici-v-prezleticich")).includes("obecni-policie.webp"), false);
   assert.doesNotMatch(articleToMarkdown(articleContentBySlug.get("hasici-v-prezleticich")), /Obec deklarovala ochotu jednat o jeho dalším fungování a spolupráci/);
 

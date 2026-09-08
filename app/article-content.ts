@@ -577,10 +577,10 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Přezletice měly spolek i obecní jednotku.", "Zastupitelstvo v roce 2012 zrušilo jednotku, ne tehdejší spolek.", "Požární ochranu následně zajišťuje smluvně Podolanka.", "Obnova potřebuje nejméně devět vyškolených členů.", "Nutné je zázemí, technika, vybavení a stabilní rozpočet.", "Chceme obnovit zásahovou pomoc i komunitní tradici."],
     cta: "Přečtěte si, co se s přezletickými hasiči stalo a jak může jejich obnova reálně proběhnout.",
     markdownPath: "content/articles/hasici-v-prezleticich.md",
-    primaryImage: "/images/articles/hasici-v-prezleticich-ilustrace.webp",
+    primaryImage: "/images/articles/hasici-v-prezleticich-ilustrace-v2.webp",
     galleryImages: [],
     imageDescriptions: {
-      "/images/articles/hasici-v-prezleticich-ilustrace.webp": {
+      "/images/articles/hasici-v-prezleticich-ilustrace-v2.webp": {
         alt: "Ilustrace hasičské výstroje, techniky a místního dobrovolného týmu v Přezleticích",
         caption: "Obnova místní jednotky vyžaduje lidi, výcvik, vybavení, zázemí a dlouhodobou odpovědnost.",
       },
