@@ -548,7 +548,7 @@ export const articleContent: ArticleContent[] = [
         heading: "Co se stalo v roce 2012",
         paragraphs: [
           "Zápis ze zasedání zastupitelstva ze dne 25. května 2012 zachycuje tři navazující rozhodnutí. Zastupitelé projednali petici proti rušení hasičů, schválili smlouvu o zajištění požární bezpečnosti s obcí Podolanka a následně souhlasili se zrušením přezletické obecní jednotky.",
-          "Zápis zároveň výslovně uvádí, že se tehdy nerušil samotný hasičský spolek. Obec deklarovala ochotu jednat o jeho dalším fungování a spolupráci. Původní spolek však později také ukončil činnost.",
+          "Zápis zároveň výslovně uvádí, že se tehdy nerušil samotný hasičský spolek. Původní spolek však později také ukončil činnost.",
         ],
       },
       {
@@ -577,11 +577,12 @@ export const articleContent: ArticleContent[] = [
     carousel: ["Přezletice měly spolek i obecní jednotku.", "Zastupitelstvo v roce 2012 zrušilo jednotku, ne tehdejší spolek.", "Požární ochranu následně zajišťuje smluvně Podolanka.", "Obnova potřebuje nejméně devět vyškolených členů.", "Nutné je zázemí, technika, vybavení a stabilní rozpočet.", "Chceme obnovit zásahovou pomoc i komunitní tradici."],
     cta: "Přečtěte si, co se s přezletickými hasiči stalo a jak může jejich obnova reálně proběhnout.",
     markdownPath: "content/articles/hasici-v-prezleticich.md",
-    primaryImage: "/images/brand/social/prezletaci-social-yellow.png",
+    primaryImage: "/images/articles/hasici-v-prezleticich-ilustrace.webp",
     galleryImages: [],
     imageDescriptions: {
-      "/images/brand/social/prezletaci-social-yellow.png": {
-        alt: "Žlutá grafika Přezleťáků k vysvětlujícímu článku o hasičích",
+      "/images/articles/hasici-v-prezleticich-ilustrace.webp": {
+        alt: "Ilustrace hasičské výstroje, techniky a místního dobrovolného týmu v Přezleticích",
+        caption: "Obnova místní jednotky vyžaduje lidi, výcvik, vybavení, zázemí a dlouhodobou odpovědnost.",
       },
     },
     publicSources: [
@@ -718,18 +719,12 @@ export const articleContent: ArticleContent[] = [
     ],
     cta: "Přečtěte si, za jakých podmínek by mělo smysl přezletický zpravodaj obnovit, a řekněte nám svůj názor.",
     markdownPath: "content/articles/proc-prezletice-potrebuji-zpravodaj.md",
-    primaryImage: "/images/projects/elektronicka-uredni-deska.webp",
-    galleryImages: [
-      "/images/projects/komunitni-centrum-zlatak.webp",
-    ],
+    primaryImage: "/images/articles/prezleticky-zpravodaj-ilustrace.webp",
+    galleryImages: [],
     imageDescriptions: {
-      "/images/projects/elektronicka-uredni-deska.webp": {
-        alt: "Elektronická úřední deska v Přezleticích",
-        caption: "Tištěný zpravodaj může doplnit digitální informační kanály obce.",
-      },
-      "/images/projects/komunitni-centrum-zlatak.webp": {
-        alt: "Komunitní centrum Zlaták v Přezleticích",
-        caption: "Zpravodaj může přinášet informace o obecních i sousedských akcích.",
+      "/images/articles/prezleticky-zpravodaj-ilustrace.webp": {
+        alt: "Ilustrace otevřeného přezletického zpravodaje s obecními a komunitními tématy",
+        caption: "Ilustrační zobrazení přezletického zpravodaje jako důvěryhodného zdroje místních informací.",
       },
     },
     projectIds: [3, 34],

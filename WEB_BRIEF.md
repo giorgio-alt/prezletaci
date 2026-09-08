@@ -347,7 +347,7 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 ### Hasiči v Přezleticích: co se stalo a co by obnova vyžadovala
 
 - Markdown: content/articles/hasici-v-prezleticich.md
-- Primární obrázek: /images/brand/social/prezletaci-social-yellow.png
+- Primární obrázek: /images/articles/hasici-v-prezleticich-ilustrace.webp
 - Doplňkové obrázky: Žádné
 - Související projekty: 29, 34
 - SoMe posty: 145
@@ -363,8 +363,8 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 ### Má smysl znovu vydávat přezletický zpravodaj?
 
 - Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md
-- Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
-- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp
+- Primární obrázek: /images/articles/prezleticky-zpravodaj-ilustrace.webp
+- Doplňkové obrázky: Žádné
 - Související projekty: 3, 34
 - SoMe posty: Čeká
 

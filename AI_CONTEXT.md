@@ -131,7 +131,7 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 
 - Slug: hasici-v-prezleticich
 - Markdown: content/articles/hasici-v-prezleticich.md
-- Primární obrázek: /images/brand/social/prezletaci-social-yellow.png
+- Primární obrázek: /images/articles/hasici-v-prezleticich-ilustrace.webp
 - Doplňkové obrázky: Žádné
 - Související projekty: 29, 34
 - SoMe posty: 145
@@ -149,8 +149,8 @@ Web je propojená znalostní síť. Kandidát se propojuje s oblastmi, kterým s
 
 - Slug: proc-prezletice-potrebuji-zpravodaj
 - Markdown: content/articles/proc-prezletice-potrebuji-zpravodaj.md
-- Primární obrázek: /images/projects/elektronicka-uredni-deska.webp
-- Doplňkové obrázky: /images/projects/komunitni-centrum-zlatak.webp
+- Primární obrázek: /images/articles/prezleticky-zpravodaj-ilustrace.webp
+- Doplňkové obrázky: Žádné
 - Související projekty: 3, 34
 - SoMe posty: Čeká
 

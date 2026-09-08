@@ -2,7 +2,9 @@
 
 Přezletice měly vlastní hasičský spolek i obecní jednotku požární ochrany. Zastupitelstvo v květnu 2012 rozhodlo o zrušení jednotky, zatímco samostatný spolek měl tehdy pokračovat. Dnes v obci vlastní jednotka nepůsobí. Pokud ji chceme obnovit, je fér říct nejen proč, ale také co všechno takový krok vyžaduje.
 
-![Žlutá grafika Přezleťáků k vysvětlujícímu článku o hasičích](/images/brand/social/prezletaci-social-yellow.png)
+![Ilustrace hasičské výstroje, techniky a místního dobrovolného týmu v Přezleticích](/images/articles/hasici-v-prezleticich-ilustrace.webp)
+
+_Obnova místní jednotky vyžaduje lidi, výcvik, vybavení, zázemí a dlouhodobou odpovědnost._
 
 ## Spolek a obecní jednotka nejsou totéž
 
@@ -14,7 +16,7 @@ Obě části se mohou přirozeně doplňovat, ale jedna automaticky nenahrazuje 
 
 Zápis ze zasedání zastupitelstva ze dne 25. května 2012 zachycuje tři navazující rozhodnutí. Zastupitelé projednali petici proti rušení hasičů, schválili smlouvu o zajištění požární bezpečnosti s obcí Podolanka a následně souhlasili se zrušením přezletické obecní jednotky.
 
-Zápis zároveň výslovně uvádí, že se tehdy nerušil samotný hasičský spolek. Obec deklarovala ochotu jednat o jeho dalším fungování a spolupráci. Původní spolek však později také ukončil činnost.
+Zápis zároveň výslovně uvádí, že se tehdy nerušil samotný hasičský spolek. Původní spolek však později také ukončil činnost.
 
 ## Jak je zajištěna požární ochrana
 

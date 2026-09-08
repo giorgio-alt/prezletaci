@@ -706,8 +706,9 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
     "/images/articles/uzemni-plan-etapizace-2011.webp",
     "/images/articles/bila-vratka-podminenost-skoly.webp",
   ]);
-  assert.equal(articleContentBySlug.get("hasici-v-prezleticich")?.primaryImage, "/images/brand/social/prezletaci-social-yellow.png");
+  assert.equal(articleContentBySlug.get("hasici-v-prezleticich")?.primaryImage, "/images/articles/hasici-v-prezleticich-ilustrace.webp");
   assert.equal(articleToMarkdown(articleContentBySlug.get("hasici-v-prezleticich")).includes("obecni-policie.webp"), false);
+  assert.doesNotMatch(articleToMarkdown(articleContentBySlug.get("hasici-v-prezleticich")), /Obec deklarovala ochotu jednat o jeho dalším fungování a spolupráci/);
 
   assert.match(articleToMarkdown(programArticle), /sociální vazby|sousedské vztahy/i);
   assert.match(PROGRAM_MARKDOWN, /sociální vazby|sousedské vztahy/i);
@@ -761,6 +762,8 @@ test("publishes Romana Bernardová's newsletter article from the unique source",
   assert.match(articleToMarkdown(newsletter), /nováčkům v našem týmu/);
   assert.match(articleToMarkdown(newsletter), /širší redakční tým/);
   assert.match(articleToMarkdown(newsletter), /náklady na výrobu a distribuci/);
+  assert.equal(newsletter?.primaryImage, "/images/articles/prezleticky-zpravodaj-ilustrace.webp");
+  assert.deepEqual(newsletter?.galleryImages, []);
   assert.equal(newsletter?.sourceLinks.filter((link) => /P R O Č Přezletický zpravodaj\.doc/.test(link)).length, 1);
 });
 

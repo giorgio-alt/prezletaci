@@ -2,9 +2,9 @@
 
 Přezletice už svůj zpravodaj v minulosti vydávaly. Později jeho vydávání skončilo — také proto, že připravovat pravidelný a kvalitní obecní časopis znamená mnoho práce, jasnou odpovědnost a nemalé náklady. Obec se ale mezitím výrazně rozrostla. Proto podle nás stojí za to znovu otevřít otázku, zda by dnes zpravodaj mohl vznikat s širším redakčním týmem a realisticky nastavenými podmínkami.
 
-![Elektronická úřední deska v Přezleticích](/images/projects/elektronicka-uredni-deska.webp)
+![Ilustrace otevřeného přezletického zpravodaje s obecními a komunitními tématy](/images/articles/prezleticky-zpravodaj-ilustrace.webp)
 
-_Tištěný zpravodaj může doplnit digitální informační kanály obce._
+_Ilustrační zobrazení přezletického zpravodaje jako důvěryhodného zdroje místních informací._
 
 ## Zpravodaj tu už jednou byl
 
@@ -35,9 +35,3 @@ Neměl by jen opakovat krátká oznámení ze sociálních sítí a neměl by b�
 Obnovení zpravodaje proto nechceme představovat jako hotový a snadný slib. Nejprve je potřeba určit, kdo bude časopis připravovat, jaká budou pravidla, kolik času práce vyžaduje a jaké budou náklady na výrobu a distribuci.
 
 Teprve podle reálných kapacit lze rozhodnout o podobě a četnosti vydávání. Pokud se podaří vytvořit stabilní redakční tým a udržitelný model, může mít návrat přezletického zpravodaje smysl. Pokud ne, je poctivější hledat jiný způsob, jak informace dostat ke všem obyvatelům.
-
-## Fotografie a obrazové podklady
-
-![Komunitní centrum Zlaták v Přezleticích](/images/projects/komunitni-centrum-zlatak.webp)
-
-_Zpravodaj může přinášet informace o obecních i sousedských akcích._
