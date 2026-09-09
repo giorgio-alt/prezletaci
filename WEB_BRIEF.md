@@ -441,6 +441,26 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Popis: Samostatný článek o kluzišti se nemá připravovat ani zařazovat do webového nebo social media publikačního plánu.
 - Poznámka: Rozhodnutí klienta: téma kluziště z článkové linky vynechat. Pokud se objeví ve sportovním souhrnu, pouze jako okrajová zmínka po schválení.
 
+### Doplnit seznam dalších výsledků
+
+- Stav: Čeká na podklady
+- Priorita: Střední
+- Odpovědnost: Klient + PM
+- Termín: Po dodání seznamu
+- Popis: Prověřit kompaktní webovou sekci bez fotografií pro další výsledky, které nejsou v hlavním projektovém přehledu.
+- Poznámka: Obsah se nesmí doplňovat odhadem. Nejprve vznikne autoritativní seznam v Campaign HQ, potom webový výstup.
+
+
+---
+
+## Synchronizované vstupy pro webaře
+
+- `/api/projects` — autoritativní strojově čitelný katalog projektů
+- `/content/projects.md` — stejná projektová data ve formátu Markdown
+- `/content/program.md` — aktuální programové oblasti
+- `/content/web-handoff.md` — poslední potvrzené změny a blokace
+
+Pokud se jednotlivé podklady rozcházejí, použij novější kanonická data Campaign HQ a rozpor nahlas. Texty ani stav projektů nedoplňuj odhadem.
 
 ---
 

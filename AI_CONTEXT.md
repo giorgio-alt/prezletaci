@@ -197,6 +197,15 @@ Web obsahuje celý příběh. Sociální sítě vybírají jednu část příbě
 
 Campaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.
 
+## Synchronizované vstupy pro webaře
+
+- `/api/projects` — autoritativní strojově čitelný katalog projektů
+- `/content/projects.md` — stejná projektová data ve formátu Markdown
+- `/content/program.md` — aktuální programové oblasti
+- `/content/web-handoff.md` — poslední potvrzené změny a blokace
+
+Pokud se jednotlivé podklady rozcházejí, použij novější kanonická data Campaign HQ a rozpor nahlas. Texty ani stav projektů nedoplňuj odhadem.
+
 ## Zapracování připomínek
 
 Připomínky klienta, kandidátů a dalších odborných podkladů jsou věcným zadáním, nikoli automaticky finálním textem ke zveřejnění. Zachovej jejich fakta, význam, omezení a schválené stanovisko, ale formulaci vždy převeď do společného kampaňového stylu.

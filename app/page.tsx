@@ -6,6 +6,7 @@ import { initialPosts, mergePostsWithPlan, sortPosts } from "./postplan";
 import type { ContentType, SocialPost } from "./postplan";
 import {
   AI_CONTEXT_MARKDOWN,
+  WEB_HANDOFF_MARKDOWN,
   WEB_BRIEF_MARKDOWN,
   baseWebsiteContentItems,
   webBlockers,
@@ -26,9 +27,10 @@ import type { KnowledgeEntity, KnowledgeEntityType } from "./relationships";
 import {
   getProjectPhotoDriveUrlForImage,
   mergeProjectCatalog,
+  projectImageByImagePath,
   projectImageByProjectId,
 } from "./project-images";
-import { publicProjectContent, type PublicProjectMediaStatus, type PublicProjectMilestone, type PublicProjectStatus } from "./project-content";
+import { PROJECTS_MARKDOWN, publicProjectContent, type PublicProjectMediaStatus, type PublicProjectMilestone, type PublicProjectStatus } from "./project-content";
 import {
   activeProjectStatus,
   campaignReadiness,
@@ -148,7 +150,7 @@ type Candidate = {
 
 type CandidateView = "overview" | "matrix" | "dashboard";
 type WebView = "brief" | "articles" | "inventory" | "relationships";
-type MarkdownDocument = { name: "WEB_BRIEF.md" | "AI_CONTEXT.md"; content: string };
+type MarkdownDocument = { name: "WEB_BRIEF.md" | "AI_CONTEXT.md" | "PROJECTS.md" | "WEB_HANDOFF.md"; content: string };
 type RepositoryDocument = {
   title: string;
   category: string;
@@ -330,12 +332,12 @@ const projectOperations: ProjectOperations[] = [
   { id: 2, owner: "Úřad", evidence: "Snímky systémů, statistiky využití", risk: "Občané nemusí vědět, co již lze vyřídit online.", argument: "Digitalizace má lidem šetřit návštěvy úřadu a čas.", next: "Připravit přehled služeb dostupných z domova.", history: "První nástroje jsou v provozu; pokračuje komplexní digitalizace." },
   { id: 3, owner: "Úřad", evidence: "Fotografie panelu", risk: "Vnímaná jen jako zákonná úřední deska.", argument: "Panel nabízí širší spektrum praktických informací pro obyvatele.", next: "Připravit druhý panel na Zlatém kopci.", history: "První panel realizován, druhý je programovou prioritou." },
   { id: 4, owner: "Jan Macourek", evidence: "Stavební povolení, dotační žádost, vizualizace", risk: "Útok: projekt se vleče nebo je příliš drahý.", argument: "Projekt prošel povolením a je ve fázi konkrétní přípravy realizace.", next: "Uzavřít soutěž a komunikovat harmonogram.", history: "Studie → projekt → povolení → dotace → výběr zhotovitele." },
-  { id: 5, owner: "Tým rozvoje", evidence: "Studie a situační výkres", risk: "Nejasný termín realizace.", argument: "Studie je hotová; nyní se převádí do povolitelného projektu.", next: "Dokončit dokumentaci pro povolení.", history: "Vytipování lokality → studie → projektová příprava." },
+  { id: 5, owner: "Tým rozvoje", evidence: "Studie, dokumentace a probíhající povolovací řízení", risk: "Nejasný termín realizace.", argument: "Studie i dokumentace jsou hotové a projekt je v řízení k povolení stavby.", next: "Dokončit povolovací řízení.", history: "Vytipování lokality → studie → dokumentace → řízení k povolení stavby." },
   { id: 6, owner: "Tým rozvoje", evidence: "Fotodokumentace stavu a osazovací plán", risk: "Zaměňování s navazujícím projektem Na Hasičárně.", argument: "Jde o etapové dokončení veřejného prostoru a sportovního zázemí.", next: "Sepsat dokončené a zbývající etapy.", history: "Sportovní část vzniká po etapách; doplnění zeleně a cest pokračuje." },
-  { id: 7, owner: "Svazek obcí", evidence: "Kapacitní data, projekt, zápisy svazku", risk: "Citlivé téma: dočasné řešení kontejnerovou školou.", argument: "Dočasná kapacita řeší akutní stav, druhá budova je systémové pokračování.", next: "Sjednotit harmonogram a komunikaci se svazkem obcí.", history: "Probíhá projektová příprava ve spolupráci svazku obcí." },
+  { id: 7, owner: "Svazek obcí", evidence: "Hotová svazková škola, kapacitní data, projekt a zápisy svazku", risk: "Citlivé téma: dočasné řešení kontejnerovou školou.", argument: "Stávající škola je hotovým výsledkem práce svazku; dočasná kapacita a další budova na ni systémově navazují.", next: "Sjednotit harmonogram rozšíření a komunikaci se svazkem obcí.", history: "Výstavba svazkové školy → demografická studie → povolení dočasné kapacity → příprava další budovy." },
   { id: 8, owner: "Obec + developer", evidence: "Povolení, projekt, připravovaná smlouva s developerem", risk: "Otázky k provoznímu režimu a dostupnosti.", argument: "Projekt a povolení jsou hotové; pokračuje smluvní zajištění financování.", next: "Dokončit dohodu o financování a následně nastavit provozní režim.", history: "Projekt → povolení → příprava smlouvy s developerem." },
   { id: 9, owner: "Obec + CETIN", evidence: "Připravovaná smlouva s CETIN a mapa tras", risk: "Výkopy a koordinace s dalšími stavbami.", argument: "Koordinovaná výstavba sníží budoucí zásahy do ulic.", next: "Dokončit smlouvu pro další část sítě.", history: "Část sítě je hotová; připravuje se další rozšíření." },
-  { id: 10, owner: "Obec + CETIN", evidence: "Povolení a koordinace s CETIN", risk: "Technický název je pro veřejnost nesrozumitelný.", argument: "Společná pokládka kabeláže omezí opakované zásahy do ulice.", next: "Koordinovat položení kabelu veřejného osvětlení se stavbou CETIN.", history: "Kabeláž veřejného osvětlení se připravuje jako přípolož ke stavbě CETIN." },
+  { id: 10, owner: "Obec + CETIN", evidence: "Vydané povolení a koordinace s CETIN", risk: "Technický název je pro veřejnost nesrozumitelný.", argument: "Akce má povolení a společná pokládka kabeláže omezí opakované zásahy do ulice.", next: "Koordinovat položení kabelu veřejného osvětlení se stavbou CETIN.", history: "Povolení → koordinace přípolože kabeláže veřejného osvětlení se stavbou CETIN." },
   { id: 11, owner: "Obec + ŘSD", evidence: "EIA, zápisy z jednání, varianty trasy, stanoviska", risk: "Silně citlivé téma s omezenou přímou kontrolou obce.", argument: "Role obce je vyjednávat konkrétní podmínky a minimalizovat dopady.", next: "Navázat na prezentaci přípravy ŘSD a pokračovat v koordinaci staveb.", history: "Jednání s ŘSD a Ministerstvem dopravy → dokončená EIA → projektování a koordinace s obchvaty a železnicí." },
   { id: 12, owner: "Kraj + ministerstvo", evidence: "Studie proveditelnosti a podklady hodnoticí komise", risk: "Dlouhý horizont a závislost na nadřazených institucích.", argument: "Obec projekt neurčuje sama, ale prosadila Přezletice do prověřované varianty.", next: "Vyčkat na výsledek hodnoticí komise a vysvětlit další rozhodovací kroky.", history: "Podpora kraje a ministerstva → studie proveditelnosti → hodnoticí komise." },
   { id: 13, owner: "Obec", evidence: "List vlastnictví", risk: "Obavy okolních obyvatel z dopravy a provozu.", argument: "Vlastní pozemek je zásadní první krok; provoz lze navrhnout s ohledem na okolí.", next: "Zadat studii provozu a dopravního řešení.", history: "Zajištěny pozemky, následuje studie." },
@@ -351,6 +353,7 @@ const projectOperationsById = new Map(projectOperations.map((project) => [projec
 const initialProjects: Project[] = publicProjectContent.map((project) => {
   const operations = projectOperationsById.get(project.id);
   const localMedia = projectImageByProjectId.get(project.id);
+  const displayedMedia = project.image ? projectImageByImagePath.get(project.image) ?? localMedia : localMedia;
   return {
     id: project.id,
     slug: project.slug,
@@ -358,9 +361,9 @@ const initialProjects: Project[] = publicProjectContent.map((project) => {
     imageAlt: project.imageAlt,
     imageKind: project.imageKind,
     mediaStatus: project.mediaStatus,
-    photoSource: localMedia?.source,
-    photoLibraryPath: getProjectPhotoLibraryPath(localMedia?.source),
-    photoDriveUrl: localMedia ? getProjectPhotoDriveUrlForSource(localMedia.source) : project.sourceUrls?.[0]?.href ?? PHOTO_AUDIT_DRIVE_URL,
+    photoSource: displayedMedia?.source,
+    photoLibraryPath: getProjectPhotoLibraryPath(displayedMedia?.source),
+    photoDriveUrl: displayedMedia ? getProjectPhotoDriveUrlForSource(displayedMedia.source) : project.sourceUrls?.[0]?.href ?? PHOTO_AUDIT_DRIVE_URL,
     title: project.title,
     status: project.status,
     area: project.area,
@@ -509,7 +512,7 @@ const monthOptions = [
   { label: "Říjen", month: 9 },
 ];
 
-const DATA_VERSION = 25;
+const DATA_VERSION = 26;
 
 const slugify = slugFromTitle;
 
@@ -816,7 +819,16 @@ export default function Home() {
   const markdownDocuments: MarkdownDocument[] = [
     { name: "WEB_BRIEF.md", content: WEB_BRIEF_MARKDOWN },
     { name: "AI_CONTEXT.md", content: AI_CONTEXT_MARKDOWN },
+    { name: "PROJECTS.md", content: PROJECTS_MARKDOWN },
+    { name: "WEB_HANDOFF.md", content: WEB_HANDOFF_MARKDOWN },
   ];
+
+  const markdownDocumentDescriptions: Record<MarkdownDocument["name"], string> = {
+    "WEB_BRIEF.md": "Kompletní strategický a obsahový brief pro webdesignéra.",
+    "AI_CONTEXT.md": "Kompaktní kontext kampaně pro Codex, ChatGPT, Claude, Cursor a Gemini.",
+    "PROJECTS.md": "Aktuální katalog všech projektů, jejich stavů, textů, podkladů a cílových webových cest.",
+    "WEB_HANDOFF.md": "Rozdílový přehled posledních klientských připomínek, provedených změn a zbývajících blokací.",
+  };
 
   const candidateWebsiteItems = useMemo<WebsiteContentItem[]>(() => candidates.map((candidate) => {
     const checklist = [
@@ -1216,7 +1228,7 @@ export default function Home() {
         <div><span className="eyebrow">Faktický přehled</span><h1>Projekty</h1><p>Aktuální stav 38 hotových, rozpracovaných a plánovaných projektů v Přezleticích.</p></div>
         <button className="primary-button" onClick={() => openCreate("project")}>＋ Přidat projekt</button>
       </section>
-      <section className="photo-drive-panel glass-card"><div><span className="eyebrow">Veřejný web</span><h2>Přehled a data jsou připravené k publikaci</h2><p>Veřejné stránky používají jen faktický popis, stav projektu a schválené obrazové podklady.</p></div><div className="external-link-stack"><a href="/projekty" target="_blank" rel="noreferrer">Otevřít přehled projektů ↗</a><a href="/api/projects" target="_blank" rel="noreferrer">Otevřít datový výstup ↗</a></div></section>
+      <section className="photo-drive-panel glass-card"><div><span className="eyebrow">Veřejný web</span><h2>Přehled a data jsou připravené k publikaci</h2><p>Veřejné stránky používají jen faktický popis, stav projektu a schválené obrazové podklady.</p></div><div className="external-link-stack"><a href="/projekty" target="_blank" rel="noreferrer">Otevřít přehled projektů ↗</a><a href="/api/projects" target="_blank" rel="noreferrer">JSON pro webaře ↗</a><a href="/content/projects.md" target="_blank" rel="noreferrer">Markdown projektů ↗</a><a href="/content/web-handoff.md" target="_blank" rel="noreferrer">Poslední předání změn ↗</a></div></section>
       <div className="filter-bar glass-card">
         <div className="segmented-control">
           {(["Vše", "Hotové", "Rozpracované", "Plánované"] as const).map((status) => <button className={projectStatus === status ? "active" : ""} key={status} onClick={() => setProjectStatus(status)}>{status}<span>{status === "Vše" ? projects.length : projects.filter((project) => project.status === status).length}</span></button>)}
@@ -1389,7 +1401,7 @@ export default function Home() {
         <section className="markdown-export-grid" aria-label="Markdown exporty">
           {markdownDocuments.map((document) => <article className="markdown-export-card glass-card" key={document.name}>
             <div className="markdown-file-mark">MD</div>
-            <div><span className="eyebrow">Synchronizovaný dokument</span><h2>{document.name}</h2><p>{document.name === "WEB_BRIEF.md" ? "Kompletní strategický a obsahový brief pro webdesignéra." : "Kompaktní kontext kampaně pro Codex, ChatGPT, Claude, Cursor a Gemini."}</p></div>
+            <div><span className="eyebrow">Synchronizovaný dokument</span><h2>{document.name}</h2><p>{markdownDocumentDescriptions[document.name]}</p></div>
             <div className="markdown-actions"><button className="primary-button" onClick={() => setSelectedMarkdown(document)}>Otevřít {document.name}</button><button className="secondary-button" onClick={() => copyMarkdown(document)}>{document.name === "AI_CONTEXT.md" ? "Kopírovat pro AI" : "Kopírovat obsah"}</button><button className="secondary-button" onClick={() => downloadMarkdown(document)}>Stáhnout .md</button></div>
           </article>)}
         </section>

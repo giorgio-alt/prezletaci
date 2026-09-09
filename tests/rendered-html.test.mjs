@@ -16,6 +16,7 @@ import {
 import {
   AI_CONTEXT_MARKDOWN,
   WEB_BRIEF_MARKDOWN,
+  WEB_HANDOFF_MARKDOWN,
   baseWebsiteContentItems,
   campaignCandidateNames,
   webBlockers,
@@ -40,8 +41,10 @@ import {
   selectFirstSupportedImage,
 } from "../app/project-images.ts";
 import {
+  PROJECTS_MARKDOWN,
   projectsMissingMedia,
   publicProjectContent,
+  publicProjectsUpdatedAt,
   publicProjectStatusCounts,
 } from "../app/project-content.ts";
 import {
@@ -228,8 +231,13 @@ test("publishes all 38 factual projects without production notes", async () => {
   const apiResponse = await render("/api/projects");
   assert.equal(apiResponse.status, 200);
   const apiPayload = await apiResponse.json();
+  assert.equal(apiPayload.schemaVersion, 2);
+  assert.equal(apiPayload.updatedAt, publicProjectsUpdatedAt);
+  assert.equal(apiPayload.markdown, "/content/projects.md");
   assert.equal(apiPayload.count, 38);
   assert.equal(apiPayload.projects.length, 38);
+  assert.equal(apiPayload.projects.find((project) => project.id === 7)?.title, "Svazková škola: výstavba a rozšíření kapacity");
+  assert.equal(apiPayload.projects.find((project) => project.id === 27)?.image, "/images/projects/zelen-mistni-komunikace.webp");
 });
 
 test("project migration preserves edits and adds catalog media", async () => {
@@ -249,7 +257,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 25;/);
+  assert.match(page, /const DATA_VERSION = 26;/);
   assert.equal(
     page.match(/refreshProjectPublicFields\(mergeProjectCatalog\(data\.projects, initialProjects\)\)/g)?.length,
     2,
@@ -576,14 +584,18 @@ test("versioned migration enriches the plan without erasing user changes", () =>
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {
-  const [briefFile, aiFile, programFile] = await Promise.all([
+  const [briefFile, aiFile, programFile, projectsFile, handoffFile] = await Promise.all([
     readFile(new URL("../WEB_BRIEF.md", import.meta.url), "utf8"),
     readFile(new URL("../AI_CONTEXT.md", import.meta.url), "utf8"),
     readFile(new URL("../content/program/plan-pro-prezletice-2026-2030.md", import.meta.url), "utf8"),
+    readFile(new URL("../content/projects/projekty-campaign-hq.md", import.meta.url), "utf8"),
+    readFile(new URL("../content/web/WEB_HANDOFF.md", import.meta.url), "utf8"),
   ]);
   assert.equal(briefFile, WEB_BRIEF_MARKDOWN);
   assert.equal(aiFile, AI_CONTEXT_MARKDOWN);
   assert.equal(programFile, PROGRAM_MARKDOWN);
+  assert.equal(projectsFile, PROJECTS_MARKDOWN);
+  assert.equal(handoffFile, WEB_HANDOFF_MARKDOWN);
   assert.match(programFile, /# Plán pro Přezletice 2026–2030/);
   assert.equal(programContent.areas.length, 10);
   assert.equal(baseWebsiteContentItems.some((item) => item.id === "page-plans" && item.draftLink === programContent.markdownPath), true);
@@ -593,10 +605,37 @@ test("keeps Web Brief and AI Context markdown exports synchronized", async () =>
   assert.match(aiFile, /## Zapracování připomínek/);
   assert.match(aiFile, /věcným zadáním, nikoli automaticky finálním textem/);
   assert.match(aiFile, /Doslovné znění použij pouze tehdy/);
+  assert.match(aiFile, /\/content\/projects\.md/);
+  assert.match(briefFile, /\/content\/web-handoff\.md/);
   assert.match(programFile, /Před případným obnovením zpravodaje/);
+  assert.match(programFile, /Pošty Partner/);
+  assert.match(programFile, /centrum pro seniory s lékařskými službami/);
   assert.doesNotMatch(programFile, /propojit digitální komunikaci s pravidelnými tištěnými informacemi/);
+  assert.match(projectsFile, /Svazková škola: výstavba a rozšíření kapacity/);
+  assert.match(projectsFile, /probíhá řízení k povolení stavby/);
+  assert.match(projectsFile, /Personální posílení pro službu 24\/7/);
+  assert.match(handoffFile, /Hruškové aleje a další zeleň/);
+  assert.match(handoffFile, /Lávka a veřejné plochy Zlatý kopec/);
+  assert.match(handoffFile, /Dosud nepublikovat/);
   assert.equal(campaignCandidateNames.length, 11);
   for (const candidate of campaignCandidateNames) assert.match(aiFile, new RegExp(candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+});
+
+test("serves synchronized Markdown handoff endpoints for the website agent", async () => {
+  const [projectsResponse, programResponse, handoffResponse] = await Promise.all([
+    render("/content/projects.md"),
+    render("/content/program.md"),
+    render("/content/web-handoff.md"),
+  ]);
+
+  for (const response of [projectsResponse, programResponse, handoffResponse]) {
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("content-type") ?? "", /text\/markdown/);
+  }
+
+  assert.equal(await projectsResponse.text(), PROJECTS_MARKDOWN);
+  assert.equal(await programResponse.text(), PROGRAM_MARKDOWN);
+  assert.equal(await handoffResponse.text(), WEB_HANDOFF_MARKDOWN);
 });
 
 test("defines a complete structured Web workspace", async () => {

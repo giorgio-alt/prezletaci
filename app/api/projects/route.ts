@@ -1,10 +1,11 @@
-import { publicProjectContent, publicProjectStatusCounts } from "../../project-content";
+import { publicProjectContent, publicProjectsUpdatedAt, publicProjectStatusCounts } from "../../project-content";
 
 export async function GET() {
   return Response.json(
     {
-      schemaVersion: 1,
-      updatedAt: "2026-09-04",
+      schemaVersion: 2,
+      updatedAt: publicProjectsUpdatedAt,
+      markdown: "/content/projects.md",
       count: publicProjectContent.length,
       statusCounts: publicProjectStatusCounts,
       projects: publicProjectContent,

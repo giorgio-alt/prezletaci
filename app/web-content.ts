@@ -1,6 +1,7 @@
 import { articleContent } from "./article-content.ts";
 import { PHOTO_AUDIT_DRIVE_URL, PHOTO_DRIVE_ROOT_URL, ORIGINAL_PHOTOS_ZIP_DRIVE_URL } from "./photo-drive.ts";
 import { programContent } from "./program-content.ts";
+import { publicProjectContent, publicProjectsUpdatedAt } from "./project-content.ts";
 import { getProjectPhotoDriveUrlForImage } from "./project-images.ts";
 
 export type BriefSection = {
@@ -344,11 +345,12 @@ export const webOpenIssues: WebOpenIssue[] = [
   { id: "issue-program", title: "Potvrdit strukturu programu", description: "Rozhodnout, zda program členit primárně podle devíti oblastí, nebo podle nejsilnějších priorit.", status: "K rozhodnutí", priority: "Vysoká", owner: "PM + Klient", deadline: "28. 7. 2026", note: "Doporučení: oblast + vybrané priority + první konkrétní krok." },
   { id: "issue-sensitive", title: "Vybrat první citlivá témata", description: "Určit pořadí zpracování školy, developmentu, územního plánu a dopravy.", status: "Nové", priority: "Vysoká", owner: "PM + Copy", deadline: "29. 7. 2026", note: "Každé téma potřebuje faktickou osnovu a seznam zdrojů." },
   { id: "issue-ice-rink-excluded", title: "Kluziště vyloučeno z článků", description: "Samostatný článek o kluzišti se nemá připravovat ani zařazovat do webového nebo social media publikačního plánu.", status: "Odloženo", priority: "Nízká", owner: "PM + Copy", deadline: "Bez termínu", note: "Rozhodnutí klienta: téma kluziště z článkové linky vynechat. Pokud se objeví ve sportovním souhrnu, pouze jako okrajová zmínka po schválení." },
+  { id: "issue-additional-results", title: "Doplnit seznam dalších výsledků", description: "Prověřit kompaktní webovou sekci bez fotografií pro další výsledky, které nejsou v hlavním projektovém přehledu.", status: "Čeká na podklady", priority: "Střední", owner: "Klient + PM", deadline: "Po dodání seznamu", note: "Obsah se nesmí doplňovat odhadem. Nejprve vznikne autoritativní seznam v Campaign HQ, potom webový výstup." },
 ];
 
 export const webBlockers: WebBlocker[] = [
   { id: "block-home", title: "Neschválený text homepage", description: "Chybí finální výběr priorit a hlavní úvodní sdělení.", severity: "Kritická", owner: "Klient + Copy", status: "K rozhodnutí", nextStep: "Schválit tři hlavní vstupy homepage a připravit první copy." },
-  { id: "block-project-photo", title: "Fotografie projektů", description: "U hotových a rozpracovaných projektů chybí vizuální důkazy a fotografie před / po.", severity: "Kritická", owner: "Klient + Produkce", status: "Čeká na podklady", nextStep: "Dodat prioritní fotografie a přiřadit je ke kartám projektů." },
+  { id: "block-project-photo", title: "Dvě náhradní fotografie projektů", description: "Nové fotografie pro Hruškové aleje a Lávku na Zlatém kopci nejsou dostupné, protože odkazy WeTransfer expirovaly.", severity: "Střední", owner: "Klient", status: "Čeká na podklady", nextStep: "Vyžádat od klienta oba soubory nebo nové trvalé odkazy; do té doby ponechat současné fotografie." },
   { id: "block-documents", title: "Dokumenty, mapy a usnesení", description: "Důkazová vrstva zatím nemá kompletní zdrojové materiály.", severity: "Vysoká", owner: "Klient + PM", status: "Čeká na podklady", nextStep: "Založit balíčky dokumentů ke škole, dopravě a rozpracovaným projektům." },
   { id: "block-program", title: "Struktura programu", description: "Program obsahuje více než padesát záměrů a potřebuje obsahovou hierarchii.", severity: "Vysoká", owner: "PM + Copy", status: "V řešení", nextStep: "Vybrat 10–12 priorit a přiřadit první proveditelný krok." },
   { id: "block-sensitive", title: "Nezpracovaná citlivá témata", description: "Škola, development a územní plán nemají hotovou faktickou osnovu.", severity: "Vysoká", owner: "Copy + PM", status: "Nové", nextStep: "Připravit chronologii, kompetence obce, aktuální stav a zdroje." },
@@ -357,6 +359,27 @@ export const webBlockers: WebBlocker[] = [
 
 const markdownList = (items?: string[]) => items?.map((item) => `- ${item}`).join("\n") ?? "";
 const markdownNumbered = (items?: string[]) => items?.map((item, index) => `${index + 1}. ${item}`).join("\n") ?? "";
+
+const reviewedProjectIds = [5, 7, 10, 27, 29, 30] as const;
+const blockedPhotoProjectIds = [20, 26] as const;
+
+export function buildWebHandoffMarkdown() {
+  const services = programContent.areas.find((area) => area.title === "Služby v obci");
+  const reviewedProjects = reviewedProjectIds
+    .map((id) => publicProjectContent.find((project) => project.id === id))
+    .filter((project): project is NonNullable<typeof project> => Boolean(project))
+    .map((project) => `### ${project.id}. ${project.title}\n\n- Stav: ${project.status}\n- Oblast: ${project.area}\n- Cílová cesta: \`/nase-prace/projekty/${project.slug}\`\n- Obrázek: \`${project.image ?? "čeká na podklad"}\`\n\n${project.summary}\n\n${project.details.map((detail) => `- ${detail}`).join("\n")}`)
+    .join("\n\n");
+  const blockedPhotos = blockedPhotoProjectIds
+    .map((id) => publicProjectContent.find((project) => project.id === id))
+    .filter((project): project is NonNullable<typeof project> => Boolean(project))
+    .map((project) => `- **${project.title}** (ID ${project.id}) — ponechat současný obrázek, dokud klient nedodá nový soubor místo expirovaného odkazu WeTransfer.`)
+    .join("\n");
+
+  return `# Přezleťáci 2026 – předání aktualizací webaři\n\nAktualizováno: ${publicProjectsUpdatedAt}\n\nTento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.\n\n## Pořadí zdrojů\n\n1. \`/api/projects\` — strojově čitelný aktuální katalog projektů.\n2. \`/content/projects.md\` — stejný katalog ve formátu vhodném pro AI a redakční kontrolu.\n3. \`/content/program.md\` — synchronizovaný programový obsah včetně oblastí.\n4. Tento dokument — poslední potvrzené změny a dočasné blokace.\n\n## Potvrzená aktualizace oblasti Služby v obci\n\n${services ? `**Co řešíme:** ${services.whatWeSolve}\n\n**Proč je to důležité:** ${services.whyItMatters}\n\n**Další směr:** ${services.nextStep}` : "Oblast nebyla v kanonickém programu nalezena."}\n\n## Potvrzené změny projektů\n\n${reviewedProjects}\n\n## Fotografické podklady\n\n- **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.\n${blockedPhotos}\n\n## Dosud nepublikovat\n\nNavržená stručná sekce s dalšími výsledky, které se nevešly do hlavního projektového přehledu, čeká na autoritativní seznam položek. AI ani webař nemají obsah doplňovat odhadem. Po dodání seznamu se nejprve doplní do Campaign HQ a teprve potom se z něj vytvoří webová sekce.\n`;
+}
+
+export const WEB_HANDOFF_MARKDOWN = buildWebHandoffMarkdown();
 
 export function buildWebBriefMarkdown() {
   const sections = webBriefSections.map((section) => {
@@ -386,5 +409,14 @@ Připomínky klienta, kandidátů a dalších odborných podkladů jsou věcným
 
 Doslovné znění použij pouze tehdy, když je výslovně označeno jako citace nebo jako text, který se nesmí měnit. Interní komentáře, informace o průběhu schvalování ani vysvětlení redakčního postupu nepatří do veřejného článku. Po zapracování zkontroluj stejný význam napříč článkem, programem, příspěvkem na sociální sítě a dalšími odvozenými formáty.`;
 
-export const WEB_BRIEF_MARKDOWN = `${buildWebBriefMarkdown()}\n\n---\n\n${FEEDBACK_GUIDELINES_MARKDOWN}\n`;
-export const AI_CONTEXT_MARKDOWN = `${buildAiContextMarkdown()}\n${FEEDBACK_GUIDELINES_MARKDOWN}\n`;
+export const SYNC_SOURCES_MARKDOWN = `## Synchronizované vstupy pro webaře
+
+- \`/api/projects\` — autoritativní strojově čitelný katalog projektů
+- \`/content/projects.md\` — stejná projektová data ve formátu Markdown
+- \`/content/program.md\` — aktuální programové oblasti
+- \`/content/web-handoff.md\` — poslední potvrzené změny a blokace
+
+Pokud se jednotlivé podklady rozcházejí, použij novější kanonická data Campaign HQ a rozpor nahlas. Texty ani stav projektů nedoplňuj odhadem.`;
+
+export const WEB_BRIEF_MARKDOWN = `${buildWebBriefMarkdown()}\n\n---\n\n${SYNC_SOURCES_MARKDOWN}\n\n---\n\n${FEEDBACK_GUIDELINES_MARKDOWN}\n`;
+export const AI_CONTEXT_MARKDOWN = `${buildAiContextMarkdown()}\n${SYNC_SOURCES_MARKDOWN}\n\n${FEEDBACK_GUIDELINES_MARKDOWN}\n`;

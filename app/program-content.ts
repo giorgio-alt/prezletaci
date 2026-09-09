@@ -58,9 +58,9 @@ export const programContent: ProgramContent = {
     },
     {
       title: "Služby v obci",
-      whatWeSolve: "Dostupnost základních služeb, stravování, zdravotní péče a praktických řešení pro každodenní život.",
+      whatWeSolve: "Dostupnost základních služeb, stravování, zdravotní péče, pobočky Pošty Partner a praktických řešení pro každodenní život.",
       whyItMatters: "Dobrá služba šetří lidem cestu, čas a energii a pomáhá obci fungovat pro všechny generace.",
-      nextStep: "Vyhodnotit konkrétní potřeby a u každé služby popsat realistický model, partnera a odpovědnost obce.",
+      nextStep: "V jednáních s developery prosazovat širší občanskou vybavenost — restaurace, kavárny, prodejny a centrum pro seniory s lékařskými službami pro obyvatele Přezletic. U každé služby popsat realistický model, partnera a odpovědnost obce.",
     },
     {
       title: "Rozumný rozvoj a územní plánování",
