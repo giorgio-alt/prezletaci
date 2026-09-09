@@ -362,9 +362,14 @@ const markdownNumbered = (items?: string[]) => items?.map((item, index) => `${in
 
 const reviewedProjectIds = [5, 7, 10, 27, 29, 30] as const;
 const blockedPhotoProjectIds = [20, 26] as const;
+const reviewedProgramAreaTitles = ["Doprava a infrastruktura", "Školství a kapacity", "Služby v obci"] as const;
 
 export function buildWebHandoffMarkdown() {
-  const services = programContent.areas.find((area) => area.title === "Služby v obci");
+  const reviewedProgramAreas = reviewedProgramAreaTitles
+    .map((title) => programContent.areas.find((area) => area.title === title))
+    .filter((area): area is NonNullable<typeof area> => Boolean(area))
+    .map((area) => `### ${area.title}\n\n**Co řešíme:** ${area.whatWeSolve}\n\n**Proč je to důležité:** ${area.whyItMatters}\n\n**Co chceme udělat:** ${area.nextStep}`)
+    .join("\n\n");
   const reviewedProjects = reviewedProjectIds
     .map((id) => publicProjectContent.find((project) => project.id === id))
     .filter((project): project is NonNullable<typeof project> => Boolean(project))
@@ -376,7 +381,7 @@ export function buildWebHandoffMarkdown() {
     .map((project) => `- **${project.title}** (ID ${project.id}) — ponechat současný obrázek, dokud klient nedodá nový soubor místo expirovaného odkazu WeTransfer.`)
     .join("\n");
 
-  return `# Přezleťáci 2026 – předání aktualizací webaři\n\nAktualizováno: ${publicProjectsUpdatedAt}\n\nTento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.\n\n## Pořadí zdrojů\n\n1. \`/api/projects\` — strojově čitelný aktuální katalog projektů.\n2. \`/content/projects.md\` — stejný katalog ve formátu vhodném pro AI a redakční kontrolu.\n3. \`/content/program.md\` — synchronizovaný programový obsah včetně oblastí.\n4. Tento dokument — poslední potvrzené změny a dočasné blokace.\n\n## Potvrzená aktualizace oblasti Služby v obci\n\n${services ? `**Co řešíme:** ${services.whatWeSolve}\n\n**Proč je to důležité:** ${services.whyItMatters}\n\n**Další směr:** ${services.nextStep}` : "Oblast nebyla v kanonickém programu nalezena."}\n\n## Potvrzené změny projektů\n\n${reviewedProjects}\n\n## Fotografické podklady\n\n- **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.\n${blockedPhotos}\n\n## Dosud nepublikovat\n\nNavržená stručná sekce s dalšími výsledky, které se nevešly do hlavního projektového přehledu, čeká na autoritativní seznam položek. AI ani webař nemají obsah doplňovat odhadem. Po dodání seznamu se nejprve doplní do Campaign HQ a teprve potom se z něj vytvoří webová sekce.\n`;
+  return `# Přezleťáci 2026 – předání aktualizací webaři\n\nAktualizováno: ${publicProjectsUpdatedAt}\n\nTento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.\n\n## Pořadí zdrojů\n\n1. \`/api/projects\` — strojově čitelný aktuální katalog projektů.\n2. \`/content/projects.md\` — stejný katalog ve formátu vhodném pro AI a redakční kontrolu.\n3. \`/content/program.md\` — synchronizovaný programový obsah včetně oblastí.\n4. Tento dokument — poslední potvrzené změny a dočasné blokace.\n\n## Potvrzené aktualizace programových oblastí\n\n${reviewedProgramAreas || "Žádná potvrzená programová oblast nebyla nalezena."}\n\n## Potvrzené změny projektů\n\n${reviewedProjects}\n\n## Fotografické podklady\n\n- **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.\n${blockedPhotos}\n\n## Dosud nepublikovat\n\nNavržená stručná sekce s dalšími výsledky, které se nevešly do hlavního projektového přehledu, čeká na autoritativní seznam položek. AI ani webař nemají obsah doplňovat odhadem. Po dodání seznamu se nejprve doplní do Campaign HQ a teprve potom se z něj vytvoří webová sekce.\n`;
 }
 
 export const WEB_HANDOFF_MARKDOWN = buildWebHandoffMarkdown();

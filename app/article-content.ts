@@ -932,8 +932,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co je pro nás nejdůležitější",
         paragraphs: [
-          "Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. U každé větší priority chceme ukazovat současný stav, odpovědnost a nejbližší proveditelný krok.",
-          "Školství a kapacity. Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. Nestačí říct, že kapacitu chceme. Je potřeba vysvětlovat, jak spolu souvisí pozemky, projekty, financování, svazek obcí, povolení a provoz.",
+          "Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. Budeme proto hlídat podmínky výstavby SOKP 520 a navazujících projektů tak, aby co nejlépe chránily zájmy Přezletic. Současně dokončíme rozpracované stavby místních komunikací.",
+          "Školství a kapacity. Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. V příštím roce zajistíme potřebnou kapacitu pomocí dočasné kontejnerové školy, na kterou má navázat dostavba II. etapy svazkové školy. Pro oba kroky je zásadní zachovat hladké fungování a spolupráci svazku obcí.",
           "Veřejný prostor a zeleň. Ulice, parky, stromy a místa pro setkávání nejsou ozdoba navíc. Rozhodují o tom, jak se v obci chodí, odpočívá, potkává a jak dobře veřejný prostor funguje v horku, dešti i při běžné údržbě.",
           "Sport, volný čas, komunita a sociální vazby. Obec není jen soubor domů. Potřebuje místa a příležitosti, kde se lidé potkávají: sportoviště, spolky, sousedské akce, prostor pro děti, seniory i celé rodiny. Stejně důležité je podporovat vztahy mezi starousedlíky a novými obyvateli, mezi generacemi i mezi sousedy, kteří by se jinak míjeli.",
           "Bezpečnost a prevence. Bezpečná obec nevzniká jen jedním opatřením. Je to kombinace prevence, dobrého veřejného prostoru, spolupráce s bezpečnostními složkami a srozumitelného vysvětlení, co obec může a nemůže zajistit.",

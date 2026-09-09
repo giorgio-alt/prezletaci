@@ -22,9 +22,9 @@ Naším cílem není vyhrát soutěž o největší slib. Chceme, aby lidé věd
 
 ## Co je pro nás nejdůležitější
 
-Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. U každé větší priority chceme ukazovat současný stav, odpovědnost a nejbližší proveditelný krok.
+Doprava a infrastruktura. Bezpečný pohyb obcí, stav komunikací, chodníků a technických sítí patří k základním věcem, které lidé vnímají každý den. Budeme proto hlídat podmínky výstavby SOKP 520 a navazujících projektů tak, aby co nejlépe chránily zájmy Přezletic. Současně dokončíme rozpracované stavby místních komunikací.
 
-Školství a kapacity. Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. Nestačí říct, že kapacitu chceme. Je potřeba vysvětlovat, jak spolu souvisí pozemky, projekty, financování, svazek obcí, povolení a provoz.
+Školství a kapacity. Rostoucí obec musí dlouhodobě řešit školku, školu, jídelnu i návazné služby. V příštím roce zajistíme potřebnou kapacitu pomocí dočasné kontejnerové školy, na kterou má navázat dostavba II. etapy svazkové školy. Pro oba kroky je zásadní zachovat hladké fungování a spolupráci svazku obcí.
 
 Veřejný prostor a zeleň. Ulice, parky, stromy a místa pro setkávání nejsou ozdoba navíc. Rozhodují o tom, jak se v obci chodí, odpočívá, potkává a jak dobře veřejný prostor funguje v horku, dešti i při běžné údržbě.
 

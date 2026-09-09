@@ -11,13 +11,31 @@ Tento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stru
 3. `/content/program.md` — synchronizovaný programový obsah včetně oblastí.
 4. Tento dokument — poslední potvrzené změny a dočasné blokace.
 
-## Potvrzená aktualizace oblasti Služby v obci
+## Potvrzené aktualizace programových oblastí
+
+### Doprava a infrastruktura
+
+**Co řešíme:** Bezpečný pohyb obcí, stav komunikací a spolehlivé technické sítě.
+
+**Proč je to důležité:** Doprava, voda, kanalizace a další sítě ovlivňují každodenní fungování domácností i další rozvoj obce.
+
+**Co chceme udělat:** Budeme hlídat podmínky výstavby SOKP 520 a navazujících projektů tak, aby co nejlépe chránily zájmy Přezletic. Současně dokončíme rozpracované stavby místních komunikací.
+
+### Školství a kapacity
+
+**Co řešíme:** Dostatečnou kapacitu školských zařízení a srozumitelný plán jejich rozšiřování.
+
+**Proč je to důležité:** Rodiny potřebují vědět, že obec řeší aktuální potřeby i dlouhodobý vývoj počtu dětí.
+
+**Co chceme udělat:** V příštím roce zajistíme potřebnou kapacitu pomocí dočasné kontejnerové školy. Na ni má navázat dostavba II. etapy svazkové školy. Pro oba kroky je zásadní zachovat hladké fungování a spolupráci svazku obcí.
+
+### Služby v obci
 
 **Co řešíme:** Dostupnost základních služeb, stravování, zdravotní péče, pobočky Pošty Partner a praktických řešení pro každodenní život.
 
 **Proč je to důležité:** Dobrá služba šetří lidem cestu, čas a energii a pomáhá obci fungovat pro všechny generace.
 
-**Další směr:** V jednáních s developery prosazovat širší občanskou vybavenost — restaurace, kavárny, prodejny a centrum pro seniory s lékařskými službami pro obyvatele Přezletic. U každé služby popsat realistický model, partnera a odpovědnost obce.
+**Co chceme udělat:** V jednáních s developery prosazovat širší občanskou vybavenost — restaurace, kavárny, prodejny a centrum pro seniory s lékařskými službami pro obyvatele Přezletic. U každé služby popsat realistický model, partnera a odpovědnost obce.
 
 ## Potvrzené změny projektů
 

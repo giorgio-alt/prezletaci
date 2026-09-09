@@ -30,13 +30,13 @@ export const programContent: ProgramContent = {
       title: "Doprava a infrastruktura",
       whatWeSolve: "Bezpečný pohyb obcí, stav komunikací a spolehlivé technické sítě.",
       whyItMatters: "Doprava, voda, kanalizace a další sítě ovlivňují každodenní fungování domácností i další rozvoj obce.",
-      nextStep: "U každé priority zveřejnit současný stav, odpovědnost a nejbližší proveditelný krok.",
+      nextStep: "Budeme hlídat podmínky výstavby SOKP 520 a navazujících projektů tak, aby co nejlépe chránily zájmy Přezletic. Současně dokončíme rozpracované stavby místních komunikací.",
     },
     {
       title: "Školství a kapacity",
       whatWeSolve: "Dostatečnou kapacitu školských zařízení a srozumitelný plán jejich rozšiřování.",
       whyItMatters: "Rodiny potřebují vědět, že obec řeší aktuální potřeby i dlouhodobý vývoj počtu dětí.",
-      nextStep: "Popsat návaznost dočasných řešení, připravovaných budov a rozhodování svazku obcí.",
+      nextStep: "V příštím roce zajistíme potřebnou kapacitu pomocí dočasné kontejnerové školy. Na ni má navázat dostavba II. etapy svazkové školy. Pro oba kroky je zásadní zachovat hladké fungování a spolupráci svazku obcí.",
     },
     {
       title: "Veřejný prostor a zeleň",

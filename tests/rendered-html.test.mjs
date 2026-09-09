@@ -609,6 +609,14 @@ test("keeps Web Brief and AI Context markdown exports synchronized", async () =>
   assert.match(briefFile, /\/content\/web-handoff\.md/);
   assert.match(programFile, /Před případným obnovením zpravodaje/);
   assert.match(programFile, /Pošty Partner/);
+  assert.match(programFile, /Budeme hlídat podmínky výstavby SOKP 520/);
+  assert.match(programFile, /dočasné kontejnerové školy/);
+  assert.match(programFile, /hladké fungování a spolupráci svazku obcí/);
+  assert.doesNotMatch(programFile, /U každé priority zveřejnit současný stav/);
+  assert.doesNotMatch(programFile, /Popsat návaznost dočasných řešení/);
+  assert.match(handoffFile, /Potvrzené aktualizace programových oblastí/);
+  assert.match(handoffFile, /### Doprava a infrastruktura/);
+  assert.match(handoffFile, /### Školství a kapacity/);
   assert.match(programFile, /centrum pro seniory s lékařskými službami/);
   assert.doesNotMatch(programFile, /propojit digitální komunikaci s pravidelnými tištěnými informacemi/);
   assert.match(projectsFile, /Svazková škola: výstavba a rozšíření kapacity/);
