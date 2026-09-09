@@ -78,7 +78,7 @@ export const programContent: ProgramContent = {
       title: "Digitalizace a komunikace obce",
       whatWeSolve: "Jednodušší vyřizování agend a informace dostupné online i lidem, kteří digitální kanály nepoužívají.",
       whyItMatters: "Srozumitelná komunikace šetří čas a pomáhá předcházet nejistotě a zbytečným sporům.",
-      nextStep: "Rozšířit přehled dostupných služeb a propojit digitální komunikaci s pravidelnými tištěnými informacemi.",
+      nextStep: "Rozšířit přehled dostupných služeb a prověřit, jak mohou digitální kanály doplnit tištěné informace. Před případným obnovením zpravodaje je potřeba otevřeně popsat potřebné lidi, pravidla i náklady.",
     },
     {
       title: "Odpovědné hospodaření",

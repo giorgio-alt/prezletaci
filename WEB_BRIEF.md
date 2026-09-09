@@ -440,3 +440,12 @@ Volby nerozhodují jen o velkých heslech. Rozhodují o tom, kdo bude každý t�
 - Termín: Bez termínu
 - Popis: Samostatný článek o kluzišti se nemá připravovat ani zařazovat do webového nebo social media publikačního plánu.
 - Poznámka: Rozhodnutí klienta: téma kluziště z článkové linky vynechat. Pokud se objeví ve sportovním souhrnu, pouze jako okrajová zmínka po schválení.
+
+
+---
+
+## Zapracování připomínek
+
+Připomínky klienta, kandidátů a dalších odborných podkladů jsou věcným zadáním, nikoli automaticky finálním textem ke zveřejnění. Zachovej jejich fakta, význam, omezení a schválené stanovisko, ale formulaci vždy převeď do společného kampaňového stylu.
+
+Doslovné znění použij pouze tehdy, když je výslovně označeno jako citace nebo jako text, který se nesmí měnit. Interní komentáře, informace o průběhu schvalování ani vysvětlení redakčního postupu nepatří do veřejného článku. Po zapracování zkontroluj stejný význam napříč článkem, programem, příspěvkem na sociální sítě a dalšími odvozenými formáty.

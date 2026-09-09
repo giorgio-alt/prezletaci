@@ -196,3 +196,9 @@ Web obsahuje celý příběh. Sociální sítě vybírají jednu část příbě
 ## Dlouhodobý princip
 
 Campaign HQ je jediným zdrojem pravdy. Obsah webu, sociálních sítí, kandidátských profilů, projektů a dokumentů musí vycházet ze stejného společného kontextu.
+
+## Zapracování připomínek
+
+Připomínky klienta, kandidátů a dalších odborných podkladů jsou věcným zadáním, nikoli automaticky finálním textem ke zveřejnění. Zachovej jejich fakta, význam, omezení a schválené stanovisko, ale formulaci vždy převeď do společného kampaňového stylu.
+
+Doslovné znění použij pouze tehdy, když je výslovně označeno jako citace nebo jako text, který se nesmí měnit. Interní komentáře, informace o průběhu schvalování ani vysvětlení redakčního postupu nepatří do veřejného článku. Po zapracování zkontroluj stejný význam napříč článkem, programem, příspěvkem na sociální sítě a dalšími odvozenými formáty.

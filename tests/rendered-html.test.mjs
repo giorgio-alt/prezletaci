@@ -590,6 +590,11 @@ test("keeps Web Brief and AI Context markdown exports synchronized", async () =>
   assert.match(briefFile, /## Role webu v kampani/);
   assert.match(briefFile, /## Živé otevřené body/);
   assert.match(aiFile, /## Pravidla práce s fakty/);
+  assert.match(aiFile, /## Zapracování připomínek/);
+  assert.match(aiFile, /věcným zadáním, nikoli automaticky finálním textem/);
+  assert.match(aiFile, /Doslovné znění použij pouze tehdy/);
+  assert.match(programFile, /Před případným obnovením zpravodaje/);
+  assert.doesNotMatch(programFile, /propojit digitální komunikaci s pravidelnými tištěnými informacemi/);
   assert.equal(campaignCandidateNames.length, 11);
   for (const candidate of campaignCandidateNames) assert.match(aiFile, new RegExp(candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
@@ -643,6 +648,7 @@ test("publishes every article for people and robots from one canonical source", 
     await Promise.all(imagePaths.map((image) => access(new URL(`../public${image}`, import.meta.url))));
     assert.match(expectedMarkdown, new RegExp(`## ${article.body[0].heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
     assert.doesNotMatch(expectedMarkdown, /Copy ke schválení|Komunikační pilíř|Autorský podklad|Kontrola před publikací|Text pro sociální sítě|Instagram carousel|## CTA/i);
+    assert.doesNotMatch(expectedMarkdown, /\bfeedback\b|schválené znění|podle lekce|od zadavatele|viz příspěvek|pak znova mrknu|dozapracuj/i);
 
     assert.equal(humanResponse.status, 200, `${article.slug}: lidská URL není dostupná`);
     assert.match(humanResponse.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -695,9 +701,10 @@ test("keeps Macourek and Lukeš article feedback in canonical data and social de
   assert.equal(school?.sourceLinks.some((link) => link.includes("Historie vzniku prudkého rozvoje obce")), true);
   assert.equal(development?.body.some((section) => section.heading === "Dvě různé fáze rozvoje"), true);
   assert.equal(development?.sourceLinks.some((link) => link.includes("VOLBY 2026_stop develop.docx")), true);
-  assert.match(articleToMarkdown(development), /Hlavním nástrojem je územní plán/);
-  assert.match(articleToMarkdown(development), /jednat s občany a zveřejňovat srozumitelné informace/);
-  assert.match(articleToMarkdown(development), /aby obec zůstala obyvatelná/);
+  assert.match(articleToMarkdown(development), /Nejdůležitějším nástrojem obce je územní plán/);
+  assert.match(articleToMarkdown(development), /včas o nich mluvit s obyvateli/);
+  assert.match(articleToMarkdown(development), /aby se v obci dobře žilo i s dalšími změnami/);
+  assert.doesNotMatch(articleToMarkdown(development), /v neposlední řadě|převzít vyjednávací pozici/);
 
   assert.equal(bilaVratka?.title, "Bílá vrátka v kontextu dvou developerských projektů");
   assert.match(articleToMarkdown(bilaVratka), /dva navazující developerské záměry/i);

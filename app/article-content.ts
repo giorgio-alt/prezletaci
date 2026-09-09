@@ -380,8 +380,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co může obec ovlivnit",
         paragraphs: [
-          "Obec má několik nástrojů. Hlavním nástrojem je územní plán, který má stanovovat podmínky pro konkrétní využití území. Dále jsou nutná jednání s investory o rozvoji návazné veřejné infrastruktury, správné nastavení smluv a v neposlední řadě kontrola návazností projektů na kapacity obce.",
-          "Zároveň je důležité říct i druhou část: obec nemůže libovolně zastavit všechny projekty, které se někomu nelíbí. Rozhoduje v právním rámci, podle platných dokumentů a postupů. Právě proto je důležité mít pravidla připravená včas.",
+          "Nejdůležitějším nástrojem obce je územní plán. Určuje, k čemu lze jednotlivé plochy využít a jaké podmínky musí nový rozvoj splnit. Stejně důležité je včas jednat s investory o navazující veřejné infrastruktuře, dobře nastavit smlouvy a hlídat, aby nové projekty nepředbíhaly skutečné kapacity obce.",
+          "Obec ale nemůže jednoduše zastavit každý projekt, který vyvolává nesouhlas. Musí rozhodovat podle zákona, platných dokumentů a stanovených postupů. O to důležitější je připravit pravidla dříve, než se jednotlivé záměry dostanou do fáze, kdy už má obec méně možností je ovlivnit.",
         ],
       },
       {
@@ -415,8 +415,8 @@ export const articleContent: ArticleContent[] = [
       {
         heading: "Co budeme dělat dál",
         paragraphs: [
-          "Chceme držet tempo rozvoje obce tak, aby odpovídalo potřebám infrastruktury a kvalitě života. To znamená nastavit nové podmínky v územním plánu, jednat s občany a zveřejňovat srozumitelné informace, převzít vyjednávací pozici obce a nenechávat klíčová rozhodnutí na poslední chvíli.",
-          "Přezletice se vyvíjejí. Otázka není, zda se vývoj dá úplně zastavit. Otázka je, jestli ho obec zvládne řídit tak, aby byl férový a dlouhodobě udržitelný a aby obec zůstala obyvatelná.",
+          "Chceme, aby tempo rozvoje odpovídalo tomu, co zvládne doprava, škola, sítě i další služby, a aby přitom neklesala kvalita života. Proto chceme nové podmínky promítnout do územního plánu, včas o nich mluvit s obyvateli, zveřejňovat srozumitelné informace a aktivně hájit zájmy obce při jednáních s investory. Klíčová rozhodnutí se nesmějí odkládat na poslední chvíli.",
+          "Přezletice se budou dál vyvíjet. Nejde tedy o to slibovat, že veškerý vývoj zastavíme. Jde o to řídit ho tak, aby byl férový, dlouhodobě udržitelný a aby se v obci dobře žilo i s dalšími změnami.",
         ],
       },
     ],
