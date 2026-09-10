@@ -1,6 +1,6 @@
 # Přezleťáci 2026 – synchronizovaný katalog projektů
 
-Aktualizováno: 2026-09-09
+Aktualizováno: 2026-09-10
 
 Tento Markdown je generovaný ze stejného strukturovaného zdroje jako projektové karty Campaign HQ, veřejné projektové stránky a JSON API `/api/projects`. Neupravuj jej ručně; změny patří do kanonických dat Campaign HQ.
 

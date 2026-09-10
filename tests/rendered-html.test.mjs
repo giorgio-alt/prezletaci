@@ -196,6 +196,8 @@ test("imports optimized photographs and approved project visualizations", async 
   assert.equal(projectImageManifest.find((record) => record.projectId === 1)?.slug, "tri-celky-podzemnich-kontejneru");
   assert.equal(projectImageManifest.find((record) => record.projectId === 3)?.slug, "elektronicka-uredni-deska");
   assert.equal(projectImageManifest.find((record) => record.projectId === 16)?.slug, "rekonstrukce-sokolovny");
+  assert.match(projectImageManifest.find((record) => record.projectId === 20)?.source ?? "", /y7a6879\.jpg$/);
+  assert.match(projectImageManifest.find((record) => record.projectId === 26)?.source ?? "", /y7a6863\.jpg$/);
 });
 
 test("publishes all 38 factual projects without production notes", async () => {
@@ -624,6 +626,8 @@ test("keeps Web Brief and AI Context markdown exports synchronized", async () =>
   assert.match(projectsFile, /Personální posílení pro službu 24\/7/);
   assert.match(handoffFile, /Hruškové aleje a další zeleň/);
   assert.match(handoffFile, /Lávka a veřejné plochy Zlatý kopec/);
+  assert.match(handoffFile, /Původní blokace kvůli expirovaným odkazům WeTransfer je vyřešená/);
+  assert.doesNotMatch(handoffFile, /ponechat současný obrázek/);
   assert.match(handoffFile, /Dosud nepublikovat/);
   assert.equal(campaignCandidateNames.length, 11);
   for (const candidate of campaignCandidateNames) assert.match(aiFile, new RegExp(candidate.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));

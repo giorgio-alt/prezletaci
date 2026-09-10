@@ -2,7 +2,7 @@ import { projectImageByProjectId } from "./project-images.ts";
 
 export type PublicProjectStatus = "Hotové" | "Rozpracované" | "Plánované";
 export type PublicProjectMediaStatus = "available" | "external-source" | "missing";
-export const publicProjectsUpdatedAt = "2026-09-09";
+export const publicProjectsUpdatedAt = "2026-09-10";
 
 export type PublicProjectMilestone = {
   label: string;

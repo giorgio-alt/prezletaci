@@ -1,6 +1,6 @@
 # Přezleťáci 2026 – předání aktualizací webaři
 
-Aktualizováno: 2026-09-09
+Aktualizováno: 2026-09-10
 
 Tento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.
 
@@ -113,8 +113,10 @@ Přístavba druhého pavilonu a následná nástavba rozšířily zázemí mate�
 ## Fotografické podklady
 
 - **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.
-- **Hruškové aleje a další zeleň** (ID 20) — ponechat současný obrázek, dokud klient nedodá nový soubor místo expirovaného odkazu WeTransfer.
-- **Lávka a veřejné plochy Zlatý kopec** (ID 26) — ponechat současný obrázek, dokud klient nedodá nový soubor místo expirovaného odkazu WeTransfer.
+- **Hruškové aleje a další zeleň** (ID 20) — potvrzená fotografie byla přiřazena z originálu `Originální Fotky/02_projekty/01_zivotni_prostredi/hruskove-aleje-a-dalsi-zelen/hruskove-aleje-a-dalsi-zelen__y7a6879.jpg` a je dostupná jako `/images/projects/hruskove-aleje-a-dalsi-zelen.webp`.
+- **Lávka a veřejné plochy Zlatý kopec** (ID 26) — potvrzená fotografie byla přiřazena z originálu `Originální Fotky/02_projekty/02_doprava/lavka-a-verejne-plochy-zlaty-kopec/lavka-a-verejne-plochy-zlaty-kopec__y7a6863.jpg` a je dostupná jako `/images/projects/lavka-a-verejne-plochy-zlaty-kopec.webp`.
+
+Původní blokace kvůli expirovaným odkazům WeTransfer je vyřešená; pro oba projekty jsou nyní použité potvrzené originály z depozitáře Campaign HQ.
 
 ## Dosud nepublikovat
 

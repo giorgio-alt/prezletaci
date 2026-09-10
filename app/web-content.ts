@@ -2,7 +2,7 @@ import { articleContent } from "./article-content.ts";
 import { PHOTO_AUDIT_DRIVE_URL, PHOTO_DRIVE_ROOT_URL, ORIGINAL_PHOTOS_ZIP_DRIVE_URL } from "./photo-drive.ts";
 import { programContent } from "./program-content.ts";
 import { publicProjectContent, publicProjectsUpdatedAt } from "./project-content.ts";
-import { getProjectPhotoDriveUrlForImage } from "./project-images.ts";
+import { getProjectPhotoDriveUrlForImage, projectImageByProjectId } from "./project-images.ts";
 
 export type BriefSection = {
   id: string;
@@ -350,7 +350,6 @@ export const webOpenIssues: WebOpenIssue[] = [
 
 export const webBlockers: WebBlocker[] = [
   { id: "block-home", title: "Neschválený text homepage", description: "Chybí finální výběr priorit a hlavní úvodní sdělení.", severity: "Kritická", owner: "Klient + Copy", status: "K rozhodnutí", nextStep: "Schválit tři hlavní vstupy homepage a připravit první copy." },
-  { id: "block-project-photo", title: "Dvě náhradní fotografie projektů", description: "Nové fotografie pro Hruškové aleje a Lávku na Zlatém kopci nejsou dostupné, protože odkazy WeTransfer expirovaly.", severity: "Střední", owner: "Klient", status: "Čeká na podklady", nextStep: "Vyžádat od klienta oba soubory nebo nové trvalé odkazy; do té doby ponechat současné fotografie." },
   { id: "block-documents", title: "Dokumenty, mapy a usnesení", description: "Důkazová vrstva zatím nemá kompletní zdrojové materiály.", severity: "Vysoká", owner: "Klient + PM", status: "Čeká na podklady", nextStep: "Založit balíčky dokumentů ke škole, dopravě a rozpracovaným projektům." },
   { id: "block-program", title: "Struktura programu", description: "Program obsahuje více než padesát záměrů a potřebuje obsahovou hierarchii.", severity: "Vysoká", owner: "PM + Copy", status: "V řešení", nextStep: "Vybrat 10–12 priorit a přiřadit první proveditelný krok." },
   { id: "block-sensitive", title: "Nezpracovaná citlivá témata", description: "Škola, development a územní plán nemají hotovou faktickou osnovu.", severity: "Vysoká", owner: "Copy + PM", status: "Nové", nextStep: "Připravit chronologii, kompetence obce, aktuální stav a zdroje." },
@@ -361,7 +360,7 @@ const markdownList = (items?: string[]) => items?.map((item) => `- ${item}`).joi
 const markdownNumbered = (items?: string[]) => items?.map((item, index) => `${index + 1}. ${item}`).join("\n") ?? "";
 
 const reviewedProjectIds = [5, 7, 10, 27, 29, 30] as const;
-const blockedPhotoProjectIds = [20, 26] as const;
+const confirmedPhotoProjectIds = [20, 26] as const;
 const reviewedProgramAreaTitles = ["Doprava a infrastruktura", "Školství a kapacity", "Služby v obci"] as const;
 
 export function buildWebHandoffMarkdown() {
@@ -375,13 +374,13 @@ export function buildWebHandoffMarkdown() {
     .filter((project): project is NonNullable<typeof project> => Boolean(project))
     .map((project) => `### ${project.id}. ${project.title}\n\n- Stav: ${project.status}\n- Oblast: ${project.area}\n- Cílová cesta: \`/nase-prace/projekty/${project.slug}\`\n- Obrázek: \`${project.image ?? "čeká na podklad"}\`\n\n${project.summary}\n\n${project.details.map((detail) => `- ${detail}`).join("\n")}`)
     .join("\n\n");
-  const blockedPhotos = blockedPhotoProjectIds
+  const confirmedPhotos = confirmedPhotoProjectIds
     .map((id) => publicProjectContent.find((project) => project.id === id))
     .filter((project): project is NonNullable<typeof project> => Boolean(project))
-    .map((project) => `- **${project.title}** (ID ${project.id}) — ponechat současný obrázek, dokud klient nedodá nový soubor místo expirovaného odkazu WeTransfer.`)
+    .map((project) => `- **${project.title}** (ID ${project.id}) — potvrzená fotografie byla přiřazena z originálu \`${projectImageByProjectId.get(project.id)?.source ?? "zdroj není evidovaný"}\` a je dostupná jako \`${project.image ?? "obrázek není dostupný"}\`.`)
     .join("\n");
 
-  return `# Přezleťáci 2026 – předání aktualizací webaři\n\nAktualizováno: ${publicProjectsUpdatedAt}\n\nTento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.\n\n## Pořadí zdrojů\n\n1. \`/api/projects\` — strojově čitelný aktuální katalog projektů.\n2. \`/content/projects.md\` — stejný katalog ve formátu vhodném pro AI a redakční kontrolu.\n3. \`/content/program.md\` — synchronizovaný programový obsah včetně oblastí.\n4. Tento dokument — poslední potvrzené změny a dočasné blokace.\n\n## Potvrzené aktualizace programových oblastí\n\n${reviewedProgramAreas || "Žádná potvrzená programová oblast nebyla nalezena."}\n\n## Potvrzené změny projektů\n\n${reviewedProjects}\n\n## Fotografické podklady\n\n- **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.\n${blockedPhotos}\n\n## Dosud nepublikovat\n\nNavržená stručná sekce s dalšími výsledky, které se nevešly do hlavního projektového přehledu, čeká na autoritativní seznam položek. AI ani webař nemají obsah doplňovat odhadem. Po dodání seznamu se nejprve doplní do Campaign HQ a teprve potom se z něj vytvoří webová sekce.\n`;
+  return `# Přezleťáci 2026 – předání aktualizací webaři\n\nAktualizováno: ${publicProjectsUpdatedAt}\n\nTento dokument je generovaný z kanonických dat Campaign HQ. Slouží jako stručný rozdílový přehled pro AI nebo vývojáře webu; úplná data projektů jsou v JSON API a projektovém Markdownu.\n\n## Pořadí zdrojů\n\n1. \`/api/projects\` — strojově čitelný aktuální katalog projektů.\n2. \`/content/projects.md\` — stejný katalog ve formátu vhodném pro AI a redakční kontrolu.\n3. \`/content/program.md\` — synchronizovaný programový obsah včetně oblastí.\n4. Tento dokument — poslední potvrzené změny a dočasné blokace.\n\n## Potvrzené aktualizace programových oblastí\n\n${reviewedProgramAreas || "Žádná potvrzená programová oblast nebyla nalezena."}\n\n## Potvrzené změny projektů\n\n${reviewedProjects}\n\n## Fotografické podklady\n\n- **Rekonstrukce místních komunikací** (ID 27) používá potvrzenou fotografii z projektu Zeleň u místních komunikací.\n${confirmedPhotos}\n\nPůvodní blokace kvůli expirovaným odkazům WeTransfer je vyřešená; pro oba projekty jsou nyní použité potvrzené originály z depozitáře Campaign HQ.\n\n## Dosud nepublikovat\n\nNavržená stručná sekce s dalšími výsledky, které se nevešly do hlavního projektového přehledu, čeká na autoritativní seznam položek. AI ani webař nemají obsah doplňovat odhadem. Po dodání seznamu se nejprve doplní do Campaign HQ a teprve potom se z něj vytvoří webová sekce.\n`;
 }
 
 export const WEB_HANDOFF_MARKDOWN = buildWebHandoffMarkdown();
