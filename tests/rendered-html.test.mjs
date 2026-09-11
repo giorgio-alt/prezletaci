@@ -96,7 +96,7 @@ test("server-renders the Přezleťáci Campaign HQ", async () => {
   assert.match(html, /Jedna obrazovka/);
   assert.match(html, /Kandidáti<\/span><b>11/);
   assert.match(html, /Fotografie<\/span><strong>11/);
-  assert.match(html, /Příspěvky<\/span><strong>48/);
+  assert.match(html, /Příspěvky<\/span><strong>47/);
 });
 
 test("does not expose the mistakenly imported campaign expenses", async () => {
@@ -259,7 +259,7 @@ test("project migration preserves edits and adds catalog media", async () => {
   assert.equal(migrated.find((project) => project.id === 1)?.image, "/catalog.webp");
   assert.equal(migrated.some((project) => project.id === 2), true);
   assert.equal(migrated.some((project) => project.id === 999), true);
-  assert.match(page, /const DATA_VERSION = 26;/);
+  assert.match(page, /const DATA_VERSION = 27;/);
   assert.equal(
     page.match(/refreshProjectPublicFields\(mergeProjectCatalog\(data\.projects, initialProjects\)\)/g)?.length,
     2,
@@ -353,7 +353,7 @@ test("imports the complete chronological publication plan with concrete producti
   assert.deepEqual(initialPosts, [...initialPosts].sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id));
   assert.deepEqual(
     Object.fromEntries(["08", "09", "10"].map((month) => [month, initialPosts.filter((post) => post.date.slice(5, 7) === month).length])),
-    { "08": 15, "09": 26, "10": 7 },
+    { "08": 15, "09": 24, "10": 9 },
   );
   assert.equal(initialPosts.every((post) => post.title.split(" · ").length === 3), true);
   assert.equal(initialPosts.every((post) => post.contentSummary && post.productionNote), true);
@@ -362,6 +362,8 @@ test("imports the complete chronological publication plan with concrete producti
   assert.equal(initialPosts[0]?.id, 142);
   assert.deepEqual(initialPosts.filter((post) => post.candidateId).map((post) => post.candidateId), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
   assert.equal(initialPosts.find((post) => post.id === 137)?.programSlug, programContent.slug);
+  assert.equal(initialPosts.find((post) => post.id === 147)?.date, "2026-09-03");
+  assert.equal(initialPosts.find((post) => post.id === 147)?.status, "Publikováno");
 });
 
 test("includes the program, logo and Instagram posts as concrete ready social packages", async () => {
@@ -417,7 +419,7 @@ test("includes today's new website announcement with supplied artwork and channe
   await access(new URL("post-novy-web.png", socialDir));
   const websitePost = initialPosts.find((post) => post.id === 103);
 
-  assert.equal(websitePost?.date, "2026-09-04");
+  assert.equal(websitePost?.date, "2026-09-10");
   assert.equal(websitePost?.title, "Lidé · Web · Máme nový web");
   assert.equal(websitePost?.subjectType, "channel");
   assert.equal(websitePost?.primaryImage, "/images/social/post-novy-web.png");
@@ -583,6 +585,23 @@ test("versioned migration enriches the plan without erasing user changes", () =>
   assert.equal(migratedGreenery?.title, "Hotová práce · Veřejná zeleň · Co pro nás znamená péče o zeleň");
   assert.match(migratedGreenery?.socialCopy ?? "", /stromy a aleje/i);
   assert.equal(migratedGreenery?.status, "Publikováno");
+
+  const staleWebsitePost = {
+    ...initialPosts.find((post) => post.id === 103),
+    date: "2026-09-04",
+    productionNote: "Publikovat 4. 9.",
+  };
+  const staleElectionNumberPost = {
+    ...initialPosts.find((post) => post.id === 147),
+    status: "Copy",
+    graphic: "Brief připraven",
+    approval: "Ke schválení",
+  };
+  const migratedCurrentCalendar = mergePostsWithPlan([staleWebsitePost, staleElectionNumberPost], 26);
+  assert.equal(migratedCurrentCalendar.find((post) => post.id === 103)?.date, "2026-09-10");
+  assert.match(migratedCurrentCalendar.find((post) => post.id === 103)?.productionNote ?? "", /Publikovat 10\. 9\./);
+  assert.equal(migratedCurrentCalendar.find((post) => post.id === 147)?.status, "Publikováno");
+  assert.equal(migratedCurrentCalendar.find((post) => post.id === 147)?.approval, "Schváleno");
 });
 
 test("keeps Web Brief and AI Context markdown exports synchronized", async () => {

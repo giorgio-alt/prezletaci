@@ -163,7 +163,7 @@ const curatePostMedia = (post: SocialPost): SocialPost => {
 // Zdroj: Prezletaci_2026_Postplan_Kalendar.xlsx (listy August, September, October).
 // Tabulka nedokládá formát ani produkční stav. Proto zůstávají nedoložené položky
 // transparentně ve stavu Čeká/Námět; hotové článkové a programové copy je označeno zvlášť.
-export const initialPosts: SocialPost[] = [
+const baseInitialPosts: SocialPost[] = [
   { id: 101, date: "2026-08-19", title: "Lidé · Launch · Přezletice jsou náš domov", contentType: "people", pillar: "Lidé", format: "Post", status: "Ke schválení", author: "Obsahový tým", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/social/post-001-start-kampane.avif", socialCopy: campaignStartSocialCopy, cta: "Sledujte nás. V příštích dnech představíme tým Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/post-001-start-kampane.avif", contentSummary: "Oficiální launch kampaně „Přezletice jsou náš domov“: Přezleťáci 2026 pokračují ve své dlouhodobé práci v obci. V kampani postupně představíme lidi, kteří za týmem stojí, dokončené projekty, rozdělané věci i plán pro další roky.", productionNote: "Oficiální start kampaně po oznámení Instagramu a představení identity. Po něm zařadit úvodní program a následně souvislou sérii kandidátských medailonků." },
   { id: 143, date: "2026-08-18", title: "Lidé · Identita · Představujeme logo Přezleťáků", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "brand", primaryImage: "/images/social/logo-predstaveni-prezletaku.svg", draftLink: "content/social/program-a-logo-posty.md", socialCopy: logoShowcaseSocialCopy, facebookCopy: logoShowcaseSocialCopy, instagramCopy: logoShowcaseInstagramCopy, carouselOutline: ["Představujeme identitu Přezleťáků 2026.", "Podaná ruka jako symbol spolupráce.", "Modrá: klid, důvěra, odpovědnost.", "Žlutá: energie, otevřenost, pohyb.", "Jeden systém pro lidi, práci, plán i vysvětlování.", "Přehledná komunikace pro Přezletice."], hashtags: ["#prezletaci", "#prezletice", "#volby2026", "#logo", "#identita", "#spoluprace"], altText: "Grafika ve žluté a modré identitě Přezleťáků se symbolem podané ruky a textem „Představujeme identitu Přezleťáků 2026“.", cta: "Sledujte nás. V příštích dnech postupně představíme lidi, práci i plán Přezleťáků 2026.", assetStatus: "Grafika připravena: public/images/social/logo-predstaveni-prezletaku.svg", contentSummary: "Samostatný brand post představuje novou vizuální identitu Přezleťáků 2026: podanou ruku, modrou a žlutou jako praktický systém pro přehlednou kampaň.", productionNote: "Použít jako samostatný brand post po startu kampaně a před sérií medailonků. V Campaign HQ navázat na brand assety v public/images/brand." },
   { id: 142, date: "2026-08-17", title: "Lidé · Instagram · Jsme na Instagramu", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Připraveno", copy: "Hotovo", approval: "Ke schválení", subjectType: "channel", primaryImage: "/images/social/post-instagram-start.png", draftLink: "content/social/program-a-logo-posty.md", socialCopy: instagramLaunchSocialCopy, facebookCopy: instagramLaunchSocialCopy, instagramCopy: instagramLaunchSocialCopy, carouselOutline: ["Jsme nově i na Instagramu", "Sledujte nás na @prezletaci.2011", "Co se v Přezleticích děje", "Na čem pracujeme", "Co plánujeme", "Postupně představíme celý tým"], hashtags: ["#prezletaci", "#prezletice", "#volby2026", "#instagram", "#obec", "#sousede"], altText: "Grafika ve žluté a modré identitě Přezleťáků s textem „Jsme nově i na Instagramu“ a výzvou ke sledování profilu @prezletaci.2011.", futureWebPath: "https://www.instagram.com/prezletaci.2011/", cta: "Sledujte nás i na Instagramu: @prezletaci.2011", assetStatus: "Klientem schválený text a grafika připraveny: public/images/social/post-instagram-start.png", contentSummary: "První post v kalendáři oznamuje, že Přezleťáky lidé nově najdou i na Instagramu, kde budou postupně sledovat dění v obci, práci, plány a představení celého týmu.", productionNote: "Publikovat jako první výstup 17. 8. Text je schválený klientem; zachovat odkaz https://www.instagram.com/prezletaci.2011/ a tón sousedského oznámení." },
@@ -212,7 +212,55 @@ export const initialPosts: SocialPost[] = [
   { id: 146, date: "2026-10-08", title: "Vysvětlujeme · Fact-check · Jak ověřujeme tvrzení o historii obce", contentType: "evidence", pillar: "Vysvětlování", format: "Carousel", status: "Copy", author: "Copy + Fact-check", graphic: "Fotky přiřazeny", copy: "Hotovo", approval: "Ke schválení", articleSlug: "jak-overujeme-tvrzeni", websiteItemId: "article-jak-overujeme-tvrzeni", projectId: 3, subjectType: "article", primaryImage: "/images/projects/elektronicka-uredni-deska.webp", galleryImages: ["/images/brand/social/prezletaci-social-blue.png", "/images/brand/social/prezletaci-social-yellow.png"], draftLink: "content/articles/jak-overujeme-tvrzeni.md", socialCopy: "V kampani nechceme stavět komunikaci na nálepkách. U citlivých témat budeme pracovat jednoduše: tvrzení, zdroj, kontext a jasné označení, co je fakt a co je hodnocení. Když něco ještě nemáme ověřené, řekneme to. Férová debata začíná tím, že lidé vidí, z čeho vycházíme.", carouselOutline: ["Tvrzení samo o sobě nestačí.", "Ptáme se: zdroj, dokument, kontext.", "Fakt musí být ověřitelný.", "Hodnocení musí být označené jako hodnocení.", "Neověřené věci neschováváme.", "Příspěvek na sociálních sítích má vést na delší článek se zdroji."], cta: "Přečtěte si, jak budeme v kampani pracovat s fakty, historií a citlivými tématy.", contentSummary: "Metodický článek a carousel o tom, jak v kampani ověřovat tvrzení, rozlišovat fakta od hodnocení a odkazovat na dokumenty.", productionNote: "Použít jako důvěryhodnostní post před nejcitlivějšími tématy nebo jako podpůrný odkaz v debatách." },
   { id: 147, date: "2026-09-03", title: "Lidé · Volby · Přezleťáci mají číslo 3", contentType: "people", pillar: "Lidé", format: "Post", status: "Copy", author: "Copy + Grafika", graphic: "Brief připraven", copy: "Hotovo", approval: "Ke schválení", subjectType: "team", primaryImage: "/images/brand/social/prezletaci-social-yellow.png", socialCopy: "Kdy jindy než 3. září oznámit, že máme číslo 3? 3️⃣\n\nPřezleťáci jdou do komunálních voleb s vylosovaným číslem 3. 💙💛\n\nAž budete držet volební lístek v ruce, najdete nás jednoduše pod trojkou.\n\nČíslo je nové, ale náš přístup zůstává stejný: věcně, otevřeně a s respektem k Přezleticím i k sobě navzájem. Jsme jedenáct sousedů, kteří chtějí pokračovat v práci pro obec, dotahovat rozpracované projekty a srozumitelně vysvětlovat další kroky.\n\nZapamatujte si: Přezleťáci = číslo 3.", facebookCopy: "Kdy jindy než 3. září oznámit, že máme číslo 3? 3️⃣\n\nPřezleťáci jdou do komunálních voleb s vylosovaným číslem 3. 💙💛\n\nAž budete držet volební lístek v ruce, najdete nás jednoduše pod trojkou.\n\nČíslo je nové, ale náš přístup zůstává stejný: věcně, otevřeně a s respektem k Přezleticím i k sobě navzájem. Jsme jedenáct sousedů, kteří chtějí pokračovat v práci pro obec, dotahovat rozpracované projekty a srozumitelně vysvětlovat další kroky.\n\nZapamatujte si: Přezleťáci = číslo 3.", instagramCopy: "3. září. Číslo 3. To se nabízelo. 3️⃣\n\nPřezleťáci mají pro komunální volby vylosované číslo 3.\n\nAž budete držet volební lístek v ruce, najdete nás pod trojkou. Jsme jedenáct sousedů, kteří chtějí pokračovat v práci pro Přezletice, dotahovat rozpracované projekty a mluvit s vámi otevřeně o tom, co obec potřebuje.\n\nPřezleťáci = číslo 3. 💙💛", hashtags: ["#prezletaci", "#prezletice", "#cislo3", "#volby2026", "#komunalnivolby", "#sousede"], altText: "Žlutomodrá grafika Přezleťáků s výrazným číslem 3, které bylo týmu vylosováno pro komunální volby.", cta: "Zapamatujte si: Přezleťáci = číslo 3.", assetStatus: "Použít žlutý brand podklad, dominantní číslici 3, logo Přezleťáků a krátký titulek „Máme volební číslo 3“.", contentSummary: "Aktuální oznamovací post informuje, že Přezleťáci mají pro komunální volby vylosované číslo 3, a pomáhá voličům spojit tým s číslem na volebním lístku.", productionNote: "Publikovat 3. 9. místo původního rezervního dne. Grafiku udržet velmi jednoduchou: dominantní číslo 3, logo a minimum textu. Před zveřejněním provést finální kontrolu přesného názvu kandidujícího subjektu na oficiálním volebním lístku." },
   { id: 148, date: "2026-09-20", title: "Vysvětlujeme · Svazková škola · Proč musí spolupráce obcí pokračovat", contentType: "explain", pillar: "Vysvětlování", format: "Carousel", status: "Copy", author: "Copy + Grafika + Fact-check", graphic: "Fotky přiřazeny", copy: "Hotovo", approval: "Ke schválení", articleSlug: "kapacita-skol-a-skolek", websiteItemId: "article-kapacita-skol-a-skolek", projectId: 7, subjectType: "article", primaryImage: "/images/projects/rozsireni-kapacity-svazkove-skoly.webp", galleryImages: ["/images/projects/druhy-pavilon-ms.webp", "/images/projects/vydejni-automaty-stravovani.webp", "/images/projects/zahrada-ms.webp"], draftLink: "content/articles/kapacita-skol-a-skolek.md", socialCopy: "Škola pro Přezletice, Jenštejn a Podolanku není projektem jedné obce ani jednoho volebního období. Její další kapacita závisí na tom, zda se obce dokážou shodnout na projektu, pozemcích, financování, dočasné nájemní škole i přípravě druhé etapy.\n\nDnes vedení zapojených obcí spolupracují a společně posouvají jednotlivé kroky. Po volbách je potřeba na tuto práci navázat — bez ohledu na to, kdo bude konkrétně ve funkcích.\n\nRizikem není samotná změna lidí. Rizikem by bylo přerušení dohod, přípravy nebo financování. Důsledky by pak nesly především rodiny, které potřebují pro děti dostupnou školu v rozumné vzdálenosti.\n\nChceme proto udržet silné zastoupení Přezletic ve svazku, funkční spolupráci všech tří obcí a jasné předávání informací o tom, co je hotové a co musí následovat.", facebookCopy: "Škola pro Přezletice, Jenštejn a Podolanku není projektem jedné obce ani jednoho volebního období. Její další kapacita závisí na tom, zda se obce dokážou shodnout na projektu, pozemcích, financování, dočasné nájemní škole i přípravě druhé etapy.\n\nDnes vedení zapojených obcí spolupracují a společně posouvají jednotlivé kroky. Po volbách je potřeba na tuto práci navázat — bez ohledu na to, kdo bude konkrétně ve funkcích.\n\nRizikem není samotná změna lidí. Rizikem by bylo přerušení dohod, přípravy nebo financování. Důsledky by pak nesly především rodiny, které potřebují pro děti dostupnou školu v rozumné vzdálenosti.\n\nChceme proto udržet silné zastoupení Přezletic ve svazku, funkční spolupráci všech tří obcí a jasné předávání informací o tom, co je hotové a co musí následovat.", instagramCopy: "Škola není projekt jedné obce ani jednoho volebního období. 🏫\n\nPřezletice, Jenštejn a Podolanka musí dál spolupracovat na projektu, pozemcích, financování i druhé etapě školy.\n\nZměna lidí po volbách sama o sobě není problém. Problém by byl, kdyby se zastavily připravené kroky nebo rozpadly dohody. Dopad by pocítily hlavně rodiny s dětmi.\n\nChceme proto zachovat silné zastoupení Přezletic ve svazku a pokračovat ve funkční spolupráci všech tří obcí.", carouselOutline: ["Škola není projekt jedné obce ani jednoho období.", "Přezletice, Jenštejn a Podolanka ji připravují společně.", "Společně se řeší projekt, pozemky, povolení i peníze.", "Po volbách se mohou změnit lidé — připravená práce ale nesmí začínat znovu.", "Rizikem je přerušení dohod, financování a přípravy II. etapy.", "Dopad by nesly především rodiny s dětmi.", "Cíl: funkční spolupráce obcí a silné zastoupení Přezletic."], hashtags: ["#prezletaci", "#prezletice", "#svazkovaskola", "#skolstvi", "#spoluprace", "#volby2026"], altText: "Carousel s fotografiemi svazkové školy vysvětlující, proč je pro její další rozvoj důležitá pokračující spolupráce Přezletic, Jenštejna a Podolanky.", cta: "Přečtěte si celý článek o vzniku školní kapacity a konkrétních krocích, které teď navazují.", assetStatus: "Primární a doplňkové fotografie školy přiřazeny; čeká finální sazba carouselu.", contentSummary: "Samostatný post vysvětluje institucionální kontinuitu jako pokračování dohodnuté práce tří obcí, nikoli jako požadavek na zachování konkrétních osob ve funkcích.", productionNote: "Publikovat 20. 9. jako most mezi školní sérií a dalšími vysvětlujícími tématy. Před schválením ověřit aktuální role ve svazku a stav přípravy II. etapy. Komunikovat věcně: nepersonalizovat projekt, nestrašit a jasně říct, že změna lidí není problém, pokud pokračuje spolupráce a předání rozpracované práce." },
-].map(curatePostMedia).sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id);
+].map(curatePostMedia);
+
+// Aktualizace plánu k 10. 9. 2026: posledním zveřejněným výstupem bylo
+// oznámení volebního čísla 3. Oznámením webu začíná nový publikační běh;
+// další položky zachovávají dosavadní pořadí a využívají každý dostupný den.
+const currentCalendarOverrides: Record<number, Partial<SocialPost>> = {
+  103: { date: "2026-09-10", productionNote: "Publikovat 10. 9. s dodanou portrétní grafikou. Pro Facebook použít plnou verzi textu, pro Instagram kratší variantu; zachovat adresu prezletaci2011.cz." },
+  108: { date: "2026-09-11" },
+  111: { date: "2026-09-12" },
+  112: { date: "2026-09-13" },
+  114: { date: "2026-09-14" },
+  115: { date: "2026-09-15" },
+  106: { date: "2026-09-16" },
+  117: { date: "2026-09-17" },
+  118: { date: "2026-09-18" },
+  119: { date: "2026-09-19" },
+  121: { date: "2026-09-20" },
+  105: { date: "2026-09-21", productionNote: "V aktualizovaném plánu publikovat 21. 9. Oddělit již hotovou práci od navazujícího rozšiřování kapacity; použít ověřenou fotografii školy." },
+  122: { date: "2026-09-22" },
+  123: { date: "2026-09-23" },
+  109: { date: "2026-09-24", productionNote: "V aktualizovaném plánu publikovat 24. 9. Použít aktuální projektovou fotografii a jasně vypsat dokončené části a nejbližší další krok." },
+  148: { date: "2026-09-25", productionNote: "Publikovat 25. 9. jako most mezi školní sérií a dalšími vysvětlujícími tématy. Před schválením ověřit aktuální role ve svazku a stav přípravy II. etapy. Komunikovat věcně: nepersonalizovat projekt, nestrašit a jasně říct, že změna lidí není problém, pokud pokračuje spolupráce a předání rozpracované práce." },
+  144: { date: "2026-09-26" },
+  125: { date: "2026-09-27" },
+  141: { date: "2026-09-28" },
+  126: { date: "2026-09-29" },
+  145: { date: "2026-09-30" },
+  128: { date: "2026-10-01" },
+  129: { date: "2026-10-02" },
+  131: { date: "2026-10-03" },
+  132: { date: "2026-10-04" },
+  135: { date: "2026-10-06" },
+  136: { date: "2026-10-07" },
+  146: { date: "2026-10-08" },
+  138: { date: "2026-10-09" },
+  139: { date: "2026-10-10" },
+  147: {
+    status: "Publikováno",
+    graphic: "Publikováno",
+    copy: "Hotovo",
+    approval: "Schváleno",
+    assetStatus: "Publikováno 3. 9. 2026 se žlutým brand podkladem, dominantní číslicí 3 a logem Přezleťáků.",
+    productionNote: "Publikováno 3. 9. 2026 jako poslední příspěvek před aktualizovaným plánem od 10. září.",
+  },
+};
+
+export const initialPosts: SocialPost[] = baseInitialPosts
+  .map((post) => ({ ...post, ...currentCalendarOverrides[post.id] }))
+  .sort((a, b) => a.date.localeCompare(b.date) || a.id - b.id);
 
 const version8DefaultTitles: Record<number, string> = {
   101: "Start kampaně", 102: "Medailonek 1", 103: "Výsledky", 104: "Medailonek 2", 105: "Svazková škola",
@@ -262,6 +310,8 @@ const greeneryFeedbackPostIds = new Set([140]);
 const websiteLaunchPostIds = new Set([103]);
 const mediaAuditPostIds = new Set(Object.keys(curatedPostMedia).map(Number));
 const canonicalSchedulePostIds = new Set(initialPosts.map((post) => post.id));
+const currentCalendarUpgradePostIds = new Set(Object.keys(currentCalendarOverrides).map(Number));
+const currentCalendarMetadataUpgradePostIds = new Set([103, 105, 109, 147, 148]);
 
 // Výchozí demonstrační položky verze 3. Při migraci se odstraní pouze tehdy,
 // pokud zůstaly zcela beze změny. Jakákoli uživatelská úprava se zachová.
@@ -306,7 +356,11 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       (savedVersion < 19 && launchSequenceUpgradePostIds.has(post.id) && isUnchangedFromVersion10Default(post)) ||
       (savedVersion < 21 && septemberPlanUpgradePostIds.has(post.id)) ||
       (savedVersion < 23 && websiteLaunchPostIds.has(post.id));
-    const refreshCanonicalSchedule = savedVersion < 21 && canonicalSchedulePostIds.has(post.id);
+    const refreshCanonicalSchedule =
+      (savedVersion < 21 && canonicalSchedulePostIds.has(post.id)) ||
+      (savedVersion < 27 && currentCalendarUpgradePostIds.has(post.id));
+    const refreshCurrentCalendarMetadata = savedVersion < 27 && currentCalendarMetadataUpgradePostIds.has(post.id);
+    const refreshPublishedElectionNumber = savedVersion < 27 && post.id === 147;
     const refreshArticleLink = savedVersion < 20 && articleLinkUpgradePostIds.has(post.id);
     const refreshGreeneryFeedback = savedVersion < 22 && greeneryFeedbackPostIds.has(post.id);
     const refreshMediaAudit = savedVersion < 24 && mediaAuditPostIds.has(post.id);
@@ -320,10 +374,10 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       author: refreshCanonicalUpdate ? canonical.author : post.author,
       date: refreshCanonicalUpdate || refreshCanonicalSchedule ? canonical.date : post.date,
       title: refreshDefaultTitle || refreshCanonicalUpdate || refreshGreeneryFeedback ? canonical.title : post.title,
-      status: refreshCanonicalUpdate ? canonical.status : post.status,
-      graphic: refreshCanonicalUpdate ? canonical.graphic : post.graphic,
-      copy: refreshCanonicalUpdate ? canonical.copy : post.copy,
-      approval: refreshCanonicalUpdate ? canonical.approval : post.approval,
+      status: refreshCanonicalUpdate || refreshPublishedElectionNumber ? canonical.status : post.status,
+      graphic: refreshCanonicalUpdate || refreshPublishedElectionNumber ? canonical.graphic : post.graphic,
+      copy: refreshCanonicalUpdate || refreshPublishedElectionNumber ? canonical.copy : post.copy,
+      approval: refreshCanonicalUpdate || refreshPublishedElectionNumber ? canonical.approval : post.approval,
       candidateId: refreshCanonicalUpdate ? canonical.candidateId : post.candidateId ?? canonical.candidateId,
       projectId: refreshCanonicalUpdate ? canonical.projectId : post.projectId ?? canonical.projectId,
       programSlug: refreshCanonicalUpdate ? canonical.programSlug : post.programSlug ?? canonical.programSlug,
@@ -342,10 +396,10 @@ export function mergePostsWithPlan(savedPosts: SocialPost[], savedVersion = 4) {
       futureWebPath: refreshCanonicalUpdate ? canonical.futureWebPath : post.futureWebPath ?? canonical.futureWebPath,
       googleDriveUrl: refreshCanonicalUpdate ? canonical.googleDriveUrl : post.googleDriveUrl ?? canonical.googleDriveUrl,
       cta: refreshCanonicalUpdate || refreshGreeneryFeedback ? canonical.cta : post.cta ?? canonical.cta,
-      assetStatus: refreshCanonicalUpdate ? canonical.assetStatus : post.assetStatus ?? canonical.assetStatus,
+      assetStatus: refreshCanonicalUpdate || refreshPublishedElectionNumber ? canonical.assetStatus : post.assetStatus ?? canonical.assetStatus,
       promotion: refreshCanonicalUpdate ? canonical.promotion : post.promotion ?? canonical.promotion,
       contentSummary: refreshCanonicalUpdate || refreshGreeneryFeedback ? canonical.contentSummary : post.contentSummary ?? canonical.contentSummary,
-      productionNote: refreshCanonicalUpdate ? canonical.productionNote : post.productionNote ?? canonical.productionNote,
+      productionNote: refreshCanonicalUpdate || refreshCurrentCalendarMetadata ? canonical.productionNote : post.productionNote ?? canonical.productionNote,
     };
     if (savedVersion < 9 && post.id === 137) {
       if (post.status === "Námět") migrated.status = canonical.status;
